@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<!--[if IE 8]>			<html class="ie ie8"> <![endif]-->
+<!--[if IE 9]>			<html class="ie ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html> <!--<![endif]-->
+	<head>
+
+		<!-- Basic -->
+		<meta charset="utf-8">
+		<title>Home | Porto - Responsive HTML5 Template - 2.6.0</title>
+		<meta name="keywords" content="HTML5 Template" />
+		<meta name="description" content="Porto - Responsive HTML5 Template - 2.6.0">
+		<meta name="author" content="okler.net">
+
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<?php 
+
+			// Web Fonts
+			$this->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light');
+		
+			// Libs CSS
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/bootstrap.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/fonts/font-awesome/css/font-awesome.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/vendor/owl-carousel/owl.carousel.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/vendor/owl-carousel/owl.theme.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/vendor/magnific-popup/magnific-popup.css'));
+			
+			// Theme CSS 
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/theme.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/theme-elements.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/theme-animate.css'));
+			
+			// Current Page Styles
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/vendor/rs-plugin/css/settings.css'));
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/vendor/circle-flip-slideshow/css/component.css'));
+			
+			
+			// Skin CSS
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/skins/blue.css'));
+			
+			// Custom CSS
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/custom.css'));
+			
+			// Responsive CSS
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/theme-responsive.css'));
+			
+			$this->headLink()->appendStylesheet($this->basePath('[:ModuleName]/css/ie.css'), 'screen', 'IE');
+			
+			echo $this->headLink();
+			
+
+			$this->headScript()->appendFile($this->basePath('[:ModuleName]/vendor/modernizr.js'));
+			$this->headScript()->appendFile($this->basePath('[:ModuleName]/vendor/respond.js'), 
+											'text/javascript',
+    										array('conditional' => 'lte IE 8'));
+			
+			echo $this->headScript();
+			
+		?>
+
+	</head>
+	<body>
+		<div class="body">
+			<header>
+				<div class="container">
+					<h1 class="logo">
+						<a href="index.html">
+							<img alt="Porto" src="/[:ModuleName]/img/logo.png">
+						</a>
+					</h1>
+					<div class="search">
+						<form id="searchForm" action="page-search-results.html" method="get">
+							<div class="input-group">
+								<input type="text" class="form-control search" name="q" id="q" placeholder="Search...">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button"><i class="icon icon-search"></i></button>
+								</span>
+							</div>
+						</form>
+					</div>
+					<nav>
+						<ul class="nav nav-pills nav-top">
+							<li>
+								<a href="about-us.html"><i class="icon icon-angle-right"></i>About Us</a>
+							</li>
+							<li>
+								<a href="contact-us.html"><i class="icon icon-angle-right"></i>Contact Us</a>
+							</li>
+							<li class="phone">
+								<span><i class="icon icon-phone"></i>(123) 456-7890</span>
+							</li>
+						</ul>
+					</nav>
+					<button class="btn btn-responsive-nav btn-inverse" data-toggle="collapse" data-target=".nav-main-collapse">
+						<i class="icon icon-bars"></i>
+					</button>
+				</div>
+				<div class="navbar-collapse nav-main-collapse collapse">
+					<div class="container">
+						<div class="social-icons">
+							<ul class="social-icons">
+								<li class="facebook"><a href="http://www.facebook.com/" target="_blank" title="Facebook">Facebook</a></li>
+								<li class="twitter"><a href="http://www.twitter.com/" target="_blank" title="Twitter">Twitter</a></li>
+								<li class="linkedin"><a href="http://www.linkedin.com/" target="_blank" title="Linkedin">Linkedin</a></li>
+							</ul>
+						</div>
+						<nav class="nav-main mega-menu">
+							<ul class="nav nav-pills nav-main" id="mainMenu">
+								<li class="dropdown">
+									<a class="dropdown-toggle" href="#">
+										Home
+										<i class="icon icon-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li class="dropdown-submenu">
+											<a href="#">Sliders</a>
+											<ul class="dropdown-menu">
+												<li><a href="index.html">Revolution Slider</a></li>
+												<li><a href="index-slider-2.html">Nivo Slider</a></li>
+											</ul>
+										</li>
+										<li><a href="index.html">Home - Version 1</a></li>
+										<li><a href="index-2.html">Home - Version 2</a></li>
+										<li><a href="index-3.html">Home - Version 3</a></li>
+										<li><a href="index-one-page.html">One Page Website</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="shortcodes.html">Shortcodes</a>
+								</li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" href="#">
+										About Us
+										<i class="icon icon-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="about-us.html">About Us</a></li>
+										<li><a href="about-us-basic.html">About Us - Basic</a></li>
+										<li><a href="about-me.html">About Me</a></li>
+									</ul>
+								</li>
+								<li class="dropdown mega-menu-item mega-menu-fullwidth">
+									<a class="dropdown-toggle" href="#">
+										Features
+										<i class="icon icon-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<div class="mega-menu-content">
+												<div class="row">
+													<div class="col-md-3">
+														<ul class="sub-menu">
+															<li>
+																<span class="mega-menu-sub-title">Main Features</span>
+																<ul class="sub-menu">
+																	<li><a href="feature-pricing-tables.html">Pricing Tables</a></li>
+																	<li><a href="feature-icons.html">Icons</a></li>
+																	<li><a href="feature-animations.html">Animations</a></li>
+																	<li><a href="feature-typograpy.html">Typograpy</a></li>
+																	<li><a href="feature-grid-system.html">Grid System</a></li>
+																</ul>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-3">
+														<ul class="sub-menu">
+															<li>
+																<span class="mega-menu-sub-title">Headers</span>
+																<ul class="sub-menu">
+																	<li><a href="index.html">Header Version 1</a></li>
+																	<li><a href="index-header-2.html">Header Version 2</a></li>
+																	<li><a href="index-header-3.html">Header Version 3</a></li>
+																	<li><a href="index-header-4.html">Header Version 4</a></li>
+																	<li><a href="index-header-5.html">Header Version 5</a></li>
+																	<li><a href="index-header-6.html">Header Version 6</a></li>
+																	<li><a href="index-header-7.html">Header - Sign In / Sign Up</a></li>
+																	<li><a href="index-header-8.html">Header - Logged</a></li>
+																</ul>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-3">
+														<ul class="sub-menu">
+															<li>
+																<span class="mega-menu-sub-title">Footers</span>
+																<ul class="sub-menu">
+																	<li><a href="index.html#footer">Footer Version 1</a></li>
+																	<li><a href="index-footer-2.html#footer">Footer Version 2</a></li>
+																	<li><a href="index-footer-3.html#footer">Footer Version 3</a></li>
+																	<li><a href="index-footer-4.html#footer">Footer Version 4</a></li>
+																</ul>
+															</li>
+														</ul>
+													</div>
+													<div class="col-md-3">
+														<ul class="sub-menu">
+															<li>
+																<span class="mega-menu-sub-title">Blog</span>
+																<ul class="sub-menu">
+																	<li><a href="blog-full-width.html">Blog Full Width</a></li>
+																	<li><a href="blog-large-image.html">Blog Large Image</a></li>
+																	<li><a href="blog-medium-image.html">Blog Medium Image</a></li>
+																	<li><a href="blog-timeline.html">Blog Timeline</a></li>
+																	<li><a href="blog-post.html">Single Post</a></li>
+																</ul>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" href="#">
+										Portfolio
+										<i class="icon icon-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="portfolio-4-columns.html">4 Columns</a></li>
+										<li><a href="portfolio-3-columns.html">3 Columns</a></li>
+										<li><a href="portfolio-2-columns.html">2 Columns</a></li>
+										<li><a href="portfolio-timeline.html">Portfolio Timeline</a></li>
+										<li><a href="portfolio-full-width.html">Portfolio Full Width</a></li>
+										<li><a href="portfolio-single-project.html">Single Project</a></li>
+									</ul>
+								</li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" href="#">
+										Pages
+										<i class="icon icon-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="page-full-width.html">Full width</a></li>
+										<li><a href="page-left-sidebar.html">Left sidebar</a></li>
+										<li><a href="page-right-sidebar.html">Right sidebar</a></li>
+										<li><a href="page-custom-header.html">Custom Header</a></li>
+										<li><a href="page-404.html">404 Error</a></li>
+										<li><a href="page-team.html">Team</a></li>
+										<li><a href="page-services.html">Services</a></li>
+										<li><a href="page-careers.html">Careers</a></li>
+										<li><a href="page-faq.html">FAQ</a></li>
+										<li><a href="page-login.html">Login / Register</a></li>
+										<li><a href="sitemap.html">Sitemap</a></li>
+									</ul>
+								</li>
+								<li class="dropdown active">
+									<a class="dropdown-toggle" href="#">
+										Contact Us
+										<i class="icon icon-angle-down"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="contact-us.html">Contact Us - Basic</a></li>
+										<li><a href="contact-us-advanced.php">Contact Us - Advanced</a></li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</header>
+			<?= $this->content; ?>
+			<section class="call-to-action featured footer">
+				<div class="container">
+					<div class="row">
+						<div class="center">
+							<h3><?= $this->MelisTag($this->idPage, "pagefooter_001", "html", 'Porto is <strong>everything</strong> you need to create an <strong>awesome</strong> website! '); ?><a href="http://themeforest.net/item/porto-responsive-html5-template/4106987" target="_blank" class="btn btn-lg btn-primary" data-appear-animation="bounceIn">Buy Now!</a> <span class="arrow hlb" data-appear-animation="rotateInUpLeft" style="top: -22px;"></span></h3>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<footer>
+				<div class="container">
+					<div class="row">
+						<div class="footer-ribon">
+							<span><?= $this->MelisTag($this->idPage, "pagefooter_002", "textarea", 'Get in Touch'); ?></span>
+						</div>
+						<div class="col-md-3">
+							<div class="newsletter">
+								<h4><?= $this->MelisTag($this->idPage, "pagefooter_003", "textarea", 'Newsletter'); ?></h4>
+								<p><?= $this->MelisTag($this->idPage, "pagefooter_004", "html", 'Keep up on our always evolving product features and technology. Enter your e-mail and subscribe to our newsletter.'); ?></p>
+
+								<div class="alert alert-success hidden" id="newsletterSuccess">
+									<strong>Success!</strong> You've been added to our email list.
+								</div>
+
+								<div class="alert alert-danger hidden" id="newsletterError"></div>
+
+								<form id="newsletterForm" action="php/newsletter-subscribe.php" method="POST">
+									<div class="input-group">
+										<input class="form-control" placeholder="Email Address" name="email" id="email" type="text">
+										<span class="input-group-btn">
+											<button class="btn btn-default" type="submit">Go!</button>
+										</span>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<h4>Latest Tweet</h4>
+							<div id="tweet" class="twitter" data-account-id="">
+								<p>Please wait...</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="contact-details">
+								<h4>Get in touch</h4>
+								<ul class="contact">
+									<li><p><i class="icon icon-map-marker"></i> <strong>Address:</strong> 1234 Street Name, City Name, United States</p></li>
+									<li><p><i class="icon icon-phone"></i> <strong>Phone:</strong> (123) 456-7890</p></li>
+									<li><p><i class="icon icon-envelope"></i> <strong>Email:</strong> <a href="mailto:mail@example.com">mail@example.com</a></p></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<h4>Follow Us</h4>
+							<div class="social-icons">
+								<ul class="social-icons">
+									<li class="facebook"><a href="http://www.facebook.com/" target="_blank" data-placement="bottom" rel="tooltip" title="Facebook">Facebook</a></li>
+									<li class="twitter"><a href="http://www.twitter.com/" target="_blank" data-placement="bottom" rel="tooltip" title="Twitter">Twitter</a></li>
+									<li class="linkedin"><a href="http://www.linkedin.com/" target="_blank" data-placement="bottom" rel="tooltip" title="Linkedin">Linkedin</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer-copyright">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-1">
+								<a href="index.html" class="logo">
+									<img alt="Porto Website Template" class="img-responsive" src="[:ModuleName]/img/logo-footer.png">
+								</a>
+							</div>
+							<div class="col-md-7">
+								<p>© Copyright 2014. All Rights Reserved.</p>
+							</div>
+							<div class="col-md-4">
+								<nav id="sub-menu">
+									<ul>
+										<li><a href="page-faq.html">FAQ's</a></li>
+										<li><a href="sitemap.html">Sitemap</a></li>
+										<li><a href="contact-us.html">Contact</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<?php 
+			
+			// Libs
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/jquery.js'));
+// 			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/js/plugins.js'));
+// 			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/jquery.easing.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/jquery.appear.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/jquery.cookie.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/bootstrap.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/twitterjs/twitter.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/rs-plugin/js/jquery.themepunch.plugins.min.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/rs-plugin/js/jquery.themepunch.revolution.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/owl-carousel/owl.carousel.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/circle-flip-slideshow/js/jquery.flipshow.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/magnific-popup/magnific-popup.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/vendor/jquery.validate.js'));
+			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/js/views/view.home.js'));
+			
+			
+// 			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/js/theme.js'));
+// 			$this->inlineScript()->appendFile($this->basePath('[:ModuleName]/js/custom.js'));
+		
+			echo $this->inlineScript();
+		?>
+
+	</body>
+</html>

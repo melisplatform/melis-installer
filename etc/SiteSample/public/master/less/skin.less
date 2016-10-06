@@ -1,0 +1,351 @@
+@skinColor: #0088CC;
+
+@import "mixins";
+
+// Basic
+h3, h4, h5 {
+	color: @skinColor;
+}
+
+a {
+	color: @skinColor;
+	&:hover {
+		color: lighten(@skinColor, 5%);
+	}
+	&:active {
+		color: darken(@skinColor, 5%);
+	}
+}
+
+.alternative-font {
+	color: @skinColor;
+}
+
+// Drop Caps
+p.drop-caps:first-child:first-letter {
+	color: @skinColor;
+}
+
+p.drop-caps.secundary:first-child:first-letter {
+	background-color: @skinColor;
+}
+
+// Nav
+ul.nav-pills > li.active > a,
+ul.nav-pills > li.active > a:hover,
+ul.nav-pills > li.active > a:focus {
+	background-color: @skinColor;
+}
+
+div.sort-source-wrapper .nav > li.active > a,
+div.sort-source-wrapper .nav > li.active > a:hover,
+div.sort-source-wrapper .nav > li.active > a:focus {
+	color: @skinColor;
+}
+
+// Pagination
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+	background-color: @skinColor;
+}
+
+// Buttons
+.btn-primary,
+.pagination > .active > a {
+  border-color: @skinColor;
+  .buttonBackground(@skinColor, spin(@skinColor, 20%));
+}
+
+.progress-bar-primary {
+	background-color: @skinColor;
+}
+
+// Boxed
+body.boxed div.body {
+	border-top-color: @skinColor;
+}
+
+// Sections
+section.highlight {
+	background-color: @skinColor;
+	border-color: darken(@skinColor, 5%);
+}
+
+section.page-top h2 {
+	border-bottom-color: @skinColor;
+}
+
+section.toggle {
+	label {
+		color: @skinColor;
+		border-left-color: @skinColor;
+	}
+	&.active > label {
+		background-color: @skinColor;
+		border-color: @skinColor;
+		color: #FFF;
+	}
+}
+
+section.page-top.custom-product {
+	background-color: darken(@skinColor, 5%);
+	border-top-color: darken(@skinColor, 2%);
+}
+
+// Featured Box
+div.feature-box div.feature-box-icon {
+	background-color: @skinColor;
+}
+
+ul.history li div.featured-box div.box-content {
+	border-top-color: @skinColor;
+}
+
+div.feature-box.secundary div.feature-box-icon i.icon {
+	color: @skinColor;
+}
+
+// Thumb
+a.thumb-info {
+	span.thumb-info-type {
+		background-color: @skinColor;
+	}
+	span.thumb-info-action-icon {
+		background-color: @skinColor;
+	}
+}
+
+.thumbnail span.zoom {
+	background-color: @skinColor;
+}
+
+span.thumb-info-social-icons a {
+	background-color: @skinColor;
+}
+
+// Inverted
+.inverted {
+	background-color: @skinColor;
+}
+
+// Tabs
+div.tabs ul.nav-tabs {
+	a, a:hover {
+		color: @skinColor;
+	}
+
+	a:hover {
+		border-top-color: @skinColor;
+	}
+
+	li.active a {
+		border-top-color: @skinColor;
+		color: @skinColor;
+	}
+}
+
+// Lists
+ul.list.icons li i {
+	color: @skinColor;
+}
+
+// Icons
+i.icon-featured {
+	background-color: @skinColor;
+}
+
+.parallax blockquote i.icon-quote-left {
+	color: @skinColor;
+}
+
+// Header
+header {
+
+	nav ul.nav-main {
+
+		ul.dropdown-menu,
+		li.dropdown.open a.dropdown-toggle,
+		li.active a,
+		li > a:hover,
+		li.dropdown:hover a {
+			color: #FFF;
+			background-color: @skinColor !important;
+		}
+
+		ul.dropdown-menu li:hover > a {
+			background-color: lighten(@skinColor, 10%) !important;
+		}
+
+		ul.dropdown-menu {
+			.buttonBackground(@skinColor, spin(@skinColor, 20%));
+		}
+
+		li.dropdown:hover ul.dropdown-menu li > a {
+			background: none !important;
+		}
+
+		li.dropdown:hover ul.dropdown-menu li > a:hover {
+			background: lighten(@skinColor, 5%) !important;
+		}
+	}
+
+	/* Single Menu */
+	&.single-menu {
+
+		nav ul.nav-main {
+
+			li.active > a {
+				border-top: 5px solid @skinColor;
+			}
+
+		}
+
+	}
+
+	/* Header Darken Top Border */
+	&.darken-top-border {
+
+		border-top: 5px solid darken(@skinColor,5%);
+
+	}
+
+	/* Header Version 4 */
+	&.colored {
+
+		div.header-top {
+			background-color: @skinColor;
+
+			ul.nav-top li a:hover {
+				background-color: lighten(@skinColor, 5%) !important;
+			}
+
+		}
+
+	}
+
+	/* Header Flat Menu */
+	&.flat-menu {
+
+		nav ul.nav-main {
+
+			li > a,
+			li.active > a {
+				color: #666;
+			}
+
+			li.active > a {
+				color: @skinColor;
+				background-color: transparent !important;
+			}
+
+			li > a:hover,
+			li.dropdown:hover a {
+				color: #FFF;
+				background-color: @skinColor !important;
+			}
+
+		}
+
+	}
+
+	/* Mega Menu */
+	nav.mega-menu ul.nav-main li.mega-menu-item ul.dropdown-menu {
+		border-top-color: @skinColor;
+	}
+
+
+}
+
+// Home
+div.slider div.tp-bannertimer {
+	background-color: @skinColor;
+}
+
+div.home-intro p em {
+	color: lighten(@skinColor, 10%);
+}
+
+div.home-concept strong {
+	color: @skinColor;
+}
+
+blockquote.testimonial {
+	background: lighten(@skinColor, 5%);
+}
+
+div.testimonial-arrow-down {
+	border-top-color: lighten(@skinColor, 5%);
+}
+
+// Blog
+div.recent-posts div.date, article.post div.post-date {
+	span.month {
+		background-color: @skinColor;
+	}
+	span.day {
+		color: @skinColor;
+	}
+}
+
+// Shop
+div.shop ul.products li.product .onsale {
+	background-color: @skinColor;
+}
+
+// Featured Box
+div.featured-box-secundary i.icon-featured,
+div.featured-box-secundary i.image-icon {
+	background-color: @skinColor;
+}
+
+div.featured-box-secundary h4 {
+	color: @skinColor;
+}
+
+div.featured-box-secundary div.box-content {
+	border-top-color: @skinColor;
+}
+
+// Pricing Tables
+div.pricing-table {
+
+	div.most-popular {
+		border-color: @skinColor;
+		h3 {
+			.gradient(@skinColor, darken(@skinColor, 15%), @gradient);
+		}
+	}
+
+}
+
+// Timeline
+section.timeline .timeline-box.left:before,
+section.timeline .timeline-box.right:before {
+	background: @skinColor;
+	box-shadow: 0 0 0 3px #FFF, 0 0 0 6px @skinColor;
+}
+
+// Footer
+footer div.footer-ribon {
+	background: @skinColor;
+}
+
+footer div.footer-ribon:before {
+	border-right-color: darken(@skinColor, 15%);
+}
+
+
+// Shop
+div.shop ul.products li.product .onsale {
+	background-color: @skinColor;
+	border-bottom-color: darken(@skinColor, 8%);
+}
+
+div.shop .star-rating span,
+div.shop .cart-totals tr.total .amount {
+	color: @skinColor;
+}

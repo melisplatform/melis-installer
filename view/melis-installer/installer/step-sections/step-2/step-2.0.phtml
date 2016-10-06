@@ -1,0 +1,72 @@
+<?php 
+$data = $this->setup2;
+$host = !empty($data['hostname']) ? $data['hostname'] : '';
+$db   = !empty($data['database']) ? $data['database'] : '';
+$user = !empty($data['username']) ? $data['username'] : '';
+$pass = !empty($data['password']) ? $data['password'] : '';
+?>
+
+<!-- STEP 2 -->
+<div class="item">
+	<div class="setup-content-container">
+	
+		<div class="setup-heading">
+			<h2><?= $this->translate('tr_melis_installer_layout_dbcon'); ?></h2> 
+			<p><?= $this->translate('tr_melis_installer_layout_dbcon_subtext'); ?></p>	
+		</div>
+		
+		<div class="setup-content setup-p2">
+    		<div class="row">
+    			
+	    		<div class="col-xs-12 col-md-6">
+	    			<form id="database-connection-form">
+		    			<h4 class="no-padding-top border-bottom"><?= $this->translate('tr_melis_installer_layout_dbcon_db_details'); ?></h4>
+		    			
+						<div class="form-group">
+							<label><?= $this->translate('tr_melis_installer_layout_dbcon_form_host'); ?></label>
+							<input type="text" class="form-control"  placeholder="<?= $this->translate('tr_melis_installer_layout_dbcon_form_host'); ?>" name="host" value="<?= $host; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label><?= $this->translate('tr_melis_installer_layout_dbcon_form_db'); ?></label>
+							<input type="text" class="form-control"  placeholder="<?= $this->translate('tr_melis_installer_layout_dbcon_form_db'); ?>" name="database" value="<?= $db; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label><?= $this->translate('tr_melis_installer_layout_dbcon_form_user'); ?></label>
+							<input type="text" class="form-control"  placeholder="<?= $this->translate('tr_melis_installer_layout_dbcon_form_user'); ?>" name="user" value="<?= $user; ?>">
+						</div>
+						
+						<div class="form-group">
+							<label><?= $this->translate('tr_melis_installer_layout_dbcon_form_pass'); ?></label>
+							<input type="password" class="form-control"  placeholder="<?= $this->translate('tr_melis_installer_layout_dbcon_form_pass'); ?>" name="password" value="<?= $pass; ?>">
+						</div>
+						
+						<div class="setup-button-cont">
+			     			<a id="dbNext" class="btn btn-default"><span><?= $this->translate('tr_melis_installer_common_next'); ?></span></a>
+			     		</div>
+		     		</form>
+	    		</div>
+	    		
+	    		<div class="col-xs-12 col-md-6">
+	    			
+	    			<div class="setup-right-content">
+	    				<a id="test-db-connection" href="#" class="btn btn-success"><?= $this->translate('tr_melis_installer_layout_dbcon_form_test'); ?></a>
+	    			
+		    			<div class="setup-info-message hidden">
+      						<span>
+      							<i class="fa fa-info-circle fa-color-green"></i>
+      							
+      						</span>
+      					</div>
+	    			</div>
+	    			
+	    		</div>
+	    		
+	    		
+    		</div> 
+    		
+    	</div>
+
+	</div>
+</div>

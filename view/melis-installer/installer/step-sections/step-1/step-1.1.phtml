@@ -1,0 +1,56 @@
+<?php 
+$step1_1  = $this->setup1_1;
+$success  = $step1_1['success'];
+$errors   = $step1_1['errors'];
+$platform = $step1_1['data']['platform'];
+$aliasMatchStatus = $step1_1['data']['aliasMatchStatus'];
+
+$markupSuccess = '<li><i class="fa fa-check fa-color-green"></i><span>%s</span></li>';
+$markupError   = '<li class="clearfix"> <i class="fa fa-times fa-color-red"></i> <span>%s</span> <i class="fa fa-info setup-error-btn"></i> <div class="setup-error-info"> <i class="fa fa-info-circle fa-color-red"></i> <span>%s</span> </div></li>';
+$disabled = $success === 1 ? 'setup-pass-page  btn btn-success' : 'btn btn-default';
+
+?>
+
+		    <!-- STEP 1.1 -->
+		    <div class="item">
+		    	<div class="setup-content-container">
+		    	
+		    		<div class="setup-heading">
+		    			<h2><?= $this->translate('tr_melis_installer_layout_vhost'); ?></h2> 
+	      				<p><?= $this->translate('tr_melis_installer_layout_vhost_subtext'); ?></p>	
+		    		</div>
+			    	
+			    	<div class="setup-content setup-p1-1">
+			    		<ul class="list-unstyled setup-check-list">
+			    			
+							<?php 
+							if(!empty($platform)) {
+							    echo sprintf($markupSuccess, $this->translate('tr_melis_installer_step_1_1_platform').': '.$platform);
+							}
+							else {
+							    echo sprintf($markupError, $this->translate('tr_melis_installer_step_1_1_no_paltform_declared'), $this->translate('tr_melis_installer_step_1_1_no_paltform_declared'));
+							}
+							
+							foreach($aliasMatchStatus as $path => $status) {
+							    if($status === 1) {
+							        echo sprintf($markupSuccess, sprintf($this->translate('tr_melis_installer_step_1_1_alias_match_success'), $path));
+							    }
+							    else {
+							        echo sprintf($markupError, $path, $status);
+							    }
+							}
+							
+							?>
+		      				
+							
+		      				
+		      				
+		      			</ul>
+		      			
+            	    	<div class="setup-button-cont">
+                 			<a class="<?= $disabled; ?>"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+                 		</div>
+			    	</div>
+	      			
+	     		</div>
+		    </div>

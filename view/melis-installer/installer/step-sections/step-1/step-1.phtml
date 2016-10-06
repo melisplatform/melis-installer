@@ -1,0 +1,64 @@
+<!-- STEP 1 -->
+<?php 
+$success = $this->setup1_0['success'];
+$errors  = $this->setup1_0['errors'];
+$extensions = $this->setup1_0['data']['extensions'];
+$variables  = $this->setup1_0['data']['variables'];
+
+$extensionLoadSuccess = '<li><i class="fa fa-check fa-color-green"></i><span>%s</span></li>';
+$extensionLoadError   = '<li class="clearfix"> <i class="fa fa-times fa-color-red"></i> <span>%s</span> <i class="fa fa-info setup-error-btn"></i> <div class="setup-error-info"> <i class="fa fa-info-circle fa-color-red"></i> <span>%s</span> </div></li>';
+$disabled = $success === 1 ? 'setup-pass-page  btn btn-success' : 'btn btn-default';
+?>
+<div class="item">
+	<div class="setup-content-container">
+	
+		<div class="setup-heading">
+			<h2><?= $this->translate('tr_melis_installer_layout_sys_req'); ?></h2> 
+			<p>
+			<?= $this->translate('tr_melis_installer_layout_sys_req_subtext'); ?>
+			</p>	
+		</div>
+    	
+    	<div class="setup-content setup-p1">
+
+    		<ul class="list-unstyled setup-check-list">
+    			<li><strong>PHP Version</strong>: <strong><?= $this->setup1_0_phpversion; ?></strong></li>
+    		</ul>
+    		
+    		<h4><?= $this->translate('tr_melis_installer_layout_sys_req_check_php_ext'); ?></h4>
+    		<ul class="list-unstyled setup-check-list">
+    			<?php 
+    			foreach($extensions as $ext => $status) {
+    			    if($status === 1) {
+    			        echo sprintf($extensionLoadSuccess, $ext);
+    			    }
+    			    else {
+    			        echo sprintf($extensionLoadError, $ext, $status);
+    			    }
+    			}
+    			?>
+  			</ul>
+  			
+  			<h4><?= $this->translate('tr_melis_installer_layout_sys_req_check_php_env'); ?></h4>
+    		<ul class="list-unstyled setup-check-list">
+    			<?php 
+    			foreach($variables as $var => $status) {
+    			    if($status === 1) {
+    			        echo sprintf($extensionLoadSuccess, $var);
+    			    }
+    			    else {
+    			        echo sprintf($extensionLoadError, $var, $status);
+    			    }
+    			}
+    			?>
+  			</ul>
+  			
+
+	    	<div class="setup-button-cont">
+     			<a class="<?= $disabled; ?>"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+     		</div>
+
+    	</div>
+		
+	</div>
+</div>

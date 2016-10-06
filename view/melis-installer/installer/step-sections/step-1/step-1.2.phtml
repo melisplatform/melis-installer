@@ -1,0 +1,48 @@
+<?php 
+
+$success = $this->setup1_2['success'];
+$errors  = $this->setup1_2['errors'];
+$data    = $this->setup1_2['data'];
+
+$markupSuccess = '<li><i class="fa fa-check fa-color-green"></i><span>%s</span></li>';
+$markupError   = '<li class="clearfix"> <i class="fa fa-times fa-color-red"></i> <span>%s</span> <i class="fa fa-info setup-error-btn"></i> <div class="setup-error-info"> <i class="fa fa-info-circle fa-color-red"></i> <span>%s</span> </div></li>';
+$disabled = $success === 1 ? 'setup-pass-page  btn btn-success' : 'btn btn-default';
+
+
+?>
+
+
+<!-- STEP 1.2 -->
+<div class="item">
+	<div class="setup-content-container">
+	
+		<div class="setup-heading">
+			<h2><?= $this->translate('tr_melis_installer_layout_fsrights'); ?></h2> 
+			<p><?= $this->translate('tr_melis_installer_layout_fsrights_subtext'); ?></p>	
+		</div>
+    	
+    	<div class="setup-content setup-p1-2">
+    		<ul class="list-unstyled setup-check-list">
+    		
+                <?php 
+                foreach($data as $path => $status) {
+                    if($status === 1) {
+                        echo sprintf($markupSuccess, sprintf($this->translate('tr_melis_installer_step_1_2_dir_writable'), $path));
+                    }
+                    else {
+                        echo sprintf($markupError, $path, $status);
+                    }
+                }
+                
+                ?>
+  				
+  				
+  			</ul>
+  			
+	    	<div class="setup-button-cont">
+     			<a class="<?= $disabled; ?>"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+     		</div>
+    	</div>
+		
+	</div>
+</div>
