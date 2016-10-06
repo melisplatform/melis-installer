@@ -5,7 +5,6 @@
   "license": "OSL-3.0",
   "homepage": "https://github.com/melisplatform/melis-installer",
   "support": {
-    "email": "support@continuousphp.com",
     "source": "https://github.com/melisplatform/melis-installer",
     "issues": "https://github.com/melisplatform/melis-installer/issues"
   },
