@@ -1004,18 +1004,11 @@ class InstallerController extends AbstractActionController
     
     /**
      * Checks if the current project has MelisCms Module
-     * @return Array
+     * @return int
      */
     protected function hasMelisCmsModule()
     {
-        $path = MELIS_MODULES_FOLDER.'MelisCms';
-        $isExists = 0;
-        
-        if(file_exists($path)) {
-            $isExists = 1;
-        }
-        
-        return $isExists;
+        return (int)class_exists('MelisCms\Module');
     }
     
     /**
