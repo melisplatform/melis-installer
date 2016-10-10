@@ -14,7 +14,7 @@ return array(
     'tr_melis_installer_navigation_final' => 'Création et Résultat',
     
     
-    'tr_melis_installer_layout_introduction_welcome' => 'Bienvenu dans le Guide d\'Installation de Melis Platform',
+    'tr_melis_installer_layout_introduction_welcome' => 'Bienvenue dans le Guide d\'Installation de Melis Platform',
     
     'tr_melis_installer_layout_introduction_welcome_subtext' => 'Cet installeur va vous guider à travers les étapes d\'installation de Melis',
     'tr_melis_installer_layout_introduction_welcome_sysconfig' => 'CONFIGURATION SYSTEME',

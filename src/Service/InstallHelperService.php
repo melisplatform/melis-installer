@@ -525,9 +525,16 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     public function getAvailableModules()
     {
         $moduleExceptions = array('MelisFront', 'MelisEngine', 'MelisCore', 'MelisSites', 'MelisModuleConfig', 'MelisInstaller', 'MelisCms');
-        $modules = $this->getDir(MELIS_MODULES_FOLDER, $moduleExceptions);
+        $modules = $this->getModuleSvc()->getAllModules();
         
-        return $modules;
+        $finalListModules = array();
+        foreach ($modules as $module)
+        {
+            if (!in_array($module, $moduleExceptions))
+                $finalListModules[] = $module;
+        }
+        
+        return $finalListModules;
     }
     
     public function getRequiredModules()
@@ -538,8 +545,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     public function isModuleExists($module) 
     {
         $status = false;
+        $modulesSvc = $this->getServiceLocator()->get('ModulesService');
+        $pathModule = $modulesSvc->getModulePath($module);
         
-        if(file_exists(MELIS_MODULES_FOLDER.$module)) {
+        if(file_exists($pathModule)) {
             $status = true;
         }
         

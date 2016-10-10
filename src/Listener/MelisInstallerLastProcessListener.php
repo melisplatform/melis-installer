@@ -33,19 +33,8 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
         		$moduleName = $params['cms_data']['website_module'];
         		$modulesInstalled = $params['install_modules'];
         		
-        		$moduleSvc->createModuleLoader(MELIS_MODULE_CONFIG_FOLDER.'MelisModuleConfig/config/',$modulesInstalled,
+        		$moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/',$modulesInstalled,
         		    array('AssetManager', 'meliscore', 'melisfront', 'melisengine','MelisCms'));
-        		
-//         		$tmpModule = '';
-//         		foreach($modulesInstalled as $module) {
-//         		    $tmpModule .= "\t'".$module . "',\n";
-//         		}
-        		// remove MelisInstaller from module.load
-//                 $moduleLoad = file_get_contents(MELIS_MODULE_CONFIG_FOLDER.'MelisModuleConfig/config/module.load.php');
-//                 $moduleLoad = str_replace("'MelisInstaller',", $tmpModule."'MelisFront',\n\t'".$moduleName."',", $moduleLoad);
-//                 unlink(MELIS_MODULE_CONFIG_FOLDER.'/MelisModuleConfig/config/module.load.php');
-//                 file_put_contents(MELIS_MODULE_CONFIG_FOLDER.'/MelisModuleConfig/config/module.load.php', $moduleLoad);
-
         	},
         1000);
         

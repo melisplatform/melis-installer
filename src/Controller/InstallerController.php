@@ -439,7 +439,7 @@ class InstallerController extends AbstractActionController
                 $container = new Container('melisinstaller');
                 $container['cms_data'] = array_merge($container['cms_data'], $postValues);
                 
-                $melisSite = MELIS_MODULE_CONFIG_FOLDER.'MelisSites';
+                $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
                 if(!file_exists($melisSite)) {
                     mkdir($melisSite, 0777);
                     $installHelper->filePermission($melisSite);
@@ -520,7 +520,7 @@ class InstallerController extends AbstractActionController
                 if($this->hasMelisCmsModule()) {
                     // create a new site inside MelisSite module
                     
-                    $melisSite = MELIS_MODULE_CONFIG_FOLDER.'MelisSites';
+                    $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
                     
                     if(file_exists($melisSite)) {
                         // make MelisSite module writable
@@ -909,7 +909,6 @@ class InstallerController extends AbstractActionController
         $installHelper = $this->getServiceLocator()->get('InstallerHelper');
         
         $configDir = $installHelper->getDir('config');
-        //$module    = $installHelper->getDir(MELIS_MODULES_FOLDER);
         $module = $this->getModuleSvc()->getAllModules();
         
         $success = 0;
@@ -1004,11 +1003,20 @@ class InstallerController extends AbstractActionController
     
     /**
      * Checks if the current project has MelisCms Module
-     * @return int
+     * @return Array
      */
     protected function hasMelisCmsModule()
     {
-        return (int)class_exists('MelisCms\Module');
+        $modulesSvc = $this->getServiceLocator()->get('ModulesService');
+        $modules = $modulesSvc->getAllModules();
+        $path = $modulesSvc->getModulePath('MelisCms');
+        $isExists = 0;
+        
+        if(file_exists($path)) {
+            $isExists = 1;
+        }
+        
+        return $isExists;
     }
     
     /**

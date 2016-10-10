@@ -31,18 +31,23 @@ class MelisInstallerDatabaseInstallListener extends MelisInstallerGeneralListene
         		$params = $e->getParams();
                 $installModules = $params['install_modules'];
                 $installHelper = $sm->get('InstallerHelper');
+                
+                $modulesSvc = $sm->get('ModulesService');
 
                 if(isset($params['dbAdapter']) && !empty($params['dbAdapter'])) {
                     $installHelper->setDbAdapter($params['dbAdapter']);
                     
                     foreach($installModules as $module) {
-                        $modulePathInstall = MELIS_MODULES_FOLDER.$module.'/install/sql/';
+                        $pathModule = $modulesSvc->getModulePath($module);
+                        
+                        $modulePathInstall = $pathModule.'/install/sql/';
                         $installHelper->importSql($modulePathInstall);
                     }
                     
                     // install the rest of the required database
                     foreach($installHelper->getRequiredModules() as $module) {
-                        $modulePathInstall = MELIS_MODULES_FOLDER.$module.'/install/sql/';
+                        $pathModule = $modulesSvc->getModulePath($module);
+                        $modulePathInstall = $pathModule.'/install/sql/';
                         $installHelper->importSql($modulePathInstall);
                     }
                     

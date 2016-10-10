@@ -1,11 +1,10 @@
 <?php
+
 /**
- * Module.php
+ * Melis Technology (http://www.melistechnology.com)
  *
- * @copyright Copyright (c) 2015 Melis Technology (http://www.melistechnology.com)
- * @license   https://opensource.org/licenses/OSL-3.0 Open Software License v. 3.0
- * @file      Module.php
- * @link      http://github.com/melisplatform/melis-installer the canonical source repo
+ * @copyright Copyright (c) 2016 Melis Technology (http://www.melistechnology.com)
+ *
  */
 
 namespace MelisInstaller;
@@ -24,12 +23,7 @@ use MelisInstaller\Listener\MelisInstallerDatabaseInstallListener;
 use MelisInstaller\Listener\MelisInstallerLastProcessListener;
 use Zend\Session\SessionManager;
 
-/**
- * Module
- *
- * @package    MelisInstaller
- * @license    https://opensource.org/licenses/OSL-3.0 Open Software License v. 3.0
- */
+
 class Module
 {
     public function onBootstrap(MvcEvent $e)
@@ -100,6 +94,17 @@ class Module
     	} 
     	
     	return $config;
+    }
+
+    public function getAutoloaderConfig()
+    {
+        return array(
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ),
+            ),
+        );
     }
     
     public function createTranslations($e)
