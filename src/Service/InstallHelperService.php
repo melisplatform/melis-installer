@@ -21,7 +21,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     CONST CONN_INTERAL_ERROR = 500;
     CONST CONN_BAD_GATEWAY = 502;
     CONST CONN_SERVICE_UNAVAILABLE = 503;
-    const CHMOD_755 = 0755;
+    const CHMOD_775 = 0775;
 
 
     public $serviceLocator;
@@ -401,7 +401,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      * @param int $mode
      * @return Json
      */
-    public function filePermission($path, $mode = self::CHMOD_755)
+    public function filePermission($path, $mode = self::CHMOD_775)
     { 
         $results = array();
         $success = 0;
@@ -475,7 +475,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      * @param       int      $permissions New folder creation permissions
      * @return      bool     Returns true on success, false on failure
      */
-    function xcopy($source, $dest, $permissions = self::CHMOD_755)
+    function xcopy($source, $dest, $permissions = self::CHMOD_775)
     {
         // Check for symlinks
         if (is_link($source)) {

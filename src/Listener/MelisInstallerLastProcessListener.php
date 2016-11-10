@@ -29,12 +29,21 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
 
         		$sm = $e->getTarget()->getServiceLocator();
         		$moduleSvc = $sm->get('ModulesService');
+        		$installHelperSvc = $sm->get('InstallerHelper');
         		$params = $e->getParams();
         		$moduleName = $params['cms_data']['website_module'];
         		$modulesInstalled = $params['install_modules'];
         		
         		$moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/',$modulesInstalled,
         		    array('AssetManager', 'meliscore', 'melisfront', 'melisengine','MelisCms'));
+        		
+        		// create public/media folder
+        		$mediaPath = HTTP_ROOT.'/media';
+        		if(!file_exists($mediaPath)) {
+        		    mkdir($mediaPath);
+        		    $installHelperSvc->filePermission($mediaPath);
+        		}
+
         	},
         1000);
         
