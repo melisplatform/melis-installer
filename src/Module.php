@@ -12,9 +12,6 @@ namespace MelisInstaller;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\ModuleManager;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Stdlib\Hydrator\ObjectProperty;
-use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Session\Container;
 use MelisInstaller\Listener\MelisInstallCheckPlatformListener;
@@ -118,29 +115,6 @@ class Module
             $translator->addTranslationFile('phparray', __DIR__ . '/../language/'.$locale.'.interface.php');
         }
 
-    }
-    
-    public function getServiceConfig()
-    {
-        return array(
-			'factories' => array(
-			    'MelisInstaller\Service\InstallHelperService' =>  function($sm) {
-    			    $melisInstallService = new \MelisInstaller\Service\InstallHelperService();
-    			    $melisInstallService->setServiceLocator($sm);
-    			    return $melisInstallService;
-			    },
-			    'MelisInstaller\Service\MelisInstallerConfigService' =>  function($sm) {
-    			    $melisInstallerConfigService = new \MelisInstaller\Service\MelisInstallerConfigService();
-    			    $melisInstallerConfigService->setServiceLocator($sm);
-    			    return $melisInstallerConfigService;
-			    },
-			    'MelisInstaller\Service\MelisInstallerTranslation' => function($sm) {
-    			    $melisInstallerTranslation = new \MelisInstaller\Service\MelisInstallerTranslationService();
-    			    $melisInstallerTranslation->setServiceLocator($sm);
-    			    return $melisInstallerTranslation;
-			    },
-			),
-        );
     }
  
 }

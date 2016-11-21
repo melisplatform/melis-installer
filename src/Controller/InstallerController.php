@@ -758,6 +758,8 @@ class InstallerController extends AbstractActionController
             'openssl',
             'json',
             'pdo_mysql',
+            'intl',
+            'mcrypt'
         ));
 
         

@@ -62,9 +62,11 @@ return array(
 		),
         'aliases' => array(
             'translator' => 'MvcTranslator',
-            'InstallerHelper' => 'MelisInstaller\Service\InstallHelperService',
-            'MelisInstallerConfig' => 'MelisInstaller\Service\MelisInstallerConfigService',
-            'MelisInstallerTranslation' => 'MelisInstaller\Service\MelisInstallerTranslationService',
+        ),
+        'factories' => array(
+            'InstallerHelper' => 'MelisInstaller\Service\Factory\InstallHelperServiceFactory',
+            'MelisInstallerConfig' => 'MelisInstaller\Service\Factory\MelisInstallerConfigServiceFactory',
+            'MelisInstallerTranslation' => 'MelisInstaller\Service\Factory\MelisInstallerTranslationServiceFactory',
         ),
     ),
     'controllers' => array(
