@@ -1,201 +1,201 @@
-<?php 
+<?php
 $localeImg = substr($this->currentLocale, 0, 2);
 $phpVersion = phpversion();
 $phpVersionRequired = '5.3.23';
 ?>
-   		
-   	  <!-- header -->
-      <div class="navbar navbar-fixed-top navbar-primary main" role="navigation">
-      
-         <div class="navbar-header pull-left">
-            <div class="navbar-brand">
-               <a href="/melis/setup" class="appbrand">
-	               <img alt="melis platform" src="/MelisInstaller/setup/images/melis-logo.png">
-	               Melis Platform
-               </a>
 
-            </div>
-         </div>
-         
-         <ul class="nav navbar-nav navbar-right">
-<!--          	<li> -->
-<!--          		<a href="#" class="menu-icon"> -->
-<!--          			<i class="fa fa-facebook"></i> -->
-<!--          		</a> -->
-<!--          	</li> -->
-<!--          	<li> -->
-<!--          		<a href="#" class="menu-icon"> -->
-<!--          			<i class="fa fa-linkedin"></i> -->
-<!--          		</a> -->
-<!--          	</li> -->
-         	
-         	<li class="language-dropdown dropdown" data-title="Language">
-				<a href="#" class="dropdown-toggle dropdown-hover">
-					<span class="langimg-cont"><img src="/html/setup/images/lang/<?= $localeImg; ?>.png"></span>
-				</a>
-				<ul class="dropdown-menu">
-				<?php 
+<!-- header -->
+<div class="navbar navbar-fixed-top navbar-primary main" role="navigation">
+
+	<div class="navbar-header pull-left">
+		<div class="navbar-brand">
+			<a href="/melis/setup" class="appbrand">
+				<img alt="melis platform" src="/MelisInstaller/setup/images/melis-logo.png">
+				Melis Platform
+			</a>
+
+		</div>
+	</div>
+
+	<ul class="nav navbar-nav navbar-right">
+		<!--          	<li> -->
+		<!--          		<a href="#" class="menu-icon"> -->
+		<!--          			<i class="fa fa-facebook"></i> -->
+		<!--          		</a> -->
+		<!--          	</li> -->
+		<!--          	<li> -->
+		<!--          		<a href="#" class="menu-icon"> -->
+		<!--          			<i class="fa fa-linkedin"></i> -->
+		<!--          		</a> -->
+		<!--          	</li> -->
+
+		<li class="language-dropdown dropdown" data-title="Language">
+			<a href="#" class="dropdown-toggle dropdown-hover">
+				<span class="langimg-cont"><img src="/MelisInstaller/setup/images/lang/<?= $localeImg; ?>.png"></span>
+			</a>
+			<ul class="dropdown-menu">
+				<?php
 				foreach($this->setupLocales as $locale) {
-				    if($this->currentLocale == $locale)
-				        echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($locale).'</b></a></li>';
-				    else
+					if($this->currentLocale == $locale)
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($locale).'</b></a></li>';
+					else
 						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($locale).'</a></li>';
 				}
 				?>
-				</ul>
-				
-			</li>
-			
-         </ul>
-      </div>
-      
-      <!-- sidebar -->
-       <div class="sidebar sidebar-inverse setup-sidebar">
-        
-          <div class="sidebarMenuWrapper">
-          
-          	<ul class="list-unstyled">
-          	
-          	  <li class="slide-active active">
-			     <a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
-				     <i class="fa fa-circle-o"></i>
-				     <span><?= $this->translate('tr_melis_installer_navigation_introduction'); ?></span>
-			     </a>
-			  </li>
-	          	
-			  <li class="hasSubmenu">
-			     <a href="#">
-				     <i class="fa fa-circle-o"></i>
-				     <span>
-				     	<span class="step-number">1</span>
-				     	<?= $this->translate('tr_melis_installer_navigation_sysconf'); ?>
-				     </span>
-			     </a>
-			  </li>
-			  
-			  <li>
-			  	  <a href="#" class="sub">
-			  		  <i class="fa fa-circle-o"></i>
-					  <span><?= $this->translate('tr_melis_installer_navgitation_vhost'); ?></span>
-				  </a>
-			  </li>
-			  <li>
-				  <a href="#" class="sub">
-					  <i class="fa fa-circle-o"></i>
-					  <span><?= $this->translate('tr_melis_installer_navigation_fs'); ?></span>
-				  </a>
-			  </li>
-			  <li>
-				  <a href="#" class="sub">
-					  <i class="fa fa-circle-o"></i>
-					  <span><?= $this->translate('tr_melis_installer_navigation_environments'); ?></span>
-				  </a>
-			  </li>
-			  
-			  <li class="hasSubmenu">
-			     <a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
-				     <i class="fa fa-circle-o"></i>
-				     <span>
-				     	<span class="step-number">2</span>
-				     	<?= $this->translate('tr_melis_installer_navigation_dbcon'); ?>
-				     </span>
-			     </a>
-			  </li>
-			  <li>
-			  	  <a href="#" class="sub">
-			  		  <i class="fa fa-circle-o"></i>
-					  <span><?= $this->translate('tr_melis_installer_navigation_modules'); ?></span>
-				  </a>
-			  </li>
-			  <li class="">
-			     <a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
-				     <i class="fa fa-circle-o"></i>
-				     <span>
-				     	<span class="step-number">3</span>
-				     	<?= $this->translate('tr_melis_installer_navigation_platform'); ?>
-				     </span>
-			     </a>
-			  </li>
-			  
-			  <li class="">
-			     <a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
-				     <i class="fa fa-circle-o"></i>
-				     <span><?= $this->translate('tr_melis_installer_navigation_final'); ?></span>
-			     </a>
-			  </li>
-		  
 			</ul>
-            
-          </div>
-       </div>
-      
-      
-      
-      <!-- content -->
-      <div id="content">
-      	
-      	<div class="owl-carousel owl-theme owl-loaded">
-      	
-      		<!-- introduction -->
-		    <div class="item">
-		    	<div class="steps-container">
-		    	
-	      			<div class="setup-content-container">
-	      				
-      					<div class="setup-heading">
-      						<h2><?= $this->translate('tr_melis_installer_layout_introduction_welcome'); ?></h2> 
-		      				<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_subtext'); ?></p>	
-      					</div>
-      				
-      					<div class="setup-content setup-p0">
-      						<div class="row">
-					      		<div class="steps">
-					      			<span class="line"></span>
-					      			
-					      			<div class="col-xs-12 col-md-4">
-					      				<span class="circle-number">1</span>
-					      				<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_sysconfig'); ?></p>
-					      			</div>
-					      			
-					      			<div class="col-xs-12 col-md-4">
-					      				<span class="circle-number">2</span>
-					      				<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_dbcon'); ?></p>
-					      			</div>
-					      			
-					      			<div class="col-xs-12 col-md-4">
-					      				<span class="circle-number">3</span>
-					      				<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_platforminit'); ?></p>
-					      			</div>
-					      			
-					      		</div>
-			     			</div>
-			     			
-				     		<div class="setup-button-cont text-center">
-				     		<?php if(version_compare($phpVersion, $phpVersionRequired) > 0) {?>
-				     		<a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
-				     	<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->	
-				     		<?php } else {?>
-				     		  <div class="alert alert-danger" role="alert"><?= sprintf($this->translate('tr_melis_installer_layout_introduction_welcome_php_version_error'), $phpVersionRequired, $phpVersion);?></div>
-				     		  <a class="btn btn-default"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
-				     	<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->	
-				     		<?php }?>
-				     		</div>
-	      					
-	      				</div>
 
-	      			</div>
+		</li>
 
-		      	</div>
-		    </div>
-			<?php 
-			
-			// CONTENT SECTIONS
-			$sectionFiles = array('step-1/step-1', 'step-1/step-1.1','step-1/step-1.2','step-1/step-1.3','step-2/step-2.0','step-2/step-2.1', 'step-3/step-3.0', 'finish/finish');
-			foreach($sectionFiles as $section) {
-			    include_once('step-sections/'.$section.'.phtml');
-			}
-			
-			
-			?>
-		</div>  
-      </div>
+	</ul>
+</div>
+
+<!-- sidebar -->
+<div class="sidebar sidebar-inverse setup-sidebar">
+
+	<div class="sidebarMenuWrapper">
+
+		<ul class="list-unstyled">
+
+			<li class="slide-active active">
+				<a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
+					<i class="fa fa-circle-o"></i>
+					<span><?= $this->translate('tr_melis_installer_navigation_introduction'); ?></span>
+				</a>
+			</li>
+
+			<li class="hasSubmenu">
+				<a href="#">
+					<i class="fa fa-circle-o"></i>
+					<span>
+				     	<span class="step-number">1</span>
+						<?= $this->translate('tr_melis_installer_navigation_sysconf'); ?>
+				     </span>
+				</a>
+			</li>
+
+			<li>
+				<a href="#" class="sub">
+					<i class="fa fa-circle-o"></i>
+					<span><?= $this->translate('tr_melis_installer_navgitation_vhost'); ?></span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="sub">
+					<i class="fa fa-circle-o"></i>
+					<span><?= $this->translate('tr_melis_installer_navigation_fs'); ?></span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="sub">
+					<i class="fa fa-circle-o"></i>
+					<span><?= $this->translate('tr_melis_installer_navigation_environments'); ?></span>
+				</a>
+			</li>
+
+			<li class="hasSubmenu">
+				<a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
+					<i class="fa fa-circle-o"></i>
+					<span>
+				     	<span class="step-number">2</span>
+						<?= $this->translate('tr_melis_installer_navigation_dbcon'); ?>
+				     </span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="sub">
+					<i class="fa fa-circle-o"></i>
+					<span><?= $this->translate('tr_melis_installer_navigation_modules'); ?></span>
+				</a>
+			</li>
+			<li class="">
+				<a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
+					<i class="fa fa-circle-o"></i>
+					<span>
+				     	<span class="step-number">3</span>
+						<?= $this->translate('tr_melis_installer_navigation_platform'); ?>
+				     </span>
+				</a>
+			</li>
+
+			<li class="">
+				<a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
+					<i class="fa fa-circle-o"></i>
+					<span><?= $this->translate('tr_melis_installer_navigation_final'); ?></span>
+				</a>
+			</li>
+
+		</ul>
+
+	</div>
+</div>
+
+
+
+<!-- content -->
+<div id="content">
+
+	<div class="owl-carousel owl-theme owl-loaded">
+
+		<!-- introduction -->
+		<div class="item">
+			<div class="steps-container">
+
+				<div class="setup-content-container">
+
+					<div class="setup-heading">
+						<h2><?= $this->translate('tr_melis_installer_layout_introduction_welcome'); ?></h2>
+						<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_subtext'); ?></p>
+					</div>
+
+					<div class="setup-content setup-p0">
+						<div class="row">
+							<div class="steps">
+								<span class="line"></span>
+
+								<div class="col-xs-12 col-md-4">
+									<span class="circle-number">1</span>
+									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_sysconfig'); ?></p>
+								</div>
+
+								<div class="col-xs-12 col-md-4">
+									<span class="circle-number">2</span>
+									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_dbcon'); ?></p>
+								</div>
+
+								<div class="col-xs-12 col-md-4">
+									<span class="circle-number">3</span>
+									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_platforminit'); ?></p>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="setup-button-cont text-center">
+							<?php if(version_compare($phpVersion, $phpVersionRequired) > 0) {?>
+								<a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
+								<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
+							<?php } else {?>
+								<div class="alert alert-danger" role="alert"><?= sprintf($this->translate('tr_melis_installer_layout_introduction_welcome_php_version_error'), $phpVersionRequired, $phpVersion);?></div>
+								<a class="btn btn-default"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
+								<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
+							<?php }?>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<?php
+
+		// CONTENT SECTIONS
+		$sectionFiles = array('step-1/step-1', 'step-1/step-1.1','step-1/step-1.2','step-1/step-1.3','step-2/step-2.0','step-2/step-2.1', 'step-3/step-3.0', 'finish/finish');
+		foreach($sectionFiles as $section) {
+			include_once('step-sections/'.$section.'.phtml');
+		}
+
+
+		?>
+	</div>
+</div>
