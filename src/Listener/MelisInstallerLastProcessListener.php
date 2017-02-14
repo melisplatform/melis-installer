@@ -31,7 +31,7 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
         		$moduleSvc = $sm->get('ModulesService');
         		$installHelperSvc = $sm->get('InstallerHelper');
         		$params = $e->getParams();
-        		$moduleName = $params['cms_data']['website_module'];
+        		
         		$modulesInstalled = $params['install_modules'];
         		
         		$moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/',$modulesInstalled,

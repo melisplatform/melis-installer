@@ -1,0 +1,84 @@
+/* footer area */
+.footer-area {
+  background: #333333 none repeat scroll 0 0;
+  color: #f1f1f1;
+}
+.contact-icon {
+    border: 1px solid #ccc;
+    float: left;
+    font-size: 20px;
+    height: 32px;
+    line-height: 30px;
+    overflow: hidden;
+    text-align: center;
+    width: 32px;
+}
+.contact-text {
+    overflow: hidden;
+}
+.contact-text > p {
+  font-size: 13px;
+  line-height: 22px;
+  margin: -6px 0 0 15px;
+  overflow: hidden;
+}
+.contact-text span {
+  display: block;
+  float: left;
+}
+.single-footer.contact-us li {
+    margin-bottom: 18px;
+}
+.footer-title > h5 {
+    font-size: 16px;
+    margin-bottom: 40px;
+}
+.informatoin li {
+  display: block;
+  font-size: 13px;
+}
+.instagrm li {
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+.newslatter .input-box a {
+  background: #494949 none repeat scroll 0 0;
+  font-size: 20px;
+  height: 35px;
+  line-height: 35px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 50px;
+}
+.newslatter .input-box input {
+  background: #121212 none repeat scroll 0 0;
+  border: medium none;
+  color: #ccc;
+  height: 35px;
+}
+.social-icon .footer-title h5 {
+    margin-bottom: 20px;
+}
+.instagrm li:nth-last-child(-n+3) {
+  margin-bottom: 0;
+}
+.footer-bottom {
+  background: #000 none repeat scroll 0 0;
+  height: 60px;
+}
+.footer-bottom.global-table {
+  height: 60px;
+}
+.copyrigth {
+  color: #fff;
+}
+
+.payment-support li a {
+    opacity: 0.5;
+}
+.payment-support li a:hover {
+    opacity: 1;
+}

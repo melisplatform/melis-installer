@@ -9,8 +9,10 @@ return array(
     'tr_melis_installer_navigation_fs' => 'File System Rights',
     'tr_melis_installer_navigation_environments' => 'Environments',
     'tr_melis_installer_navigation_dbcon' => 'Database Connection',
-    'tr_melis_installer_navigation_modules' => 'Modules',
     'tr_melis_installer_navigation_platform' => 'Platform Initialization',
+    'tr_melis_installer_navigation_web_config' => 'Web Configuration',
+    'tr_melis_installer_navigation_melis_config' => 'Melis Configuration',
+    'tr_melis_installer_navigation_modules' => 'Modules',
     'tr_melis_installer_navigation_final' => 'Creation & Result',
     
     
@@ -60,12 +62,6 @@ return array(
     'tr_melis_installer_dbcon_form_pass_fail' => 'Please make sure your database password is correct', 
     'tr_melis_installer_dbcon_form_user_empty' => 'Please enter your MySql username',
     
-    'tr_melis_installer_layout_modules' => 'Step 2.1: Install Modules',
-    'tr_melis_installer_layout_modules_subtext' => 'Choose the additional modules you want to install and activate right now.',
-    'tr_melis_installer_layout_module_available' => 'Available Modules',
-    'tr_melis_installer_layout_module_select_all' => 'Select all',
-    
-    
     'tr_melis_installer_step_1_0_extension_not_loaded' => 'Extension "%s" is not loaded',
     'tr_melis_installer_step_1_0_php_variable_not_set' => 'PHP variable "%s" is not set',
     'tr_melis_installer_step_1_0_php_requied_variables_empty' => 'PHP required variables is not set',
@@ -76,15 +72,32 @@ return array(
     'tr_melis_installer_step_1_2_dir_not_writable' => '"%s" is not writable',
     'tr_melis_installer_step_1_2_dir_writable' => '"%s" is writable',
     
-    
-    
-    'tr_melis_installer_platform_init' => 'Step 3: Melis Platform Initialization',
+    // STEP 3: Platform Initialization
     'tr_melis_installer_platform_modal_title' => 'Melis Platform Initialization',
-    'tr_melis_installer_patform_modal_content' => 'Please check details below: ',
-    'tr_melis_installer_platform_init_subtext' => 'Let\'s create an admin account and your first simple site.',
-    'tr_melis_installer_platform_init_create_user' => 'Create Admin User',
-    'tr_melis_installer_platform_init_sel_language' => 'Website Language',
-    'tr_melis_installer_platform_init_create_web' => 'Create a website',
+    'tr_melis_installer_platform_modal_content' => 'Please check details below: ',
+    
+    // WEBSITE CONFIGURATION
+    'tr_melis_installer_web_config' => 'Step 3.1: Website Configuration',
+    'tr_melis_installer_web_config_subtext' => 'Let\'s create your first simple site or you can use Demo Site.',
+    'tr_melis_installer_web_config_option' => 'Website option',
+    'tr_melis_installer_web_config_option_none' => 'None',
+    'tr_melis_installer_web_config_option_new_site' => 'Create new website',
+    'tr_melis_installer_web_config_option_use' => 'Use',
+    'tr_melis_installer_web_config_option_use_empty' => 'Please select website option',
+    'tr_melis_installer_web_config_create_web' => 'Create a website',
+    'tr_melis_installer_web_config_create_web_sel_language' => 'Website Language',
+    
+    // MELIS CONFIGURATION
+    'tr_melis_installer_melis_config' => 'Step 3.2 Melis Configuration',
+    'tr_melis_installer_melis_config_subtext' => 'Let\'s create an admin account.',
+    'tr_melis_installer_melis_config_create_admin' => 'Create Admin User',
+    
+    // MELIS MODULES
+    'tr_melis_installer_melis_modules' => 'Step 3.3: Modules',
+    'tr_melis_installer_melis_modules_subtext' => 'Choose the additional modules you want to install and activate right now.',
+    'tr_melis_installer_melis_modules_available' => 'Available Modules',
+    'tr_melis_installer_melis_modules_select_all' => 'Select all',
+    
     // NEW USER FORM
     'tr_melis_installer_new_user_login' => 'Login',
     'tr_melis_installer_new_user_email' => 'Email',
@@ -134,6 +147,7 @@ return array(
     
     'tr_melis_installer_common_next' => 'Next',
     'tr_melis_installer_common_finish' => 'Finish',
+    'tr_melis_installer_common_choose' => 'Choose',
     
     'tr_melis_installer_common_finish_error' => 'There was a problem while doing the final step, if you want to redo everything, just refresh the page and try again',
     'tr_melis_installer_common_installing' => 'Installing...',

@@ -1,0 +1,147 @@
+/*=======Default Color===========*/
+a:focus,
+a:hover {
+    color: #cc3333;
+}
+.social-icon ul li a:hover {
+  background: #cc3333 none repeat scroll 0 0;
+  border-color: #cc3333;
+}
+.social-icon.socile-icon-style-2 ul li a:hover {
+  color: #cc3333;
+}
+.social-icon.socile-icon-style-3 ul li a:hover {
+  background: #cc3333 none repeat scroll 0 0;
+  border-color: #cc3333;
+}
+.default-bg { background: #cc3333; }
+
+a.btn-def:hover,a.btn-def.btn-white:hover,a.btn-def.btn2:hover {
+  background: #cc3333 none repeat scroll 0 0;
+  border-color: #cc3333;
+}
+.quick-add-to-cart .single_add_to_cart_button {
+  background: #cc3333 none repeat scroll 0 0;
+}
+
+/*menu style */
+.main-menu > li:hover > a,.main-menu > li a.active {
+	color: #cc3333;
+} 
+.main-menu li ul > li:hover > a {
+  color: #cc3333;
+}
+.main-menu li ul li a:hover{
+  color: #cc3333;
+}
+.src-btn:hover {
+  color: #cc3333;
+}
+.menu-eff > li > a::before {
+  border-bottom: 1px solid #cc3333;
+  border-top: 1px solid #cc3333;
+}
+.remove:hover {
+    background: #cc3333 none repeat scroll 0 0;
+}
+.cart-price {
+    color: #cc3333;
+    font-size: 16px;
+}
+.cart-name > a:hover {
+  color: #cc3333;
+}
+.cart-icon > a:hover {
+  color:#cc3333;
+}
+.cart-icon:hover span {
+  border: 1px solid #cc3333;
+  color:#cc3333;
+}
+
+/*Slider*/
+.underline::after {
+  background: #cc3333 none repeat scroll 0 0;
+}
+
+.product-label.red .new {
+  background: #cc3333 none repeat scroll 0 0;
+}
+.product-icon ul li a:hover {
+  color: #cc3333;
+}
+.prodcut-name > a:hover {
+  color: #cc3333;
+}
+.carsoule-btn .slick-arrow:hover {
+    border-color: #cc3333;
+    color: #cc3333;
+}
+.heading-style::after, .heading-style-2 .active::after {
+  background: #cc3333 none repeat scroll 0 0;
+}
+.like-comments-date li a:hover {
+    color: #cc3333;
+}
+.like-comments-date li.blog-date a {
+  color: #cc3333;
+}
+.read-more:hover {
+    color: #cc3333;
+}
+.src-btn.sb-2:hover {
+  color: #cc3333;
+}
+.price_slider_amount > input[type="submit"]:hover {
+    background: #cc3333;
+}
+.table-head.item-nam {
+  color: #cc3333;
+}
+.social-tag a:hover {
+  color:#cc3333
+}
+.dec.qtybutton:hover,
+.inc.qtybutton:hover {
+    background: #cc3333 ;
+    border-color: #cc3333 
+}
+.single-product-description .prodcut-ratting > a {
+	color:#cc3333 
+}
+.item-title > a:hover {
+  color: #cc3333;
+}
+.remove-item a:hover { color: #cc3333 }
+.shipping-method p a:hover { color: #cc3333 }
+.panel-checkout .panel-title > a:hover { color: #cc3333 }
+.first-last-area .forgotten.forg:hover { color: #cc3333 }
+.account-area .forgotten:hover { color: #cc3333 }
+.checkbox-2 small a:hover {
+  color: #cc3333;
+}
+.single-choose:hover .choose-icon {
+    color: #cc3333;
+}
+.sbumit-btn:hover {
+  background: #cc3333 none repeat scroll 0 0;
+}
+.contact-us-2 .contact-info .contact-text a:hover {
+  color: #cc3333;
+}
+.subject li a:hover {
+  color: #cc3333;
+}
+.replay > a:hover {
+  color: #cc3333;
+}
+.content-404 .search-box.blog-search input { padding: 0 60px 0 15px }
+.src-btn:hover { color: #cc3333 }
+#scrollUp:hover {
+    border-color: #cc3333;
+    color: #cc3333;
+}
+
+
+
+

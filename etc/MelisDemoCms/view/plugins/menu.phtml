@@ -1,0 +1,135 @@
+<div class="col-md-8 col-sm-10 hidden-xs">
+    <nav id="primary-menu">
+        <ul class="main-menu">
+            <?php
+            	if(!empty($this->menu))
+            	{
+            	    foreach ($this->menu As $key => $val)
+            	    {
+            	        if (in_array($val->page_type, array('PAGE', 'SITE')))
+            	        {
+                	        $pageName = (!empty($val->pseo_meta_title)) ? $val->pseo_meta_title : $val->page_name;
+                	        $hasChild = (!empty($val->children)) ? 'class="mega-parent"' : '';
+                	        echo '<li '.$hasChild.'>';
+                	        echo '<a href="'.$this->melisLink($val->page_id, true).'">'.$pageName.'</a>';
+                	        
+                	        if (!empty($val->children))
+                	        {
+                	            $newsClass = '';
+                	            if ($val->page_id == $this->layout()->siteDatas['news_menu_page_id'])
+                	            {
+                	                $newsClass = 'news-menu-area';
+                	            }
+                	            
+                	            echo '<div class="mega-menu-area '.$newsClass.' mma-970">';
+                    	            foreach ($val->children As $sHkey => $sHVal)
+                    	            {
+                        	            echo '<ul class="single-mega-item coloum-4">';
+                        	                
+                        	            $subTitlePageName = (!empty($sHVal->pseo_meta_title)) ? $sHVal->pseo_meta_title : $sHVal->page_name;
+                        	            $urlData = (!empty($sHVal->url_data)) ? '?'.http_build_query($sHVal->url_data) : null;
+                	                    
+                        	            echo '<li class="menu-title uppercase"><a href="'.$this->melisLink($sHVal->page_id, true).$urlData.'" >'.$subTitlePageName.'</a></li>';
+                	                    
+                	                    if (!empty($sHVal->children))
+                	                    {
+                	                        foreach ($sHVal->children As $sHLkey => $sHLVal)
+                	                        {
+                	                            $subPageName = (!empty($sHLVal->pseo_meta_title)) ? $sHLVal->pseo_meta_title : $sHLVal->page_name;
+                	                            $urlData = (!empty($sHLVal->url_data)) ? '?'.http_build_query($sHLVal->url_data) : null;
+                	                            
+                	                            echo '<li><a href="'.$this->melisLink($sHLVal->page_id, true).$urlData.'">'.$subPageName.'</a></li>';
+                	                        }
+                	                    }
+                    	                    
+                    	                if (count($val->children) == ($sHkey + 1))
+                    	                {
+                    	                    echo '<li>&nbsp;</li><li class="menu-title-all"><a href="'.$this->melisLink($val->page_id, true).'">SEE ALL '.strtoupper($pageName).'</a></li>';
+                    	                }
+                	                    echo '</ul>';
+            	                    }
+        	                    
+            	                echo '</div>';
+                	        }
+            	            echo '</li>';
+            	        }
+            	    }
+            	}
+            ?>
+        </ul>
+    </nav>
+</div>
+
+<!-- mobile-menu-area start -->
+<div class="mobile-menu-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <nav id="dropdown">
+                    <ul>
+                    	<li>
+                        	<form action="/home/search-results/id/36" method="get">
+                                <div class="input-box">
+                                    <input class="mobile-search-input" placeholder="Search" type="text" name="search" value="<?php echo $this->layout()->search?>" required>
+                                    <button class="src-btn mobile-search-btn"><i class="fa fa-search fa-2x"></i></button>
+                                </div>
+                            </form>
+                        </li>
+                        <?php
+                        	if(!empty($this->menu))
+                        	{
+                        	    foreach ($this->menu As $key => $val)
+                        	    {
+                        	        if (in_array($val->page_type, array('PAGE', 'SITE')))
+                        	        {
+                            	        $pageName = (!empty($val->pseo_meta_title)) ? $val->pseo_meta_title : $val->page_name;
+                            	        echo '<li>';
+                            	        echo '<a href="'.$this->melisLink($val->page_id, true).'">'.$pageName.'</a>';
+                            	        
+                            	        if (!empty($val->children))
+                            	        {
+                            	            echo '<ul class="single-mega-item">';
+                                	            foreach ($val->children As $sHkey => $sHVal)
+                                	            {
+                                    	            $subTitlePageName = (!empty($sHVal->pseo_meta_title)) ? $sHVal->pseo_meta_title : $sHVal->page_name;
+                                    	            $urlData = (!empty($sHVal->url_data)) ? '?'.http_build_query($sHVal->url_data) : null;
+                            	                    
+                                    	            echo '<li><a href="'.$this->melisLink($sHVal->page_id, true).$urlData.'" >'.$subTitlePageName.'</a>';
+                            	                    
+                            	                    if (!empty($sHVal->children))
+                            	                    {
+                            	                        echo '<ul class="single-mega-item">';
+                            	                        
+                            	                        foreach ($sHVal->children As $sHLkey => $sHLVal)
+                            	                        {
+                            	                            $subPageName = (!empty($sHLVal->pseo_meta_title)) ? $sHLVal->pseo_meta_title : $sHLVal->page_name;
+                            	                            $urlData = (!empty($sHLVal->url_data)) ? '?'.http_build_query($sHLVal->url_data) : null;
+                            	                            
+                            	                            echo '<li><a href="'.$this->melisLink($sHLVal->page_id, true).$urlData.'">'.$subPageName.'</a></li>';
+                            	                        }
+                            	                        echo '</ul>';
+                            	                    }
+                            	                    
+                            	                    if (count($val->children) == ($sHkey + 1))
+                            	                    {
+                            	                        echo '<li class="menu-title-all"><a href="'.$this->melisLink($val->page_id, true).'">SEE ALL '.strtoupper($pageName).'</a></li>';
+                            	                    }
+                                	                
+                            	                    echo '</li>';
+                        	                    }
+                        	                    
+                    	                    echo '</ul>';
+                    	                    
+                            	        }
+                        	            echo '</li>';
+                        	        }
+                        	    }
+                        	}
+                        ?>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!--mobile menu area end-->

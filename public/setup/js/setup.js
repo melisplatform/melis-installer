@@ -1,13 +1,7 @@
-/**
- * $(".cbmask-inner").addClass("cb-active");
-$("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
- * @param $
- */
 (function($) {
 
 		var $body = $("body");
 		var isDbTested = false;
-		
 		
 		// ---=[ OWL SLIDER ]=---
 		// owl slider [slide] event
@@ -18,7 +12,7 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 		    dotsSpeed: 500,
 		    navSpeed: 500,
 		    dots: false,
-		    //startPosition: 8,
+		    // startPosition: 7,
 		    // nav: true,
 		}); 
 		
@@ -38,21 +32,35 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 		});
 		
 		
-		
 		// ENABLE / DISABLED MODULE CHECKBOXES
 	    var modules = $("#frmSelModules input[type='checkbox']");
 	    $.each( modules, function( key, value ) {
-	           if( $(this).is(":checked") ){
-	        	   $(this).prev().find(".cbmask-inner").addClass("cb-active");
-	           }
+	    	if( $(this).is(":checked") ){
+	    		$(this).prev().find(".cbmask-inner").addClass("cb-active");
+	    	}
 	    });
 	    
-		// module checkbox mask
-	    $('body').on("click", ".cb-cont input[type=checkbox]", function(){
-	    	$(this).prev().find(".cbmask-inner").toggleClass("cb-active");
+		// Module checkboxes
+	    // Toggle single checkbox
+	    $body.on("click", ".cb-cont input[type=checkbox]", function(){
+	    	if($(this).is(':checked')) {
+	    		$(this).prop("checked", true);
+	    		$(this).prev("span").find(".cbmask-inner").addClass('cb-active');
+	    	}else{
+	    		$(this).not(".requried-module").prop("checked", false);
+	    		$(this).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+	    	}
 	    });
-	    
-	   
+	    // Toggle all checkboxes
+	    $body.on("click", "#chkSelectAllModules", function() {
+			if($(this).is(':checked')) {
+				$("#frmSelModules").find(".cb-cont input[type=checkbox]").prop("checked", true);
+				$("#frmSelModules").find(".cbmask-inner").addClass('cb-active');
+			}else {
+				$("#frmSelModules").find(".cb-cont input[type=checkbox]").not(".requried-module").prop("checked", false);
+				$("#frmSelModules").find(".cb-cont input[type=checkbox]").not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+			}
+		});
 		
 		
 		// ---=[ SIDEBAR ]=---
@@ -75,6 +83,7 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 			// disable Next Button on Database Connection, making sure that we test it before leaving
 			$("#dbNext").removeClass("setup-pass-page btn btn-success");
 			$("#dbNext").addClass("btn btn-default");
+			
 			
 			// proceed to next slide
 			if(currentPage === 2) {
@@ -106,20 +115,41 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 					else
 						$owl.trigger('to.owl.carousel', [currentPage, 500]);
 				});
-				
 			}
 			else if(currentPage === 5) {
 				addEnvironments();
 			}
 			else if(currentPage === 6) {
 				$(".dbNext").removeClass("setup-pass-page");
-				$owl.trigger('to.owl.carousel', [currentPage, 500]);
+				
+				// Highlighting the Step 3 nav
+				$('.hasSubmenu:eq( 2 )').removeClass("slide-active");
+				$('.hasSubmenu:eq( 2 )').find("a").css("cursor", "default");
+				$('.hasSubmenu:eq( 2 )').find("span").css("color","#fff");
+				$('.hasSubmenu:eq( 2 )').find("i.fa").css("color","#fff");
+				
+				// Escaping slide 7 by adding the current page by 1
+				var nextPage = currentPage + 1;
+				var step3_1 = $('.hasSubmenu:eq( 2 )').next();
+				step3_1.addClass("slide-active");
+				
+				$owl.trigger('to.owl.carousel', [nextPage, 500]);
 			}
 			else if(currentPage === 7) {
-				processSelectedModules();
+				// Escape and proceed to slide 8
 			}
 			else if(currentPage === 8) {
-				addNewUser();
+				// Website validation
+				setWebConfig(currentPage);
+			}
+			else if(currentPage === 9) {
+				addNewUser(currentPage);
+			}
+			else if(currentPage === 10) {
+				processSelectedModules(currentPage);
+				
+				// Adding check mark on Step 3 nav atfer step 3.3
+				$('.hasSubmenu:eq( 2 )').find("i").removeClass("fa-circle-o").css("color","").addClass("fa fa-check fa-color-green");
 			}
 			else {
 				$owl.trigger('to.owl.carousel', [currentPage, 500]);
@@ -271,6 +301,14 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 				
 		});
 		
+		// Website Option selection action event
+		$body.on("change", "#weboption", function(){
+			$(".setup3-webform").addClass("hidden");
+			if($(this).val() == "NewSite"){
+				$(".setup3-webform").removeClass("hidden");
+			}
+		});
+		
 		function ajaxRequest(url, dataString, callBack) {
 			$.ajax({
 				type: 'POST',
@@ -284,59 +322,86 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 			});
 		}
 		
-		function addEnvironments() {
+		function addEnvironments() 
+		{
 			var dataString = $("#environment-form").serialize();
 			ajaxRequest('/melis/MelisInstaller/Installer/newEnvironment', dataString, function(data) {
-    			if(data.success) {
+    			if(data.success) 
+    			{
     				$owl.trigger('to.owl.carousel', [5, 500]);
     			}
-    			else {
+    			else 
+    			{
     				alert("please review your entry");
     			}
 			});
 		}
 		
-		function addNewUser()
+		function addNewUser(nxtPage)
+		{
+			disableNextButton();
+			var dataString = $("#idfrmuserdata").serialize();
+			ajaxRequest('/melis/MelisInstaller/Installer/createNewUser', dataString, function(data) {
+				if(data.success === 1) 
+				{
+					$owl.trigger('to.owl.carousel', [nxtPage, 500]);
+				}
+				else 
+				{
+					melisHelper.melisKoNotification(translations.tr_melis_installer_platform_modal_title , translations.tr_melis_installer_platform_modal_content, data.errors, 'closeByButtonOnly');
+				}
+				melisCoreTool.highlightErrors(data.success, data.errors, "idfrmuserdata");
+				enableNextButton();
+			});
+		}
+		
+		function setWebConfig(nxtPage)
+		{
+			disableNextButton();
+			var webConfig = $("#setup-step3 form").serializeArray()
+			ajaxRequest('/melis/MelisInstaller/Installer/setWebConfig', webConfig, function(webConfigRes) {
+				
+				if(webConfigRes.success !== 1)
+				{
+					melisHelper.melisKoNotification(translations.tr_melis_installer_platform_modal_title , translations.tr_melis_installer_platform_modal_content, webConfigRes.errors);
+				}
+				else
+				{
+					$owl.trigger('to.owl.carousel', [nxtPage, 500]);
+				}
+				
+				// Unchecking Select all checkbox and modules checkboxes
+				$("#chkSelectAllModules").prop("checked", false);
+				$("#chkSelectAllModules").prev("span").find(".cbmask-inner").removeClass('cb-active');
+				$("#frmSelModules").find(".cb-cont input[type=checkbox]").prop("checked", false);
+				$("#frmSelModules").find(".cb-cont input[type=checkbox]").prev("span").find(".cbmask-inner").removeClass('cb-active');
+				
+				$.each(webConfigRes.requiredModules, function(index , val){
+					$("#frmSelModules").find(".cb-cont input[name=chk"+val+"]").prop("checked", true);
+					$("#frmSelModules").find(".cb-cont input[name=chk"+val+"]").addClass("requried-module");
+					$("#frmSelModules").find(".cb-cont input[name=chk"+val+"]").prev("span").find(".cbmask-inner").addClass('cb-active');
+				});
+				
+				melisCoreTool.highlightErrors(webConfigRes.success, webConfigRes.errors, "setup-step3 form");
+				enableNextButton();
+			});
+		}
+		
+		function enableNextButton()
+		{
+			$(".setup-pass-page").removeAttr("disabled");
+			$(".setup-pass-page").removeClass("btn-default");
+			$(".setup-pass-page").addClass("btn-success");
+		}
+		
+		function disableNextButton()
 		{
 			$(".setup-pass-page").attr("disabled", "disabled");
 			$(".setup-pass-page").removeClass("btn-success");
 			$(".setup-pass-page").addClass("btn-default");
-			var dataString = $("#idfrmuserdata").serialize();
-			ajaxRequest('/melis/MelisInstaller/Installer/createNewUser', dataString, function(data) {
-				if(data.success === 1) {
-					var langDataString = $("#idfrmweblang").serialize();
-					ajaxRequest('/melis/MelisInstaller/Installer/setWebsiteLanguage', langDataString, function(langData) {
-						if(langData.success === 1) {
-							var webFormDataString = $("#idfrmwebform").serialize();
-							ajaxRequest('/melis/MelisInstaller/Installer/setWebDetails', webFormDataString, function(webFormData) {
-								if(webFormData.success === 1) {
-									$owl.trigger('to.owl.carousel', [8, 500]);
-								}  
-								else {
-									melisHelper.melisKoNotification(translations.tr_melis_installer_platform_modal_title , translations.tr_melis_installer_patform_modal_content, webFormData.errors, 'closeByButtonOnly');
-									melisCoreTool.highlightErrors(webFormData.success, webFormData.errors, "idfrmwebform");
-								}
-							});
-						}
-						else {
-							melisHelper.melisKoNotification(translations.tr_melis_installer_platform_modal_title , translations.tr_melis_installer_patform_modal_content, langData.errors, 'closeByButtonOnly');
-							melisCoreTool.highlightErrors(langData.success, langData.errors, "idfrmweblang");
-						}
-					});
-				}
-				else {
-					melisHelper.melisKoNotification(translations.tr_melis_installer_platform_modal_title , translations.tr_melis_installer_patform_modal_content, data.errors, 'closeByButtonOnly');
-					melisCoreTool.highlightErrors(data.success, data.errors, "idfrmuserdata");
-				}
-				$(".setup-pass-page").removeAttr("disabled");
-				$(".setup-pass-page").removeClass("btn-default");
-				$(".setup-pass-page").addClass("btn-success");
-			});
-
-				
 		}
 		
-		function processSelectedModules()
+		function processSelectedModules(nextPage)
 		{
 			var dataString = $("#frmSelModules").serializeArray();
 			var modDataString = [];
@@ -355,21 +420,18 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 
 			modDataString = $.param(modDataString);
 			ajaxRequest('/melis/MelisInstaller/Installer/addInstallableModules', modDataString, function(data) {
-				$owl.trigger('to.owl.carousel', [7, 500]);
+				$owl.trigger('to.owl.carousel', [nextPage, 500]);
 			});
  
 		}
-		
 
 		
 		// show modal spinner after you click the finish button
 		$("body").on("click", ".setup-finish", function(){
 			if(isDbTested) {
-
 				
-				$(".setup-finish").attr("disabled", "disabled");
-				$(".setup-finish").removeClass("btn-success");
-				$(".setup-finish").addClass("btn-default");
+				disableNextButton();
+				
 				$(".setup-finish").html(translations.tr_melis_installer_common_installing);
 				
 				$.get('/melis/MelisInstaller/Installer/completeInstallation', function(data) {
@@ -389,7 +451,6 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 								alert(translations.tr_melis_installer_common_finish_error);
 							}
 						});
-						
 					}
 					else {
 						alert(translations.tr_melis_installer_common_finish_error);
@@ -399,25 +460,10 @@ $("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
 			else {
 				$owl.trigger('to.owl.carousel', [5, 500]);
 			}
-
-			
 		});
-		
-		$("body").on("click", "#chkSelectAllModules", function() {
-			if($(this).is(':checked')) {
-				$("#frmSelModules").find("input[type='checkbox']").attr("checked", "checked");
-				$("#frmSelModules").find(".cbmask-inner").addClass('cb-active');
-			}
-			else {
-				$("#frmSelModules").find("input[type='checkbox']").removeAttr("checked", "checked");
-				$("#frmSelModules").find(".cbmask-inner").removeClass('cb-active');
-			}
-
-		});
-		
-
 		
 })(jQuery);
+
 function changeSetupLanguage(locale) {
     var datastring = { langLocale: locale };
     console.log(locale);

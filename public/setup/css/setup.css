@@ -444,10 +444,54 @@ input[type="text"] {
  
 
 /* final modal */
-.setup-modal-overlay,
-.setup-final-modal{
+.setup-modal-overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    top: 0;
+    left: 0;
+    opacity: .5;
+    z-index: 99991;
 	display: none;
 }
+.setup-final-modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 99992;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+	display: none;
+}
+.setup-final-modal .modal-content {
+    padding: 50px 20px 40px;
+    width: 300px;
+}
+.setup-final-modal .modal-content span.btn-primary{
+    margin-top: 40px;
+    display: block;
+}
+.setup-final-modal .delete-page-modal{
+	text-align: center;
+}
+.setup-final-modal .delete-page-modal span.btn,
+.setup-final-modal .delete-page-modal button{
+    width: 160px;
+    margin: 0 10px;
+}
+.setup-final-modal .modal-content h3,
+.setup-final-modal .modal-content h4{
+    margin-bottom: 30px;
+	margin-top: 0;
+}
+.setup-final-modal .modal-content p{
+    margin-bottom: 4px;
+}
+
 .setup-final-modal .modal-content{
     width: 450px;
 }
@@ -468,6 +512,7 @@ input[type="text"] {
 	position: static;
     vertical-align: middle;
 }
+
 
 
 

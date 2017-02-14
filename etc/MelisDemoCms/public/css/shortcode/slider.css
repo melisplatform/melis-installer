@@ -1,0 +1,104 @@
+/* -----------------------------------
+Template:  clothing- Responsive Multi-purpose HTML5 Template
+Template URI: http://bootexperts.com
+Description: This is html5 template
+Author: BootExperts
+Author URI: http://bootexperts.com
+Version: 1.0
+
+--------------------------------------*/
+.slider-content {
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  color:#f1f1f1
+}
+.slider-content h4 {
+  color: #fff;
+  font-family: lato;
+  font-size: 20px;
+}
+.slider-content h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 43px;
+  margin-bottom: 55px;
+}
+.underline::before,.underline::after {
+  background: #fff none repeat scroll 0 0;
+  bottom: -25px;
+  content: "";
+  height: 5px;
+  left: 0;
+  position: absolute;
+  width: 60px;
+}
+.underline::after {
+  background: #cc3333 none repeat scroll 0 0;
+  left: 20px;
+  width: 20px;
+}
+.slick-dots {
+  bottom: auto;
+  left: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+}
+.slick-dotted.slick-slider {
+  margin-bottom: 0;
+}
+.carosule-pagi .slick-dots li {
+  background: #fff none repeat scroll 0 0;
+  border: 2px solid #fff;
+  border-radius: 0;
+  display: block;
+  height: 16px;
+  margin: 10px 0;
+  opacity: 0.5;
+  position: relative;
+  width: 16px;
+}
+.carosule-pagi .slick-dots li button {
+  background: #333 none repeat scroll 0 0;
+  border: medium none;
+  bottom: 0;
+  display: block;
+  height: 8px;
+  left: 0;
+  margin: auto;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 8px;
+}
+.slick-dots li button::before {
+ text-indent: -1e+7px;
+}
+.carosule-pagi .slick-dots li.slick-active {
+  opacity: 1;
+  position:relative
+}
+.carosule-pagi.cp-line .slick-dots li.slick-active::after {
+    background: #fff none repeat scroll 0 0;
+    content: "";
+    height: 2px;
+    left: 25px;
+    position: absolute;
+    top: 5px;
+    width: 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

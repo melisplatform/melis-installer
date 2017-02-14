@@ -1,0 +1,150 @@
+/*--------------------------------------------------------------
+
+Template: Theme Name
+Author: 
+Version:  1
+Design and Developed by: 
+
+Note: This is the file where you can add your custom styles to change the look of the theme. But don't modify "style.css" file.
+
+---------------------------------------------------------------*/
+
+/* ----------------------------------------------------
+	You can put your custom css code here: 
+-------------------------------------------------------*/
+
+.mobile-menu-area{
+	max-height: 450px;
+    overflow-x: auto;
+}
+.mobile-menu-area .mobile-search-input{
+	width: 66%;
+    height: 20px;
+}
+.mobile-menu-area .mobile-search-btn{
+	display: block;
+    right: 10px;
+    padding-top: 7px;
+}
+.mobile-menu-area .input-box input{
+	border: none;
+}
+
+.full-width.row{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.instagrm ul img{
+	width : 79px;
+	height : 79px;
+}
+
+.breadcumb-area-overlay-media{
+    width: 15%;
+    position: absolute;
+    margin: 20px;
+}
+
+.breadcumb-area-overlay-media img{
+    width: 100%;
+    opacity: .5;
+	border: 5px solid rgba(255, 255, 255, 0.54);
+    border-radius: 3px;
+}
+
+.breadcumb-area-overlay-media img:hover{
+    opacity: 1;
+	cursor: pointer;
+}
+
+.contact-info form .form-control, .contact-info .alert{
+	border-radius: 0px;
+}
+
+.single-footer.contact-us li {
+	width: 100%;
+}
+
+.contact-info .single-footer.contact-us li {
+    width: initial;
+}
+
+.site-note{
+    color: #717171;
+    font-size: 12px;
+}
+
+.search-area{
+	min-height: 200px;
+}
+
+.single-choose .choose-icon .svg {
+    width: 100px;
+    height: 100px;
+    padding: 15px;
+    transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+}
+
+.single-choose .choose-icon .svg svg{
+    width: 100%;
+    height: 100%;
+}
+
+.single-choose:hover .choose-icon .svg path{
+    fill: #cc3333;
+}
+.single-choose:hover .choose-icon .svg polygon{
+    fill: #cc3333;
+}
+
+.single-mega-item li.menu-title a {
+ font-weight: 700;
+    font-family: Montserrat;
+}
+
+.single-mega-item {
+ padding: 10px 25px;
+}
+
+.mega-menu-area {
+ padding: 20px;
+}
+
+.mega-menu-area.news-menu-area ul.single-mega-item.coloum-4.line {
+    position: relative;
+}
+
+.mega-menu-area.news-menu-area ul.single-mega-item.coloum-4.line:after {
+	position: absolute;
+    right: 0;
+    content: ' ';
+    display: block;
+    width: 1px;
+    height: 38%;
+    background: #e2e2e2;
+    bottom: 33%;
+}
+
+.mega-menu-area.news-menu-area ul.single-mega-item.coloum-4:last-child:after {
+ width: 0;
+}
+
+.main-menu li ul li a {
+ line-height: 1.6;
+}
+
+.main-menu li ul .menu-title-all a{
+    font-weight: 700;
+    font-family: Montserrat;
+}
+
+.home-page .blog-title h5, .news-details-page .blog-title h5{
+    text-overflow: inherit;
+    white-space: inherit;
+}
+
+

@@ -80,6 +80,7 @@ return array(
             'MelisSelect' => 'MelisInstaller\Form\Factory\MelisSelectFactory',
             'MelisText' => 'MelisInstaller\Form\Factory\MelisTextFactory',
             'MelisInstallerLanguageSelect' => 'MelisInstaller\Form\Factory\MelisInstallerLanguageSelectFactory',
+            'MelisInstallerWebOptionSelect' => 'MelisInstaller\Form\Factory\MelisInstallerWebOptionSelectFactory',
         ),
     ),
     

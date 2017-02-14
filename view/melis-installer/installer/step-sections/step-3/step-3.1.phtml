@@ -1,0 +1,50 @@
+<!-- STEP 3.1 -->
+<div class="item">
+	<div class="setup-content-container">
+		<div class="setup-heading">
+			<h2><?= $this->translate('tr_melis_installer_web_config'); ?></h2> 
+			<p><?= $this->translate('tr_melis_installer_web_config_subtext'); ?></p>	
+		</div>
+    	<div class="setup-content setup-p3" id="setup-step3">
+			<div class="row">
+				<?php if($this->setup3_hasMelis): ?>
+					<div class="col-xs-12 col-md-6">
+						<h4 class="no-padding-top border-bottom"><?php echo $this->translate('tr_melis_installer_web_config_create_web')?></h4>
+						<?php 
+							$form = $this->setup3_webConfigOption;
+							echo $this->form()->openTag($form);
+							echo $this->melisFieldCollection($form);
+							echo $this->form()->closeTag();
+						?>
+						
+						<div class="setup3-webform <?php echo (!$this->setup3_showWebForm) ? 'hidden' : '' ?>">
+							<h4 class="border-bottom"><?php echo $this->translate('tr_melis_installer_web_config_create_web_sel_language')?></h4>
+							<?php 
+    							$form = $this->setup3_webLangForm;
+    							echo $this->form()->openTag($form);
+    							echo $this->melisFieldCollection($form);
+    							echo $this->form()->closeTag();
+        							
+						        $form = $this->setup3_webForm;
+						        $siteName = $form->get('website_name');
+						        $siteModule = $form->get('website_module');
+						        if(!$siteName->getValue()) {
+						            $siteName->setValue(getenv('MELIS_MODULE'));
+						        }
+						        if(!$siteModule->getValue()) {
+						            $siteModule->setValue(getenv('MELIS_MODULE'));
+						        }
+						        echo $this->form()->openTag($form);
+						        echo $this->melisFieldCollection($form);
+						        echo $this->form()->closeTag();
+    						?>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
+	    	<div class="setup-button-cont">
+     			<a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+     		</div>
+    	</div>
+	</div>
+</div>

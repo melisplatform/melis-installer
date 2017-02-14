@@ -1,0 +1,70 @@
+<?php
+    // Including the search to query string if search has value
+    $urlQryStr = array();
+    
+    // Global Serach
+    if ($this->layout()->search)
+    {
+        $urlQryStr['search'] = $this->layout()->search;
+    }
+    
+    // News Search
+    if ($this->layout()->searchNews)
+    {
+        $urlQryStr['search-news'] = $this->layout()->searchNews;
+    }
+?>
+<?php if ($this->pageCount): ?>
+     <div class="pagination-btn text-right">
+        <ul class="page-numbers">
+        	
+        	<!-- Previous page link -->
+            <?php if (isset($this->previous)): ?>
+                <li>
+                	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('page' => $this->previous))); ?>" class="previous page-numbers">
+            			<i class="zmdi zmdi-long-arrow-left"></i>
+        			</a>
+    			</li>
+            <?php else: ?>
+                <li>
+                	<a href="#" class="previous page-numbers disabled">
+            			<i class="zmdi zmdi-long-arrow-left"></i>
+        			</a>
+    			</li>
+            <?php endif; ?>
+            
+            <!-- Numbered page links -->
+            <?php foreach ($this->pagesInRange as $page): ?>
+            	<?php 
+            	    // To limit the number of pagination before and after the current page
+            	    if ($page >= ($this->current - $this->nbPageBeforeAfter) && $page <= ($this->current + $this->nbPageBeforeAfter)):
+        	    ?>
+                    <?php if ($page != $this->current): ?>
+                        <li>
+                        	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('page' => $page))); ?>" class="page-numbers">
+                        		<?php echo $page; ?>
+                        	</a>
+                    	</li>
+                    <?php else: ?>
+                        <li><span class="page-numbers current"><?php echo $page; ?></span></li>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            
+            <!-- Previous page link -->
+            <?php if (isset($this->next)): ?>
+                <li>
+                	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('page' => $this->next))); ?>" class="next page-numbers">
+            			<i class="zmdi zmdi-long-arrow-right"></i>
+        			</a>
+    			</li>
+            <?php else: ?>
+                <li>
+                	<a href="#" class="next page-numbers disabled">
+            			<i class="zmdi zmdi-long-arrow-right"></i>
+        			</a>
+    			</li>
+            <?php endif; ?>
+        </ul>
+    </div>
+<?php endif; ?>

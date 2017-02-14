@@ -1,0 +1,59 @@
+<div class="news-details-page">
+    <!--breadcumb area start -->
+    <?php 
+        $subject = $this->MelisTag($this->idPage, 'header_image', 'media', '');
+        preg_match('/<img\s.*?\bsrc="(.*?)".*?>/si', $subject, $matches);
+        
+        $imgSrc = '/MelisDemoCms/images/bg/news.jpg';
+        if (!empty($matches[1]))
+        {
+            $imgSrc = $matches[1];
+        }
+        $imgBg = 'background: rgba(0, 0, 0, 0) url('.$imgSrc.') no-repeat scroll 0 0';
+    ?>
+    <div class="breadcumb-area breadcumb-2 overlay pos-rltv" style="<?php echo $imgBg ?>">
+    	<?php if ($this->renderMode == 'melis'):?>
+        	<div class="breadcumb-area-overlay-media">
+        		<?php echo $this->MelisTag($this->idPage, 'header_image', 'media', '<img alt="" src="'.$imgSrc.'">');?>
+        	</div>
+    	<?php endif;?>
+        <div class="bread-main">
+            <div class="bred-hading text-center">
+                <h5><?php echo $this->MelisTag($this->idPage, 'header_title', 'textarea', 'News')?></h5> 
+            </div>
+            <?php echo $this->layout()->pageBreadcrumb?>
+        </div>
+    </div>
+    <!--breadcumb area end -->
+    
+    <!--single blog main area are start-->
+    <div class="shop-main-area pt-70 pb-40">
+        <div class="container">
+            <div class="row">
+                
+                <!--main-shop-product start-->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="single-blog-body">
+                        <div class="single-blog sb-2 mb-30">
+                        
+                            <div class="blog-content">
+                            	
+                            	<!-- News Details -->
+                            	<?php echo $this->newsDetails ?>
+                                <!-- End of News Details -->
+                                
+                                <div class="related-post mt-30">
+                                   <h5 class="uppercase sb-title"><?php echo $this->MelisTag($this->idPage, "latest_news_title", 'textarea', 'Latest news')?></h5>
+                                   <!-- Latest News -->
+                                   	<?php echo $this->latestNews?>
+                                    <!-- End of Latest News -->
+                                </div>                          
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--single blog main area are end-->
+</div>

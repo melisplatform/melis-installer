@@ -1,0 +1,46 @@
+<?php if (!$this->indexerOk):?>
+	<?php if ($this->moduleDirWritable):?>
+    	<div class="alert alert-info">
+    		<p>The search engine cannot proceed to a search as the website has not been indexed.</p>
+            <p>Please use the following URL to index your website:</p>
+            <a href="<?php echo $this->indexerURL ?>" class="text-danger"><?php echo $_SERVER['SERVER_NAME'].$this->indexerURL?></a>
+    	</div>
+	<?php else:?>
+    	<div class="alert alert-warning">
+    		<div class="row">
+    			<div class="col-xs-1" align="center">
+    				<i class="fa fa-info-circle fa-5x" aria-hidden="true"></i>
+    			</div>
+    			<div class="col-xs-11">
+    				<h3><strong>Oppsss...</strong></h3>
+    				<p>/luceneIndex directory is not writable, please make /luceneIndex directory writable and try again </p>
+    			</div>
+    		</div>
+    	</div>
+	<?php endif;?>
+<?php else:?>
+    <?php if ($this->searchresults->count()):?>
+    	<?php foreach ($this->searchresults As $key => $val):?>
+        	<article class="search-results-item">
+                <div class="search-results-data">
+                    <h4 class="search-results-title"><a href="<?php echo $val->url ?>" class="search-results-link"><?php echo $val->pageName ?></a></h4>
+                    <?php if (!empty($val->lastPageEdit)):?>
+                    	<p><span class="search-results-date"><i class="fa fa-calendar"></i> <?php echo date('M d, Y', strtotime($val->lastPageEdit))?></span></p>
+                	<?php endif;?>
+                </div>
+                <div class="search-results-summary">
+                    <p><?php echo (is_array($val->description)) ? implode(', ', $val->description) : $val->description ?></p>
+                </div>
+            </article>
+        <?php endforeach;?>
+    <?php else:?>    
+    	<h4 class="search-results-title">No Result</h4>
+    <?php endif;?>
+    
+    <!-- Pagination -->
+    <?php 
+        // Generating Pagination Control using partial view
+        echo $this->paginationControl($this->searchresults, 'Sliding', 'MelisDemoCms/plugin/list-paginator', 
+                                    array('nbPageBeforeAfter' => $this->nbPageBeforeAfter)); 
+    ?>
+<?php endif;?>

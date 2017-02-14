@@ -9,8 +9,10 @@ return array(
     'tr_melis_installer_navigation_fs' => 'Droits des Fichiers Système',
     'tr_melis_installer_navigation_environments' => 'Environnements',
     'tr_melis_installer_navigation_dbcon' => 'Connection à la Base de Données',
-    'tr_melis_installer_navigation_modules' => 'Modules',
     'tr_melis_installer_navigation_platform' => 'Initialisation de la Plateforme',
+    'tr_melis_installer_navigation_web_config' => 'Configuration Internet',
+    'tr_melis_installer_navigation_melis_config' => 'Configuration Melis',
+    'tr_melis_installer_navigation_modules' => 'Modules',
     'tr_melis_installer_navigation_final' => 'Création et Résultat',
     
     
@@ -75,15 +77,28 @@ return array(
     'tr_melis_installer_step_1_2_dir_not_writable' => '"%s" n\'est pas inscriptible',
     'tr_melis_installer_step_1_2_dir_writable' => '"%s" est inscriptible',
     
+    // WEBSITE CONFIGURATION
+    'tr_melis_installer_web_config' => 'Etape 3.1: Configuration du site',
+    'tr_melis_installer_web_config_subtext' => 'Créons votre premier site ou vous pouvez utiliser le site de démo.',
+    'tr_melis_installer_web_config_option' => 'Option du site',
+    'tr_melis_installer_web_config_option_none' => 'Qucune',
+    'tr_melis_installer_web_config_option_new_site' => 'Créer un nouveau site web',
+    'tr_melis_installer_web_config_option_use' => 'Utiliser',
+    'tr_melis_installer_web_config_option_use_empty' => 'Veuillez sélectionner une option de site',
+    'tr_melis_installer_web_config_create_web' => 'Créer un site',
+    'tr_melis_installer_web_config_create_web_sel_language' => 'Langage du site',
     
+    // MELIS CONFIGURATION
+    'tr_melis_installer_melis_config' => 'Etape 3.2 Configuration de Melis',
+    'tr_melis_installer_melis_config_subtext' => 'Créons un compte administrateur.',
+    'tr_melis_installer_melis_config_create_admin' => 'Créer un utilisateur administrateur',
     
-    'tr_melis_installer_platform_init' => 'Etape 3 : Initialisation de Melis Platform',
-    'tr_melis_installer_platform_modal_title' => 'Initialisation de Melis Platform',
-    'tr_melis_installer_patform_modal_content' => 'Veuillez vérifier les détails ci-dessous',
-    'tr_melis_installer_platform_init_subtext' => 'Créons un compte administrateur et votre premier site',
-    'tr_melis_installer_platform_init_create_user' => 'Créer un Utilisateur Administrateur',
-    'tr_melis_installer_platform_init_sel_language' => 'Langage du Site Internet',
-    'tr_melis_installer_platform_init_create_web' => 'Créer un site internet',
+    // MELIS MODULES
+    'tr_melis_installer_melis_modules' => 'Etape 3.3: Modules',
+    'tr_melis_installer_melis_modules_subtext' => 'Choisissez les modules additionnels que vous souhaitez installer et activer.',
+    'tr_melis_installer_melis_modules_available' => 'Modules disponibles',
+    'tr_melis_installer_melis_modules_select_all' => 'Tout sélectionner',
+    
     // NEW USER FORM
     'tr_melis_installer_new_user_login' => 'Login', 
     'tr_melis_installer_new_user_email' => 'Email',

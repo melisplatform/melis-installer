@@ -1,0 +1,16 @@
+<?php if(!empty($this->showSlider)):?>
+    <div class="big-slider-area owl-carousel dot-line">
+    	<?php foreach ($this->showSlider As $key => $val):?>
+        	<div class="single-slider pos-rltv">
+                <div class="slider-img"><img src="<?php echo $val->mcsdetail_img?>" alt=""></div>
+                <div class="slider-content pos-abs">
+                    <h4><?php echo $val->mcsdetail_sub1 ?></h4>
+                    <h1 class="uppercase pos-rltv underline"><?php echo $val->mcsdetail_title ?></h1>
+                    <?php if (!empty($val->mcsdetail_sub2)):?>
+                    	<a href="<?php echo $val->mcsdetail_link?>" class="btn-def btn-white"><?php echo $val->mcsdetail_sub2?></a>
+                    <?php endif;?>
+                </div>
+            </div>
+    	<?php endforeach;?>
+    </div>
+<?php endif;?>

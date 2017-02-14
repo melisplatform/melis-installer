@@ -348,6 +348,51 @@ return array(
                         ),
                     )
                 ), // end melis_installer_web_lang
+                'melis_installer_webconfig_option' => array(
+                    'attributes' => array(
+                        'name' => 'webOptionForm',
+                        'id'   => 'webOptionForm',
+                        'method' => 'POST',
+                        'action' => '',
+                    ),
+                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'elements'  => array(
+                        array(
+                            'spec' => array(
+                                'name' => 'weboption',
+                                'type' => 'MelisInstallerWebOptionSelect',
+                                'options' => array(
+                                    'label' => 'tr_melis_installer_web_config_option',
+                                    'empty_option' => 'tr_melis_installer_common_choose',
+                                    'disable_inarray_validator' => true,
+                                ),
+                                'attributes' => array(
+                                    'id' => 'weboption',
+                                ),
+                            ),
+                        ),
+                    ),
+                    'input_filter' => array(
+                        'weboption' => array(
+                            'name'     => 'weboption',
+                            'required' => true,
+                            'validators' => array(
+                                array(
+                                    'name' => 'NotEmpty',
+                                    'options' => array(
+                                        'messages' => array(
+                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_config_option_use_empty',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'filters'  => array(
+                                array('name' => 'StripTags'),
+                                array('name' => 'StringTrim'),
+                            ),
+                        )
+                    )
+                ),
                 'melis_installer_webform' => array(
                     'attributes' => array(
                         'name' => 'frmwebform',
@@ -382,6 +427,7 @@ return array(
                                     'id' => 'website_module',
                                     'value' => '',
                                     'placeholder' => 'tr_melis_installer_web_form_module',
+                                    'readonly' => 'readonly'
                                 )
                             )
                         ),

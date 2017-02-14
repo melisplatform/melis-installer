@@ -5,6 +5,17 @@ return array(
             'conf' => array(
                 
             ),
+            'datas' => array(
+                /**
+                 * Melis Installer Step 3 : Wesite Configuration Option default options
+                 * NOTE* : if key "None" and "NewSite" modify, 
+                 * the intaller contoller, js, factory etc. should should also modify
+                 */
+                'default_website_config_options' => array(
+                    'None' => 'tr_melis_installer_web_config_option_none',
+                    'NewSite' => 'tr_melis_installer_web_config_option_new_site',
+                )
+            ),
             'ressources' => array(
                 'js' => array(
                     '/MelisInstaller/setup/js/jquery.min.js',
