@@ -87,6 +87,16 @@ return array(
     'tr_melis_installer_web_config_option_use_empty' => 'Veuillez sélectionner une option de site',
     'tr_melis_installer_web_config_create_web' => 'Créer un site',
     'tr_melis_installer_web_config_create_web_sel_language' => 'Langage du site',
+    'tr_melis_installer_web_config_empty_vhost_module_name' => 'Le nom du module (MELIS_MODULE) doit être défini avant de procéder à l\'installation',
+    'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Le nom du module (MELIS_MODULE) dans le vhost du server est invalide, seuls les caractères alphanumériques and l\'underscore sont autorisés dans le nom du module',
+    
+    // STEP 3: Platform Initialization
+    'tr_melis_installer_platform_modal_title' => 'Melis Platform Initialization',
+    'tr_melis_installer_platform_modal_content' => 'Please check details below: ',
+    
+    // STEP 3: Platform Initialization
+    'tr_melis_installer_platform_modal_title' => 'Melis Platform Initialization',
+    'tr_melis_installer_platform_modal_content' => 'Please check details below: ',
     
     // MELIS CONFIGURATION
     'tr_melis_installer_melis_config' => 'Etape 3.2 Configuration de Melis',
@@ -148,6 +158,8 @@ return array(
     
     'tr_melis_installer_common_next' => 'Suivant',
     'tr_melis_installer_common_finish' => 'Terminer',
+    'tr_melis_installer_common_choose' => 'Choisir',
+    
     'tr_melis_installer_common_finish_error' =>  'Il y a eu un problème lors de l\'étape finale, si vous souhaitez recommencer, rafraichissez la page et réessayez',
     'tr_melis_installer_common_installing' => 'Installation...',
     

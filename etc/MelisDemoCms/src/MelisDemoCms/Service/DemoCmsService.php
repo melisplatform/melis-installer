@@ -14,7 +14,7 @@ use MelisCore\Service\MelisCoreGeneralService;
 /**
  * MelisDemoCms Services
  */
-class MelisDemoCmsService extends MelisCoreGeneralService
+class DemoCmsService extends MelisCoreGeneralService
 {
     /**
      * This method will customize the Site menu
@@ -38,18 +38,18 @@ class MelisDemoCmsService extends MelisCoreGeneralService
             {
                 // Scaping the recursive after customization of the News Menu
                 $scapeRecursive = false;
-                if ($val->page_id == $newsMenuPageId)
+                if ($val['idPage'] == $newsMenuPageId)
                 {
                     // Retrieving the News list using another method
-                    $val->children = $this->getNewsListFormMenu($val->page_id, $limit);
+                    $val['pages'] = $this->getNewsListFormMenu($val['idPage'], $limit);
                     // scape recursive to avoid infinite loop
                     $scapeRecursive = true;
                 }
                 
-                if (!empty($val->children) && !$scapeRecursive)
+                if (!empty($val['pages']) && !$scapeRecursive)
                 {
                     // Calling function itself to retrieve the subpages, using the children as paramater
-                    $val->children = $this->customizeSiteMenu($val->children, $level + 1, $limit, $newsMenuPageId);
+                    $val['pages'] = $this->customizeSiteMenu($val['pages'], $level + 1, $limit, $newsMenuPageId);
                 }
                 
                 // Pushing Data to final modified sitemenu
@@ -96,7 +96,7 @@ class MelisDemoCmsService extends MelisCoreGeneralService
         
         /**
          * Retriving the List of Recent 4 News, this is group by month
-         * Sampple result : 
+         * Sample result : 
          *      array(
          *          'month' => 1,
          *          'year' => 2017,
@@ -115,25 +115,33 @@ class MelisDemoCmsService extends MelisCoreGeneralService
          *      ),
          */
         $newsTable = $this->serviceLocator->get('MelisCmsNewsTable');
-        $newsList = $newsTable->getNewsListByMonths(4);
+        $newsList = $newsTable->getNewsListByMonths(4)->toArray();
     
+        // Page Tree service to generate Page Link
+        $melisTree = $this->serviceLocator->get('MelisEngineTree');
+        
         $newsListMenu = array();
         foreach ($newsList As $key => $val)
         {
             /**
              * Retrieving the list of the News filter by month and year
              */
-            $news = $newsTable->getNewsByMonthYear($val->month, $val->year, $limit);
+            $news = $newsTable->getNewsByMonthYear($val['month'], $val['year'], $limit)->toArray();
             $newsSubMenu = array();
             foreach ($news As $nKey => $nVal)
             {
-                $nVal->page_id = $newsDetailsIdPage;
-                $nVal->page_name = $nVal->cnews_title;
-                $nVal->url_data = array( 
+                $uri = $melisTree->getPageLink($newsDetailsIdPage, false);
+                $newUri = $uri.'?'.http_build_query(array( 
                                     // Custom data added to the anchor of the link
-                                    'newsid' => $nVal->cnews_id
-                                );
-                array_push($newsSubMenu, $nVal);
+                                    'newsid' => $nVal['cnews_id']
+                                ));
+                $tmp = array();
+                $tmp['idPage'] = $newsDetailsIdPage;
+                $tmp['pageType'] = 'Page';
+                $tmp['pageStat'] = 1;
+                $tmp['label'] = $nVal['cnews_title'];
+                $tmp['uri'] = $newUri;
+                array_push($newsSubMenu, $tmp);
             }
             
             /**
@@ -143,21 +151,28 @@ class MelisDemoCmsService extends MelisCoreGeneralService
             if (!empty($newsSubMenu))
             {
                 // Formating the Date to use as label
-                $dateLabel = date('F Y', strtotime('01-'.$val->month.'-'.$val->year));
+                $dateLabel = date('F Y', strtotime('01-'.$val['month'].'-'.$val['year']));
                 
-                $val->page_id = $newsId;
-                $val->page_name = $dateLabel;
-                $val->url_data = array( 
+                $uri = $melisTree->getPageLink($newsId, 1);
+                $newUri = $uri.'?'.http_build_query(array( 
                                     // Custom data added to the anchor of the link
-                                    'datefilter' => date('Y-m-d', strtotime($val->year.'-'.$val->month.'-01'))
-                                );
-                $val->children = $newsSubMenu;
+                                    'datefilter' => date('Y-m-d', strtotime($val['year'].'-'.$val['month'].'-01'))
+                                ));
+                $tmp = array();
+                $tmp['idPage'] = $newsId;
+                $tmp['pageType'] = 'Page';
+                $tmp['pageStat'] = 1;
+                $tmp['label'] = $dateLabel;
+                $tmp['uri'] = $newUri;
+                $tmp['pages'] = $newsSubMenu;
                 
                 // Pushing the menuData to the newsListMenu as return
-                array_push($newsListMenu, $val);
+                array_push($newsListMenu, $tmp);
             }
         }
     
+        
+        
         return $newsListMenu;
     }
     

@@ -78,7 +78,7 @@ return array(
         ),
         'factories' => array(
             // MelisDemoCms Services
-            'MelisDemoCmsService' => 'MelisDemoCms\Service\Factory\MelisDemoCmsServiceFactory',
+            'DemoCmsService' => 'MelisDemoCms\Service\Factory\DemoCmsServiceFactory',
             'SetupDemoCmsService' => 'MelisDemoCms\Service\Factory\SetupDemoCmsServiceFactory',
         )
     ),
@@ -98,15 +98,10 @@ return array(
             'MelisDemoCms\Controller\Setup'         => 'MelisDemoCms\Controller\SetupController',
         ),
     ),
-    'form_elements' => array(
-        'factories' => array(
-            'MelisText' => 'MelisDemoCms\Form\Factory\MelisTextFactory',
-        ),
-    ),
     'view_helpers' => array(
         'invokables' => array(
-            'MelisFieldCollection'  => 'MelisDemoCms\Form\View\Helper\MelisFieldCollection',
-            'MelisFieldRow'         => 'MelisDemoCms\Form\View\Helper\MelisFieldRow',
+            'DemoSiteFieldCollection'  => 'MelisDemoCms\Form\View\Helper\DemoSiteFieldCollection',
+            'DemoSiteFieldRow'         => 'MelisDemoCms\Form\View\Helper\DemoSiteFieldRow',
         ),
     ),
     'view_manager' => array(
@@ -129,6 +124,7 @@ return array(
             'error/index'             		    => __DIR__ . '/../view/error/index.phtml',
             // Plugins layout
             'MelisDemoCms/plugin/menu'                 => __DIR__ . '/../view/plugins/menu.phtml',
+            'MelisDemoCms/plugin/contactus'            => __DIR__ . '/../view/plugins/contactus.phtml',
             'MelisDemoCms/plugin/homepage-slider'      => __DIR__ . '/../view/plugins/homepage-slider.phtml',
             'MelisDemoCms/plugin/latest-news'          => __DIR__ . '/../view/plugins/latest-news.phtml',
             'MelisDemoCms/plugin/testimonial-slider'   => __DIR__ . '/../view/plugins/testimonial-slider.phtml',

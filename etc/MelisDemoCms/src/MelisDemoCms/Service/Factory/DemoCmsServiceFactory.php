@@ -11,17 +11,17 @@ namespace MelisDemoCms\Service\Factory;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
-use MelisDemoCms\Service\MelisDemoCmsService;
+use MelisDemoCms\Service\DemoCmsService;
 
 /**
  * MelisDemoCms Services Factory
  */
-class MelisDemoCmsServiceFactory implements FactoryInterface
+class DemoCmsServiceFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $sl)
     {
-        $melisDemoCmsService = new MelisDemoCmsService();
-        $melisDemoCmsService->setServiceLocator($sl);
-        return $melisDemoCmsService;
+        $demoCmsService = new DemoCmsService();
+        $demoCmsService->setServiceLocator($sl);
+        return $demoCmsService;
     }
 }

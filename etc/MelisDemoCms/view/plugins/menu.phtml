@@ -6,48 +6,46 @@
             	{
             	    foreach ($this->menu As $key => $val)
             	    {
-            	        if (in_array($val->page_type, array('PAGE', 'SITE')))
+            	        if (in_array($val['pageType'], array('PAGE', 'SITE')))
             	        {
-                	        $pageName = (!empty($val->pseo_meta_title)) ? $val->pseo_meta_title : $val->page_name;
-                	        $hasChild = (!empty($val->children)) ? 'class="mega-parent"' : '';
+                	        $pageName = $val['label'];
+                	        $hasChild = (!empty($val['pages']) && count($val['pages']) > 0) ? 'class="mega-parent"' : '';
                 	        echo '<li '.$hasChild.'>';
-                	        echo '<a href="'.$this->melisLink($val->page_id, true).'">'.$pageName.'</a>';
+                	        echo '<a href="'.$val['uri'].'">'.$pageName.'</a>';
                 	        
-                	        if (!empty($val->children))
+                	        if (!empty($val['pages']) && count($val['pages']) > 0)
                 	        {
                 	            $newsClass = '';
-                	            if ($val->page_id == $this->layout()->siteDatas['news_menu_page_id'])
+                	            if ($val['idPage'] == $this->layout()->siteDatas['news_menu_page_id'])
                 	            {
                 	                $newsClass = 'news-menu-area';
                 	            }
                 	            
                 	            echo '<div class="mega-menu-area '.$newsClass.' mma-970">';
-                    	            foreach ($val->children As $sHkey => $sHVal)
-                    	            {
-                        	            echo '<ul class="single-mega-item coloum-4">';
-                        	                
-                        	            $subTitlePageName = (!empty($sHVal->pseo_meta_title)) ? $sHVal->pseo_meta_title : $sHVal->page_name;
-                        	            $urlData = (!empty($sHVal->url_data)) ? '?'.http_build_query($sHVal->url_data) : null;
-                	                    
-                        	            echo '<li class="menu-title uppercase"><a href="'.$this->melisLink($sHVal->page_id, true).$urlData.'" >'.$subTitlePageName.'</a></li>';
-                	                    
-                	                    if (!empty($sHVal->children))
-                	                    {
-                	                        foreach ($sHVal->children As $sHLkey => $sHLVal)
-                	                        {
-                	                            $subPageName = (!empty($sHLVal->pseo_meta_title)) ? $sHLVal->pseo_meta_title : $sHLVal->page_name;
-                	                            $urlData = (!empty($sHLVal->url_data)) ? '?'.http_build_query($sHLVal->url_data) : null;
-                	                            
-                	                            echo '<li><a href="'.$this->melisLink($sHLVal->page_id, true).$urlData.'">'.$subPageName.'</a></li>';
-                	                        }
-                	                    }
-                    	                    
-                    	                if (count($val->children) == ($sHkey + 1))
-                    	                {
-                    	                    echo '<li>&nbsp;</li><li class="menu-title-all"><a href="'.$this->melisLink($val->page_id, true).'">SEE ALL '.strtoupper($pageName).'</a></li>';
-                    	                }
-                	                    echo '</ul>';
+                	            foreach ($val['pages'] As $sHkey => $sHVal)
+                	            {
+                    	            echo '<ul class="single-mega-item coloum-4">';
+                    	                
+                    	            $subTitlePageName = $sHVal['label'];
+            	                    
+                    	            echo '<li class="menu-title uppercase"><a href="'.$sHVal['uri'].'" >'.$subTitlePageName.'</a></li>';
+            	                    
+            	                    if (!empty($sHVal['pages']))
+            	                    {
+            	                        foreach ($sHVal['pages'] As $sHLkey => $sHLVal)
+            	                        {
+            	                            $subPageName = $sHLVal['label'];
+            	                            
+            	                            echo '<li><a href="'.$sHLVal['uri'].'">'.$subPageName.'</a></li>';
+            	                        }
             	                    }
+                	                    
+                	                if (count($val['pages']) == ($sHkey + 1))
+                	                {
+                	                    echo '<li>&nbsp;</li><li class="menu-title-all"><a href="'.$val['uri'].'">SEE ALL '.strtoupper($pageName).'</a></li>';
+                	                }
+            	                    echo '</ul>';
+        	                    }
         	                    
             	                echo '</div>';
                 	        }
@@ -68,7 +66,7 @@
                 <nav id="dropdown">
                     <ul>
                     	<li>
-                        	<form action="/home/search-results/id/36" method="get">
+                        	<form action="<?php echo $this->MelisLink($this->layout()->siteDatas['search_result_page_id'], false)?>" method="get">
                                 <div class="input-box">
                                     <input class="mobile-search-input" placeholder="Search" type="text" name="search" value="<?php echo $this->layout()->search?>" required>
                                     <button class="src-btn mobile-search-btn"><i class="fa fa-search fa-2x"></i></button>
@@ -80,39 +78,37 @@
                         	{
                         	    foreach ($this->menu As $key => $val)
                         	    {
-                        	        if (in_array($val->page_type, array('PAGE', 'SITE')))
+                        	        if (in_array($val['pageType'], array('PAGE', 'SITE')))
                         	        {
-                            	        $pageName = (!empty($val->pseo_meta_title)) ? $val->pseo_meta_title : $val->page_name;
+                            	        $pageName = $val['label'];
                             	        echo '<li>';
-                            	        echo '<a href="'.$this->melisLink($val->page_id, true).'">'.$pageName.'</a>';
+                            	        echo '<a href="'.$val['uri'].'">'.$pageName.'</a>';
                             	        
-                            	        if (!empty($val->children))
+                            	        if (!empty($val['pages']))
                             	        {
                             	            echo '<ul class="single-mega-item">';
-                                	            foreach ($val->children As $sHkey => $sHVal)
+                                	            foreach ($val['pages'] As $sHkey => $sHVal)
                                 	            {
-                                    	            $subTitlePageName = (!empty($sHVal->pseo_meta_title)) ? $sHVal->pseo_meta_title : $sHVal->page_name;
-                                    	            $urlData = (!empty($sHVal->url_data)) ? '?'.http_build_query($sHVal->url_data) : null;
+                                    	            $subTitlePageName = $sHVal['label'];
                             	                    
-                                    	            echo '<li><a href="'.$this->melisLink($sHVal->page_id, true).$urlData.'" >'.$subTitlePageName.'</a>';
+                                    	            echo '<li><a href="'.$val['uri'].'" >'.$subTitlePageName.'</a>';
                             	                    
-                            	                    if (!empty($sHVal->children))
+                            	                    if (!empty($sHVal['pages']))
                             	                    {
                             	                        echo '<ul class="single-mega-item">';
                             	                        
-                            	                        foreach ($sHVal->children As $sHLkey => $sHLVal)
+                            	                        foreach ($sHVal['pages'] As $sHLkey => $sHLVal)
                             	                        {
-                            	                            $subPageName = (!empty($sHLVal->pseo_meta_title)) ? $sHLVal->pseo_meta_title : $sHLVal->page_name;
-                            	                            $urlData = (!empty($sHLVal->url_data)) ? '?'.http_build_query($sHLVal->url_data) : null;
+                            	                            $subPageName = $sHLVal['label'];
                             	                            
-                            	                            echo '<li><a href="'.$this->melisLink($sHLVal->page_id, true).$urlData.'">'.$subPageName.'</a></li>';
+                            	                            echo '<li><a href="'.$val['uri'].'">'.$subPageName.'</a></li>';
                             	                        }
                             	                        echo '</ul>';
                             	                    }
                             	                    
-                            	                    if (count($val->children) == ($sHkey + 1))
+                            	                    if (count($val['pages']) == ($sHkey + 1))
                             	                    {
-                            	                        echo '<li class="menu-title-all"><a href="'.$this->melisLink($val->page_id, true).'">SEE ALL '.strtoupper($pageName).'</a></li>';
+                            	                        echo '<li class="menu-title-all"><a href="'.$val['uri'].'">SEE ALL '.strtoupper($pageName).'</a></li>';
                             	                    }
                                 	                
                             	                    echo '</li>';

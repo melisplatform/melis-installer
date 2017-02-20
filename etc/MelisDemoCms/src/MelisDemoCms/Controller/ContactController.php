@@ -17,8 +17,11 @@ class ContactController extends BaseController
     public function contactusAction()
     {
 		$prospectsForm = $this->MelisCmsProspectsShowFormPlugin();
+		$prospectsParamenter = array(
+		    'template_path' => 'MelisDemoCms/plugin/contactus'
+		);
 		// add generated view to children views for displaying it in the contact view
-		$this->view->addChild($prospectsForm->render($prospectsFormParameters), 'prospectsForm');
+		$this->view->addChild($prospectsForm->render($prospectsParamenter), 'prospectsForm');
         
         $renderer = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface');
         $this->layout()->setVariables(array(

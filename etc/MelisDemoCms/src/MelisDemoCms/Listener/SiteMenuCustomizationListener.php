@@ -23,7 +23,7 @@ class SiteMenuCustomizationListener implements ListenerAggregateInterface
         $callBackHandler = $sharedEvents->attach(
         	'*',
             array(
-                'melisfornt_site_menu_plugin',
+                'melisfront_site_menu_plugin',
             ),
         	function($e){
         	    // Getting the Service Locator from param target
@@ -41,20 +41,20 @@ class SiteMenuCustomizationListener implements ListenerAggregateInterface
         	        $limit = (!empty($siteDatas['sub_menu_limit'])) ? $siteDatas['sub_menu_limit'] : null;
                     $newsMenuPageId = (!empty($siteDatas['news_menu_page_id'])) ? $siteDatas['news_menu_page_id'] : null;
                     
-                    $sitePages = (!empty($params['menu'][0]->children)) ? $params['menu'][0]->children : array();
-                    if (!empty($sitePages))
+                    $sitePages = (!empty($params['menu'][0]['pages'])) ? $params['menu'][0]['pages'] : array();
+                    if (!empty($params['menu']))
                     {
                         /**
                          * Modifying the heirarchy of site menu
                          * this process will make the Homepage and subpages at the same level
                          */
                         $homePage = $params['menu'];
-                        $homePage[0]->children = array();
+                        $homePage[0]['pages'] = array();
                         $sitePages = array_merge($homePage, $sitePages);
                     }
                     
                     // Customize Site menu using MelisDemoCmsService
-                    $melisDemoCmsSrv = $this->serviceLocator->get('MelisDemoCmsService');
+                    $melisDemoCmsSrv = $this->serviceLocator->get('DemoCmsService');
                     $params['menu'] = $melisDemoCmsSrv->customizeSiteMenu($sitePages, 1, $limit, $newsMenuPageId);
         	    }
         	},

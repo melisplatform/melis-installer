@@ -26,7 +26,7 @@ class NewsController extends BaseController
         
         // Getting the Date from query string to set the selected date on <select> tag
         $dateMin = $this->params()->fromQuery('datefilter', null);
-        $demoCmsSrv = $this->getServiceLocator()->get('MelisDemoCmsService');
+        $demoCmsSrv = $this->getServiceLocator()->get('DemoCmsService');
         $list = $demoCmsSrv->getNewsListMonthsYears($dateMin);
         
         $dateMax = null;

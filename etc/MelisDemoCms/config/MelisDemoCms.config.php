@@ -20,6 +20,8 @@ return array(
 			    'homepage_header_slider' => '[:homepageHeaderSlider]',
 			    // Aboutus slider
 			    'aboutus_slider' => '[:aboutusSlider]',
+			    // Search results page
+			    'search_result_page_id' => '[:searchResultsPageId]',
 			    /**
 			     * Required Modaules for installation,
 			     * to trigger services that needed to install the MelisDemoCms

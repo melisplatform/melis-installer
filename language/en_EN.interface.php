@@ -86,6 +86,8 @@ return array(
     'tr_melis_installer_web_config_option_use_empty' => 'Please select website option',
     'tr_melis_installer_web_config_create_web' => 'Create a website',
     'tr_melis_installer_web_config_create_web_sel_language' => 'Website Language',
+    'tr_melis_installer_web_config_empty_vhost_module_name' => 'Module name (MELIS_MODULE) must be set on server vhost before proceeding the setup',
+    'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Module name (MELIS_MODULE) in the server vhost is invalid, alphanumeric and underscore are the only valid characters allowed for naming the module name',
     
     // MELIS CONFIGURATION
     'tr_melis_installer_melis_config' => 'Step 3.2 Melis Configuration',

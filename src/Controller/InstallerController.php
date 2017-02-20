@@ -440,39 +440,58 @@ class InstallerController extends AbstractActionController
                 }
                 elseif ($container['cms_data']['weboption'] != 'None')
                 {
-                    // Website Configuration chooses a Demo Site
-                    $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
-                    
-                    if(!file_exists($melisSite))
+                    if (!empty(getenv('MELIS_MODULE')))
                     {
-                        mkdir($melisSite, 0777);
-                        $installHelper->filePermission($melisSite);
+                        if(!preg_match('/[^a-z_\-0-9]/i', getenv('MELIS_MODULE')))
+                        {
+                        
+                            // Website Configuration chooses a Demo Site
+                            $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
+                        
+                            if(!file_exists($melisSite))
+                            {
+                                mkdir($melisSite, 0777);
+                                $installHelper->filePermission($melisSite);
+                            }
+                        
+                            // checking if the target module name is existing on the target dir
+                            if(file_exists($melisSite.'/'.$container['cms_data']['weboption']))
+                            {
+                                array_push($errors, array(
+                                    "hasError" => sprintf($translator->translate("tr_melis_installer_web_form_module_exists"), $container['cms_data']['weboption']),
+                                    "label" => $translator->translate("tr_melis_installer_web_form_module_label")
+                                ));
+                            }
+                        
+                            /**
+                             * Required modules needed to install Demo Site from config
+                             */
+                            $demoDir = $this->getModuleSvc()->getModulePath('MelisInstaller').'/etc/'.$container['cms_data']['weboption'];
+                            $siteConfig = require $demoDir.'/config/'.$container['cms_data']['weboption'].'.config.php';
+                        
+                            $requiredModules = $siteConfig['site'][$container['cms_data']['weboption']]['datas']['required_modules'];
+                            $container['cms_data']['required_modules'] = $requiredModules;
+                        
+                            if (empty($errors))
+                            {
+                                $success = 1;
+                            }
+                        }
+                        else
+                        {
+                            array_push($errors, array(
+                                "label" => $translator->translate("tr_melis_installer_web_form_module_label"),
+                                "hasError" => $translator->translate("tr_melis_installer_web_config_invalid_vhost_module_name")
+                            ));
+                        }
                     }
-                    
-                    // checking if the target module name is existing on the target dir
-                    if(file_exists($melisSite.'/'.$container['cms_data']['weboption']))
+                    else 
                     {
                         array_push($errors, array(
-                            "hasError" => sprintf($translator->translate("tr_melis_installer_web_form_module_exists"), $container['cms_data']['weboption']),
-                            "label" => $translator->translate("tr_melis_installer_web_form_module_label")
+                            "label" => $translator->translate("tr_melis_installer_web_form_module_label"),
+                            "hasError" => $translator->translate("tr_melis_installer_web_config_empty_vhost_module_name")
                         ));
                     }
-                    
-                    /**
-                     * Required modules needed to install Demo Site from config
-                     */
-                    $demoDir = $this->getModuleSvc()->getModulePath('MelisInstaller').'/etc/'.$container['cms_data']['weboption'];
-                    $siteConfig = require $demoDir.'/config/'.$container['cms_data']['weboption'].'.config.php';
-                    
-                    $requiredModules = $siteConfig['site'][$container['cms_data']['weboption']]['datas']['required_modules'];
-                    /**
-                     * Adding the Demo Site module as required module 
-                     * in-order to access the module from installation
-                     */
-                    array_push($requiredModules, $container['cms_data']['weboption']);
-                    $container['cms_data']['required_modules'] = $requiredModules;
-                        
-                    $success = 1;
                 }
                 elseif ($container['cms_data']['weboption'] == 'None')
                 {
@@ -652,6 +671,7 @@ class InstallerController extends AbstractActionController
                     }
                     elseif ($cmsData['weboption'] != 'None')
                     {
+                        $siteModuleName = getenv('MELIS_MODULE');
                         // Copying the Demo Site from etc to MelisSites dir with full permission
                         $siteDestination = $melisSite.'/'.$cmsData['weboption'];
                         $demoSite = $this->getModuleSvc()->getModulePath('MelisInstaller').'/etc/'.$cmsData['weboption'];
@@ -667,12 +687,23 @@ class InstallerController extends AbstractActionController
                          * to access the modules needed to install demo site
                          */
                         $requiredModule = $cmsData['required_modules'];
+                        /**
+                         * Adding the new Site module name as required module
+                         * to enable to call service for installation
+                         */
+                        array_push($requiredModule, $siteModuleName);
                         
                         // Unset MelisInstaller to make this last module loaded
                         unset($loadedModules['MelisInstaller']);
                         
                         $moduleSvc = $this->getServiceLocator()->get('ModulesService');
                         $moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/', $requiredModule, $loadedModules, array('MelisInstaller'));
+
+                        $siteDestination = $melisSite.'/'.$siteModuleName;
+                        rename($melisSite.'/'.$cmsData['weboption'] , $siteDestination);
+                        
+                        // replace file contents using the weptoption value as target module name with the new Module Name
+                        $this->mapDirectoryDemo($siteDestination, $cmsData['weboption'], $siteModuleName);
                     }
                 } // end Write Site File
                 
@@ -1148,11 +1179,6 @@ class InstallerController extends AbstractActionController
         return $moduleSvc;
     }
     
-    // TEST METHODS
-    public function testAction()
-    {
-        die;
-    }
     private function mapDirectory($dir, $moduleName) {
         $installSvc = $this->getServiceLocator()->get('InstallerHelper');
         $result = array();
@@ -1173,6 +1199,51 @@ class InstallerController extends AbstractActionController
         }
          
         return $result;
+    }
+
+    private function mapDirectoryDemo($dir, $targetModuleName, $newModuleName) {
+        $installSvc = $this->getServiceLocator()->get('InstallerHelper');
+        $result = array();
+    
+        $cdir = scandir($dir);
+
+        $fileName = '';
+        foreach ($cdir as $key => $value) {
+            if (!in_array($value,array(".",".."))) {
+                if (is_dir($dir . '/' . $value)) {
+
+                    if ($value == $targetModuleName) {
+                        rename($dir . '/' . $value, $dir . '/' . $newModuleName);
+                        $value = $newModuleName;
+                    }elseif ($value == $this->moduleNameToViewName($targetModuleName)) {
+                        $newModuleNameSnakeCase = $this->moduleNameToViewName($newModuleName);
+
+                        rename($dir . '/' . $value, $dir . '/' . $newModuleNameSnakeCase);
+                        $value = $newModuleNameSnakeCase;
+                    }
+
+                    $result[$dir . '/' .$value] = $this->mapDirectoryDemo($dir . '/' . $value, $targetModuleName, $newModuleName);
+                }
+                else {
+
+                    $newFileName = str_replace($targetModuleName, $newModuleName, $value);
+                    if ($value != $newFileName) {
+                        rename($dir . '/' . $value, $dir . '/' . $newFileName);
+                        $value = $newFileName;
+                    }
+
+                    $result[$dir . '/' .$value] = $value;
+                    $fileName = $dir . '/' .$value;
+                    $installSvc->replaceFileTextContent($fileName, $fileName, $targetModuleName, $newModuleName);
+                }
+            }
+        }
+         
+        return $result;
+    }
+    
+    function moduleNameToViewName($string) {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $string));
     }
 
     public function checkSessionAction()
