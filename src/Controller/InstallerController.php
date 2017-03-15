@@ -761,6 +761,7 @@ class InstallerController extends AbstractActionController
                     file_put_contents('config/autoload/platforms/'.$fileName, $conf);
                 
                     if(file_exists('config/autoload/platforms/'.$fileName)) {
+                        @unlink('config/melis.modules.path.php');
                         $success = 1;
                     }
                    
