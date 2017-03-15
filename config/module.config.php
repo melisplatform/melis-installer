@@ -115,11 +115,4 @@ return array(
 	        'ViewJsonStrategy'
 	    )
     ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
-                'MelisInstaller/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
 );

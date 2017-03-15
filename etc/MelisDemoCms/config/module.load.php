@@ -1,7 +1,7 @@
 <?php 
 
 return array(
-    'AssetManager',
+    'MelisAssetManager',
 	'MelisEngine',
 	'MelisFront',
     'MelisCmsNews',
