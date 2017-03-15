@@ -112,11 +112,4 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
-                '[:ModuleName]/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
 );
