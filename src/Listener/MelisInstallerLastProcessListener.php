@@ -35,7 +35,7 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
         		$modulesInstalled = $params['install_modules'];
         		
         		$moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/',$modulesInstalled,
-        		    array('MelisAssetManager', 'meliscore', 'melisfront', 'melisengine','MelisCms'));
+        		    array('MelisAssetManager', 'meliscore', 'melisfront', 'melisengine','MelisCms'), array('MelisModuleConfig'));
         		
         		// create public/media folder
         		$mediaPath = HTTP_ROOT.'/media';

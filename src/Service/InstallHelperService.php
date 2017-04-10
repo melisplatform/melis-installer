@@ -134,7 +134,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                     'driver' =>  'Pdo',
                     'dsn'   =>   'mysql:dbname=INFORMATION_SCHEMA;host='.$host,
                     'username' => $user,
-                    'password' => $pass
+                    'password' => $pass,
+                    'driver_options' => array(
+                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+                    ),
                 ));
                 
                 $sql = new Sql($dbAdapter);
@@ -170,7 +173,12 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     public function setDbAdapter($config) 
     {
         if(is_array($config)) {
-            $this->odbAdapter = new DbAdapter(array_merge(array('driver' => 'Pdo_Mysql'), $config));
+            $this->odbAdapter = new DbAdapter(array_merge(array(
+                'driver' => 'Pdo_Mysql',
+                'driver_options' => array(
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+                )
+            ), $config));
             
             $config = new \Zend\Config\Config($config, true);
             $writer = new \Zend\Config\Writer\PhpArray();
@@ -524,7 +532,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     
     public function getAvailableModules()
     {
-        $moduleExceptions = array('MelisFront', 'MelisEngine', 'MelisCore', 'MelisSites', 'MelisModuleConfig', 'MelisInstaller', 'MelisCms');
+        $moduleExceptions = array('MelisFront', 'MelisEngine', 'MelisCore', 'MelisSites', 'MelisModuleConfig', 'MelisInstaller', 'MelisCms', 'MelisAssetManager');
         $modules = $this->getModuleSvc()->getAllModules();
         
         $finalListModules = array();

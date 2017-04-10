@@ -121,7 +121,7 @@ class InstallerController extends AbstractActionController
         $view->setup3_webLangForm       = $webLangForm;
         $view->setup3_webForm           = $webForm;
         $view->setup3_createUserForm    = $createUserForm;
-        $view->setup3_3_modules         = $this->getModuleSvc()->getModulePlugins(array('MelisCms'));
+        $view->setup3_3_modules         = $this->getModuleSvc()->getModulePlugins(array('MelisCms', 'MelisModuleConfig', 'MelisAssetManager'));
         $view->setup3_3_selected        = $selectedModules;
         $view->setup3_3_requiredModules = $requiredModules;
         
@@ -1049,11 +1049,12 @@ class InstallerController extends AbstractActionController
         array_push($configDir,'config');
         
         /**
-         * Add config platform, MelisSites and public dir to check permession
+         * Add config platform, MelisSites and public dir to check permission
          */
         array_push($configDir, 'config/autoload/platforms/');
         array_push($configDir, 'module/MelisSites/');
         array_push($configDir, 'public/');
+        array_push($configDir, 'cache/');
         
         for($x = 0; $x < count($module); $x++) {
             $module[$x] = $this->getModuleSvc()->getModulePath($module[$x], false).'/config';
