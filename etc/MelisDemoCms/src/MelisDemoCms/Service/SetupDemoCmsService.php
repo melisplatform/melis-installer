@@ -24,7 +24,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     
     public function setup($environmentName = 'development')
     {
-        $tablePlatform = $this->getServiceLocator()->get('MelisCoreTablePlatform');
+        $tablePlatform = $this->getServiceLocator()->get('MelisPlatformTable');
         $platform = $tablePlatform->getEntryByField('plf_name', $environmentName)->current();
         
         if ($platform)
@@ -70,6 +70,21 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         }
     }
     
+    public function siteConfigCheck()
+    {
+        // Getting the DemoSite config
+        $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
+        $outputFileName = 'MelisDemoCms.config.php';
+        $configDir = $melisSite.'/MelisDemoCms/config/'.$outputFileName;
+        $moduleConfigFileName = 'module.config.php';
+        $moduleConfigDir = $melisSite.'/MelisDemoCms/config/'.$moduleConfigFileName;
+    
+        if (!is_writable($configDir) || !is_writable($moduleConfigDir))
+        {
+            exit('Access permission denied, Please make /MelisDemoCms/config/'.$outputFileName.' and /MelisDemoCms/config/'.$moduleConfigFileName.' files writable');
+        }
+    }
+    
     /**
      * Create entry to melis_cms_site for MelisDemoSite
      * @param array $site
@@ -88,6 +103,19 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         }
         
         $this->siteId = $siteTbl->save($site, $siteId);
+    }
+    
+    public function setupSiteDomain($protocol, $domain)
+    {
+        $siteDomainTbl = $this->getServiceLocator()->get('MelisEngineTableSiteDomain');
+        $siteDomain = array(
+            'sdom_site_id' => $this->siteId,
+            'sdom_env' => getenv('MELIS_PLATFORM'),
+            'sdom_scheme' => $protocol,
+            'sdom_domain' => $domain,
+        );
+    
+        $siteDomainTbl->save($siteDomain);
     }
     
     /**
@@ -129,7 +157,14 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         $pagePublishedTbl = $this->getServiceLocator()->get('MelisEngineTablePagePublished');
         $platformIdsTbl = $this->getServiceLocator()->get('MelisEngineTablePlatformIds');
         $melisTablePageSeo = $this->getServiceLocator()->get('MelisEngineTablePageSeo');
-    
+        
+        // Getting the DemoSite config
+        $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
+        $outputFileName = 'module.config.php';
+        $moduleConfigDir = $melisSite.'/MelisDemoCms/config/'.$outputFileName;
+        
+        $moduleConfig = file_get_contents($moduleConfigDir);
+        
         $pageOrder = 1;
     
         foreach ($pages As $page)
@@ -179,6 +214,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
             if (!empty($page['site_config']))
             {
                 $this->config = str_replace('\'[:'.$page['site_config'].']\'', $tmpPageId, $this->config);
+                $moduleConfig = str_replace('\'[:'.$page['site_config'].']\'', $tmpPageId, $moduleConfig);
             }
             
             // Page SEO
@@ -196,6 +232,8 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                 $this->setupPages($page['page_subpages'], $tmpPageId);
             }
         }
+        
+        file_put_contents($moduleConfigDir, $moduleConfig);
     }
     
     /**

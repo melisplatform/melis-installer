@@ -43,7 +43,19 @@ return array(
     'tr_melis_installer_Layout_env_env_name' => 'Environment Name',
     'tr_melis_installer_layout_env_back_office_domain' => 'Back Office Domain',
     'tr_melis_installer_layout_env_add_env' => 'Add Environment',
-    'tr_melis_installer_layout_env_remove' => 'remove',
+    'tr_melis_installer_layout_env_remove' => 'Remove',
+    'tr_melis_installer_layout_env_send_email' => 'Email Sending',
+    'tr_melis_installer_layout_env_send_email_enabled' => 'Enabled',
+    'tr_melis_installer_layout_env_send_email_disabled' => 'Disabled',
+    'tr_melis_installer_layout_env_error_reporting' => 'Error Reporting',
+    'tr_melis_installer_layout_env_error_reporting_all_except_deprecated' => 'Report all except user-generated warning messages (E_ALL & ~E_USER_DEPRECATED)',
+    'tr_melis_installer_layout_env_error_reporting_all' => 'Report all (E_ALL)',
+    'tr_melis_installer_layout_env_error_reporting_off' => 'Turn-off error reporting',
+    'tr_melis_installer_layout_env_display_error' => 'Display Errors',
+    'tr_melis_installer_layout_env_display_error_yes' => 'Yes',
+    'tr_melis_installer_layout_env_display_error_no' => 'No',
+
+
     
     'tr_melis_installer_layout_dbcon' => 'Step 2: Database Connection',
     'tr_melis_installer_layout_dbcon_subtext' => 'Let\'s setup your database, make sure to use the right information to connect to your MySql server.',

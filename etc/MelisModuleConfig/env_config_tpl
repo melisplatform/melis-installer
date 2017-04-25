@@ -1,0 +1,10 @@
+                '[:environment_name]' => array(
+                    'host' => '[:environment_host]',
+                    'emails' => array(
+                        'active' => [:environment_email_settings],
+                    ),
+                    'errors' => array(
+                        'error_reporting' => [:environment_error_reporting],
+                        'display_errors' => [:display_error],
+                    ),
+                ),

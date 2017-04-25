@@ -21,8 +21,8 @@
 	    dotsSpeed: 500,
 	    navSpeed: 500,
 	    dots: false,
-	    // startPosition: 7,
-	    // nav: true,
+	     //startPosition: 4,
+	   // nav: true,
 	}); 
 	
 	// FIRE EVENT AFTER SLIDER HAS FINISHED SLIDING
@@ -178,8 +178,24 @@
 	// add new fields for add new environment
 	$body.on("click", ".add-environment:not('.show-add-environment')", function(){
 		var counter = $(".add-environment-container > div").length + 1;
-		var environmentInputs = '<div class="environment-cont entry"><div class="form-group"><label>Environment Name</label><a class="btn btn-danger">remove</a><input type="text" class="form-control"  placeholder="Environment name" name="environment_name_'+ counter +'" required></div><div class="form-group"><label>Back Office Domain</label><input type="url" class="form-control"  placeholder="Enter back office domain link" name="domain_'+ counter +'" required></div></div>';
+
+
+		var environmentInputs = function () {
+			var tmp = null;
+			$.ajax({
+				'async': false,
+				'type': "GET",
+				'global': false,
+				'dataType': 'html',
+				url:'/melis/MelisInstaller/Installer/new-environment-form?count=' + counter,
+				'success': function (data) {
+					tmp = data;
+				}
+			});
+			return tmp;
+		}();
 		$(environmentInputs).appendTo( $(this).next(".add-environment-container") );
+        setOnOff();
 	});
 	
 	// remove added environment fields

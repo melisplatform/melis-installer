@@ -31,7 +31,7 @@ return array(
 					    'renderType'     => 'melis_zf2_mvc',
 					    'renderMode'     => 'front',
 					    'preview'        => false,
-					    'idpage'         => 1
+					    'idpage'         => '[:homePageId]'
 					)
 				),
 			),
@@ -64,6 +64,16 @@ return array(
                             ),
                         ),
                     ),
+                    'setup' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/setup',
+                            'defaults' => array(
+                                'controller' => 'MelisDemoCms\Controller\Setup',
+                                'action' => 'setup',
+                            ),
+                        ),
+                    ),
                 ),
             ), 
         ),
@@ -75,11 +85,14 @@ return array(
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
+            'MelisPlatformTable' => 'MelisDemoCms\Model\Tables\MelisPlatformTable',
         ),
         'factories' => array(
             // MelisDemoCms Services
             'DemoCmsService' => 'MelisDemoCms\Service\Factory\DemoCmsServiceFactory',
             'SetupDemoCmsService' => 'MelisDemoCms\Service\Factory\SetupDemoCmsServiceFactory',
+            
+            'MelisDemoCms\Model\Tables\MelisPlatformTable' => 'MelisDemoCms\Model\Tables\Factory\MelisPlatformTableFactory',
         )
     ),
     'translator' => array(
@@ -118,6 +131,7 @@ return array(
             'layout/layout'                     => __DIR__ . '/../view/layout/defaultLayout.phtml',
             // Main layout
             'MelisDemoCms/defaultLayout'        => __DIR__ . '/../view/layout/defaultLayout.phtml',
+            'MelisDemoCms/setupLayout'     => __DIR__ . '/../view/layout/setupLayout.phtml',
             'layout/errorLayout'                => __DIR__ . '/../view/layout/errorLayout.phtml',
             // Errors layout
             'error/404'               		    => __DIR__ . '/../view/error/404.phtml',

@@ -127,6 +127,17 @@ class InstallerController extends AbstractActionController
         
         return $view;
     }
+
+    public function newEnvironmentFormAction()
+    {
+        $count = (int) $this->params()->fromQuery('count', 1);
+
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        $view->count = $count;
+
+        return $view;
+    }
     
     public function changeLangAction()
     {
@@ -234,12 +245,18 @@ class InstallerController extends AbstractActionController
             unset($data['domain']); 
             for($x = 0; $x <= count($data)/2; $x++) {
                 $environmentName = 'environment_name_'.($x+1);
-                $domainName     =  'domain_'.($x+1);
+                $domainName      = 'domain_'.($x+1);
+                $sendEmail       = 'send_email_'.($x+1);
+                $errorReporting  = 'error_reporting_' . ($x+1);
+                $displayError    = 'display_error_' . ($x+1);
                 if(isset($data[$environmentName]) && isset($data[$domainName]) &&
                     $data[$environmentName] != '' && $data[$domainName] != '') {
                     $domainEnv[] = array(
                         'environment' => $data[$environmentName],
-                        'domain' => $data[$domainName]
+                        'domain' => $data[$domainName],
+                        'send_email' => $data[$sendEmail],
+                        'error_reporting' => $data[$errorReporting],
+                        'display_error' => $data[$displayError]
                     );
                 }
 
@@ -1052,10 +1069,14 @@ class InstallerController extends AbstractActionController
          * Add config platform, MelisSites and public dir to check permission
          */
         array_push($configDir, 'config/autoload/platforms/');
+        array_push($configDir, 'module/MelisModuleConfig/');
+        array_push($configDir, 'module/MelisModuleConfig/languages');
+        array_push($configDir, 'module/MelisModuleConfig/config');
         array_push($configDir, 'module/MelisSites/');
         array_push($configDir, 'public/');
         array_push($configDir, 'cache/');
-        
+        array_push($configDir, 'test/');
+
         for($x = 0; $x < count($module); $x++) {
             $module[$x] = $this->getModuleSvc()->getModulePath($module[$x], false).'/config';
         }

@@ -3,7 +3,7 @@
     	<div class="alert alert-info">
     		<p>The search engine cannot proceed to a search as the website has not been indexed.</p>
             <p>Please use the following URL to index your website:</p>
-            <a href="<?php echo $this->indexerURL ?>" class="text-danger"><?php echo $_SERVER['SERVER_NAME'].$this->indexerURL?></a>
+            <a href="<?php echo $this->indexerURL ?>" class="text-danger"><?php echo $this->indexerURL?></a>
     	</div>
 	<?php else:?>
     	<div class="alert alert-warning">
@@ -13,7 +13,7 @@
     			</div>
     			<div class="col-xs-11">
     				<h3><strong>Oppsss...</strong></h3>
-    				<p>/luceneIndex directory is not writable, please make /luceneIndex directory writable and try again </p>
+    				<p>/module/MelisSites/MelisDemoCms/luceneIndex directory is not writable, please make the directory writable and try again</p>
     			</div>
     		</div>
     	</div>
