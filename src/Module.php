@@ -18,6 +18,7 @@ use MelisInstaller\Listener\MelisInstallCheckPlatformListener;
 use MelisInstaller\Listener\MelisInstallerDatabaseInstallStatusListener;
 use MelisInstaller\Listener\MelisInstallerDatabaseInstallListener;
 use MelisInstaller\Listener\MelisInstallerLastProcessListener;
+use MelisInstaller\Listener\MelisInstallModuleConfigListener;
 use Zend\Session\SessionManager;
 
 
@@ -35,6 +36,7 @@ class Module
         $eventManager->attach(new MelisInstallerDatabaseInstallListener());
         $eventManager->attach(new MelisInstallerDatabaseInstallStatusListener());
         $eventManager->attach(new MelisInstallerLastProcessListener());
+        $eventManager->attach(new MelisInstallModuleConfigListener());
 
     }
     

@@ -1,4 +1,5 @@
 <!-- STEP 1.3 -->
+
 <div class="item">
 	<div class="setup-content-container">
 	
@@ -26,9 +27,16 @@
 							</div>
 
                             <div class="form-group">
+                                <?php
+                                $emailEnabled = null;
+                                $sendEmailVal = isset($this->setup1_3_current['app_interface_conf']['send_email']) ? $this->setup1_3_current['app_interface_conf']['send_email'] : false;
+                                if((bool) $sendEmailVal) {
+                                    $emailEnabled = 'checked';
+                                }
+                                ?>
                                 <label><?= $this->translate('tr_melis_installer_layout_env_send_email'); ?></label><br/>
                                 <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_send_email_enabled'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_send_email_disabled'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-                                    <input name="send_email" type="checkbox"/>
+                                    <input name="send_email" type="checkbox" <?= $emailEnabled ?>/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -40,9 +48,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <?php
+                                $displayError = null;
+                                $displayErrorCheck = isset($this->setup1_3_current['app_interface_conf']['display_error']) ? $this->setup1_3_current['app_interface_conf']['display_error'] : false;
+                                if((bool) $displayErrorCheck) {
+                                    $displayError = 'checked';
+                                }
+                                ?>
                                 <label><?= $this->translate('tr_melis_installer_layout_env_display_error'); ?></label><br/>
                                 <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_yes'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_no'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-                                    <input name="display_error" type="checkbox"/>
+                                    <input name="display_error" type="checkbox" <?= $displayError ?>/>
                                 </div>
                             </div>
 
@@ -85,9 +100,16 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <?php
+                                    $emailEnabled = null;
+                                    $sendEmail = isset($values['app_interface_conf']['send_email']) ? $values['app_interface_conf']['send_email'] : false;
+                                    if((bool) $sendEmail) {
+                                        $emailEnabled = 'checked';
+                                    }
+                                    ?>
                                     <label><?= $this->translate('tr_melis_installer_layout_env_send_email'); ?></label><br/>
                                     <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_send_email_enabled'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_send_email_disabled'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-                                        <input name="send_email_<?= $ctr; ?>" type="checkbox"/>
+                                        <input name="send_email_<?= $ctr; ?>" type="checkbox" <?= $emailEnabled; ?>/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -98,9 +120,16 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <?php
+                                    $displayError = null;
+                                    $displayErrorCheck = isset($values['app_interface_conf']['display_error']) ? $values['app_interface_conf']['display_error'] : false;
+                                    if((bool)$displayErrorCheck) {
+                                        $displayError = 'checked';
+                                    }
+                                    ?>
                                     <label><?= $this->translate('tr_melis_installer_layout_env_display_error'); ?></label><br/>
                                     <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_yes'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_no'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-                                        <input name="display_error_<?= $ctr; ?>" type="checkbox"/>
+                                        <input name="display_error_<?= $ctr; ?>" type="checkbox" <?= $displayError; ?>/>
                                     </div>
                                 </div>
 

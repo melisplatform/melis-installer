@@ -17,8 +17,46 @@ return array(
         'meliscore' => array(
             'datas' => array(
                 'default' => array(
+                    'phpunit_conf' => array(
+                        'windows' => array(
+                            // the setup is done here, so you don't need to do a batch file to register
+                            // phpunit globally, instead we just call them directly from their directory to execute it.
+                            // Download latest release: https://phar.phpunit.de/phpunit.phar
+
+                            // php executable file path
+                            'php_cli' => '"D:\xampp\app\php/php.exe"',
+                            // the path where you save your phpunit
+                            'phpunit' => 'C:/bin/phpunit.phar'
+                        ),
+                        'others' => array(
+                            /**
+                             * How to install PHPUnit in Linux and Mac
+                             * Run in Terminal:
+                             * --------------------------------------
+                             * wget https://phar.phpunit.de/phpunit.phar
+                             * chmod +x phpunit.phar
+                             * --------------------------------------
+                             * Once downloaded we have to move or copy phpunit.phar into /usr/local/bin/ so we can call it globally
+                             * Run this command: sudo cp phpunit.phar /usr/local/bin/phpunit
+                             * -- OR --
+                             * sudo mv phpunit.phar /usr/local/bin/phpunit
+                             *
+                             *
+                             * And also, make sure that the php cli is available globally, if not just run this command:
+                             * sudo cp /path/of/php /usr/local/bin/php
+                             * To test if your phpunit is working, just run this command: phpunit --version
+                             * It should return something like this:
+                             * -------------------------------
+                             * PHPUnit 5.7.4 by Sebastian Bergmann and contributors.
+                             *
+                             * -------------------------------
+                             */
+                            'php_cli' => 'php',
+                            'phpunit' => 'phpunit',
+                        ),
+                    ),
                 ),
-                [:environment_configurations]
+[:environment_configurations]
             ),
         ),
         'melisZS' => array(

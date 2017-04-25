@@ -112,6 +112,7 @@ class InstallerController extends AbstractActionController
         $view->setup1_1                 = $this->vHostSetupChecker();
         $view->setup1_2                 = $this->checkDirectoryRights();
         $view->setup1_3                 = $this->getEnvironments();
+        $view->setup1_3_current         = $this->getCurrentPlatform();
         $view->setup1_3_env_name        = $installHelper->getMelisPlatform();
         $view->setup1_3_env_domain      = $this->getRequest()->getServer()->SERVER_NAME;
         $view->setup2                   = $this->loadDatabaseCredentialFromSession();
@@ -237,10 +238,9 @@ class InstallerController extends AbstractActionController
         // add listeners here for MelisCms and MelisCore to listen
         if($this->getRequest()->isPost()) {
             $data = get_object_vars($this->getRequest()->getPost());
+            $currentPlatformDomain = $data['domain'];
+            $domainEnv             = array();
 
-            $currentDomain = $data['domain'];
-            $domainEnv     = array();
-            
             // remove domain key
             unset($data['domain']); 
             for($x = 0; $x <= count($data)/2; $x++) {
@@ -254,16 +254,21 @@ class InstallerController extends AbstractActionController
                     $domainEnv[] = array(
                         'environment' => $data[$environmentName],
                         'domain' => $data[$domainName],
-                        'send_email' => $data[$sendEmail],
-                        'error_reporting' => $data[$errorReporting],
-                        'display_error' => $data[$displayError]
+                        'send_email' => isset($data[$sendEmail]) ? $data[$sendEmail] : 'off',
+                        'error_reporting' => isset($data[$errorReporting]) ? $data[$errorReporting] : 0,
+                        'display_error' => isset($data[$displayError]) ? $data[$displayError] : 'off'
                     );
                 }
 
             }
 
             $request = array(
-              'platformDomain' => $currentDomain, 
+              'currentPlatform' => [
+                  'platform_domain' => $currentPlatformDomain,
+                  'send_email' =>  isset($data['send_email']) && $data['send_email'] == 'on' ? 1 : 0,
+                  'error_reporting' => $data['error_reporting'],
+                  'display_error' => isset($data['display_error']) && $data['display_error'] == 'on' ? 1 : 0
+              ],
               'siteDomain' => $domainEnv
                 
             );
@@ -399,6 +404,7 @@ class InstallerController extends AbstractActionController
         
         $translator = $this->getServiceLocator()->get('translator');
         $melisMelisInstallerConfig = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
     
         $request = $this->getRequest();
         if ($request->isPost())
@@ -1125,6 +1131,22 @@ class InstallerController extends AbstractActionController
 
         return $env;
     }
+
+    /**
+     * Returns the current values environment in the session
+     * @return Array
+     */
+    protected function getCurrentPlatform()
+    {
+        $env = array();
+
+        $container = new Container('melisinstaller');
+        if(isset($container['environments']) && isset($container['environments']['default_environment'])) {
+            $env = $container['environments']['default_environment'];
+        }
+
+        return $env;
+    }
     
     /**
      * Retrieve's the current set values for database credentials to array
@@ -1284,6 +1306,13 @@ class InstallerController extends AbstractActionController
         $container = new Container('melisinstaller');
         $container->getManager()->destroy();
     
+        die;
+    }
+
+    public function testAction()
+    {
+        $this->getEventManager()->trigger('melis_install_last_process_start_test', $this, [
+        ]);
         die;
     }
     

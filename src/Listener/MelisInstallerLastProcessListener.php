@@ -44,6 +44,7 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
         		    $installHelperSvc->filePermission($mediaPath);
         		}
 
+
         	},
         1000);
         

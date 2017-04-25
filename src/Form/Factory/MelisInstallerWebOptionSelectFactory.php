@@ -38,7 +38,7 @@ class MelisInstallerWebOptionSelectFactory extends MelisSelectFactory
          * Avoiding dir from "etc" dir
          * SiteSample is Site template increating new Website during installation of Platform
          */
-        $excludeDir = array('.', '..', 'SiteSample');
+        $excludeDir = array('.', '..', 'SiteSample', 'MelisModuleConfig');
         // Getting only Demo Sites added to the Dir "etc"
         foreach ($ectDirContent As $val)
         {
