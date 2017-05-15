@@ -282,6 +282,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         {
             $val['cnews_creation_date'] = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
             $val['cnews_publish_date'] = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
+            $val['cnews_site_id'] = $this->siteId;
             $newsTbl->save($val);
             
             if (++$ctr == 4) {
