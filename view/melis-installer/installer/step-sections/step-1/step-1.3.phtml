@@ -47,19 +47,6 @@
 
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <?php
-                                $displayError = null;
-                                $displayErrorCheck = isset($this->setup1_3_current['app_interface_conf']['display_error']) ? $this->setup1_3_current['app_interface_conf']['display_error'] : false;
-                                if((bool) $displayErrorCheck) {
-                                    $displayError = 'checked';
-                                }
-                                ?>
-                                <label><?= $this->translate('tr_melis_installer_layout_env_display_error'); ?></label><br/>
-                                <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_yes'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_no'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-                                    <input name="display_error" type="checkbox" <?= $displayError ?>/>
-                                </div>
-                            </div>
 
 						</div>
 						
@@ -119,20 +106,6 @@
                                         <option value="0"><?= $this->translate('tr_melis_installer_layout_env_error_reporting_off'); ?></option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <?php
-                                    $displayError = null;
-                                    $displayErrorCheck = isset($values['app_interface_conf']['display_error']) ? $values['app_interface_conf']['display_error'] : false;
-                                    if((bool)$displayErrorCheck) {
-                                        $displayError = 'checked';
-                                    }
-                                    ?>
-                                    <label><?= $this->translate('tr_melis_installer_layout_env_display_error'); ?></label><br/>
-                                    <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_yes'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_no'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-                                        <input name="display_error_<?= $ctr; ?>" type="checkbox" <?= $displayError; ?>/>
-                                    </div>
-                                </div>
-
                             </div> 
 							<?php 
 							    }

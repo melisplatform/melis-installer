@@ -53,6 +53,7 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
 
                 if(file_exists($envConfTemplate)) {
                     $envConfTemplate = file_get_contents($envConfTemplate);
+                    $displayError    = $currentEnv['app_interface_conf']['error_reporting'] != '0' ? 1 : 0;
                     if(!empty($currentEnv)) {
                         $currentEnvConf = $envConfTemplate;
                         $currentEnvConf = str_replace([
@@ -66,7 +67,7 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                             $currentEnv['data']['sdom_domain'],
                             $currentEnv['app_interface_conf']['send_email'],
                             $currentEnv['app_interface_conf']['error_reporting'],
-                            $currentEnv['app_interface_conf']['display_error'],
+                            $displayError
                         ], $currentEnvConf) . PHP_EOL;
 
 
@@ -77,6 +78,7 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                         $newEnvironments     = $envConfTemplate;
                         $newEnvironmentsConf = null;
                         foreach($newEnv as $env => $data) {
+                            $displayError         = $data[0]['app_interface_conf']['error_reporting'] != '0' ? 1 : 0;
                             $newEnvironmentsConf .= str_replace([
                                 '[:sdom_env]',
                                 '[:sdom_domain]',
@@ -88,7 +90,7 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                                 $data[0]['sdom_domain'],
                                 $data[0]['app_interface_conf']['send_email'],
                                 $data[0]['app_interface_conf']['error_reporting'],
-                                $data[0]['app_interface_conf']['display_error'],
+                                $displayError,
                             ], $newEnvironments) . PHP_EOL;
                         }
 
@@ -108,9 +110,6 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                     }
 
                 }
-
-
-
 
             },
             900);

@@ -248,7 +248,6 @@ class InstallerController extends AbstractActionController
                 $domainName      = 'domain_'.($x+1);
                 $sendEmail       = 'send_email_'.($x+1);
                 $errorReporting  = 'error_reporting_' . ($x+1);
-                $displayError    = 'display_error_' . ($x+1);
                 if(isset($data[$environmentName]) && isset($data[$domainName]) &&
                     $data[$environmentName] != '' && $data[$domainName] != '') {
                     $domainEnv[] = array(
@@ -256,7 +255,6 @@ class InstallerController extends AbstractActionController
                         'domain' => $data[$domainName],
                         'send_email' => isset($data[$sendEmail]) ? $data[$sendEmail] : 'off',
                         'error_reporting' => isset($data[$errorReporting]) ? $data[$errorReporting] : 0,
-                        'display_error' => isset($data[$displayError]) ? $data[$displayError] : 'off'
                     );
                 }
 
@@ -267,7 +265,6 @@ class InstallerController extends AbstractActionController
                   'platform_domain' => $currentPlatformDomain,
                   'send_email' =>  isset($data['send_email']) && $data['send_email'] == 'on' ? 1 : 0,
                   'error_reporting' => $data['error_reporting'],
-                  'display_error' => isset($data['display_error']) && $data['display_error'] == 'on' ? 1 : 0
               ],
               'siteDomain' => $domainEnv
                 

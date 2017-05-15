@@ -3,7 +3,13 @@
 	<div class="setup-content-container">
 		<div class="setup-heading">
 			<h2><?= $this->translate('tr_melis_installer_web_config'); ?></h2> 
-			<p><?= $this->translate('tr_melis_installer_web_config_subtext'); ?></p>	
+			<p><?= $this->translate('tr_melis_installer_web_config_subtext'); ?></p>
+            <ul class="list-group">
+                <li class="list-group-item"><i class="fa fa-info-circle text-danger"></i> <?= $this->translate('tr_melis_installer_option_none'); ?></li>
+                <li class="list-group-item"><i class="fa fa-info-circle text-danger"></i> <?= $this->translate('tr_melis_installer_option_new_website'); ?></li>
+                <li class="list-group-item"><i class="fa fa-info-circle text-danger"></i> <?= $this->translate('tr_melis_installer_option_use_demo_cms'); ?></li>
+            </ul>
+
 		</div>
     	<div class="setup-content setup-p3" id="setup-step3">
 			<div class="row">
@@ -12,6 +18,8 @@
 						<h4 class="no-padding-top border-bottom"><?php echo $this->translate('tr_melis_installer_web_config_create_web')?></h4>
 						<?php 
 							$form = $this->setup3_webConfigOption;
+							$values = $form->get('weboption')->getAttribute('value');
+
 							echo $this->form()->openTag($form);
 							echo $this->melisFieldCollection($form);
 							echo $this->form()->closeTag();

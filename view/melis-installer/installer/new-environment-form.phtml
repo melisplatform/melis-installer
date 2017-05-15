@@ -1,8 +1,8 @@
 <div class="environment-cont entry">
     <div class="form-group">
-        <label><?= $this->translate('tr_melis_installer_layout_env_default_env'); ?></label>
+        <label><?= $this->translate('tr_melis_installer_Layout_env_env_name'); ?></label>
         <a class="btn btn-danger"><?= $this->translate('tr_melis_installer_layout_env_remove'); ?></a>
-        <input type="text" class="form-control" placeholder="<?= $this->translate('tr_melis_installer_layout_env_default_env'); ?>" name="environment_name_<?= $this->count; ?>" required>
+        <input type="text" class="form-control" placeholder="<?= $this->translate('tr_melis_installer_Layout_env_env_name'); ?>" name="environment_name_<?= $this->count; ?>" required>
     </div>
     <div class="form-group">
         <label><?= $this->translate('tr_melis_installer_layout_env_back_office_domain'); ?></label>
@@ -21,11 +21,5 @@
             <option value="E_ALL & ~E_USER_DEPRECATED"><?= $this->translate('tr_melis_installer_layout_env_error_reporting_all'); ?></option>
             <option value="0"><?= $this->translate('tr_melis_installer_layout_env_error_reporting_off'); ?></option>
         </select>
-    </div>
-    <div class="form-group">
-        <label><?= $this->translate('tr_melis_installer_layout_env_display_error'); ?></label><br/>
-        <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_yes'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_display_error_no'); ?>" data-text-label="<?= $this->translate('tr_meliscore_tool_user_col_status'); ?>">
-            <input name="display_error_<?= $this->count; ?>" type="checkbox"/>
-        </div>
     </div>
 </div>

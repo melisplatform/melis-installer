@@ -89,6 +89,10 @@ return array(
     'tr_melis_installer_web_config_create_web_sel_language' => 'Langage du site',
     'tr_melis_installer_web_config_empty_vhost_module_name' => 'Le nom du module (MELIS_MODULE) doit être défini avant de procéder à l\'installation',
     'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Le nom du module (MELIS_MODULE) dans le vhost du server est invalide, seuls les caractères alphanumériques and l\'underscore sont autorisés dans le nom du module',
+
+    'tr_melis_installer_option_none'         => '<strong>Qucune</strong> - Cette option ne créera rien (aucun module, aucun dossier, aucune page) et vous devrez construire votre site complètement. Recommandé aux initiés ou pour ceux ayant des besoins spéciaux.',
+    'tr_melis_installer_option_new_website'  => '<strong>Créer un nouveau site web</strong> - Cette option créera une base  de site incluant un module avec sa configuration et son Module.php. Un point de départ pour ceux connaissant déjà la structure d\'un site Melis Platform.',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>Utiliser MelisDemoCms</strong> - Cette option importera le site de test Melis Demo CMS, afin de pouvoir l\'utiliser en tant que tutoriel sur comment construire un site avec Melis Platform.',
     
     // STEP 3: Platform Initialization
     'tr_melis_installer_platform_modal_title' => 'Melis Platform Initialization',

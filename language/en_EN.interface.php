@@ -100,7 +100,12 @@ return array(
     'tr_melis_installer_web_config_create_web_sel_language' => 'Website Language',
     'tr_melis_installer_web_config_empty_vhost_module_name' => 'Module name (MELIS_MODULE) must be set on server vhost before proceeding the setup',
     'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Module name (MELIS_MODULE) in the server vhost is invalid, alphanumeric and underscore are the only valid characters allowed for naming the module name',
-    
+
+    'tr_melis_installer_option_none'         => '<strong>None</strong> - This option will not create anything (no module, no folder, no page) and you will have to build your site from scratch. Recommended for advanced users or for those having special requirements.',
+    'tr_melis_installer_option_new_website'  => '<strong>Create new website</strong> - This option will create a site module with the configuration file and module.php only. A starting point for those already knowing the structure of a Melis Platform project.',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>Use MelisDemoCms</strong> - This option will import the Melis demo CMS site to be used as a tutorial on how to build a website in Melis Platform.',
+
+
     // MELIS CONFIGURATION
     'tr_melis_installer_melis_config' => 'Step 3.2 Melis Configuration',
     'tr_melis_installer_melis_config_subtext' => 'Let\'s create an admin account.',
