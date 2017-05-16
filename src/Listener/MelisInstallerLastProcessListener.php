@@ -26,7 +26,7 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
                 'melis_install_last_process_start'
         	),
         	function($e){
-
+                set_time_limit(0);
         		$sm = $e->getTarget()->getServiceLocator();
         		$moduleSvc = $sm->get('ModulesService');
         		$installHelperSvc = $sm->get('InstallerHelper');

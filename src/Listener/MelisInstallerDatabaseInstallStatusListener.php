@@ -26,7 +26,7 @@ class MelisInstallerDatabaseInstallStatusListener extends MelisInstallerGeneralL
                 'melis_install_background_process_start'
         	),
         	function($e){
-
+                set_time_limit(0);
         		$sm = $e->getTarget()->getServiceLocator();
         		$params = $e->getParams();
                 $tables = $params['db_tables'];

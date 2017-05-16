@@ -26,7 +26,7 @@ class MelisInstallCheckPlatformListener extends MelisInstallerGeneralListener im
                 'melis_install_new_platform_end'
         	),
         	function($e){
-
+                set_time_limit(0);
         		$sm = $e->getTarget()->getServiceLocator();
         		$params = $e->getParams();
                 $errors = array();
