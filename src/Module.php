@@ -38,12 +38,29 @@ class Module
         $eventManager->attach(new MelisInstallerLastProcessListener());
         $eventManager->attach(new MelisInstallModuleConfigListener());
 
+        // force route to setup if this module is activated
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, function($e) {
+            $uri          = $_SERVER['REQUEST_URI'];
+            $setupRoute   = '/melis/setup';
+            if(preg_match('/^(?!.*melis).*$/', $uri)) {
+                // check if the platform configuration file is available
+                $env          = getenv('MELIS_PLATFORM');
+                $docRoot      = $_SERVER['DOCUMENT_ROOT'] ? $_SERVER['DOCUMENT_ROOT'] : '../..';
+                $platformFile = $docRoot . '/../config/autoload/platforms/'.$env.'.php';
+                // proceed on setup if there is no platform configuration file available
+                if(!file_exists($platformFile)) {
+                    header('location: ' . $setupRoute);
+                    die;
+                }
+
+            }
+
+        }, 10000);
     }
-    
+
     public function init(ModuleManager $mm)
     {
         $mm->getEventManager()->getSharedManager()->attach('MelisCore', MvcEvent::EVENT_DISPATCH, function($e) {
-            
             $routeMatch  = $e->getRouteMatch();
             $routeParams = $routeMatch->getParams();
             
