@@ -1,7 +1,32 @@
+<div class="alert alert-success <?php echo ($this->success) ? : 'hidden'?>">
+	<strong>Success!</strong> Your message has been sent to us.
+</div>
+<div class="alert alert-danger <?php echo (!empty($this->errors)) ? : 'hidden'?> ">
+	<strong>Error!</strong> There was an error sending your message.
+</div>
+
 <?php
 	$form = $this->prospectsForm;
 	$form->prepare();
 	echo $this->form()->openTag($form); 
-	echo $this->DemoSiteFieldCollection($form);
+	
+	foreach ($form->getElements() As $key => $val)
+	{
+	    echo '<div class="input-box mb-20">';
+    	    $val->setAttribute('class', 'info');
+    	    echo $this->formLabel($val);
+    	    echo $this->formElement($val, array('class' => 'info'));
+	        echo $this->formElementErrors($val, array('class' => 'text-danger'));
+	    echo '</div>';
+	}
+?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="input-box">
+                <button value="Submit" class="sbumit-btn pull-right" id="submit-contactus-form-btn" data-siteid="<?php echo $this->layout()->siteDatas['news_menu_page_id']?>">submit</button>
+            </div>
+        </div>
+    </div>
+<?php
 	echo $this->form()->closeTag(); 
 ?>

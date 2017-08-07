@@ -38,13 +38,11 @@ class MelisInstallerLastProcessListener extends MelisInstallerGeneralListener im
         		    array('MelisAssetManager', 'meliscore', 'melisfront', 'melisengine','MelisCms'), array('MelisModuleConfig'));
         		
         		// create public/media folder
-        		$mediaPath = HTTP_ROOT.'/media';
+        		$mediaPath = $_SERVER['DOCUMENT_ROOT'].'/media';
         		if(!file_exists($mediaPath)) {
         		    mkdir($mediaPath);
         		    $installHelperSvc->filePermission($mediaPath);
         		}
-
-
         	},
         1000);
         

@@ -2,10 +2,10 @@
 
 /**
  * Melis Technology (http://www.melistechnology.com)
-*
-* @copyright Copyright (c) 2016 Melis Technology (http://www.melistechnology.com)
-*
-*/
+ *
+ * @copyright Copyright (c) 2016 Melis Technology (http://www.melistechnology.com)
+ *
+ */
 
 namespace MelisDemoCms\Service;
 
@@ -59,11 +59,17 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                     case 'melis_news' :
                         $this->setupNews($val);
                         break;
+                    case 'melis_prospects_theme' :
+                        $this->setupProspectsThemes($val);
+                        break;
                 }
             }
             
             // Update the main page id of the Site created for MelisDemoSite
             $this->setupSite(array('site_main_page_id' => $this->mainPageId), $this->siteId);
+            
+            // Replacing siteId to actual ID of the Site created
+            $this->config = str_replace('\'[:siteId]\'', $this->siteId, $this->config);
             
             // Rewrite MelisDemoCms config
             file_put_contents($configDir, $this->config);
@@ -78,7 +84,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         $configDir = $melisSite.'/MelisDemoCms/config/'.$outputFileName;
         $moduleConfigFileName = 'module.config.php';
         $moduleConfigDir = $melisSite.'/MelisDemoCms/config/'.$moduleConfigFileName;
-    
+        
         if (!is_writable($configDir) || !is_writable($moduleConfigDir))
         {
             exit('Access permission denied, Please make /MelisDemoCms/config/'.$outputFileName.' and /MelisDemoCms/config/'.$moduleConfigFileName.' files writable');
@@ -96,7 +102,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         if (is_null($siteId))
         {
             /**
-             * Set Site main page id to temporary value, 
+             * Set Site main page id to temporary value,
              * Becuase main page of MelisDemoCms is not yet create
              */
             $site['site_main_page_id'] = '-1';
@@ -114,7 +120,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
             'sdom_scheme' => $protocol,
             'sdom_domain' => $domain,
         );
-    
+        
         $siteDomainTbl->save($siteDomain);
     }
     
@@ -126,19 +132,19 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     {
         $tplTbl = $this->getServiceLocator()->get('MelisEngineTableTemplate');
         $platformIdsTbl = $this->getServiceLocator()->get('MelisEngineTablePlatformIds');
-    
+        
         foreach ($templates As $tpl)
         {
             $platformIds = $platformIdsTbl->getEntryById($this->curPlatformId)->current();
             $tplId = $platformIds->pids_tpl_id_current;
-    
+            
             $tpl['tpl_id'] = $tplId;
             $tpl['tpl_site_id'] = $this->siteId;
             $tpl['tpl_creation_date'] = date('Y-m-d H:i:s');
             $tplTbl->save($tpl);
-    
+            
             $this->tplIds[$tpl['tpl_zf2_controller'].ucfirst($tpl['tpl_zf2_action'])] = $tplId;
-    
+            
             $platformIdsTbl->save(array('pids_tpl_id_current' => ++$tplId), $platformIds->pids_id);
         }
     }
@@ -166,18 +172,18 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         $moduleConfig = file_get_contents($moduleConfigDir);
         
         $pageOrder = 1;
-    
+        
         foreach ($pages As $page)
         {
             // Retrieving Next id for Page on Plaform Ids
             $platformIds = $platformIdsTbl->getEntryById($this->curPlatformId)->current();
             $tmpPageId = $platformIds->pids_page_id_current;
-    
+            
             $page['columns']['page_id'] = $tmpPageId;
             $page['columns']['page_taxonomy'] = '';
             $page['columns']['page_creation_date'] = date('Y-m-d H:i:s');
             $page['columns']['page_tpl_id'] = ($page['columns']['page_tpl_id'] != '-1') ? $this->tplIds[$page['columns']['page_tpl_id']] : '-1';
-    
+            
             if ($page['page_type'] == 'published')
             {
                 // Save page to page published table
@@ -188,7 +194,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                 // Save page to page saved table
                 $pageSavedTbl->save($page['columns']);
             }
-    
+            
             // page tree
             $pageTree = array(
                 'tree_page_id' => $tmpPageId,
@@ -196,7 +202,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                 'tree_page_order' => $pageOrder++
             );
             $pageTreeTbl->save($pageTree);
-    
+            
             // page lang
             $pageLang = array(
                 'plang_page_id' => $tmpPageId,
@@ -204,7 +210,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                 'plang_page_id_initial' => $tmpPageId,
             );
             $pageLangTbl->save($pageLang);
-    
+            
             if (!empty($page['is_main_page']))
             {
                 $this->mainPageId = $tmpPageId;
@@ -226,7 +232,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
             
             // Updating the CMS Platform Ids
             $platformIdsTbl->save(array('pids_page_id_current' => ($tmpPageId + 1)), $platformIds->pids_id);
-    
+            
             if (!empty($page['page_subpages']))
             {
                 $this->setupPages($page['page_subpages'], $tmpPageId);
@@ -244,7 +250,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     {
         $sliderTbl = $this->getServiceLocator()->get('MelisCmsSliderTable');
         $sliderDetailsTbl = $this->getServiceLocator()->get('MelisCmsSliderDetailTable');
-    
+        
         foreach ($sliders As $slider)
         {
             $slider['columns']['mcslide_date'] = date('Y-m-d H:i:s');
@@ -275,7 +281,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     private function setupNews($news)
     {
         $newsTbl = $this->getServiceLocator()->get('MelisCmsNewsTable');
-    
+        
         $ctr = 0;
         $monthCtr = 0;
         foreach ($news As $val)
@@ -288,6 +294,38 @@ class SetupDemoCmsService extends MelisCoreGeneralService
             if (++$ctr == 4) {
                 $ctr = 0;
                 $monthCtr++;
+            }
+        }
+    }
+    
+    /**
+     * Creating entry for melis_cms_prospects_themes and melis_cms_prospects_theme_items
+     * @param array $items
+     */
+    private function setupProspectsThemes($items)
+    {
+        $themeTbl = $this->getServiceLocator()->get('MelisCmsProspectsThemeTable');
+        $themeItemTbl = $this->getServiceLocator()->get('MelisCmsProspectsThemeItemTable');
+        $themeItemTransTbl = $this->getServiceLocator()->get('MelisCmsProspectsThemeItemTransTable');
+        
+        foreach ($items As $val)
+        {
+            $themItems = $val['pros_theme_items_trans'];
+            unset($val['pros_theme_items_trans']);
+            $themeId = $themeTbl->save($val);
+                        
+            foreach ($themItems As $vItems)
+            {
+                $themItemData = array(
+                    'pros_theme_id' =>  $themeId 
+                );
+                
+                $itemId = $themeItemTbl->save($themItemData);
+                
+                $vItems['item_trans_theme_item_id'] = $itemId;
+                
+                $themeItemTransTbl->save($vItems);
+                
             }
         }
     }

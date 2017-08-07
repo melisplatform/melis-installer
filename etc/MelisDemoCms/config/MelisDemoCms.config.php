@@ -8,6 +8,8 @@ return array(
 			    'home_page' => '[:homePageId]'
 			),
 			'datas' => array(
+			// Site id
+			    'site_id' => '[:siteId]',
 			    // Submenu limit
 			    'sub_menu_limit' => null,
 			    // News Page Id
@@ -34,5 +36,86 @@ return array(
 			    )
 			)	
 		)
-	)
+	),
+    'plugins' => array(
+        'melisfront' => array(
+            'plugins' => array(
+                'MelisFrontMenuPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/menu'),
+                    ),
+                ),
+                'MelisFrontBreadcrumbPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/breadcrumb'),
+                    ),
+                ),
+                'MelisFrontShowListFromFolderPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/testimonial-slider'),
+                        'files' => array(
+                            'js' => array(
+                                '/MelisDemoCms/js/MelisPlugins/MelisDemoCms.MelisFrontShowListFromFolderPlugin.init.js'
+                            ),
+                        ),
+                    ),
+                ),
+                'MelisFrontSearchResultsPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/search-results'),
+                    ),
+                ),
+            ),
+        ),
+        'meliscmsnews' => array(
+            'plugins' => array(
+                'MelisCmsNewsListNewsPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/news-list'),
+                    ),
+                ),
+                'MelisCmsNewsShowNewsPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/news-details'),
+                    ),
+                ),
+                'MelisCmsNewsLatestNewsPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/latest-news'),
+                        'files' => array(
+                            'js' => array(
+                                '/MelisDemoCms/js/MelisPlugins/MelisDemoCms.MelisCmsNewsLatestNewsPlugin.init.js'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'meliscmsslider' => array(
+            'plugins' => array(
+                'MelisCmsSliderShowSliderPlugin' => array(
+                    'front' => array(
+                        'template_path' => array(
+                            'MelisDemoCms/plugin/homepage-slider',
+                            'MelisDemoCms/plugin/aboutus-slider',
+                        ),
+                        'files' => array(
+                            'js' => array(
+                                '/MelisDemoCms/js/MelisPlugins/MelisDemoCms.MelisCmsSliderShowSliderPlugin.init.js'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'meliscmsprospects' => array(
+            'plugins' => array(
+                'MelisCmsProspectsShowFormPlugin' => array(
+                    'front' => array(
+                        'template_path' => array('MelisDemoCms/plugin/contactus'),
+                    ),
+                ),
+            ),
+        ),
+    ),
 );

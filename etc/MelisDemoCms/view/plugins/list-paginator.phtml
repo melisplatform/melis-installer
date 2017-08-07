@@ -2,16 +2,16 @@
     // Including the search to query string if search has value
     $urlQryStr = array();
     
-    // Global Serach
-    if ($this->layout()->search)
+    // Site Search
+    if ($this->siteSearchKey)
     {
-        $urlQryStr['search'] = $this->layout()->search;
+        $urlQryStr['keyword'] = $this->siteSearchKey;
     }
     
     // News Search
-    if ($this->layout()->searchNews)
+    if ($this->searchKey)
     {
-        $urlQryStr['search-news'] = $this->layout()->searchNews;
+        $urlQryStr['search'] = $this->searchKey;
     }
 ?>
 <?php if ($this->pageCount): ?>
@@ -21,7 +21,7 @@
         	<!-- Previous page link -->
             <?php if (isset($this->previous)): ?>
                 <li>
-                	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('page' => $this->previous))); ?>" class="previous page-numbers">
+                	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('current' => $this->previous))); ?>" class="previous page-numbers">
             			<i class="zmdi zmdi-long-arrow-left"></i>
         			</a>
     			</li>
@@ -41,7 +41,7 @@
         	    ?>
                     <?php if ($page != $this->current): ?>
                         <li>
-                        	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('page' => $page))); ?>" class="page-numbers">
+                        	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('current' => $page))); ?>" class="page-numbers">
                         		<?php echo $page; ?>
                         	</a>
                     	</li>
@@ -54,7 +54,7 @@
             <!-- Previous page link -->
             <?php if (isset($this->next)): ?>
                 <li>
-                	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('page' => $this->next))); ?>" class="next page-numbers">
+                	<a href="<?php echo $this->MelisLink($this->idPage, true).'?'.http_build_query(array_merge($urlQryStr, array('current' => $this->next))); ?>" class="next page-numbers">
             			<i class="zmdi zmdi-long-arrow-right"></i>
         			</a>
     			</li>

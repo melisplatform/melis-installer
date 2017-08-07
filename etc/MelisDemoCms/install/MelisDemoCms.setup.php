@@ -753,5 +753,32 @@ return array(
             'cnews_paragraph4' => 'Paragraph 4, Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
             'cnews_image1' => '/MelisDemoCms/images/news/N18.jpg',
         ),
+    ),
+    'melis_prospects_theme' => array(
+        array(
+            'pros_theme_name' => 'MelisDemoCms Contact themes',
+            'pros_theme_items_trans' => array(
+                array(
+                    'item_trans_text' => 'About a product',
+                    'item_trans_lang_id' => 1,
+                ),
+                array(
+                    'item_trans_text' => 'About the company',
+                    'item_trans_lang_id' => 1,
+                ),
+                array(
+                    'item_trans_text' => 'Press related',
+                    'item_trans_lang_id' => 1,
+                ),
+                array(
+                    'item_trans_text' => 'Apply for a position',
+                    'item_trans_lang_id' => 1,
+                ),
+                array(
+                    'item_trans_text' => 'Other',
+                    'item_trans_lang_id' => 1,
+                ),
+            )
+        )
     )
 );

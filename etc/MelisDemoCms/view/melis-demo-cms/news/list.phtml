@@ -29,55 +29,6 @@
 <!--blog area are start-->
 <div class="blog-area pb-70">
     <div class="container">
-    	
-    	<div class="filter-top">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-sm-push-6 col-md-4 col-md-push-8">
-                   <!--single search start-->
-                    <div class="single-aside search-aside search-box">
-                        <form action="" method="get">
-                            <div class="input-box">
-                                <input class="single-input" name="search-news" placeholder="Search News...." type="text" value="<?php echo $this->layout()->searchNews ?>">
-                                <button class="src-btn sb-2"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                     </div>
-                    <!--single search end-->
-                </div>
-                <div class="col-xs-12 col-sm-6 col-sm-pull-6 col-md-8 col-md-pull-4">
-                    <div class="sort date-filter">
-                        <label>Sort By: </label>
-                        <select onchange="location = this.value">
-                        	<?php $selected = 'selected'?>
-                        	<?php if (!empty($this->layout()->searchNews)):?>
-                        		<option selected value=""></option>
-                        		<?php $selected = ''?>
-                        	<?php endif;?>
-                        	<option <?php echo $selected?> value="<?php echo $this->MelisLink($this->idPage, true)?>">-- All --</option>
-                            <?php 
-                                foreach ($this->list As $key => $val)
-                                {
-                                    $options =  '<optgroup label="'.$val['text'].'">';
-                                    foreach ($val['options'] As $oKey => $oVal)
-                                    {
-                                        // Setting the Selected option
-                                        $selected = '';
-                                        if ($oVal['selected'])
-                                        {
-                                            $selected = 'selected';
-                                        }
-                                        $options .=  '<option '.$selected.' value="'.$this->MelisLink($this->idPage, false).'?datefilter='.$oVal['opt-data']['datefilter'].'">'.$oVal['text'].'</option>';
-                                    }
-                                    $options .=  '</optgroup>';
-                                    echo $options;
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!--Total area start-->
         <div class="col-xs-12 text-center">
             <div class="heading-title heading-style pos-rltv mtb-50 text-center">

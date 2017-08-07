@@ -11,7 +11,10 @@ var melisSiteHelper = (function(){
 		}
 	}
 	
-	function melisSiteShowFormResult(errors){
+	function melisSiteShowFormResult(errors , form = 'form'){
+		
+		$("#"+form+" div").removeClass("has-error").find(".text-danger").remove();
+		
 		$.each( errors, function( key, error ) {
 			var element = $('#'+key);
 			

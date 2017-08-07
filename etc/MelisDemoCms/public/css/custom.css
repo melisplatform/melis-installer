@@ -147,4 +147,37 @@ Note: This is the file where you can add your custom styles to change the look o
     white-space: inherit;
 }
 
+/* Bootstrap datepicker */
+.bootstrap-datetimepicker-widget .list-unstyled li {
+	display: initial;
+}
+
+.bootstrap-datetimepicker-widget a:focus, .bootstrap-datetimepicker-widget a:hover {
+    color: inherit;
+}
+
+.bootstrap-datetimepicker-widget a, .bootstrap-datetimepicker-widget button, .bootstrap-datetimepicker-widget input {
+    color: inherit;
+}
+
+#news-list-plugin #date-min, #news-list-plugin #date-max {
+	background-color: rgba(255, 255, 255, 0);
+}
+
+/* Custom button */
+.input-box button.sbumit-btn {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 1px solid #e5e5e5;
+    height: 50px;
+    padding: 15px;
+	color: inherit;
+}
+
+button.sbumit-btn {
+    width: 30%;
+    text-transform: uppercase;
+}
+
+
+
 

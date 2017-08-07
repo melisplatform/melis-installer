@@ -121,10 +121,11 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      */
     public function checkMysqlConnection($host, $db, $user, $pass)
     {
-        $results          = array();
-        $isConnected      = 0;
-        $isDatabaseExists = 0;
-        $isPassCorrect    = 1;
+        $results                        = array();
+        $isConnected                    = 0;
+        $isDatabaseExists               = 0;
+        $isDatabaseCollationNameValid   = 0;
+        $isPassCorrect                  = 1;
         
         if($this->isDomainExists($host)) {
             $isConnected = 1;
@@ -148,8 +149,14 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                 $statement = $sql->prepareStatementForSqlObject($select);
                 $result = $statement->execute();
                 
-                if(!empty($result->current())) {
+                $schema = $result->current();
+                if(!empty($schema)) {
+                    
                     $isDatabaseExists = 1;
+                    
+                    if (!empty($schema['DEFAULT_COLLATION_NAME']) && $schema['DEFAULT_COLLATION_NAME'] === 'utf8_general_ci') {
+                        $isDatabaseCollationNameValid = 1;
+                    }
                 }
             }catch(\Exception $e) {
                 $isPassCorrect = 0;
@@ -159,7 +166,8 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         $results = array(
             'isConnected' => $isConnected,
             'isDatabaseExists' => $isDatabaseExists,
-            'isMysqlPasswordCorrect' => $isPassCorrect
+            'isMysqlPasswordCorrect' => $isPassCorrect,
+            'isDatabaseCollationNameValid' => $isDatabaseCollationNameValid,
         );
 
         

@@ -12,7 +12,6 @@ Version: 1.0
 /*menu style */
 .header-area {
   position: relative;
-  z-index: 99999999;
 }
 .main-menu {
   font-family: Montserrat;
@@ -172,6 +171,7 @@ Version: 1.0
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 2;
 }
 .sticky .search-box {
   height: 75px;
@@ -457,11 +457,9 @@ Version: 1.0
 .login-register-area li a {
     display: block;
 }
-
-
-
-
-
-
-
+@media screen and (max-width: 768px) {
+  .m-no-padding {
+    padding: 0;
+  }
+}
 

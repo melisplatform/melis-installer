@@ -115,7 +115,7 @@ class DemoCmsService extends MelisCoreGeneralService
          *      ),
          */
         $newsTable = $this->serviceLocator->get('MelisCmsNewsTable');
-        $newsList = $newsTable->getNewsListByMonths(4)->toArray();
+        $newsList = $newsTable->getNewsListByMonths(4, $siteDatas['site_id'])->toArray();
     
         // Page Tree service to generate Page Link
         $melisTree = $this->serviceLocator->get('MelisEngineTree');
@@ -126,14 +126,18 @@ class DemoCmsService extends MelisCoreGeneralService
             /**
              * Retrieving the list of the News filter by month and year
              */
-            $news = $newsTable->getNewsByMonthYear($val['month'], $val['year'], $limit)->toArray();
+            $news = array();
+            if(!empty($val['month']) && !empty($val['year'])){
+                $news = $newsTable->getNewsByMonthYear($val['month'], $val['year'], $limit, $siteDatas['site_id'])->toArray();
+            }
+            
             $newsSubMenu = array();
             foreach ($news As $nKey => $nVal)
             {
                 $uri = $melisTree->getPageLink($newsDetailsIdPage, false);
                 $newUri = $uri.'?'.http_build_query(array( 
                                     // Custom data added to the anchor of the link
-                                    'newsid' => $nVal['cnews_id']
+                                    'newsId' => $nVal['cnews_id']
                                 ));
                 $tmp = array();
                 $tmp['idPage'] = $newsDetailsIdPage;
@@ -195,7 +199,7 @@ class DemoCmsService extends MelisCoreGeneralService
          * Retreiving the the list of News group by months and year
          */
         $newsTable = $this->serviceLocator->get('MelisCmsNewsTable');
-        $newsList = $newsTable->getNewsListByMonths();
+        $newsList = $newsTable->getNewsListByMonths(null, $siteDatas['site_id']);
         
         $list = array();
         $addedYear = array();

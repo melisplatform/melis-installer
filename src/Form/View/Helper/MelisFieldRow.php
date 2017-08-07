@@ -13,6 +13,14 @@ class MelisFieldRow extends FormRow
 	public function render(ElementInterface $element, $labelPosition = null)
 	{
 	    $formElement = '';
+	    
+	    if(!empty($element->getOption('tooltip')))
+	    {
+	        $element->setLabelOptions(array('disable_html_escape' => true));
+	        $label = $element->getLabel().'<i class="fa fa-info-circle fa-lg pull-right" data-toggle="tooltip" data-placement="left" title="" data-original-title="'.$element->getOption('tooltip').'"></i>';
+	        $element->setLabel($label);
+	    }
+	    
 	    if($this->getClass($element) == self::MELIS_TOGGLE_BUTTON_FACTORY)
 	    {
 	        // recreate checkbox to render into a toggle button

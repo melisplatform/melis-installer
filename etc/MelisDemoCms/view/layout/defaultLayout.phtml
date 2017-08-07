@@ -94,11 +94,11 @@
                                       <img src="<?php echo $this->basePath('/MelisDemoCms/images/logo/logo.png')?>" alt="main logo"></a>
                                     </div>
                                 </div>
-                                
+                                <div class="col-md-8 col-sm-10 col-xs-12 m-no-padding">
                                 <!-- Site Menu -->
                                 <?php echo $this->layout()->siteMenu ?>
                                 <!-- End of Site Menu -->
-                                
+                                </div>
                                 <!-- Header Search Menu -->
                                 <div class="col-md-2 hidden-sm hidden-xs">
                                     <div class="search-box global-table">
@@ -106,7 +106,7 @@
                                             <div class="global-cell">
                                                 <form action="<?php echo $this->MelisLink($this->layout()->siteDatas['search_result_page_id'], false)?>" method="get">
                                                     <div class="input-box">
-                                                        <input class="single-input" placeholder="Search" type="text" name="search" value="<?php echo $this->layout()->search?>" required>
+                                                        <input class="single-input" placeholder="Search" type="text" name=keyword value="<?php echo $this->layout()->search?>" required>
                                                         <button class="src-btn"><i class="fa fa-search"></i></button>
                                                     </div>
                                                 </form>
@@ -121,6 +121,9 @@
                     </div>
                 </div>
             </header>
+            <?php echo $this->MelisDragDropZone($this->idPage, "dragdropzone_1") ?>
+            <?php echo $this->MelisDragDropZone($this->idPage, "dragdropzone_2") ?>
+
             <!-- End of header area -->
             
             <!-- Content area start -->
@@ -132,8 +135,8 @@
                  * Homepage with pageId of one(1) can only edit the editable areas.
                  * On this demo we use pageId one(1) as homepage
                  * */
-                $editableTextarea = ($this->idPage == $this->mainPageId) ? 'textarea' : null;
-                $editableHtml = ($this->idPage == $this->mainPageId) ? 'html' : null;
+                $editableTextarea = ($this->idPage == $this->homepage) ? 'textarea' : null;
+                $editableHtml = ($this->idPage == $this->homepage) ? 'html' : null;
             ?>
             <!-- footer area start-->
             <div class="footer-area ptb-50">
@@ -143,11 +146,11 @@
                             <div class="single-footer contact-us">
                                 <div class="footer-title uppercase">
                                     <h5>
-                                      <?php echo $this->MelisTag($this->mainPageId, "footer_title_1", $editableTextarea, 'Contact US') ?>
+                                      <?php echo $this->MelisTag($this->homepage, "footer_title_1", $editableTextarea, 'Contact US') ?>
                                  </h5> 
                                 </div>
                                 <?php 
-                                    echo $this->melisTag($this->mainPageId, 'footer_text_1', $editableHtml, 
+                                    echo $this->melisTag($this->homepage, 'footer_text_1', $editableHtml, 
                                     '<ul>
                                         <li>
                                             <div class="contact-icon"> 
@@ -176,12 +179,12 @@
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                             <div class="single-footer informaton-area">
                                 <div class="footer-title uppercase">
-                                    <h5><?php echo $this->MelisTag($this->mainPageId, "footer_title_2", $editableTextarea, 'Information')?></h5> 
+                                    <h5><?php echo $this->MelisTag($this->homepage, "footer_title_2", $editableTextarea, 'Information')?></h5> 
                                 </div>
                                 <div class="informatoin">
                                     <ul>
                                       <?php 
-                                            echo $this->melisTag($this->mainPageId, 'footer_text_2', $editableHtml,
+                                            echo $this->melisTag($this->homepage, 'footer_text_2', $editableHtml,
                                                 '<li><a href="#">My Account</a></li>
                                                 <li><a href="#">Order History</a></li>
                                                 <li><a href="#">Wishlist</a></li>
@@ -196,10 +199,10 @@
                         <div class="col-lg-3 col-md-4 hidden-sm col-xs-12">
                             <div class="single-footer instagrm-area">
                                 <div class="footer-title uppercase">
-                                    <h5><?php echo $this->MelisTag($this->mainPageId, "footer_title_3", $editableTextarea, 'InstaGram')?></h5> 
+                                    <h5><?php echo $this->MelisTag($this->homepage, "footer_title_3", $editableTextarea, 'InstaGram')?></h5> 
                                 </div>
                                 <?php 
-                                    echo $this->melisTag($this->mainPageId, 'footer_text_3', $editableHtml,
+                                    echo $this->melisTag($this->homepage, 'footer_text_3', $editableHtml,
                                     '<div class="instagrm">
                                         <ul>
                                             <li><a href="#"><img src="'.$this->basePath('/MelisDemoCms/images/gallery/01.jpg').'" alt=""></a></li>
@@ -216,7 +219,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-4 col-lg-offset-1 col-xs-12">
                             <div class="social-icon socile-icon-style-3">
                                 <div class="footer-title uppercase">
-                                    <h5><?php echo $this->MelisTag($this->mainPageId, "footer_title_4", $editableTextarea, 'Social Network')?></h5> 
+                                    <h5><?php echo $this->MelisTag($this->homepage, "footer_title_4", $editableTextarea, 'Social Network')?></h5> 
                                 </div>
                                 <ul>
                                     <li><a href="https://www.facebook.com/melistechnology" target="_blank"><i class="zmdi zmdi-facebook"></i></a></li>

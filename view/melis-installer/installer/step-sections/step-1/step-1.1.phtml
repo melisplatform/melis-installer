@@ -3,12 +3,11 @@
     $success  = $step1_1['success'];
     $errors   = $step1_1['errors'];
     $platform = $step1_1['data']['platform'];
-    $aliasMatchStatus = $step1_1['data']['aliasMatchStatus'];
+    $module   = $step1_1['data']['module'];
     
-    $markupSuccess = '<li><i class="fa fa-check fa-color-green"></i><span>%s</span></li>';
-    $markupError   = '<li class="clearfix"> <i class="fa fa-times fa-color-red"></i> <span>%s</span> <i class="fa fa-info setup-error-btn"></i> <div class="setup-error-info"> <i class="fa fa-info-circle fa-color-red"></i> <span>%s</span> </div></li>';
+    $markupSuccess = '<li><i class="fa fa-check fa-color-green"></i> <span>%s</span></li>';
+    $markupError   = '<li><i class="fa fa-times fa-color-red"></i> <span>%s</span></li>';
     $disabled = $success === 1 ? 'setup-pass-page  btn btn-success' : 'btn btn-default';
-
 ?>
 <!-- STEP 1.1 -->
 <div class="item">
@@ -23,21 +22,22 @@
 				<?php 
     				if(!empty($platform)) {
     				    echo sprintf($markupSuccess, $this->translate('tr_melis_installer_step_1_1_platform').': '.$platform);
-    				}
-    				else {
-    				    echo sprintf($markupError, $this->translate('tr_melis_installer_step_1_1_no_paltform_declared'), $this->translate('tr_melis_installer_step_1_1_no_paltform_declared'));
+    				} else {
+    				    echo sprintf($markupError, $errors['platform']);
     				}
     				
-    				foreach($aliasMatchStatus as $path => $status) {
-    				    if($status === 1) {
-    				        echo sprintf($markupSuccess, sprintf($this->translate('tr_melis_installer_step_1_1_alias_match_success'), $path));
-    				    }
-    				    else {
-    				        echo sprintf($markupError, $path, $status);
-    				    }
+    				if(!empty($module)) {
+    				    echo sprintf($markupSuccess, $this->translate('tr_melis_installer_step_1_1_module').': '.$module);
+    				} else {
+    				    echo sprintf($markupError, $errors['module']);
     				}
 				?>
   			</ul>
+  			<?php if (!empty($errors)){?>
+      			<div class="alert alert-info">
+      				<?= $this->translate('tr_melis_installer_step_1_1_example_vhost_config')?>
+      			</div>
+  			<?php }?>
 	    	<div class="setup-button-cont">
      			<a class="<?= $disabled; ?>"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
      		</div>

@@ -1,6 +1,6 @@
-<?php if(!empty($this->showSlider)):?>
-    <div class="big-slider-area owl-carousel dot-line">
-    	<?php foreach ($this->showSlider As $key => $val):?>
+<?php if(!empty($this->showSlider)){?>
+    <div class="owl-carousel dot-line homepage-slider-owl" id="<?= $this->pluginId; ?>">
+    	<?php foreach ($this->showSlider As $key => $val){?>
         	<div class="single-slider pos-rltv">
                 <div class="slider-img"><img src="<?php echo $val->mcsdetail_img?>" alt=""></div>
                 <div class="slider-content pos-abs">
@@ -11,6 +11,10 @@
                     <?php endif;?>
                 </div>
             </div>
-    	<?php endforeach;?>
+    	<?php }?>
     </div>
-<?php endif;?>
+<?php }else{?>
+	<div class="alert alert-warning" role="alert">
+    	No result
+    </div>
+<?php }?>

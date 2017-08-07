@@ -1,5 +1,5 @@
 <?php if (!empty($this->listofpages)):?>
-    <div class="total-testimonial-owl pagi-03 owl-carousel">
+    <div class="total-testimonial-owl pagi-03 owl-carousel" id="testimonial-<?= $this->pluginId; ?>">
     	<?php 
     	    // Testimonials handler
     	    $testimonials = array();
@@ -31,7 +31,6 @@
 	            }
     	    }
 		?>
-		
 		<?php if (!empty($testimonials)):?>
 			<?php foreach ($testimonials As $key => $val):?>
                 <div class="single-testimonial">
@@ -51,6 +50,14 @@
                     </div>
                 </div>
             <?php endforeach;?>
+        <?php else: ?>
+            <div class="alert alert-warning">
+                No data found
+            </div>
         <?php endif;?>
+    </div>
+ <?php else: ?>
+    <div class="alert alert-warning">
+        No Result
     </div>
 <?php endif;?>

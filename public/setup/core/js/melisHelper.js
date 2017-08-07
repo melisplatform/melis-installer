@@ -56,7 +56,7 @@ var melisHelper = (function(){
 			});
 			
 		var div = "<div class='melis-modaloverlay "+ closeByButtonOnly +"'></div>";
-		div += "<div class='melis-modal-cont KOnotif'>  <div class='modal-content'>"+ errorTexts +" <span class='btn btn-block btn-primary'>"+ translations.tr_meliscore_notification_modal_Close +"</span></div> </div>";
+		div += "<div class='melis-modal-cont KOnotif'>  <div class='modal-content'>"+ errorTexts +" <span class='btn btn-block btn-primary'>"+ translations.tr_melis_installer_common_close +"</span></div> </div>";
 		$body.append(div);
 	}
 

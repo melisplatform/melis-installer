@@ -16,7 +16,7 @@ class SearchController extends BaseController
     public function resultsAction()
     {
         // Getting the Search value from query string and added to the layout variable
-        $search = $this->params()->fromQuery('search', null);
+        $search = $this->params()->fromQuery('keyword', null);
         $this->layout()->setVariable('search', $search);
         /**
          * Search result using MelisFrontSearchResultsPlugin
@@ -26,9 +26,7 @@ class SearchController extends BaseController
 	        'template_path' => 'MelisDemoCms/plugin/search-results',
 	        'pageId' => $this->idPage,
 	        'siteModuleName' => 'MelisDemoCms',
-	        'keyword' => $search,
 	        'pagination' => array(
-	            'current' => $this->params()->fromQuery('page', 1),
 	            'nbPerPage' => 10,
 	            'nbPageBeforeAfter' => 3
 	        ),

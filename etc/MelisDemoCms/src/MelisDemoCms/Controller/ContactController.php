@@ -18,61 +18,42 @@ class ContactController extends BaseController
     {
 		$prospectsForm = $this->MelisCmsProspectsShowFormPlugin();
 		$prospectsParamenter = array(
-		    'template_path' => 'MelisDemoCms/plugin/contactus'
+		    'template_path' => 'MelisDemoCms/plugin/contactus',
+		    'fields' => 'pros_name,pros_company,pros_country,pros_telephone,pros_email,pros_theme,pros_message',
+		    'required_fields' => 'pros_name,pros_telephone,pros_email,pros_theme,pros_message',
+		    'theme' => 1
 		);
 		// add generated view to children views for displaying it in the contact view
-		$this->view->addChild($prospectsForm->render($prospectsParamenter), 'prospectsForm');
+        $result = $prospectsForm->render($prospectsParamenter);
         
-        $renderer = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface');
-        $this->layout()->setVariables(array(
-            'pageJs' => array(
-                'https://maps.googleapis.com/maps/api/js?key=AIzaSyA-IIoucJ-70FQg6xZsORjQCUPHCVj9GV4',
-                $renderer->basePath('/MelisDemoCms/js/google-map.js'),
-                $renderer->basePath('/MelisDemoCms/js/melisSiteHelper.js'),
-                $renderer->basePath('/MelisDemoCms/js/contactus.js'),
-            ),
-        ));
-        
-        $this->view->setVariable('idPage', $this->idPage);
-        $this->view->setVariable('renderMode', $this->renderMode);
-        return $this->view;
-    }
-    
-    public function submitAction()
-    {
-        // Default Values
-        $status  = 0;
-        $errors  = array();
-         
-        $request = $this->getRequest();
-        
-        if ($request->isPost())
+        if($this->request->isPost()) 
         {
-            $postData = get_object_vars($request->getPost());
-            /**
-             * Prospects form can be use in different pages,
-             * prospects type is required
-             * to determine where the prospects had been submitted.
-             * In this Demo we use in "Contact Us" page
-             */
-            $postData['pros_type'] = 'Contact Us';
-            $prospectsForm = $this->MelisCmsProspectsShowFormPlugin();
-            $prospectsFormParameters = array(
-                'post' => $postData,
-            );
-            // add generated view to children views for displaying it in the contact view
-            $result = $prospectsForm->render($prospectsFormParameters)->getVariables();
+            $pluginVariables = $result->getVariables();
             
-            // Retrieving view variable from view
-            $status = $result->success;
-            $errors = $result->errors;
+            $response = array(
+                'success' => $pluginVariables->success,
+                'errors' => $pluginVariables->errors,
+            );
+            
+            // return JsonModel
+            return new JsonModel($response);
         }
-        
-        $response = array(
-            'success' => $status,
-            'errors' => $errors,
-        );
-         
-        return new JsonModel($response);
+        else 
+        {
+            // return ViewModel
+            $this->view->addChild($result, 'prospectsForm');
+            $this->layout()->setVariables(array(
+                'pageJs' => array(
+                    'https://maps.googleapis.com/maps/api/js?key=AIzaSyA-IIoucJ-70FQg6xZsORjQCUPHCVj9GV4',
+                    '/MelisDemoCms/js/google-map.js',
+                    '/MelisDemoCms/js/melisSiteHelper.js',
+                    '/MelisDemoCms/js/contactus.js',
+                ),
+            ));
+            
+            $this->view->setVariable('idPage', $this->idPage);
+            $this->view->setVariable('renderMode', $this->renderMode);
+            return $this->view;
+        }
     }
 }

@@ -17,7 +17,8 @@ return array(
                                 'name' => 'login',
                                 'type' => 'MelisText',
                                 'options' => array(
-                                    'label' => 'tr_melis_installer_new_user_login'  
+                                    'label' => 'tr_melis_installer_new_user_login',
+                                    'tooltip' => 'tr_melis_installer_new_user_login_info',
                                 ),
                                 'attributes' => array(
                                     'id' => 'login',
@@ -31,21 +32,8 @@ return array(
                                 'name' => 'email',
                                 'type' => 'MelisText',
                                 'options' => array(
-                                    'label' => 'tr_melis_installer_new_user_email'
-                                ),
-                                'attributes' => array(
-                                    'id' => 'email',
-                                    'value' => '',
-                                    'placeholder' => 'tr_melis_installer_new_user_email',
-                                )
-                            )
-                        ),
-                        array(
-                            'spec' => array(
-                                'name' => 'email',
-                                'type' => 'MelisText',
-                                'options' => array(
-                                    'label' => 'tr_melis_installer_new_user_email'
+                                    'label' => 'tr_melis_installer_new_user_email',
+                                    'tooltip' => 'tr_melis_installer_new_user_email_info',
                                 ),
                                 'attributes' => array(
                                     'id' => 'email',
@@ -60,6 +48,7 @@ return array(
                                 'type' => 'Password',
                                 'options' => array(
                                     'label' => 'tr_melis_installer_new_user_password',
+                                    'tooltip' => 'tr_melis_installer_new_user_password_info',
                                 ),
                                 'attributes' => array(
                                     'id' => 'password',
@@ -75,6 +64,7 @@ return array(
                                 'type' => 'Password',
                                 'options' => array(
                                     'label' => 'tr_Melis_installer_new_user_confirm_password',
+                                    'tooltip' => 'tr_Melis_installer_new_user_confirm_password_info',
                                 ),
                                 'attributes' => array(
                                     'id' => 'confirmPassword',
@@ -89,7 +79,8 @@ return array(
                                 'name' => 'firstname',
                                 'type' => 'MelisText',
                                 'options' => array(
-                                    'label' => 'tr_melis_installer_new_user_first_name'
+                                    'label' => 'tr_melis_installer_new_user_first_name',
+                                    'tooltip' => 'tr_melis_installer_new_user_first_name_info',
                                 ),
                                 'attributes' => array(
                                     'id' => 'firstname',
@@ -103,7 +94,8 @@ return array(
                                 'name' => 'lastname',
                                 'type' => 'MelisText',
                                 'options' => array(
-                                    'label' => 'tr_melis_installer_new_user_last_name'
+                                    'label' => 'tr_melis_installer_new_user_last_name',
+                                    'tooltip' => 'tr_melis_installer_new_user_last_name_info',
                                 ),
                                 'attributes' => array(
                                     'id' => 'lastname',
@@ -360,15 +352,7 @@ return array(
                         array(
                             'spec' => array(
                                 'name' => 'weboption',
-                                'type' => 'MelisInstallerWebOptionSelect',
-                                'options' => array(
-                                    'label' => 'tr_melis_installer_web_config_option',
-                                    'empty_option' => 'tr_melis_installer_common_choose',
-                                    'disable_inarray_validator' => true,
-                                ),
-                                'attributes' => array(
-                                    'id' => 'weboption',
-                                ),
+                                'type' => 'Text',
                             ),
                         ),
                     ),
@@ -441,7 +425,7 @@ return array(
                                     'name'    => 'StringLength',
                                     'options' => array(
                                         'encoding' => 'UTF-8',
-                                        'max'      => 255,
+                                        'max'      => 45,
                                         'messages' => array(
                                             \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_web_form_name_long',
                                         ),

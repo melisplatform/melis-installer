@@ -17,7 +17,7 @@ return array(
         'meliscore' => array(
             'datas' => array(
                 'default' => array(
-                    'phpunit_conf' => array(
+                    'diagnostics' => array(
                         'windows' => array(
                             // the setup is done here, so you don't need to do a batch file to register
                             // phpunit globally, instead we just call them directly from their directory to execute it.

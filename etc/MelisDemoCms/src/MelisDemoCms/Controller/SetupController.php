@@ -15,7 +15,7 @@ use Zend\View\Model\JsonModel;
 
 class SetupController extends BaseController
 {
-     
+    
     public function __construct()
     {
         set_time_limit (1000);

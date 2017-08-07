@@ -31,6 +31,7 @@ class BaseController extends MelisSiteActionController
         $siteDatas = $siteConfig['datas'];
         // Adding the SiteDatas to layout so views can access to the SiteDatas easily
         $this->layout()->setVariable('siteDatas', $siteDatas);
+        $this->layout()->setVariable('homepage', $siteConfig['conf']['home_page']);
         
         $pageId = $this->params()->fromRoute('idpage');
         $renderMode = $this->params()->fromRoute('renderMode');
@@ -41,7 +42,7 @@ class BaseController extends MelisSiteActionController
 	    $menuPlugin = $this->MelisFrontMenuPlugin();
 	    $menuParameters = array(
 	        'template_path' => 'MelisDemoCms/plugin/menu',
-	        'pageId' => $pageId,
+	        'pageIdRootMenu' => $siteConfig['conf']['home_page'],
 	    );
 	    
 		// add generated view to children views for displaying it in the contact view
@@ -54,7 +55,8 @@ class BaseController extends MelisSiteActionController
 		 */
 	    $breadcrumbPlugin = $this->MelisFrontBreadcrumbPlugin();
 	    $breadcrumbParameters = array(
-	        'pageId' => $pageId,
+	        'template_path' => 'MelisDemoCms/plugin/breadcrumb',
+	        'pageIdRootBreadcrumb' => $pageId,
 	    );
 		// add generated view to children views for displaying it in the contact view
 		$breadcrumb = $breadcrumbPlugin->render($breadcrumbParameters);

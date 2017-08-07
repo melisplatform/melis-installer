@@ -20,23 +20,10 @@ class NewsController extends BaseController
      */
     public function listAction()
     {
-        // Getting the Search for News value from query string and added to the layout variable
-        $serachNews = $this->params()->fromQuery('search-news', '');
-        $this->layout()->setVariable('searchNews', $serachNews);
-        
-        // Getting the Date from query string to set the selected date on <select> tag
-        $dateMin = $this->params()->fromQuery('datefilter', null);
-        $demoCmsSrv = $this->getServiceLocator()->get('DemoCmsService');
-        $list = $demoCmsSrv->getNewsListMonthsYears($dateMin);
-        
-        $dateMax = null;
-        if (!is_null($dateMin))
-        {
-            if (is_null($dateMax))
-            {
-                $dateMax = date('Y-m-t 24:00:00',strtotime($dateMin));
-            }
-        }
+        // Getting the Site config "MelisDemoCms.config.php"
+        $siteConfig = $this->getServiceLocator()->get('config');
+        $siteConfig = $siteConfig['site']['MelisDemoCms'];
+        $siteDatas = $siteConfig['datas'];
         
         /**
          * Listing News using MelisCmsNewsListNewsPlugin
@@ -44,16 +31,16 @@ class NewsController extends BaseController
 		$listNewsPluginView = $this->MelisCmsNewsListNewsPlugin();
 		$listNewsParameters = array(
 		    'template_path' => 'MelisDemoCms/plugin/news-list',
+            'pageId' => $this->idPage,
+            'pageIdNews' => $siteDatas['news_details_page_id'],
 	        'pagination' => array(
-	            'current' => (int) $this->params()->fromQuery('page', 1),
 	            'nbPerPage' => 6
 	        ),
 	        'filter' => array(
 	            'column' => 'cnews_publish_date',
 	            'order' => 'DESC',
-	            'date_min' => $dateMin,
-	            'date_max' => $dateMax,
-	            'search' => $serachNews,
+	            'unpublish_filter' => true,
+	            'site_id' => $siteDatas['site_id'],
 	        )
 		);
 		
@@ -62,7 +49,6 @@ class NewsController extends BaseController
         
 		$this->view->setVariable('renderMode', $this->renderMode);
         $this->view->setVariable('idPage', $this->idPage);
-        $this->view->setVariable('list', $list);
         return $this->view;
     }
     
@@ -73,10 +59,17 @@ class NewsController extends BaseController
      */
     public function detailsAction()
     {
+        
+        // Getting the Site config "MelisDemoCms.config.php"
+        $siteConfig = $this->getServiceLocator()->get('config');
+        $siteConfig = $siteConfig['site']['MelisDemoCms'];
+        $siteDatas = $siteConfig['datas'];
+        
+        $dateMax = date("Y-m-d H:i:s", strtotime("now"));
 		$listNewsPluginView = $this->MelisCmsNewsShowNewsPlugin();
 		$listNewsParameters = array(
+		    'id' => 'newsDetails',
 		    'template_path' => 'MelisDemoCms/plugin/news-details',
-		    'newsId' => (int) $this->params()->fromQuery('newsid', ''),
 		);
 		// add generated view to children views for displaying it in the contact view
 		$this->view->addChild($listNewsPluginView->render($listNewsParameters), 'newsDetails');
@@ -87,10 +80,14 @@ class NewsController extends BaseController
 		$latestNewsPluginView = $this->MelisCmsNewsLatestNewsPlugin();
 		$latestNewsParameters = array(
 		    'template_path' => 'MelisDemoCms/plugin/latest-news',
+            'pageIdNews' => $siteDatas['news_details_page_id'],
 		    'filter' => array(
 		        'column' => 'cnews_publish_date',
 		        'order' => 'DESC',
 		        'limit' => 10,
+		        'unpublish_filter' => true,
+		        'date_max' => $dateMax,
+		        'site_id' => $siteDatas['site_id'],
 		    )
 		);
 		// add generated view to children views for displaying it in the contact view

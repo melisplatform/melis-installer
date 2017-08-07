@@ -46,89 +46,12 @@ Version: 1.0
         scrollSpeed: 900,
         animation: 'fade'
     }); 
-
+	
 	/*-------------------------------------------
-	04. slick carousel 
-	--------------------------------------------- */    
-	$('.new-arrival-slider-active').slick({
-	slidesToShow: 3,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: true,
-	prevArrow: '<div class="arrow-left"><i class="zmdi zmdi-chevron-left"></i></div>',
-	nextArrow: '<div class="arrow-right"><i class="zmdi zmdi-chevron-right"></i></div>',
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 4,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 3,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 2, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});  
+	 Owl carousel 
+	--------------------------------------------- */
 	
-	$('.ctg-slider-active').slick({
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: false,
-	prevArrow: '<div class="arrow-left"><i class="zmdi zmdi-chevron-left"></i></div>',
-	nextArrow: '<div class="arrow-right"><i class="zmdi zmdi-chevron-right"></i></div>',
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});
-	$('.total-rectnt-slider').slick({
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: false,
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});
-	
-	$('.active-slider').slick({
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: true,
-	arrows: false,
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});
-	
-	$('.total-brand').slick({
-	slidesToShow: 6,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: false,
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 6,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 5,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 4, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 3, }   },
-	]
-	});
-
-    $('.big-slider-area').owlCarousel({
+	$(".homepage-slider-owl").owlCarousel({
     	lazyLoad:true,
         items: 1,
         smartSpeed:1500,
@@ -136,8 +59,43 @@ Version: 1.0
         autoplay:true,
         autoplayTimeout:8000
     });
-
-    $('.total-blog-owl').owlCarousel({
+	
+	$(".aboutus-slider-owl").owlCarousel({
+    	margin: 30,
+    	dots: false,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items: 1,
+                nav:false
+            },
+            480:{
+                items: 2,
+                nav:false
+            },
+            768:{
+                items: 3,
+                nav:false,
+    			dots: true,
+            },
+            1200:{
+                items: 4,
+                nav:false,
+    			dots: true,
+            },
+            1400:{
+                items: 4,
+                nav: true,
+                navText: ["<i class='fa fa-angle-left'>","<i class='fa fa-angle-right'>"],
+            }
+        }
+    });
+	
+	$('.total-testimonial-owl').owlCarousel({
+        items: 1,
+    });
+	
+	 $('.latest-news-owl').owlCarousel({
         items: 3,
         margin: 15,
         dots: true,
@@ -159,92 +117,8 @@ Version: 1.0
             }
         }
     });
-
-    $('.ecom-blog-owl').owlCarousel({
-        items: 2,
-        margin: 30,
-        dots: true,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items:1,
-                nav:false
-            },
-            768:{
-                items:2,
-                nav:false
-            },
-            1400:{
-                items:2,
-                nav: true,
-                navText: ["<i class='fa fa-angle-left'>","<i class='fa fa-angle-right'>"],
-
-            }
-        }
-    });
-
-    $('.total-testimonial-owl').owlCarousel({
-        items: 1,
-    });
-
-    $('.total-team-owl').owlCarousel({
-    	margin: 30,
-    	dots: false,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items: 1,
-                nav:false
-            },
-            480:{
-                items: 2,
-                nav:false
-            },
-            768:{
-                items: 3,
-                nav:false,
-    			dots: true,
-
-            },
-            1200:{
-                items: 4,
-                nav:false,
-    			dots: true,
-
-            },
-            1400:{
-                items: 4,
-                nav: true,
-                navText: ["<i class='fa fa-angle-left'>","<i class='fa fa-angle-right'>"],
-
-            }
-        }
-    });
-
-    $('.total-blog-3-owl').owlCarousel({
-        items: 2,
-        margin: 30,
-        dots: true,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items:1,
-                nav:false
-            },
-            768:{
-                items:2,
-                nav:false
-            },
-            1400:{
-                items:2,
-                nav: true,
-                navText: ["<i class='fa fa-angle-left'>","<i class='fa fa-angle-right'>"],
-
-            }
-        }
-    });
-
-    $('.total-brand-owl').owlCarousel({
+	 
+	$('.total-brand-owl').owlCarousel({
 	    items: 6,
 	    margin: 15,
 	    responsiveClass:true,
@@ -267,75 +141,6 @@ Version: 1.0
 	    }
 	});
 
-	$('.blog-slider').owlCarousel({
-	    items: 1,
-	    responsiveClass:true,
-	    dots: true,
-        nav: true,
-        navText: ["<i class='fa fa-angle-left'>","<i class='fa fa-angle-right'>"],
-	});
-
-	$('.sp-owl').owlCarousel({
-	    items: 1,
-	    margin: 15,
-	    responsiveClass:true,
-	    responsive:{
-            1400:{
-	    		dots: false,
-                nav: true,
-                navText: ["<i class='fa fa-angle-left'>","<i class='fa fa-angle-right'>"],
-
-            }
-	    }
-	});
-	
-	$('.team-carasoul').slick({
-	slidesToShow: 4,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: false,
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 3,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 3,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 2, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});
-    
-	
-	$('.total-blog-2').slick({
-	slidesToShow: 2,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: false,
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 2,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 2,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});
-	$('.total-blog-3').slick({
-	slidesToShow: 2,
-	slidesToScroll: 1,
-	autoplay: false,
-	autoplaySpeed: 5000,
-	dots: false,
-	arrows: false,
-	responsive: [
-	{  breakpoint: 1169,  settings: { slidesToShow: 2,  }  },
-	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
-	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
-	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
-	]
-	});
-	
-
-
     /*----------------------------
      fancybox active
     ------------------------------ */
@@ -347,27 +152,11 @@ Version: 1.0
     /*************************
       tooltip
     *************************/
-	    $('[data-toggle="tooltip"]').tooltip({
+    $('[data-toggle="tooltip"]').tooltip({
         animated: 'fade',
         placement: 'top',
         container: 'body'
     });
-
-	
-	/*----------------------------
-	 price-slider active
-	------------------------------ */  
-	  $( "#slider-range" ).slider({
-	   range: true,
-	   min: 40,
-	   max: 600,
-	   values: [ 40, 600 ],
-	   slide: function( event, ui ) {
-		$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-	   }
-	  });
-	  $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-	   " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 	   
     /*----------------------------
     Countdown active
@@ -379,8 +168,6 @@ Version: 1.0
             $this.html(event.strftime('<span class="cdown days"><span class="time-count">%-D</span> <p>Days</p></span><span class="cdown hour"><span class="time-count">%-H</span> <p>Hour</p></span><span class="cdown minutes"><span class="time-count">%M</span> <p>Min</p></span> <span class="cdown second"><span class="time-count">%S</span> <p>Sec</p></span>'));
         });
     });
-	
-	
     
     /*----------------------------
 	 active match height

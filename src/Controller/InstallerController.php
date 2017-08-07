@@ -23,7 +23,6 @@ class InstallerController extends AbstractActionController
     
     public function indexAction() 
     {
-        
         $installHelper = $this->getServiceLocator()->get('InstallerHelper');
         
         $melisCoreConfig = $this->serviceLocator->get('MelisInstallerConfig');
@@ -64,8 +63,8 @@ class InstallerController extends AbstractActionController
         }
         
         // WebLangForm preload values from Session/Container
-        if(isset($container['cms_data']['language'])) {
-            $webLangForm->get('language')->setValue($container['cms_data']['language']);
+        if(isset($container['cms_data']['web_lang'])) {
+            $webLangForm->get('language')->setValue($container['cms_data']['web_lang']);
         }
         
         // WebForm preload from Session/Container
@@ -164,7 +163,7 @@ class InstallerController extends AbstractActionController
         $errors  = array();
         
         if($this->getRequest()->isXmlHttpRequest()) {
-            $response = $this->vHostSetupChecker();
+            $response = $this->systemConfigurationChecker();
             $success  = $response['success'];
             $errors   = $response['errors'];
             
@@ -190,7 +189,7 @@ class InstallerController extends AbstractActionController
         $errors  = array();
         
         if($this->getRequest()->isXmlHttpRequest()) {
-            $response = $this->systemConfigurationChecker();
+            $response = $this->vHostSetupChecker();
             $success  = $response['success'];
             $errors   = $response['errors'];
             
@@ -324,20 +323,26 @@ class InstallerController extends AbstractActionController
                         if($response['isConnected']) {
                             if($response['isMysqlPasswordCorrect']) {
                                 if($response['isDatabaseExists']) {
-                                    $success = 1;
-                                    // add status to session
-                                    $container = new Container('melisinstaller');
-                                    $container['steps'][$this->steps[4]] = array('page' => 5, 'success' => $success);
-                                
-                                    $container = new Container('melisinstaller');
-                                    $container['database'] = $data;
+                                    if ($response['isDatabaseCollationNameValid']) {
+                                        $success = 1;
+                                        // add status to session
+                                        $container = new Container('melisinstaller');
+                                        $container['steps'][$this->steps[4]] = array('page' => 5, 'success' => $success);
+                                        
+                                        $container = new Container('melisinstaller');
+                                        $container['database'] = $data;
+                                    }
+                                    else {
+                                        $errors = array(
+                                            'Collation' => array('invalidCollation' => $translator->translate('tr_melis_installer_layout_dbcon_collation_name_invalid'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_collation_name'))
+                                        );
+                                    }
                                 }
                                 else {
                                     $errors = array(
                                         'database' => array('invalidDatabase' => $translator->translate('tr_melis_installer_dbcon_form_db_fail'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_form_db')),
                                         'username' => array('invalidUsername' => $translator->translate('tr_melis_installer_dbcon_form_user_fail'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_form_user')),
                                         'password' => array('invalidPassword' => $translator->translate('tr_melis_installer_dbcon_form_pass_fail'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_form_pass'))
-                                
                                     );
                                 }
                             }
@@ -475,7 +480,8 @@ class InstallerController extends AbstractActionController
                             }
                         
                             // checking if the target module name is existing on the target dir
-                            if(file_exists($melisSite.'/'.$container['cms_data']['weboption']))
+                            //if(file_exists($melisSite.'/'.$container['cms_data']['weboption']))
+                            if(file_exists($melisSite.'/'.getenv('MELIS_MODULE')))
                             {
                                 array_push($errors, array(
                                     "hasError" => sprintf($translator->translate("tr_melis_installer_web_form_module_exists"), $container['cms_data']['weboption']),
@@ -635,7 +641,6 @@ class InstallerController extends AbstractActionController
             
             if(empty($errors)) {
                
-           
                 //Create the site module with basic files to start
                 if($this->hasMelisCmsModule()) {
                     
@@ -644,52 +649,12 @@ class InstallerController extends AbstractActionController
                     
                     // create a new site inside MelisSite module
                     
-                    if ($cmsData['weboption'] == 'NewSite') {
-                        // make MelisSite module writable
-                        $installHelper->filePermission($melisSite);
-                        
-                        if(file_exists($melisSite)) {
-                            
-                            // re-check if the MelisSite is now writable
-                            if(is_writable($melisSite)) {
-                                // let's do the magic
-                                $siteModuleName  = $cmsData['web_form']['website_module'];
-                                $siteWebsiteName = $cmsData['web_form']['website_name'];
-                                $siteSample      = $this->getModuleSvc()->getModulePath('MelisInstaller').'/etc/SiteSample';
-                                $siteDestination = $melisSite.'/'.$siteModuleName;
-                                $siteModuleViewPath = strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $siteModuleName));
-                                $lowerSiteName = strtolower($siteModuleName);
-                                
-                                // rewrite if exists
-                                if(file_exists($siteDestination))
-                                {
-                                    unlink($siteDestination);
-                                }
-                                    
-                                // make a copy of a site template files into the MelisSites module
-                                $makeCopy = $installHelper->xcopy($siteSample, $siteDestination);
-                                if($makeCopy && file_exists($siteDestination)) 
-                                {
-                                    // rewrite directories and files
-                                    $moduleConfigPath = $siteDestination.'/config/';
-                                    $siteModuleSrc    = $siteDestination.'/src/SiteSample';
-                                    $siteModuleFile   = $siteDestination.'/Module.php';
-                                    
-                                    rename($moduleConfigPath.'sitename.config.php', $moduleConfigPath.$siteModuleName.'.config.php');
-                                    // replace file contents
-                                    $this->mapDirectory($siteDestination, $siteModuleName);
-                                }
-                                else 
-                                {
-                                    array_push($errors, array(
-                                        "hasError" => $translator->translate("tr_melis_installer_web_form_module_exists"),
-                                        "label" => $translator->translate("tr_melis_installer_web_form_module_label")
-                                    ));
-                                }
-                            }
-                        }
-                    }
-                    elseif ($cmsData['weboption'] != 'None')
+                    /**
+                     * None - will escape creation of site and site module
+                     * NewSte - creation trigger by event "melis_install_last_process_start"
+                     * MelisDemoCms - this option will create site module to MelisSites directory
+                     */
+                    if (!in_array($cmsData['weboption'], array('None', 'NewSite')))
                     {
                         $siteModuleName = getenv('MELIS_MODULE');
                         // Copying the Demo Site from etc to MelisSites dir with full permission
@@ -905,7 +870,6 @@ class InstallerController extends AbstractActionController
             'json',
             'pdo_mysql',
             'intl',
-            'mcrypt'
         ));
 
         
@@ -967,83 +931,52 @@ class InstallerController extends AbstractActionController
     }
     
     /**
-     * Checks if the AliasMatch set in the Vhost is accessible or not
+     * Checks if the Vhost platform and module variable are set
      * @return Array
      */
     protected function vHostSetupChecker()
     {
         $translator = $this->getServiceLocator()->get('translator');
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
         
         $success = 0;
-        $error   = array();
-        $data    = array();
+        $error = array();
         
-        $platform = $installHelper->getMelisPlatform();
-        $modules  = array();
-        foreach($installHelper->getDir('module') as $module) {
-            if(in_array($module, array('MelisCore', 'MelisCms'))) {
-                $modules[] = $module;
-            }
+        $platform = null;
+        $module = null;
+        
+        
+        if (!empty(getenv('MELIS_PLATFORM')))
+        {
+            $platform = getenv('MELIS_PLATFORM');
+        }
+        else 
+        {
+            $error['platform'] = $translator->translate('tr_melis_installer_step_1_1_no_paltform_declared');
         }
         
-        // URLs to ping
-        $pingUrls = array();
-        foreach($modules as $path) {
-            $pingUrls[] = $path.'/css';
-            $pingUrls[] = $path.'/js';
+        if (!empty(getenv('MELIS_MODULE')))
+        {
+            $module = getenv('MELIS_MODULE');
+        }
+        else 
+        {
+            $error['module'] = $translator->translate('tr_melis_installer_step_1_1_no_module_declared');
         }
         
-        // ping each URLs
-        $urlStatus = array();
-        foreach($pingUrls as $url) {
-
-            $lastPath = explode('/', $url);
-            $checkDir = 'module/'.str_replace('/'.$lastPath[1], '/public/'.$lastPath[1], $url);
-            if(file_exists($checkDir)) {
-                $checkFiles  = scandir($checkDir.'/');
-                
-                if($checkFiles) {
-                    foreach($checkFiles as $f) 
-                        if(is_file($checkDir.'/'.$f))
-                            $urlStatus[$url] = $installHelper->getUrlStatus('/'.$url.'/'.$f);
-                }
-            }
-            else {
-                $urlStatus[$url] = $installHelper->getUrlStatus('/'.$url);
-            }
-        }
-
-        // set the succcess status
-        $urls = array();
-        if(!empty($platform)) {
-            foreach($urlStatus as $module => $child) {
-                if((int) $child['status'] !== 200) {
-                    $urls[$module] = sprintf($translator->translate('tr_melis_installer_step_1_1_alias_match_failed'), $module);
-                    array_push($error, sprintf($translator->translate('tr_melis_installer_step_1_1_alias_match_failed'), $module));
-                }
-                else {
-                    $mod = explode('/',$module);
-                    $urls[$mod[0]] = 1;
-                }
-                
-            }
-        }
-        
-        if(empty($error)) {
+        if (empty($error))
+        {
             $success = 1;
         }
-
         
         $response = array(
             'success' => $success,
             'errors' =>  $error,
             'data' => array(
                 'platform' => $platform,
-                'aliasMatchStatus' => $urls
+                'module' => $module
             )
         );
-
+        
         return $response;
     }
     

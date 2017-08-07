@@ -60,7 +60,7 @@ return array(
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                             'defaults' => array(
-                                
+//
                             ),
                         ),
                     ),
@@ -138,6 +138,7 @@ return array(
             'error/index'             		    => __DIR__ . '/../view/error/index.phtml',
             // Plugins layout
             'MelisDemoCms/plugin/menu'                 => __DIR__ . '/../view/plugins/menu.phtml',
+            'MelisDemoCms/plugin/breadcrumb'           => __DIR__ . '/../view/plugins/breadcrumb.phtml',
             'MelisDemoCms/plugin/contactus'            => __DIR__ . '/../view/plugins/contactus.phtml',
             'MelisDemoCms/plugin/homepage-slider'      => __DIR__ . '/../view/plugins/homepage-slider.phtml',
             'MelisDemoCms/plugin/latest-news'          => __DIR__ . '/../view/plugins/latest-news.phtml',

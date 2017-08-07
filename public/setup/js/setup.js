@@ -21,9 +21,13 @@
 	    dotsSpeed: 500,
 	    navSpeed: 500,
 	    dots: false,
-	     //startPosition: 4,
-	   // nav: true,
+	    //startPosition: 5,
+	    //nav: true,
 	}); 
+	
+	$body.find('[data-toggle="tooltip"]').tooltip({
+		placement : 'left',
+	});
 	
 	// FIRE EVENT AFTER SLIDER HAS FINISHED SLIDING
 	$owl.on('changed.owl.carousel', function(event) {
@@ -38,6 +42,17 @@
 		// disable Next Button on Database Connection, making sure that we test it before leaving
 		$("#dbNext").removeClass("setup-pass-page btn btn-success");
 		$("#dbNext").addClass("btn btn-default");
+	});
+	
+	// SHOW / HIDE ADVANCE PROPERTIES ON ENVIRONEMENT CONFIG
+	$body.on("click", ".melis-install-adv-prop-trigger", function(){
+		if($(this).hasClass("fa-plus")){
+			$(this).toggleClass("fa-plus fa-minus");
+			$(this).closest(".form-group").next(".melis-install-adv-prop-content").slideDown();
+		}else{
+			$(this).toggleClass("fa-minus fa-plus");
+			$(this).closest(".form-group").next(".melis-install-adv-prop-content").slideUp();
+		}
 	});
 	
 	
@@ -298,19 +313,15 @@
 					// HOST ERROR - color red the input fields
 					obj.parents(".setup-p2").find("#database-connection-form").find("input[name='host']").prev("label").css("color","red");
 				}
-				else{
+				else if(data.errors.Collation == undefined){
 					// DB-USER-PASSWORD ERROR - color red the input fields
 					obj.parents(".setup-p2").find("#database-connection-form").find("input[name='database'], input[name='user'], input[name='password']").prev("label").css("color","red");
 				}
-				
 			}
 			
 		}).error(function(xhr, textStatus, errorThrown){
 			melisHelper.melisKoNotification(translations.tr_melis_installer_layout_dbcon_promp_title , translations.tr_melis_installer_layout_dbcon_promp_content, textStatus, 'closeByButtonOnly');
 		});
-		
-	 	
-			
 	});
 	
 	// ---=[ FINISH PAGE - GATHER ALL DATA ]=---
@@ -326,8 +337,8 @@
 			
 	});
 	
-	// Website Option selection action event
-	$body.on("change", "#weboption", function(){
+	// Website Option action event
+	$body.on("change", ".weboption-radio", function(){
 		$(".setup3-webform").addClass("hidden");
 		if($(this).val() == "NewSite"){
 			$(".setup3-webform").removeClass("hidden");

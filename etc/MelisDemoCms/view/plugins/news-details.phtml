@@ -1,8 +1,8 @@
-<?php if (!empty($this->news)):?>
+<?php if (!empty($this->news)){?>
     <div class="blog-img pos-rltv product-overlay" style="cursor: default">
-    	<?php if (!empty($this->news->cnews_image1)):?>
+    	<?php if (!empty($this->news->cnews_image1)){?>
         	<img src="<?php echo $this->news->cnews_image1?>" alt="">
-        <?php endif; ?>
+        <?php } ?>
     </div>
     <div class="blog-title">
         <h5 class="uppercase font-bold"><?php echo $this->news->cnews_title ?></h5>
@@ -16,23 +16,27 @@
             <p><?php echo $this->news->cnews_paragraph1 ?></p>
         </div>
     </div>
-    <?php if (!empty($this->news->cnews_paragraph2)):?>
+    <?php if (!empty($this->news->cnews_paragraph2)){?>
         <div class="blockqot mtb-30">
             <blockquote>
             	<p><?php echo $this->news->cnews_paragraph2?></p>
         	</blockquote>
         </div>
-    <?php endif; ?>
+    <?php } ?>
     
-    <?php if (!empty($this->news->cnews_paragraph3)):?>
+    <?php if (!empty($this->news->cnews_paragraph3)){?>
     	<div class="blog-text">
             <p><?php echo $this->news->cnews_paragraph3 ?></p>
         </div>
-    <?php endif; ?>
+    <?php } ?>
     
-    <?php if (!empty($this->news->cnews_paragraph4)):?>
+    <?php if (!empty($this->news->cnews_paragraph4)){?>
     	<div class="blog-text">
             <p><?php echo $this->news->cnews_paragraph4 ?></p>
         </div>
-    <?php endif; ?>
-<?php endif; ?>
+    <?php } ?>
+<?php }else{?>
+	<div class="alert alert-warning" role="alert">
+    	No result
+    </div>
+<?php }?>

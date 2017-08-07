@@ -10,7 +10,8 @@
 namespace MelisDemoCms\Controller;
 
 use MelisDemoCms\Controller\BaseController;
-
+use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 class HomeController extends BaseController
 {
     public function indexAction()
@@ -26,6 +27,8 @@ class HomeController extends BaseController
         $showSlider = $this->MelisCmsSliderShowSliderPlugin();
         $showSliderParameters = array(
             'template_path' => 'MelisDemoCms/plugin/homepage-slider',
+            'id' => 'showSliderHomepage',
+            'pageId' => $this->idPage,
             'sliderId' => $siteDatas['homepage_header_slider'],
         );
         // add generated view to children views for displaying it in the contact view
@@ -42,6 +45,8 @@ class HomeController extends BaseController
 	            'order' => 'DESC',
 	            'date_min' => null,
 	            'date_max' => null,
+	            'unpublish_filter' => true,
+	            'site_id' => $siteDatas['site_id'],
 	            'search' => '',
 	            'limit' => 6,
 	        )
@@ -57,8 +62,9 @@ class HomeController extends BaseController
 	    $showListForFolderPlugin = $this->MelisFrontShowListFromFolderPlugin();
 	    $menuParameters = array(
 	        'template_path' => 'MelisDemoCms/plugin/testimonial-slider',
-	        'pageId' => $siteDatas['testimonial_id'],
-	        'renderMode' => $this->renderMode
+            'pageId' => $this->idPage,
+	        'pageIdFolder' => $siteDatas['testimonial_id'],
+	        'renderMode' => $this->renderMode,
 	    );
 		// add generated view to children views for displaying it in the contact view
 		$this->view->addChild($showListForFolderPlugin->render($menuParameters), 'testimonialList');

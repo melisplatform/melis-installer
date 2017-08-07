@@ -13,6 +13,7 @@
     -moz-transition: .3s ease-in-out;
     -o-transition: .3s ease-in-out;
     transition: .3s ease-in-out;
+	margin-bottom: 30px;
 }
 .owl-item.active{
 	opacity: 1;
@@ -209,6 +210,8 @@ input[type="text"] {
 	font-size: 22px;
     padding: 0px 20px;
     vertical-align: middle;
+    padding-bottom: 25px;
+    float: left;
 }
 .setup-content .setup-check-list li span{
 	font-size: 16px;
@@ -354,14 +357,14 @@ input[type="text"] {
 }
 .setup-p1-3 .add-environment-container{
 	margin-top: 30px;
-	padding: 0 20px;
+    padding: 0px 0px 0px 20px;
 }
 .setup-p1-3 .add-environment-container .environment-cont{
-	border-top: 5px solid #eaeaea;
-    padding: 20px 0 10px;
+	/* border-top: 5px solid #eaeaea;
+    padding: 20px 0 10px; */
 }
 .setup-p1-3 .add-environment-container .environment-cont:first-child{
-	padding-top: 0;
+	/* padding-top: 0; */
 	border-top: none;
 }
 .setup-p1-3 default-environment{
@@ -513,15 +516,105 @@ input[type="text"] {
     vertical-align: middle;
 }
 
+.setup-label-info{
+	display: block;
+	font-size: 12px; 
+	color: #3a3838;
+}
 
+.melis-install-adv-prop-trigger{
+	color: #626262;
+	cursor: pointer;
+}
 
+.melis-install-adv-prop-content{
+	display: none;
+}
 
+.setup-content i.fa-info-circle{
+    position: inherit;
+    opacity: 1;
+	font-size: 17px; 
+	color: #4c4c4c;
+}
 
+.form-group > label:first-of-type{
+	display: block;
+}
 
+.form-group .tooltip.left .tooltip-arrow, .checkbox .tooltip.left .tooltip-arrow {
+    border-left-color: #932e2a;
+}
 
+.form-group i.fa-info-circle + .tooltip .tooltip-inner {
+    letter-spacing: 0.1px;
+    padding: 6px 10px;
+	border-radius: 2px;
+} 
 
+.advance-prop{
+    margin-bottom: 16px;
+    border-width: 2px;
+    border-color: #EAEAEA;
+    margin-top: 0;
+    line-height: 7px;
+}
 
+.add-environment-container .environment-cont {
+    background: #f2f2f2;
+    padding: 20px 10px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+}
 
+.setup-content .list-group-item{
+	padding: 20px;
+}
 
+.font-awesome-radio-container{
+	padding-left: 10px;
+	padding-right: 15px;
+}
 
+/*** custom checkboxes ***/
+.font-awesome-radio { 
+    display:none; 
+}
+ 
+/* to hide the radio itself */
+.font-awesome-radio + label:before {
+    font-family: FontAwesome;
+    display: inline-block;
+	cursor: pointer;
+}
 
+.font-awesome-radio + label {
+    font-size: 23px;
+    line-height: 40px;
+    color: #b8b8b8;
+}
+
+/* unchecked icon */
+.font-awesome-radio + label:before { 
+    content: "\f10c"; 
+} 
+/* space between radio and label */
+.font-awesome-radio + label:before { 
+    /* letter-spacing: 10px; */ 
+} 
+
+/* checked icon */
+.font-awesome-radio:checked + label:before { 
+    content: "\f192"; 
+} 
+/* allow space for check mark */
+.font-awesome-radio:checked + label:before { 
+    color: #72af46; 
+    /* letter-spacing: 5px; */ 
+} 
+
+/* cursor for disabled input checkbox */
+.font-awesome-radio:disabled + label:before {
+   	cursor: no-drop;
+    color: #d7d6d6;
+}

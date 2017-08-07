@@ -1,53 +1,116 @@
-<?php 
-    /**
-     * From layout variable $newsDetailsPageId is accessible
-     * $newsDetailsPageId is the Page Id where the News details display
-     */
-    $newsDetailsPageId = $this->layout()->siteDatas['news_details_page_id'];
-?>
-<?php if ($this->listNews->count()):?>
-    <div class="row">
-       <div class="total-blog">
-       		<?php foreach ($this->listNews As $key => $val):?>
-       			<?php $newsLink = $this->MelisLink($newsDetailsPageId, true).'?newsid='.$val->cnews_id ?>
-                <div class="col-md-4">
-                   	<div class="single-blog">
-                   		<?php if (!empty($val->cnews_image1)):?>
-                           	<div class="blog-img pos-rltv product-overlay">
-                               	<a href="<?php echo $newsLink ?>"><img src="<?php echo $val->cnews_image1?>"></a>
-                           	</div>
-                       	<?php endif;?>
-                       	<div class="blog-content">
-                           	<div class="blog-title">
-                               	<h5 class="uppercase font-bold">
-                           			<a href="<?php echo $newsLink ?>"><?php echo $val->cnews_title?></a>
-                           		</h5>
-                               	<div class="like-comments-date">
-                                   	<ul>
-                                       	<li></li>
-                                       	<li class="blog-date text-danger">
-                                       		<i class="zmdi zmdi-calendar-alt"></i> <?php echo date('d M Y',strtotime(($val->cnews_publish_date) ? $val->cnews_publish_date : $val->cnews_creation_date))?>
-                                   		</li>
-                                   	</ul>
-                               	</div>
-                               	<div class="blog-text">
-                                   	<p><?php echo $val->cnews_paragraph1?></p>
-                               	</div>
-                               	<a class="read-more montserrat" href="<?php echo $newsLink ?>">Read More</a>
-                           	</div>
-                       	</div>
-                   	</div> 
+<div id="<?php echo $this->pluginId?>">
+	<div class="filter-top" id="news-list-plugin">
+        <div class="row">
+        	<form action="" method="get">
+                <div class="col-xs-12 col-sm-6 col-sm-push-6 col-md-4 col-md-push-8">
+                   <!--single search start-->
+                    <div class="single-aside search-aside search-box">
+                        <div class="input-box">
+                            <input class="single-input" name="search" placeholder="Search News...." type="text" value="<?php echo $this->searchKey?>">
+                            <button class="src-btn sb-2"><i class="fa fa-search"></i></button>
+                        </div>
+                     </div>
+                    <!--single search end-->
                 </div>
-            <?php endforeach;?>
+                <div class="col-xs-12 col-sm-6 col-sm-pull-6 col-md-8 col-md-pull-4">
+                	<div class="row">
+                    	<div class="col-md-3">
+                           	<div class="single-aside search-aside search-box">
+                                <div class="input-box">
+                                    <input class="single-input" name="date_min" id="date-min" placeholder="Date from" value="<?php echo $this->dateMin?>" readonly>
+                                </div>
+                            </div>
+                       	</div>
+                    	<div class="col-md-3">
+                           	<div class="single-aside search-aside search-box">
+                                <div class="input-box">
+                                    <input class="single-input" name="date_max" id="date-max"  placeholder="Date to" value="<?php echo $this->dateMax?>" readonly>
+                                </div>
+                            </div>
+                       	</div>
+                       	<div class="col-md-3">
+                           	<div class="single-aside search-aside search-box">
+                                <div class="input-box">
+                                    <button class="src-btn sb-2" style="left: 0; width: 35%;">Filter</button>
+                                </div>
+                            </div>
+                       	</div>
+                   	</div>
+    			</div>
+			</form>
         </div>
     </div>
-<?php else:?>    
-	<h4 class="search-results-title">No Result</h4>
-<?php endif;?>
-
-<!-- Pagination -->
-<?php 
-    // Generating Pagination Control using partial view
-    echo $this->paginationControl($this->listNews, 'Sliding', 'MelisDemoCms/plugin/list-paginator', 
-                                array('nbPageBeforeAfter' => $this->nbPageBeforeAfter)); 
-?>
+    <div class="filter-top"></div>
+    <div class="row">
+    	<?php 
+            if ($this->listNews->count())
+            {
+        ?>	
+            <div class="total-blog">
+           		<?php 
+           		   foreach ($this->listNews As $key => $val)
+           		   {
+           		?>
+                    <div class="col-md-4">
+                       	<div class="single-blog">
+                       		<?php 
+                       		   if (!empty($val->cnews_image1))
+                       		   {       
+                       		?>
+                               	<div class="blog-img pos-rltv product-overlay">
+                                   	<a href="<?= $val->newsLink; ?>"><img src="<?= $val->cnews_image1; ?>"></a>
+                               	</div>
+                           	<?php 
+                       		   }
+                       		?>
+                           	<div class="blog-content">
+                               	<div class="blog-title">
+                                   	<h5 class="uppercase font-bold">
+                               			<a href="<?= $val->newsLink; ?>"><?= $val->cnews_title; ?></a>
+                               		</h5>
+                                   	<div class="like-comments-date">
+                                       	<ul>
+                                           	<li></li>
+                                           	<li class="blog-date text-danger">
+                                           		<i class="zmdi zmdi-calendar-alt"></i> <?= $val->newsDateFormated; ?>
+                                       		</li>
+                                       	</ul>
+                                   	</div>
+                                   	<div class="blog-text">
+                                       	<p><?= $val->cnews_paragraph1; ?></p>
+                                   	</div>
+                                   	<a class="read-more montserrat" href="<?= $val->newsLink; ?>">Read More</a>
+                               	</div>
+                           	</div>
+                       	</div> 
+                    </div>
+                <?php
+           		   }
+                ?>
+            </div>
+        <?php
+            }
+            else
+            {
+        ?>    
+        	<div class="col-xs-12">
+        		<h4 class="search-results-title">No Result</h4>
+        	</div>
+        <?php
+            }
+        ?>
+    </div>
+    
+    <!-- Pagination -->
+    <?php 
+        // Generating Pagination Control using partial view
+        echo $this->paginationControl($this->listNews, 
+                    'Sliding', 
+                    'MelisDemoCms/plugin/list-paginator', 
+                    array(
+                        'searchKey' => $this->searchKey,
+                        'nbPageBeforeAfter' => $this->nbPageBeforeAfter
+                    )
+            ); 
+    ?>
+</div>

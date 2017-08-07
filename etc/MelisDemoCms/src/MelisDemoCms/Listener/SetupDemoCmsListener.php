@@ -32,6 +32,7 @@ class SetupDemoCmsListener implements ListenerAggregateInterface
         		// DemoCms Service that process the DemoCms pre-defined datas
         		$setupSrv = $sm->get('SetupDemoCmsService');
         		$setupSrv->setup($environmentName);
+        		$setupSrv->setupSiteDomain('http', $environment['default_environment']['data']['sdom_domain']);
         	},
         -2000);
         

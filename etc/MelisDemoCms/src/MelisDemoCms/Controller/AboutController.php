@@ -8,7 +8,6 @@
  */
 
 namespace MelisDemoCms\Controller;
-
 use MelisDemoCms\Controller\BaseController;
 
 class AboutController extends BaseController
@@ -26,6 +25,7 @@ class AboutController extends BaseController
         $showSlider = $this->MelisCmsSliderShowSliderPlugin();
         $showSliderParameters = array(
             'template_path' => 'MelisDemoCms/plugin/aboutus-slider',
+            'id' => 'showSliderAboutUs',
             'sliderId' => $siteDatas['aboutus_slider'],
         );
         // add generated view to children views for displaying it in the contact view
@@ -33,6 +33,7 @@ class AboutController extends BaseController
         
         $this->view->setVariable('idPage', $this->idPage);
         $this->view->setVariable('renderMode', $this->renderMode);
+        
         return $this->view;
     }
 }
