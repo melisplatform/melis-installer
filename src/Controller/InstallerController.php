@@ -884,7 +884,7 @@ class InstallerController extends AbstractActionController
         }
         
         $dataVar = $installHelper->checkEnvironmentVariables();
-        
+
         // checks if all PHP configuration is fine
         if(!empty($dataExt)) {
             foreach($dataExt as $ext => $status) {
@@ -896,14 +896,15 @@ class InstallerController extends AbstractActionController
                 }
             }
         }
-        
+
         if(!empty($dataVar)) {
             foreach($dataVar as $var => $value) {
-                if(empty((trim($value)))) {
+                $currentVal = trim($value);
+                if(is_null($currentVal)) {
                     $dataVar[$var] = sprintf($translator->translate('tr_melis_installer_step_1_0_php_variable_not_set'), $var);
                     array_push($errors, sprintf($translator->translate('tr_melis_installer_step_1_0_php_variable_not_set'), $var));
                 }
-                else {
+                elseif($currentVal || $currentVal == '0' || $currentVal == '-1') {
                     $dataVar[$var] = 1;
                 }
             }
@@ -911,7 +912,7 @@ class InstallerController extends AbstractActionController
         else {
             array_push($errors, $translator->translate('tr_melis_installer_step_1_0_php_requied_variables_empty'));
         }
-        
+
         // last checking
         if(empty($errors) && $checkDataExt === 1) {
             $success = 1;
