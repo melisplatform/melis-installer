@@ -34,7 +34,10 @@
     float: left;
     -webkit-backface-visibility: hidden;
     -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none; }
+    -webkit-touch-callout: none;
+      /* increase gpu in firefox */
+    -moz-transform: translateZ(0);
+  }
   .owl-carousel .owl-item img {
     display: block;
     width: 100%;
