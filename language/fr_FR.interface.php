@@ -141,6 +141,8 @@ return array(
     'tr_melis_installer_melis_modules_MelisCommerce' => 'Créez et gérez la brique commerce de Melis Platform',
     'tr_melis_installer_melis_modules_MelisSmallBusiness' => 'Ajoutez un workflow de validation des pages, un versioning de pages et une media library avancée',
     'tr_melis_installer_melis_modules_MelisZendServer' => 'Gérez du cache de page via zendserver',
+    'tr_melis_installer_melis_modules_MelisCmsPageAnalytics' => 'Gérez l\'analytics de vos sites',
+    'tr_melis_installer_melis_modules_MelisMessenger' => 'Echangez des messages avec les autres utilisateurs',
     
     // NEW USER FORM
     'tr_melis_installer_new_user_login' => 'Login', 

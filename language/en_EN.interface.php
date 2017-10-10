@@ -137,6 +137,8 @@ return array(
     'tr_melis_installer_melis_modules_MelisCommerce' => 'Create and manage the commerce brick of Melis Platform',
     'tr_melis_installer_melis_modules_MelisSmallBusiness' => 'Add a workflow of page validation, a page versioning and an advanced media library',
     'tr_melis_installer_melis_modules_MelisZendServer' => 'Manage page cache via zendserver',
+    'tr_melis_installer_melis_modules_MelisCmsPageAnalytics' => 'Manage the analytics of your sites',
+    'tr_melis_installer_melis_modules_MelisMessenger' => 'Exchange messages with other users',
     
     
     // NEW USER FORM
