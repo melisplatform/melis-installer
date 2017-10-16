@@ -29,10 +29,9 @@
                             <div class="melis-install-adv-prop-content">
                                 <div class="form-group">
                                     <?php
-                                        $emailEnabled = null;
-                                        $sendEmailVal = isset($this->setup1_3_current['app_interface_conf']['send_email']) ? $this->setup1_3_current['app_interface_conf']['send_email'] : false;
-                                        if((bool) $sendEmailVal) {
-                                            $emailEnabled = 'checked';
+                                        $emailEnabled = 'checked';
+                                        if(!$this->setup1_3_current['app_interface_conf']['send_email']) {
+                                            $emailEnabled = null;
                                         }
                                     ?>
                                     <label><?= $this->translate('tr_melis_installer_layout_env_send_email'); ?><i class="fa fa-info-circle pull-right" data-toggle="tooltip" aria-hidden="true" title="<?= $this->translate('tr_melis_installer_layout_env_send_email_info')?>"></i></label>
