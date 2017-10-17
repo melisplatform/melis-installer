@@ -143,6 +143,7 @@ return array(
     'tr_melis_installer_melis_modules_MelisZendServer' => 'Gérez du cache de page via zendserver',
     'tr_melis_installer_melis_modules_MelisCmsPageAnalytics' => 'Gérez l\'analytics de vos sites',
     'tr_melis_installer_melis_modules_MelisMessenger' => 'Echangez des messages avec les autres utilisateurs',
+    'tr_melis_installer_melis_modules_MelisMarketPlace' => 'Gérez les modules de la plateforme',
     
     // NEW USER FORM
     'tr_melis_installer_new_user_login' => 'Login', 

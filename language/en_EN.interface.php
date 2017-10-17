@@ -139,6 +139,7 @@ return array(
     'tr_melis_installer_melis_modules_MelisZendServer' => 'Manage page cache via zendserver',
     'tr_melis_installer_melis_modules_MelisCmsPageAnalytics' => 'Manage the analytics of your sites',
     'tr_melis_installer_melis_modules_MelisMessenger' => 'Exchange messages with other users',
+    'tr_melis_installer_melis_modules_MelisMarketPlace' => 'Manage the modules of the platform',
     
     
     // NEW USER FORM
