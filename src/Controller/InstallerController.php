@@ -1176,6 +1176,23 @@ class InstallerController extends AbstractActionController
          
         return $result;
     }
+    public function checkConfigAction()
+    {
+        $success = 0;
+        $errors  = array();
+
+        if($this->getRequest()->isXmlHttpRequest()) {
+            $response = $this->systemConfigurationChecker();
+            $success  = $response['success'];
+            $errors   = $response['errors'];
+
+        }
+
+        return new JsonModel(array(
+            'success' => $success,
+            'errors'  => $errors
+        ));
+    }
 
     private function mapDirectoryDemo($dir, $targetModuleName, $newModuleName) {
         $installSvc = $this->getServiceLocator()->get('InstallerHelper');
@@ -1246,5 +1263,7 @@ class InstallerController extends AbstractActionController
         ]);
         die;
     }
+
+
     
 }
