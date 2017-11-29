@@ -1,3 +1,11 @@
+<?php
+$widths = null;
+if($this->fromDragDropZone) {
+    $widths = "$this->widthDesktop $this->widthTablet $this->widthMobile";
+}
+?>
+
+<div class="<?= $widths; ?>">
 <?php if (!empty($this->latestNews)){?>
     <div class="latest-news-owl owl-carousel w-bg" id="<?= $this->pluginId; ?>">
     	<?php 
@@ -40,3 +48,4 @@
     	No result
     </div>
 <?php }?>
+</div>

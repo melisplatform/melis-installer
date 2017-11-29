@@ -1,3 +1,11 @@
+<?php
+$widths = null;
+if($this->fromDragDropZone) {
+    $widths = "$this->widthDesktop $this->widthTablet $this->widthMobile";
+}
+?>
+
+<div class="<?= $widths; ?>">
 <?php if ($this->siteDirExist){?>
     <?php if (!$this->indexerOk){?>
     	<?php if ($this->moduleDirWritable){?>
@@ -65,3 +73,4 @@
 		</div>
 	</div>
 <?php }?>
+</div>
