@@ -25,10 +25,10 @@ class InstallerController extends AbstractActionController
     {
         $installHelper = $this->getServiceLocator()->get('InstallerHelper');
         
-        $melisCoreConfig = $this->serviceLocator->get('MelisInstallerConfig');
-        $resources = $melisCoreConfig->getItem('melis_installer/ressources');
-        $translations = $this->getServiceLocator()->get('MelisCoreTranslation');
-        $locales      = $translations->getTranslationsLocale();
+        $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
+        $resources = $melisConfig->getItem('melis_installer/ressources');
+
+        $locales      = $this->getTranslationsLocale();
 
         
         $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent();
@@ -126,6 +126,33 @@ class InstallerController extends AbstractActionController
         $view->setup3_3_requiredModules = $requiredModules;
         
         return $view;
+    }
+
+    public function getTranslationsLocale()
+    {
+        $modulesSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $modules = $modulesSvc->getAllModules();
+        $modulePath = $modulesSvc->getModulePath('MelisInstaller');
+        $path = $modulePath.'/language/';
+        $dir  = scandir($path);
+        $files = array();
+        foreach($dir as $file) {
+            if(is_file($path.$file)) {
+                $files[] = $file;
+            }
+        }
+        $locales = array();
+        foreach($files as $file) {
+            $locale = explode('.',$file);
+            $locales[] = $locale[0];
+        }
+        // re-add locales to get the unique locales and fix proper array indexing
+        $uniqueLocales = array_unique($locales);
+        $newUniqueLocales = array();
+        foreach($uniqueLocales as $locale) {
+            $newUniqueLocales[] = $locale;
+        }
+        return $newUniqueLocales;
     }
 
     public function newEnvironmentFormAction()
@@ -681,7 +708,7 @@ class InstallerController extends AbstractActionController
                         // Unset MelisInstaller to make this last module loaded
                         unset($loadedModules['MelisInstaller']);
                         
-                        $moduleSvc = $this->getServiceLocator()->get('ModulesService');
+                        $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
                         $moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/', $requiredModule, $loadedModules, array('MelisInstaller'));
 
                         $siteDestination = $melisSite.'/'.$siteModuleName;
@@ -1117,7 +1144,7 @@ class InstallerController extends AbstractActionController
      */
     protected function hasMelisCmsModule()
     {
-        $modulesSvc = $this->getServiceLocator()->get('ModulesService');
+        $modulesSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         $modules = $modulesSvc->getAllModules();
         $path = $modulesSvc->getModulePath('MelisCms');
         $isExists = 0;
@@ -1136,8 +1163,8 @@ class InstallerController extends AbstractActionController
     protected function getForm($configPath)
     {
         $form       = null;
-        $melisCoreConfig = $this->serviceLocator->get('MelisInstallerConfig');
-        $formConfig = $melisCoreConfig->getItem($configPath);
+        $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
+        $formConfig = $melisConfig->getItem($configPath);
     
         if($formConfig) {
             $factory = new \Zend\Form\Factory();
@@ -1151,7 +1178,7 @@ class InstallerController extends AbstractActionController
     
     public function getModuleSvc()
     {
-        $moduleSvc = $this->getServiceLocator()->get('ModulesService');
+        $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         return $moduleSvc;
     }
     

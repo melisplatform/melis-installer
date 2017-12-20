@@ -11,6 +11,15 @@ return array(
     'router' => array(
         'routes' => array(
         	'melis-backoffice' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/melis[/]',
+                    'defaults' => array(
+                        'controller' => 'MelisInstaller\Controller\Index',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
                 'child_routes' => array(
                     'application-MelisInstaller' => array(
                         'type'    => 'Literal',
