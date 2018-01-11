@@ -14,6 +14,29 @@ return array(
                 'default_website_config_options' => array(
                     'None' => 'tr_melis_installer_web_config_option_none',
                     'NewSite' => 'tr_melis_installer_web_config_option_new_site',
+                ),
+                'module_exceptions' => array(
+                    // modules that will not be displayed when selecting a module to be installed
+                    'MelisCore',
+                    'MelisFront',
+                    'MelisEngine',
+                    'MelisInstaller',
+                    'MelisAssetManager',
+                    'MelisDbDeploy',
+                    'MelisComposerDeploy',
+                    'MelisCms'
+                ),
+                'module_auto_install' => array(
+                    // this configuration consists of the required modules that is need to run Melis Platform
+                    'MelisCore'   => 'melisplatform/melis-core',
+                    'MelisFront'  => 'melisplatform/melis-front',
+                    'MelisEngine' => 'melisplatform/melis-engine',
+                    'MelisCms'    => 'melisplatform/melis-cms',
+                ),
+                'module_default' => array(
+                    'MelisAssetManager',
+                    'MelisDbDeploy',
+                    'MelisComposerDeploy',
                 )
             ),
             'ressources' => array(

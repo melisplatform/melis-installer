@@ -22,9 +22,9 @@
 				<?php
 				foreach($this->setupLocales as $locale) {
 					if($this->currentLocale == $locale)
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($locale).'</b></a></li>';
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($locale).'</b></a></li>';
 					else
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($locale).'</a></li>';
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($locale).'</a></li>';
 				}
 				?>
 			</ul>
@@ -83,24 +83,44 @@
 					<i class="fa fa-circle-o"></i>
 					<span>
 				     	<span class="step-number">3</span>
-						<?= $this->translate('tr_melis_installer_navigation_platform'); ?>
+						<?= $this->translate('tr_melis_installer_navigation_modules'); ?>
 				     </span>
 				</a>
 			</li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('melis_installer_common_selection'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('melis_installer_common_download'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('melis_installer_common_configuration'); ?></span>
+                </a>
+            </li>
+
+
 			<li>
-				<a href="#" class="sub">
+				<a href="#" class="sub hidden">
 					<i class="fa fa-circle-o"></i>
 					<span><?= $this->translate('tr_melis_installer_navigation_web_config'); ?></span>
 				</a>
 			</li>
 			<li>
-				<a href="#" class="sub">
+				<a href="#" class="sub hidden">
 					<i class="fa fa-circle-o"></i>
 					<span><?= $this->translate('tr_melis_installer_navigation_melis_config'); ?></span>
 				</a>
 			</li>
 			<li>
-				<a href="#" class="sub">
+				<a href="#" class="sub hidden">
 					<i class="fa fa-circle-o"></i>
 					<span><?= $this->translate('tr_melis_installer_navigation_modules'); ?></span>
 				</a>
@@ -108,7 +128,7 @@
 			<li class="">
 				<a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
 					<i class="fa fa-circle-o"></i>
-					<span><?= $this->translate('tr_melis_installer_navigation_final'); ?></span>
+					<span><?= $this->translate('melis_installer_common_confirmation'); ?></span>
 				</a>
 			</li>
 		</ul>
@@ -142,7 +162,7 @@
 								</div>
 								<div class="col-xs-12 col-md-4">
 									<span class="circle-number">3</span>
-									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_platforminit'); ?></p>
+									<p><?= $this->translate('tr_melis_installer_navigation_modules'); ?></p>
 								</div>
 							</div>
 						</div>
@@ -168,10 +188,10 @@
     		    'step-1/step-1.2',
     		    'step-1/step-1.3',
     		    'step-2/step-2.0',
-    		    'step-3/step-3.0', 
-    		    'step-3/step-3.1', 
-    		    'step-3/step-3.2', 
-    		    'step-3/step-3.3', 
+    		    'step-3/step-3.0',
+    		    'step-3/selection',
+    		    'step-3/download',
+    		    'step-3/configuration',
     		    'finish/finish'
     	    );
     		

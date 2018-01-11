@@ -58,9 +58,21 @@ return array(
                             ),
                         ),
                         'may_terminate' => true,
-                    ), 
+                    ),
+                    'translations' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => 'get-translations',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'MelisInstaller\Controller',
+                                'controller'    => 'Translation',
+                                'action'        => 'getTranslation',
+                            ),
+                        ),
+                    )
                 ),
             ),
+
         ),
     ),
     'translator' => array(
@@ -73,14 +85,16 @@ return array(
             'translator' => 'MvcTranslator',
         ),
         'factories' => array(
-            'InstallerHelper' => 'MelisInstaller\Service\Factory\InstallHelperServiceFactory',
-            'MelisInstallerConfig' => 'MelisInstaller\Service\Factory\MelisInstallerConfigServiceFactory',
-            'MelisInstallerTranslation' => 'MelisInstaller\Service\Factory\MelisInstallerTranslationServiceFactory',
+            'InstallerHelper'              => 'MelisInstaller\Service\Factory\InstallHelperServiceFactory',
+            'MelisInstallerConfig'         => 'MelisInstaller\Service\Factory\MelisInstallerConfigServiceFactory',
+            'MelisInstallerModulesService' => 'MelisInstaller\Service\Factory\MelisInstallerModulesServiceFactory',
+            'MelisInstallerTranslation'    => 'MelisInstaller\Service\Factory\MelisInstallerTranslationServiceFactory',
         ),
     ),
     'controllers' => array(
         'invokables' => array(
             'MelisInstaller\Controller\Installer' => 'MelisInstaller\Controller\InstallerController',
+            'MelisInstaller\Controller\Translation' => 'MelisInstaller\Controller\TranslationController',
         ),
     ),
     

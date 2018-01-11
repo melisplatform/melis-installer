@@ -1,0 +1,46 @@
+<!-- STEP 3.2 -->
+<div class="item">
+    <div class="setup-content-container">
+        <div class="setup-heading">
+            <h2><?= $this->translate('tr_melis_installer_melis_config'); ?></h2>
+            <p><?= $this->translate('tr_melis_installer_melis_config_subtext'); ?></p>
+        </div>
+        <div class="setup-content setup-p3">
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-block">
+                        <li class="active"><a href="#tabMeliscore" data-toggle="tab">MelisCore</a></li>
+                        <li><a href="#tabMeliscms" data-toggle="tab">MelisCms</a></li>
+                        <li><a href="#tabCmsNews" data-toggle="tab">MelisCmsNews</a></li>
+                        <li><a href="#tabEtc" data-toggle="tab">Etc</a></li>
+                        <li><a href="#tabDemoCms" data-toggle="tab">MelisDemoCms</a></li>
+                    </ul>
+
+
+                </div>
+                <div class="col-xs-12 col-md-6 col-md-push-1">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabMeliscore">
+                            <?php
+                            $form = $this->setup3_createUserForm;
+                            echo $this->form()->openTag($form);
+                            echo $this->melisFieldCollection($form);
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                        <div class="tab-pane" id="tabMeliscms">...</div>
+                        <div class="tab-pane" id="tabCmsNews">...</div>
+                        <div class="tab-pane" id="tabEtc">...</div>
+                        <div class="tab-pane" id="tabDemoCms">...</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="setup-button-cont">
+                <a class="btn btn-success setup-pass-page disabled" disabled="disabled"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+            </div>
+        </div>
+    </div>
+</div>

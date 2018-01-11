@@ -207,5 +207,12 @@ return array(
     'tr_melis_installer_common_finish_error' =>  'Il y a eu un problème lors de l\'étape finale, si vous souhaitez recommencer, rafraichissez la page et réessayez',
     'tr_melis_installer_common_installing' => 'Installation . . .',
     'tr_melis_installer_common_finalizing' => 'Finalisation du setup . . .',
+
+    'melis_installer_common_selection' => 'Selection',
+    'melis_installer_common_download' => 'Download',
+    'melis_installer_common_configuration' => 'Configuration',
+    'melis_installer_common_confirmation' => 'Confirmation',
+
+    'melis_installer_module_active' => 'Activated %s',
     
 );

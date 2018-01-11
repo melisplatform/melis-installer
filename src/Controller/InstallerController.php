@@ -115,15 +115,19 @@ class InstallerController extends AbstractActionController
         $view->setup1_3_env_name        = $installHelper->getMelisPlatform();
         $view->setup1_3_env_domain      = $this->getRequest()->getServer()->SERVER_NAME;
         $view->setup2                   = $this->loadDatabaseCredentialFromSession();
-        $view->setup3_hasMelis          = $this->hasMelisCmsModule();
+
         $view->setup3_webConfigOption   = $webConfigOption;
         $view->setup3_showWebForm       = $showWebForm;
         $view->setup3_webLangForm       = $webLangForm;
         $view->setup3_webForm           = $webForm;
         $view->setup3_createUserForm    = $createUserForm;
-        $view->setup3_3_modules         = $this->getModuleSvc()->getModulePlugins(array('MelisCms', 'MelisModuleConfig', 'MelisAssetManager'));
+
+
+
         $view->setup3_3_selected        = $selectedModules;
         $view->setup3_3_requiredModules = $requiredModules;
+
+        $view->packagistMelisModules   = $installHelper->getPackagistMelisModules();
         
         return $view;
     }
@@ -584,6 +588,163 @@ class InstallerController extends AbstractActionController
             'requiredModules' => $requiredModules
         ));
     }
+
+    public function setDownloadableModulesAction()
+    {
+
+        $request  = $this->getRequest();
+        $packages = [];
+
+
+        if($request->isPost()) {
+
+            $container = new Container('melisinstaller');
+
+            $post = $request->getPost()->toArray();
+
+            $packages = isset($post['packages']) ? $post['packages'] : null;
+            $modules  = isset($post['modules'])  ? $post['modules']  : null;
+            $siteLang = isset($post['siteLang']) ? $post['siteLang'] : [];
+            $siteData = isset($post['siteData']) ? $post['siteData'] : [];
+
+            if($siteLang)
+                parse_str($siteLang, $siteLang);
+
+            if($siteData)
+                parse_str($siteData, $siteData);
+
+            if($packages && $modules) {
+
+                $downloadModules               = array();
+                $container['install_modules']  = $modules;
+
+                $ctr = 0;
+                foreach($modules as $module) {
+                    $downloadModules[$module] = $packages[$ctr];
+                    $ctr++;
+                }
+
+                $container['download_modules'] = $downloadModules;
+
+            }
+
+            $container['site_module']  = array_merge(array('site' => $post['site']), $siteLang, $siteData);
+
+
+
+        }
+
+        return new JsonModel(['success' => 1, 'packages' => $packages]);
+
+    }
+
+    public function downloadModulesAction()
+    {
+
+        $request = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+
+            $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+
+            $autoInstallModules  = $config->getItem('melis_installer/datas/module_auto_install');
+            $container           = new Container('melisinstaller');
+            $downloadableModules = isset($container['download_modules']) ? $container['download_modules'] : [];
+
+            $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
+
+
+            //$downloadableModules = implode(':dev-develop ', $downloadableModules);
+
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+
+            print_r($downloadableModules);
+
+            set_time_limit(-1);
+            ini_set ('memory_limit', -1);
+            foreach($downloadableModules as $module) {
+                $composerSvc->download($module, 'dev-develop');
+            }
+
+            // composer require melisplatform/melis-core:dev-develop  -vv  --working-dir="/usr/local/zend/var/apps/http/www.melis-installer.test/80/_docroot"
+
+            // issue fix
+            /**
+             * proc_open(): fork failed - Cannot allocate memory
+             * sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+             * sudo /sbin/mkswap /var/swap.1
+             * sudo /sbin/swapon /var/swap.1
+             */
+
+
+        }
+
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        return $view;
+
+    }
+
+    public function activateModulesAction()
+    {
+        $request = $this->getRequest();
+        $modules = array();
+
+        if($request->isXmlHttpRequest()) {
+
+            $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+
+            $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+            $defaultModules      = $config->getItem('melis_installer/datas/module_default');
+            $container           = new Container('melisinstaller');
+            $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
+
+            $modules             = array_merge($autoInstallModules, $downloadableModules);
+            $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
+
+            $moduleSvc->createModuleLoader('tmp/', array_merge($autoInstallModules, $downloadableModules), $defaultModules);
+        }
+
+
+        $view          = new ViewModel();
+        $view->setTerminal(true);
+        $view->modules = $modules;
+
+        return $view;
+    }
+
+    public function execDbDeployAction()
+    {
+
+        $request = $this->getRequest();
+        $modules = array();
+        if($request->isXmlHttpRequest()) {
+
+            $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
+            $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+            $container           = new Container('melisinstaller');
+            $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
+            $modules             = array_merge($autoInstallModules, $downloadableModules);
+
+
+            if($modules && is_array($modules)) {
+
+                $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
+                foreach($modules as $module) {
+                    // $deployDiscoveryService->processing($module);
+                }
+
+            }
+        }
+
+
+        $view          = new ViewModel();
+        $view->setTerminal(true);
+        $view->modules = $modules;
+
+        return $view;
+    }
+
     
     function testFunctionAction()
     {
@@ -1286,8 +1447,11 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        $this->getEventManager()->trigger('melis_install_last_process_start_test', $this, [
-        ]);
+        $svc = $this->getServiceLocator()->get('InstallerHelper');
+
+        $module = $svc->getPackagistMelisModules();
+
+        print_r($module);
         die;
     }
 

@@ -204,5 +204,24 @@ return array(
     'tr_melis_installer_common_finish_error' => 'There was a problem while doing the final step, if you want to redo everything, just refresh the page and try again',
     'tr_melis_installer_common_installing' => 'Installing . . .',
     'tr_melis_installer_common_finalizing' => 'Finalizing setup . . .',
+
+    'melis_installer_common_selection' => 'Selection',
+    'melis_installer_common_download' => 'Download',
+    'melis_installer_common_configuration' => 'Configuration',
+    'melis_installer_common_confirmation' => 'Confirmation',
+
+    'melis_installer_module_active' => 'Activated %s',
+    'melis_installer_module_import_tables' => 'Importing tables....',
+    'melis_installer_module_import_tables_ok' => 'Table from %s has been imported successfully',
+    'melis_installer_common_done' => 'Done',
+    'melis_installer_activate_modules_notice' => 'Activating modules...',
+
+    'melis_installer_download_module_title' => 'Modules / Download',
+    'melis_installer_download_module_subtitle' => 'Downloading modules, this will take awhile',
+
+
+
+
+
     
 );
