@@ -48,7 +48,7 @@ return array(
                     '/MelisInstaller/setup/js/bootstrap-switch.js',
                     '/MelisInstaller/setup/js/bootstrap-switch.init.js',
                     '/MelisInstaller/setup/js/setup.js',
-                    '/melis/get-translations',
+                    '/melis/MelisInstaller/Translation/getTranslation',
                     '/MelisInstaller/setup/core/js/melisHelper.js',
                     '/MelisInstaller/setup/core/js/melisCoreTool.js',
                 ),

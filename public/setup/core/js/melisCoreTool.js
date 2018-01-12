@@ -17,13 +17,13 @@ var melisCoreTool = (function(window){
 			type: BootstrapDialog.TYPE_WARNING,
 			closable: true,
 			buttons: [{
-                label: textNo, //translations.tr_meliscore_common_no
+                label: textNo, //translators.tr_meliscore_common_no
                 cssClass: 'btn-danger pull-left',
                 action: function(dialog) {
                 	dialog.close();
                 }
             }, {
-                label: textOk, //translations.tr_meliscore_common_yes
+                label: textOk, //translators.tr_meliscore_common_yes
                 cssClass: 'btn-success',
                 action: function(dialog) {
                 	callBackOnYes();
@@ -181,12 +181,12 @@ var melisCoreTool = (function(window){
 	
 	// date 
 	function init() {
-		var sToday = translations.tr_meliscore_datepicker_today;
-		var sYesterday = translations.tr_meliscore_datepicker_yesterday;
-		var sLast7Days = translations.tr_meliscore_datepicker_last_7_days;
-		var sLast30Days = translations.tr_meliscore_datepicker_last_30_days;
-		var sThisMonth = translations.tr_meliscore_datepicker_this_month;
-		var sLastMonth = translations.tr_meliscore_datepicker_last_month;
+		var sToday = translators.tr_meliscore_datepicker_today;
+		var sYesterday = translators.tr_meliscore_datepicker_yesterday;
+		var sLast7Days = translators.tr_meliscore_datepicker_last_7_days;
+		var sLast30Days = translators.tr_meliscore_datepicker_last_30_days;
+		var sThisMonth = translators.tr_meliscore_datepicker_this_month;
+		var sLastMonth = translators.tr_meliscore_datepicker_last_month;
 		
 		function cb(start, end) {
 			dStartDate = start.format(melisDateFormat);
@@ -206,9 +206,9 @@ var melisCoreTool = (function(window){
 		$("#dt_bsdatepicker").daterangepicker({
 	    	locale : {
 	    		format: melisDateFormat,
-	    		applyLabel: translations.tr_meliscore_datepicker_apply,
-	    		cancelLabel: translations.tr_meliscore_datepicker_cancel,
-	    		customRangeLabel: translations.tr_meliscore_datepicker_custom_range,
+	    		applyLabel: translators.tr_meliscore_datepicker_apply,
+	    		cancelLabel: translators.tr_meliscore_datepicker_cancel,
+	    		customRangeLabel: translators.tr_meliscore_datepicker_custom_range,
 	    	},
 	        ranges: rangeStringParam,
 	    }, cb);

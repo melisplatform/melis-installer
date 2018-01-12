@@ -36,13 +36,14 @@ class TranslationController  extends AbstractActionController
             ->addHeaderLine('Content-Type', 'text/javascript; charset=utf-8');
         foreach($translations as $transKey => $transValue)
         {
-            $transValue     = str_replace("'", "\'", $transValue);
-            $jsTranslations .= "translations['".$transKey."'] = '" . $transValue . "';". PHP_EOL;
+            $transKey        = str_replace("'", '', $transKey);
+            $transValue      = str_replace("'", "\'", $transValue);
+            $jsTranslations .= "translators['".$transKey."'] = '" . $transValue . "';". PHP_EOL;
         }
 
         $scriptContent = '';
         $scriptContent .= 'var melisLangId = "' . $locale . '";' . PHP_EOL;
-        $scriptContent .= 'var translations = new Object();'. PHP_EOL;
+        $scriptContent .= 'var translators = new Object();'. PHP_EOL;
         $scriptContent .= $jsTranslations;
         $response->setContent($scriptContent);
 

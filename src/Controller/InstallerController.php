@@ -362,6 +362,9 @@ class InstallerController extends AbstractActionController
                                         
                                         $container = new Container('melisinstaller');
                                         $container['database'] = $data;
+
+                                        $_SESSION['database'] = $data;
+
                                     }
                                     else {
                                         $errors = array(
@@ -654,7 +657,7 @@ class InstallerController extends AbstractActionController
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
 
 
-            //$downloadableModules = implode(':dev-develop ', $downloadableModules);
+            $downloadableModules = implode(' ', $downloadableModules);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
 
@@ -662,9 +665,9 @@ class InstallerController extends AbstractActionController
 
             set_time_limit(-1);
             ini_set ('memory_limit', -1);
-            foreach($downloadableModules as $module) {
-                $composerSvc->download($module, 'dev-develop');
-            }
+            //foreach($downloadableModules as $module) {
+                $composerSvc->download($downloadableModules);
+            //}
 
             // composer require melisplatform/melis-core:dev-develop  -vv  --working-dir="/usr/local/zend/var/apps/http/www.melis-installer.test/80/_docroot"
 
@@ -702,7 +705,7 @@ class InstallerController extends AbstractActionController
             $modules             = array_merge($autoInstallModules, $downloadableModules);
             $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
-            $moduleSvc->createModuleLoader('tmp/', array_merge($autoInstallModules, $downloadableModules), $defaultModules);
+            $moduleSvc->createModuleLoader('config/', array_merge($autoInstallModules, $downloadableModules, array('MelisInstaller')), $defaultModules);
         }
 
 
@@ -726,17 +729,20 @@ class InstallerController extends AbstractActionController
             $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
             $modules             = array_merge($autoInstallModules, $downloadableModules);
 
-
             if($modules && is_array($modules)) {
 
-                $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
-                foreach($modules as $module) {
-                    // $deployDiscoveryService->processing($module);
+                $database = isset($container['database']) ? $container['database'] : null;
+                if($database) {
+                    $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
+
+                    foreach($modules as $module) {
+                        $deployDiscoveryService->processing($module, $database);
+                    }
                 }
+
 
             }
         }
-
 
         $view          = new ViewModel();
         $view->setTerminal(true);
@@ -1433,6 +1439,7 @@ class InstallerController extends AbstractActionController
         //unset($container->platforms);
         print '<pre>';
         print_r($container->getArrayCopy());
+        print_r($_SESSION);
         print '</pre>';
         die;
     }

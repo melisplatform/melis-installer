@@ -56,7 +56,7 @@ var melisHelper = (function(){
 			});
 			
 		var div = "<div class='melis-modaloverlay "+ closeByButtonOnly +"'></div>";
-		div += "<div class='melis-modal-cont KOnotif'>  <div class='modal-content'>"+ errorTexts +" <span class='btn btn-block btn-primary'>"+ translations.tr_melis_installer_common_close +"</span></div> </div>";
+		div += "<div class='melis-modal-cont KOnotif'>  <div class='modal-content'>"+ errorTexts +" <span class='btn btn-block btn-primary'>"+ translators.tr_melis_installer_common_close +"</span></div> </div>";
 		$body.append(div);
 	}
 
@@ -132,7 +132,7 @@ var melisHelper = (function(){
 			
 			// check if there are no contents open
 			if( $navTabs.children("li").length === 0){
-				var empty = '<b>(' + translations.tr_meliscore_empty +')</b>';
+				var empty = '<b>(' + translators.tr_meliscore_empty +')</b>';
 				$("#res-page-cont span").append(empty);
 			}
 		}
@@ -151,7 +151,7 @@ var melisHelper = (function(){
     		li += "<a data-toggle='tab' class='dropdown-toggle menu-icon tab-element' href='#"+ zoneId + "' data-id='" + zoneId + "'>";
     		li += "<i class='fa "+ icon +" fa-2x'></i><span class='navtab-pagename'>";
     		li += title + "</span></a>";
-    		li += "<a class='close close-tab' data-id='" + zoneId + "'>"+ translations.tr_meliscore_notification_modal_Close +"</a>";
+    		li += "<a class='close close-tab' data-id='" + zoneId + "'>"+ translators.tr_meliscore_notification_modal_Close +"</a>";
     		li += "</li>";
     		
     		// append the <li> to the menu
@@ -283,7 +283,7 @@ var melisHelper = (function(){
 	    	}, 300);
 	    }).error(function(xhr, textStatus, errorThrown){
 	    	
-	    	alert( translations.tr_meliscore_error_message );
+	    	alert( translators.tr_meliscore_error_message );
 	    	
 	    	//hide the loader
 	    	$('.loader-icon').removeClass('spinning-cog').addClass('shrinking-cog');
