@@ -592,9 +592,13 @@ class InstallHelperService implements ServiceLocatorAwareInterface
             $serverPackages   = file_get_contents($requestJsonUrl);
             $serverPackages   = Json::decode($serverPackages, Json::TYPE_ARRAY);
 
+            $moduleExceptions = array_map(function($a) {
+                return strtolower(trim($a));
+            }, $moduleExceptions);
+
             if(isset($serverPackages['packages']) && $serverPackages['packages']) {
                 foreach($serverPackages['packages'] as $package) {
-                    if(!in_array($package['packageModuleName'], $moduleExceptions)) {
+                    if(!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions)) {
                         $packages[] = $package;
                     }
                 }

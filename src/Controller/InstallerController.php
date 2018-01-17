@@ -15,7 +15,7 @@ use Zend\View\Model\JsonModel;
 use Zend\Session\Container;
 use Zend\Config\Config;
 use Zend\Config\Writer\PhpArray;
-
+use Zend\Json\Json;
 class InstallerController extends AbstractActionController
 {
     
@@ -661,24 +661,10 @@ class InstallerController extends AbstractActionController
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
 
-            print_r($downloadableModules);
-
             set_time_limit(-1);
-            ini_set ('memory_limit', -1);
-            //foreach($downloadableModules as $module) {
-                $composerSvc->download($downloadableModules);
-            //}
+            ini_set('memory_limit', -1);
 
-            // composer require melisplatform/melis-core:dev-develop  -vv  --working-dir="/usr/local/zend/var/apps/http/www.melis-installer.test/80/_docroot"
-
-            // issue fix
-            /**
-             * proc_open(): fork failed - Cannot allocate memory
-             * sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
-             * sudo /sbin/mkswap /var/swap.1
-             * sudo /sbin/swapon /var/swap.1
-             */
-
+            $composerSvc->download($downloadableModules, null, true);
 
         }
 
@@ -751,17 +737,152 @@ class InstallerController extends AbstractActionController
         return $view;
     }
 
-    
-    function testFunctionAction()
+    public function getModuleConfigurationFormsAction()
     {
-        $container = new Container('melisinstaller');
-        
-        //unset($container['cms_data']);
-        echo '<pre>';
-        print_r($container['cms_data']);
-        echo '</pre>';
-        
-        return new JsonModel(array());
+        // view-source:www.melis-installer.test/melis/MelisInstaller/Installer/getModuleConfigurationForms
+        $mm      = $this->getServiceLocator()->get('ModuleManager');
+        $config  = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $modules = array_keys($mm->getLoadedModules());
+
+
+        $defaultModules  = $config->getItem('melis_installer/datas/module_default');
+        $modules         = array_diff($modules, array_merge($defaultModules, array('MelisInstaller', 'MelisModuleConfig')));
+
+        $siteModule      = getenv('MELIS_MODULE');
+        array_push($modules, $siteModule);
+
+        $content         = '';
+        $tabs            = '';
+        $tabContent      = '';
+
+        $flag = 0;
+
+        foreach($modules as $module) {
+
+            $moduleFormContent = $this->getModuleConfigurationForm($module);
+
+            if($moduleFormContent !== null) {
+
+                $active = '';
+                $id     = 'id'.$module;
+
+                if($flag === 0) {
+                    $active = 'active';
+                }
+
+                $tabs       .= '<li class="'.$active.'"><a href="#'.$id.'" data-toggle="tab">'.$module.'</a></li>';
+
+                $tabContent .= '<div class="tab-pane '.$active.'" id="'.$id.'">'.PHP_EOL;
+                $tabContent .= $moduleFormContent;
+                $tabContent .= '</div>'.PHP_EOL;
+
+                $flag++;
+            }
+
+        }
+
+        $content .= '<div class="col-xs-12 col-md-4">';
+        $content .= '    <ul class="nav nav-tabs nav-block">';
+        $content .= $tabs;
+        $content .= '    </ul>';
+        $content .= '</div>';
+        $content .= '    <div class="col-xs-12 col-md-6 col-md-push-1">';
+        $content .= '        <div class="tab-content">';
+        $content .= $tabContent;
+        $content .= '        </div>';
+        $content .= '    </div>';
+
+        die($content);
+
+    }
+
+    public function getModuleConfigurationForm($module)
+    {
+        $content    = '';
+        $html       = '';
+        $controller = 'MelisSetup';
+        $action     = 'setupForm';
+
+        $namespace  = $module.'\\Controller\\'.$controller .'Controller';
+
+        if(class_exists($namespace)) {
+
+            $viewModel  = $this->forward()->dispatch($module.'\\Controller\\'.$controller, array('action' => $action));
+
+            $renderer   = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
+            $html       = new \Zend\Mime\Part($renderer->render($viewModel));
+
+            $content    = (string) $html->getContent();
+        }
+        else {
+            $content = null;
+        }
+
+        return $content;
+    }
+
+    public function submitModuleconfigurationForm($module, $params)
+    {
+
+        $controller = 'MelisSetup';
+        $action     = 'setupResult';
+
+        $namespace  = $module.'\\Controller\\'.$controller .'Controller';
+
+        if(class_exists($namespace)) {
+
+            $class   = $module.'\\Controller\\'.$controller;
+            $result  = $this->forward()->dispatch($class, array_merge(array('action' => $action), $params));
+
+            return $result->getVariables();
+        }
+        else {
+            return null;
+        }
+
+    }
+
+
+    public function submitModuleconfigurationFormAction()
+    {
+
+        $mm      = $this->getServiceLocator()->get('ModuleManager');
+        $config  = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $modules = array_keys($mm->getLoadedModules());
+
+        $params  = $this->params()->fromQuery();
+
+
+        $defaultModules  = $config->getItem('melis_installer/datas/module_default');
+        $modules         = array_diff($modules, array_merge($defaultModules, array('MelisInstaller', 'MelisModuleConfig')));
+
+        $siteModule      = getenv('MELIS_MODULE');
+        array_push($modules, $siteModule);
+
+        $errors = array();
+        $success = true;
+
+
+        foreach($modules as $module) {
+
+            $result = $this->submitModuleconfigurationForm($module, $params);
+
+            if(is_array($result)) {
+                $errors = array_merge($errors, $result['errors']);
+                if(isset($result['success']) && !$result['success']) {
+                    $success = false;
+                }
+            }
+
+        }
+
+        $data = array(
+            'success' => $success,
+            'errors' => $errors
+        );
+        header('Content-Type: application/json');
+        die(Json::encode($data));
+
     }
     
     function createNewUserAction()

@@ -9,7 +9,7 @@ return array(
                 /**
                  * Melis Installer Step 3 : Wesite Configuration Option default options
                  * NOTE* : if key "None" and "NewSite" modify, 
-                 * the intaller contoller, js, factory etc. should should also modify
+                 * the intaller contoller, js, factory etc. should also modify
                  */
                 'default_website_config_options' => array(
                     'None' => 'tr_melis_installer_web_config_option_none',

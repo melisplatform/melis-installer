@@ -21,7 +21,7 @@
 	    dotsSpeed: 500,
 	    navSpeed: 500,
 	    dots: false,
-	    // startPosition: 7,
+	    startPosition: 9,
 	    // nav: true,
 	}); 
 	
@@ -165,8 +165,8 @@
             $owl.trigger('to.owl.carousel', [9, 500]);
 		}
 		else if(currentPage === 10) {
-			// Adding check mark on Step 3 nav atfer step 3.3
-			$('.hasSubmenu:eq( 2 )').find("i").removeClass("fa-circle-o").css("color","").addClass("fa fa-check fa-color-green");
+			// Adding check mark on Step 3 nav after step 3.3
+            submitModuleConfiguration();
 		}
 		else {
 			$owl.trigger('to.owl.carousel', [currentPage, 500]);
@@ -489,6 +489,7 @@
                                     scrollTop: vConsole.prop("scrollHeight")
                                 }, 1115);
                                 enableNextButton();
+                                getModuleConfiguration();
 							});
                         });
 					}
@@ -577,9 +578,30 @@
 		modDataString = $.param(modDataString);
 		ajaxRequest('/melis/MelisInstaller/Installer/addInstallableModules', modDataString, function(data) {
 			$owl.trigger('to.owl.carousel', [nextPage, 500]);
-			});
+		});
  
-		}
+	}
+
+	function getModuleConfiguration()
+	{
+		getRequest('/melis/MelisInstaller/Installer/getModuleConfigurationForms', 'html', function(data) {
+			$("#melis-installer-configuration-forms").html(data);
+		});
+	}
+
+	function submitModuleConfiguration()
+	{
+        $('.hasSubmenu:eq( 2 )').find("i").removeClass("fa-circle-o").css("color","").addClass("fa fa-check fa-color-green");
+        var forms = $("#melis-installer-configuration-forms form").serialize();
+        getRequest('/melis/MelisInstaller/Installer/submitModuleconfigurationForm?'+forms, 'json', function(response) {
+            if(response.success == '1') {
+				enableNextButton();
+            }
+            else {
+                melisHelper.melisKoNotification('Error', 'error', response.errors);
+            }
+        });
+	}
 
 		
 		// show modal spinner after you click the finish button

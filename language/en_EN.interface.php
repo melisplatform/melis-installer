@@ -219,6 +219,8 @@ return array(
     'melis_installer_download_module_title' => 'Modules / Download',
     'melis_installer_download_module_subtitle' => 'Downloading modules, this will take awhile',
 
+    'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
+
 
 
 

@@ -14,6 +14,11 @@
                     <form role="form" id="frmSelModules" class="form-group form-modules">
                         <div class="row">
                             <?php foreach($this->packagistMelisModules as $module):?>
+                                <?php
+//                                print '<pre>';
+//                                print_r($module);
+//                                print '</pre>';
+                                ?>
                                 <?php if(in_array($module['packageModuleName'], $this->setup3_3_selected) || in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) :?>
                                     <?php $requredModule = (in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) ? 'requried-module' : ''?>
                                     <div class="col-md-6">

@@ -214,5 +214,7 @@ return array(
     'melis_installer_common_confirmation' => 'Confirmation',
 
     'melis_installer_module_active' => 'Activated %s',
+
+    'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
     
 );
