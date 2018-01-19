@@ -46,7 +46,7 @@ class MelisInstallCheckPlatformListener extends MelisInstallerGeneralListener im
                     array_push($errors, array('domain' => array('error' => 'Invalid domain')));
                 }
                 $siteData = $tableSiteDomain->fetchAll()->toArray();
-                // remove unneccesary data while checking
+                // remove unnecessary data while checking
                 for($x = 0; $x < count($siteData); $x++) {
                     unset($siteData[$x]['sdom_id']);
                     unset($siteData[$x]['sdom_site_id']);

@@ -1,11 +1,3 @@
-<?php
-$widths = null;
-if($this->fromDragDropZone) {
-    $widths = "$this->widthDesktop $this->widthTablet $this->widthMobile";
-}
-?>
-
-<div class="<?= $widths; ?>">
 <?php if (!empty($this->listofpages)):?>
     <div class="total-testimonial-owl pagi-03 owl-carousel" id="testimonial-<?= $this->pluginId; ?>">
     	<?php 
@@ -69,4 +61,3 @@ if($this->fromDragDropZone) {
         No Result
     </div>
 <?php endif;?>
-</div>

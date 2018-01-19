@@ -673,3 +673,20 @@ input[type="text"] {
     white-space: -o-pre-wrap;
     word-wrap: break-word;
 }
+
+.modal-setup-module-form-configuration{
+    height: 650px;
+    overflow: auto;
+    position: relative;
+}
+
+.modal-setup-module-form-configuration .btn-block.btn-primary {
+    position: fixed;
+    bottom: 10px;
+    width: 85%;
+}
+.melis-installer-module-configuration-form-content{
+    height: 486px;
+    overflow: scroll;
+    padding: 5px 20px;
+}

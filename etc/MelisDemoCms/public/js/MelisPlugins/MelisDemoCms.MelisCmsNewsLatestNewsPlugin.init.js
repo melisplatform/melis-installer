@@ -35,9 +35,7 @@ function MelisCmsNewsLatestNewsPlugin_init(idPlugin){
 		            }
 		        }
 		    });
-		}
-	} else {
-		if($plugin.length){
+		}else if($plugin.length){
 			if($plugin.hasClass("owl-carousel")){
 				// default latest-news
 				$plugin.owlCarousel({

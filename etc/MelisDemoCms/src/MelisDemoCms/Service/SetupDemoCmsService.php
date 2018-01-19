@@ -114,14 +114,13 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     public function setupSiteDomain($protocol, $domain)
     {
         $siteDomainTbl = $this->getServiceLocator()->get('MelisEngineTableSiteDomain');
-        $siteDomain = array(
+
+        $siteDomainTbl->save(array(
             'sdom_site_id' => $this->siteId,
             'sdom_env' => getenv('MELIS_PLATFORM'),
             'sdom_scheme' => $protocol,
             'sdom_domain' => $domain,
-        );
-        
-        $siteDomainTbl->save($siteDomain);
+        ));
     }
     
     /**

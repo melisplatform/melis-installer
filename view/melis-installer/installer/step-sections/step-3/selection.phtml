@@ -14,11 +14,7 @@
                     <form role="form" id="frmSelModules" class="form-group form-modules">
                         <div class="row">
                             <?php foreach($this->packagistMelisModules as $module):?>
-                                <?php
-//                                print '<pre>';
-//                                print_r($module);
-//                                print '</pre>';
-                                ?>
+
                                 <?php if(in_array($module['packageModuleName'], $this->setup3_3_selected) || in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) :?>
                                     <?php $requredModule = (in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) ? 'requried-module' : ''?>
                                     <div class="col-md-6">
@@ -30,7 +26,7 @@
                                                 </span>
                                                     <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $module['packageModuleName']; ?>" value="<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" checked>
                                                 </label>
-                                                <span class="module-name"><?= $module['packageTitle']; ?></span>
+                                                <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] .')'; ?></span>
                                                 <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
                                             </div>
                                         </div>
@@ -45,7 +41,7 @@
                                                 </span>
                                                     <input type="checkbox" value="<?= $module['packageModuleName']; ?>" name="chk<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>">
                                                 </label>
-                                                <span class="module-name"><?= $module['packageTitle']; ?></span>
+                                                <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] . ')'; ?></span>
                                                 <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
 
                                             </div>

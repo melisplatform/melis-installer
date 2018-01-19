@@ -6,7 +6,7 @@ var melisHelper = (function(){
     var $body = $("body");
     var $navTabs = $("#melis-id-nav-bar-tabs");
 
-    function melisTranslator(transKey){
+    function melistranslators(transKey){
         var translated = translators[transKey]
         if(translated === undefined){
             translated = transKey;
@@ -18,8 +18,8 @@ var melisHelper = (function(){
     function melisOkNotification(title, message, color){
         if(!color) color = "#72af46";
         $.gritter.add({
-            title: melisTranslator(title),
-            text: melisTranslator(message),
+            title: melistranslators(title),
+            text: melistranslators(message),
             time: 3000,
             image: '/melis/MelisCore/MelisAuth/getProfilePicture?v=' + new Date().getTime(),
         });
@@ -32,9 +32,9 @@ var melisHelper = (function(){
         if(!closeByButtonOnly) closeByButtonOnly = "closeByButtonOnly";
         ( closeByButtonOnly !== 'closeByButtonOnly' ) ? closeByButtonOnly = 'overlay-hideonclick' : closeByButtonOnly = '';
 
-        var errorTexts = '<h3>'+ melisTranslator(title) +'</h3>';
+        var errorTexts = '<h3>'+ melistranslators(title) +'</h3>';
 
-        errorTexts +='<h4>'+ melisTranslator(message) +'</h4>';
+        errorTexts +='<h4>'+ melistranslators(message) +'</h4>';
         $.each( errors, function( key, error ) {
             if(key !== 'label'){
                 errorTexts += '<p class="modal-error-cont"><b>'+ (( errors[key]['label'] == undefined ) ? ((errors['label']== undefined) ? key : errors['label'] ) : errors[key]['label'] )+ ': </b>  ';
@@ -66,8 +66,8 @@ var melisHelper = (function(){
         if(!closeByButtonOnly) closeByButtonOnly = true;
         var closeByButtonOnly = ( closeByButtonOnly !== true ) ?  'overlay-hideonclick' : '';
 
-        var errorTexts = '<h3>'+ melisHelper.melisTranslator(title) +'</h3>';
-        errorTexts +='<h4>'+ melisHelper.melisTranslator(message) +'</h4>';
+        var errorTexts = '<h3>'+ melisHelper.melistranslators(title) +'</h3>';
+        errorTexts +='<h4>'+ melisHelper.melistranslators(message) +'</h4>';
 
         $.each( errors, function( key, error ) {
             if(key !== 'label'){
@@ -677,8 +677,8 @@ var melisHelper = (function(){
     return{
         //key - access name outside									// value - name of function above
 
-        // javascript translator function
-        melisTranslator									:			melisTranslator,
+        // javascript translators function
+        melistranslators									:			melistranslators,
 
         // notifications
         melisOkNotification 							:       	melisOkNotification,
@@ -716,3 +716,66 @@ var melisHelper = (function(){
     };
 
 })();
+
+var melisInstallerFormHelper = (function($, window) {
+    var $body = window.parent.$("body");
+    /**
+     * KO NOTIFICATION for Multiple Form
+     */
+    function melisMultiKoNotification(errors, closeByButtonOnly) {
+        if(!closeByButtonOnly) closeByButtonOnly = true;
+        var closeByButtonOnly = ( closeByButtonOnly !== true ) ?  'overlay-hideonclick' : '';
+        var errorTexts = '';
+        $.each(errors, function(idx, errorData) {
+            if(errorData['success'] === false) {
+                errorTexts += '<h3>'+ (errorData['name']) +'</h3>';
+                errorTexts +='<h4>'+ (errorData['message']) +'</h4>';
+                highlightMultiErrors(errorData['success'], errorData['errors']);
+                $.each( errorData['errors'], function( key, error ) {
+                    if(key !== 'label'){
+                        errorTexts += '<p class="modal-error-cont"><b>'+ (( error['label'] == undefined ) ? ((error['label']== undefined) ? key : errors['label'] ) : error['label'] )+ ': </b>  ';
+                        // catch error level of object
+                        try {
+                            $.each( error, function( key, value ) {
+                                if(key !== 'label' && key !== 'form'){
+                                    $errMsg = '';
+                                    if(value instanceof Object){
+                                        $errMsg = value[0];
+                                    }else{
+                                        $errMsg = value;
+                                    }
+                                    errorTexts += '<span><i class="fa fa-circle"></i>'+ $errMsg + '</span>';
+                                }
+                            });
+                        } catch(e) {
+                            if(key !== 'label' && key !== 'form') {
+                                errorTexts +=  '<span><i class="fa fa-circle"></i>'+ error + '</span>';
+                            }
+                        }
+                    }
+                });
+                errorTexts += '</p><br/>';
+            }
+        });
+
+        var div = '<div class="melis-modaloverlay '+ closeByButtonOnly +'"></div>';
+        div += '<div class="melis-modal-cont KOnotif">  <div class="modal-content modal-setup-module-form-configuration">'+ errorTexts +' <span class="btn btn-block btn-primary">' + translators.tr_melis_installer_common_close +'</span></div> </div>';
+        $body.append(div);
+    }
+
+    function highlightMultiErrors(success, errors){
+        // remove red color for correctly inputted fields
+        $body.find("#melis-installer-configuration-forms .form-group label").css("color", "inherit");
+        // if all form fields are error color them red
+        if(success == "false"){
+            $.each( errors, function( key, error ) {
+                $body.find("#melis-installer-configuration-forms .form-control[name='"+key +"']").parents(".form-group").find("label").css("color","red");
+            });
+        }
+    }
+
+    return {
+        melisMultiKoNotification : melisMultiKoNotification
+    }
+
+})(jQuery, window);

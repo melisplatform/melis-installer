@@ -46,6 +46,7 @@ class Module
     	$config = array();
     	$configFiles = array(
     			include __DIR__ . '/config/module.config.php',
+    			include __DIR__ . '/config/app.install.php',
     			include __DIR__ . '/config/MelisDemoCms.config.php',
     	);
     	

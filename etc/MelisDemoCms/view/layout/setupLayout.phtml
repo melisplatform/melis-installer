@@ -6,7 +6,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php 
+        <?php
             // Favicon
             $this->headLink(array('rel' => 'apple-touch-icon', 'href' => $this->basePath('/MelisDemoCms/images/icons/favicon.ico'), 'PREPEND'));
             // Bootstrap fremwork main css
@@ -28,14 +28,14 @@
         </style>
     </head>
     <body>
-        <br>    
+        <br>
         <div class="container">
         	<div class="jumbotron">
               	<h1>Melis Demo CMS Setup</h1>
               	<div class="alert alert-info hidden" role="alert">
             		<i class="fa fa-cog fa-spin fa-3x fa-fw pull-left"></i>
 					<p><strong>MelisDemoCms setup started.</strong></p>
-					<p>Please wait while the setup is running, this may take a few minutes.</p> 
+					<p>Please wait while the setup is running, this may take a few minutes.</p>
             	</div>
             	<div class="alert alert-success hidden" role="alert">
             		<i class="fa fa-check-circle fa-3x pull-left"></i>
@@ -44,7 +44,7 @@
             	<div class="alert alert-warning hidden" role="alert">
             		<i class="fa fa-info-circle fa-3x pull-left"></i>
 					<p><strong>Opps... Something went wrong.</strong></p>
-					<p>An error has occurred, please contact the administrator if the problem persists.</p> 
+					<p>An error has occurred, please contact the administrator if the problem persists.</p>
             	</div>
             	<div class="form-group siteProtocolForm">
                     <label for="siteDomain">Protocol</label>
@@ -61,8 +61,8 @@
               	<p><button class="btn btn-success btn-lg" id="setupStartbtn">Start setup</button></p>
             </div>
         </div>
-            
-        <?php 
+
+        <?php
             // jquery latest version
             $this->inlineScript()->appendFile($this->basePath('/MelisDemoCms/js/vendor/jquery-2.2.4.min.js'));
             // Bootstrap framework js
@@ -81,7 +81,7 @@
 					$(".siteProtocolForm").addClass("has-error");
 					noError = false;
           		}
-          		
+
             	var domain = $("#siteDomain").val();
               	if(domain.trim().length){
               		$(".siteDomainForm").removeClass("has-error");
@@ -89,7 +89,7 @@
 					$(".siteDomainForm").addClass("has-error");
 					noError = false;
           		}
-          		
+
           		if(noError){
           			$(".alert").addClass("hidden");
                     $(".alert-info").removeClass("hidden");
@@ -97,29 +97,29 @@
                  	executeSetup();
           		}
             });
-            
+
             function executeSetup(step = ''){
                 var dataString = new Array;
                 dataString.push({
                     name : "step",
                     value : step
                 });
-                
+
                 dataString.push({
                     name : "protocol",
                     value : $("#siteProtocol").val()
                 });
-                
+
                 dataString.push({
                     name : "domain",
                     value : $("#siteDomain").val()
                 });
-                
+
                 $("#siteProtocol").attr("disabled", true);
                 $("#siteDomain").attr("disabled", true);
-				
+
                 $.ajax({
-        			type        : 'POST', 
+        			type        : 'POST',
         	        url         : '/MelisDemoCms/setup/executeSetup',
         	        data        : dataString,
         	        dataType    : 'json',

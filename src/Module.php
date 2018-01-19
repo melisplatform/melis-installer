@@ -32,10 +32,8 @@ class Module
         $sm = $e->getApplication()->getServiceManager();
         $this->createTranslations($e);
         $this->initSession();
-        $eventManager->attach(new MelisInstallCheckPlatformListener());
-        $eventManager->attach(new MelisInstallerDatabaseInstallListener());
-        $eventManager->attach(new MelisInstallerDatabaseInstallStatusListener());
 
+        $eventManager->attach(new MelisInstallCheckPlatformListener());
         $eventManager->attach(new MelisInstallerLastProcessListener());
         $eventManager->attach(new MelisInstallModuleConfigListener());
 

@@ -33,7 +33,7 @@ class AboutController extends BaseController
         
         $this->view->setVariable('idPage', $this->idPage);
         $this->view->setVariable('renderMode', $this->renderMode);
-        
         return $this->view;
+
     }
 }

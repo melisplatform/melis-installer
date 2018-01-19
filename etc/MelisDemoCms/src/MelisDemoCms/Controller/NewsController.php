@@ -86,7 +86,7 @@ class NewsController extends BaseController
 		        'order' => 'DESC',
 		        'limit' => 10,
 		        'unpublish_filter' => true,
-		        'date_max' => $dateMax,
+		        'date_max' => null,
 		        'site_id' => $siteDatas['site_id'],
 		    )
 		);

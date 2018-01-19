@@ -1,11 +1,3 @@
-<?php
-$widths = null;
-if($this->fromDragDropZone) {
-    $widths = "$this->widthDesktop $this->widthTablet $this->widthMobile";
-}
-?>
-
-<div class="<?= $widths; ?>">
 <?php if(!empty($this->showSlider)){?>
 	<div class="owl-carousel w-bg aboutus-slider-owl" id="<?= $this->pluginId; ?>">
 		<?php foreach ($this->showSlider As $key => $val){?>
@@ -36,4 +28,3 @@ if($this->fromDragDropZone) {
     	No result
     </div>
 <?php }?>
-</div>

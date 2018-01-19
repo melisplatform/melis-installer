@@ -1,11 +1,3 @@
-<?php
-$widths = null;
-if($this->fromDragDropZone) {
-    $widths = "$this->widthDesktop $this->widthTablet $this->widthMobile";
-}
-?>
-
-<div class="<?= $widths; ?>">
 <div class="alert alert-success <?php echo ($this->success) ? : 'hidden'?>">
 	<strong>Success!</strong> Your message has been sent to us.
 </div>
@@ -38,4 +30,3 @@ if($this->fromDragDropZone) {
 <?php
 	echo $this->form()->closeTag(); 
 ?>
-</div>
