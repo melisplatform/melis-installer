@@ -584,7 +584,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     public function isModuleExists($module) 
     {
         $status = false;
-        $modulesSvc = $this->getServiceLocator()->get('ModulesService');
+        $modulesSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
         $pathModule = $modulesSvc->getModulePath($module);
         
         if(file_exists($pathModule)) {

@@ -274,6 +274,7 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
      */
     public function createModuleLoader($pathToStore, $modules = array(), $topModules = array('meliscore', 'melisfront', 'melisengine'), $bottomModules = array('MelisModuleConfig'))
     {
+
         $tmpFileName = 'melis.module.load.php.tmp';
         $fileName = 'melis.module.load.php';
         if($this->checkDir($pathToStore)) {
@@ -295,6 +296,7 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
                     array_push($modules, $module);
                 }
             }
+
             $config = new Config($modules, true);
             $writer = new PhpArray();
             $conf = $writer->toString($config);

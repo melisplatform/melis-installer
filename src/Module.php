@@ -14,13 +14,8 @@ use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\ModuleManager;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Session\Container;
-use MelisInstaller\Listener\MelisInstallCheckPlatformListener;
-use MelisInstaller\Listener\MelisInstallerDatabaseInstallStatusListener;
-use MelisInstaller\Listener\MelisInstallerDatabaseInstallListener;
-use MelisInstaller\Listener\MelisInstallerLastProcessListener;
 use MelisInstaller\Listener\MelisInstallModuleConfigListener;
 use Zend\Session\SessionManager;
-
 
 class Module
 {
@@ -33,8 +28,6 @@ class Module
         $this->createTranslations($e);
         $this->initSession();
 
-        $eventManager->attach(new MelisInstallCheckPlatformListener());
-        $eventManager->attach(new MelisInstallerLastProcessListener());
         $eventManager->attach(new MelisInstallModuleConfigListener());
 
         // force route to setup if this module is activated
@@ -43,12 +36,26 @@ class Module
             $uri          = $_SERVER['REQUEST_URI'];
 
             $setupRoute   = '/melis/setup';
-            if($uri == '/melis') {
 
-                // check if the platform configuration file is available
-                $env          = getenv('MELIS_PLATFORM');
-                $docRoot      = $_SERVER['DOCUMENT_ROOT'] ? $_SERVER['DOCUMENT_ROOT'] : '../..';
-                $platformFile = $docRoot . '/../config/autoload/platforms/'.$env.'.php';
+            // check if the platform configuration file is available
+            $env          = getenv('MELIS_PLATFORM');
+            $docRoot      = $_SERVER['DOCUMENT_ROOT'] . '/../';
+
+            $platformFile = $docRoot . '/../config/autoload/platforms/'.$env.'.php';
+
+            $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
+
+            // force  to use the installer's application.config
+            $installerPath = $moduleSvc->getModulePath('MelisInstaller');
+            $appLoader     = $installerPath . '/etc/installer.application.config.php';
+
+            if(file_exists($appLoader)) {
+                copy($appLoader, $docRoot.'/config/application.config.php');
+            }
+
+
+            if($uri == '/melis' || $uri == '/melis/login') {
+
                 // proceed on setup if there is no platform configuration file available
                 if(!file_exists($platformFile)) {
                     header('location: ' . $setupRoute);
@@ -56,6 +63,27 @@ class Module
                 }
 
             }
+
+            if($uri == $setupRoute) {
+                if(file_exists($platformFile))
+                    unlink($platformFile);
+
+                // reset module load
+                $testMode = false;
+
+                if(!$testMode) {
+                    $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
+                    $moduleSvc->createModuleLoader('config/', array('MelisAssetManager',
+                        'MelisDbDeploy',
+                        'MelisComposerDeploy',
+                        'MelisInstaller',
+                        'MelisModuleConfig'), array(), array());
+                }
+
+
+            }
+
+
 
         }, 10000);
     }

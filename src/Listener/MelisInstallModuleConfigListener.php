@@ -28,7 +28,7 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
             function($e){
                 set_time_limit(0);
                 $sm = $e->getTarget()->getServiceLocator();
-                $moduleSvc = $sm->get('ModulesService');
+                $moduleSvc = $sm->get('MelisInstallerModulesService');
                 $installHelperSvc = $sm->get('InstallerHelper');
                 $params = $e->getParams();
 
