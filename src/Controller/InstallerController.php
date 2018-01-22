@@ -724,7 +724,7 @@ class InstallerController extends AbstractActionController
             $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
             // check if the module exists before activating
-            $modules = array_merge($autoInstallModules, $downloadableModules)
+            $modules = array_merge($autoInstallModules, $downloadableModules); 
             $ctr = 0;
             foreach($modules as $module) {
                 $modulePath = $moduleSvc->getModulePath($module);
