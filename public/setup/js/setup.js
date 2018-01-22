@@ -430,7 +430,6 @@
                 if(isComposerRan === false) {
 
                     var vConsole = $("body").find("#melis-installer-event-do-response");
-                    vConsole.html("");
                     var vConsoleText    = vConsole.html();
                     var lastResponseLen = false;
 

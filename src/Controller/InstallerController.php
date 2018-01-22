@@ -659,7 +659,8 @@ class InstallerController extends AbstractActionController
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
 
-            $downloadableModules = implode(':dev-develop ', $downloadableModules).':dev-develop';
+//            $downloadableModules = implode(':dev-develop ', $downloadableModules).':dev-develop';
+            $downloadableModules = implode(' ', $downloadableModules);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
 
@@ -723,11 +724,12 @@ class InstallerController extends AbstractActionController
             $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
             // check if the module exists before activating
+            $modules = array_merge($autoInstallModules, $downloadableModules)
             $ctr = 0;
-            foreach($downloadableModules as $module) {
+            foreach($modules as $module) {
                 $modulePath = $moduleSvc->getModulePath($module);
                 if(!$modulePath)
-                    unset($downloadableModules[$ctr]);
+                    unset($modules[$ctr]);
 
                 $ctr++;
             }
@@ -740,7 +742,7 @@ class InstallerController extends AbstractActionController
 
 
 
-            $moduleSvc->createModuleLoader('config/', array_merge($autoInstallModules, $downloadableModules, array('MelisInstaller')), $defaultModules);
+            $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
 
             $modules = array_merge($autoInstallModules, $downloadableModules);
         }
