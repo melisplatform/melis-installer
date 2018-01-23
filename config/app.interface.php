@@ -24,7 +24,8 @@ return array(
                     'MelisAssetManager',
                     'MelisDbDeploy',
                     'MelisComposerDeploy',
-                    'MelisCms'
+                    'MelisCms',
+                    'MelisMarketPlace',
                 ),
                 'module_auto_install' => array(
                     // this configuration consists of the required modules that is need to run Melis Platform

@@ -14,9 +14,13 @@
                     <form role="form" id="frmSelModules" class="form-group form-modules">
                         <div class="row">
                             <?php foreach($this->packagistMelisModules as $module):?>
-
+                                <?php
+                                $pathInfo = pathinfo($module['packageName']);
+                                $fileName = isset($pathInfo['filename']) ? $pathInfo['filename'] : null;
+                                ?>
                                 <?php if(in_array($module['packageModuleName'], $this->setup3_3_selected) || in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) :?>
                                     <?php $requredModule = (in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) ? 'requried-module' : ''?>
+
                                     <div class="col-md-6">
                                         <div class="checkbox">
                                             <div class="checkbox cb-cont" style="position:relative">
@@ -24,7 +28,7 @@
                                                 <span class="cbmask-outer clearfix">
                                                     <span  class="cbmask-inner cb-modules-mask"></span>
                                                 </span>
-                                                    <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $module['packageModuleName']; ?>" value="<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" checked>
+                                                    <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $module['packageModuleName']; ?>" value="<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" checked>
                                                 </label>
                                                 <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] .')'; ?></span>
                                                 <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
@@ -39,7 +43,7 @@
                                                 <span class="cbmask-outer clearfix">
                                                     <span  class="cbmask-inner cb-modules-mask"></span>
                                                 </span>
-                                                    <input type="checkbox" value="<?= $module['packageModuleName']; ?>" name="chk<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>">
+                                                    <input type="checkbox" value="<?= $module['packageModuleName']; ?>" name="chk<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>">
                                                 </label>
                                                 <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] . ')'; ?></span>
                                                 <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
