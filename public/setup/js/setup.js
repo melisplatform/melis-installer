@@ -11,7 +11,6 @@
 	
 	var $body         = $("body");
 	var isDbTested    = false;
-	var isComposerRan = false;
 	
 	// ---=[ OWL SLIDER ]=---
 	// owl slider [slide] event
@@ -425,10 +424,10 @@
             disableNextButton();
             $owl.trigger('to.owl.carousel', [8, 500]);
 
+            $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> Downloading...</span>');
+
             setTimeout(function() {
-
-                if(isComposerRan === false) {
-
+					$("#preloading-cont").remove();
                     var vConsole = $("body").find("#melis-installer-event-do-response");
                     var vConsoleText    = vConsole.html();
                     var lastResponseLen = false;
@@ -492,16 +491,11 @@
 										scrollTop: vConsole.prop("scrollHeight")
 									}, 1115);
 									enableNextButton();
-									isComposerRan = true;
+									// isComposerRan = true;
 								});
 							});
 						}
 					});
-                }
-                else {
-                    enableNextButton();
-                    getModuleConfiguration();
-				}
 
             }, 800);
 

@@ -659,7 +659,6 @@ class InstallerController extends AbstractActionController
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
 
-//            $downloadableModules = implode(':dev-develop ', $downloadableModules).':dev-develop';
             $downloadableModules = implode(' ', $downloadableModules);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
@@ -667,11 +666,7 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-
             $composerSvc->download($downloadableModules);
-
-            $this->installDemoSite();
-
 
         }
 
@@ -688,6 +683,8 @@ class InstallerController extends AbstractActionController
         $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
 
         if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
+
+            echo '<i class="fa fa-plus"></i> Adding ' . $siteConfiguration['site'] .'<br/>';
 
             $siteModule = $siteConfiguration['website_module'];
 
@@ -739,11 +736,9 @@ class InstallerController extends AbstractActionController
                 array_push($downloadableModules, $siteConfiguration['site']);
             }
 
-
-
+            $modules = array_merge($autoInstallModules, $downloadableModules);
             $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
 
-            $modules = array_merge($autoInstallModules, $downloadableModules);
         }
 
         $view          = new ViewModel();
@@ -778,9 +773,15 @@ class InstallerController extends AbstractActionController
                     foreach($modules as $module) {
                         $modulePath = $moduleSvc->getModulePath($module);
 
-                        if($modulePath && ($installHelper->getDir($modulePath.'/install/dbdeploy')
-                                || $installHelper->getDir($modulePath.'/install/sql/dbdeploy')))
+                        $dir = null;
+
+                        if(file_exists($modulePath.'/install/dbdeploy'))
+                            $dir = scandir($modulePath.'/install/dbdeploy');
+
+
+                        if($modulePath && $dir)
                             $deployDiscoveryService->processing($module, $database);
+
                         else
                             unset($modules[$ctr]);
 
@@ -804,6 +805,9 @@ class InstallerController extends AbstractActionController
             $conf = $writer->toString($config);
             if(is_writable('config/autoload/platforms/'))
                 file_put_contents('config/autoload/platforms/'.$fileName, $conf);
+
+
+            $this->installDemoSite();
         }
 
         $view          = new ViewModel();
