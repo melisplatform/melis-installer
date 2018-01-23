@@ -10,7 +10,7 @@
         <div class="setup-content setup-p3 mt-25">
             <div class="row">
                 <div class="col-xs-12 col-md-12">
-                    <h2>Modules to install</h2>
+                    <h2><?= $this->translate('melis_installer_selection_heading')?></h2>
                     <form role="form" id="frmSelModules" class="form-group form-modules">
                         <div class="row">
                             <?php foreach($this->packagistMelisModules as $module):?>
@@ -80,8 +80,8 @@
         </div>
 
         <div class="setup-heading">
-            <h2>Site to install (optional)</h2>
-            <p>You can choose a site to install along with MelisCms setup</p>
+            <h2><?= $this->translate('melis_installer_site_to_install_heading')?> :</h2>
+            <p><?= $this->translate('melis_installer_site_to_install_desc')?></p>
         </div>
         <div class="setup-content setup-p3 mt-25" id="setup-step3">
 

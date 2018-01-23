@@ -218,5 +218,10 @@ return array(
     'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
     'melis_installer_language_header_fr' => 'Français',
     'melis_installer_language_header_en' => 'English',
+    'melis_installer_selection_heading'  => 'Modules à installer',
+    'melis_installer_site_to_install_heading' => 'Site à installer (optionnel)',
+    'melis_installer_site_to_install_desc' => 'Vous pouvez choisir d\'installer un site lors de l\'installation du module MelisCms',
+
+
 
 );

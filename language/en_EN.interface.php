@@ -224,7 +224,9 @@ return array(
     'melis_installer_language_header_en' => 'English',
     'melis_installer_language_header_fr' => 'French',
 
-
+    'melis_installer_selection_heading' => 'Modules to install',
+    'melis_installer_site_to_install_heading' => 'Site to install (optional)',
+    'melis_installer_site_to_install_desc' => 'You can choose a site to install along with MelisCms setup',
 
 
 
