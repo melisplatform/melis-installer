@@ -32,6 +32,7 @@ return array(
                     'MelisFront'  => 'melisplatform/melis-front',
                     'MelisEngine' => 'melisplatform/melis-engine',
                     'MelisCms'    => 'melisplatform/melis-cms',
+                    'MelisMarketPlace' => 'melisplatform/melis-marketplace'
                 ),
                 'module_default' => array(
                     'MelisAssetManager',

@@ -683,7 +683,6 @@ class InstallerController extends AbstractActionController
 
     private function installDemoSite()
     {
-        $moduleSvc         = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         $container         = new Container('melisinstaller');
         $moduleSvc         = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
@@ -724,7 +723,7 @@ class InstallerController extends AbstractActionController
             $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
             // check if the module exists before activating
-            $modules = array_merge($autoInstallModules, $downloadableModules); 
+            $modules = array_merge($autoInstallModules, $downloadableModules);
             $ctr = 0;
             foreach($modules as $module) {
                 $modulePath = $moduleSvc->getModulePath($module);
@@ -779,7 +778,8 @@ class InstallerController extends AbstractActionController
                     foreach($modules as $module) {
                         $modulePath = $moduleSvc->getModulePath($module);
 
-                        if($modulePath)
+                        if($modulePath && ($installHelper->getDir($modulePath.'/install/dbdeploy')
+                                || $installHelper->getDir($modulePath.'/install/sql/dbdeploy')))
                             $deployDiscoveryService->processing($module, $database);
                         else
                             unset($modules[$ctr]);
