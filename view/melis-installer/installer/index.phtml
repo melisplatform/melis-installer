@@ -20,11 +20,23 @@
 			</a>
 			<ul class="dropdown-menu">
 				<?php
+              //  print_r($this->currentLocale);
+                $enTranslation = 'melis_installer_language_header_en';
+                $frTranslation = 'melis_installer_language_header_fr';
+                $currentLang   = null;
 				foreach($this->setupLocales as $locale) {
+				    if($locale == 'en_EN')
+                    {
+                        $currentLang = $enTranslation;
+                    }else
+                    {
+                        $currentLang = $frTranslation;
+                    }
 					if($this->currentLocale == $locale)
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate('melis_installer_language_header_fr').'</b></a></li>';
+
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($currentLang).'</b></a></li>';
 					else
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate('melis_installer_language_header_en').'</a></li>';
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($currentLang).'</a></li>';
 				}
 				?>
 			</ul>
