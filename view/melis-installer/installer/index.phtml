@@ -22,9 +22,9 @@
 				<?php
 				foreach($this->setupLocales as $locale) {
 					if($this->currentLocale == $locale)
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($locale).'</b></a></li>';
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate('melis_installer_language_header_fr').'</b></a></li>';
 					else
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($locale).'</a></li>';
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate('melis_installer_language_header_en').'</a></li>';
 				}
 				?>
 			</ul>

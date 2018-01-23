@@ -216,5 +216,7 @@ return array(
     'melis_installer_module_active' => 'Activated %s',
 
     'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
-    
+    'melis_installer_language_header_fr' => 'Français',
+    'melis_installer_language_header_en' => 'English',
+
 );

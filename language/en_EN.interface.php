@@ -221,6 +221,9 @@ return array(
 
     'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
 
+    'melis_installer_language_header_en' => 'English',
+    'melis_installer_language_header_fr' => 'French',
+
 
 
 
