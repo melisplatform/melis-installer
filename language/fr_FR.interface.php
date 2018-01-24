@@ -208,8 +208,8 @@ return array(
     'tr_melis_installer_common_installing' => 'Installation . . .',
     'tr_melis_installer_common_finalizing' => 'Finalisation du setup . . .',
 
-    'melis_installer_common_selection' => 'Selection',
-    'melis_installer_common_download' => 'Download',
+    'melis_installer_common_selection' => 'Sélection',
+    'melis_installer_common_download' => 'Téléchargement',
     'melis_installer_common_configuration' => 'Configuration',
     'melis_installer_common_confirmation' => 'Confirmation',
 
