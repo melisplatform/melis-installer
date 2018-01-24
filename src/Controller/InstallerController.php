@@ -644,7 +644,7 @@ class InstallerController extends AbstractActionController
 
     }
 
-    public function downloadModulesAction()
+    public function addModulesToComposerAction()
     {
 
         $request = $this->getRequest();
@@ -667,6 +667,7 @@ class InstallerController extends AbstractActionController
             ini_set('memory_limit', -1);
 
             $composerSvc->download($downloadableModules, null, true);
+            echo 'called';
 
         }
 
@@ -676,15 +677,24 @@ class InstallerController extends AbstractActionController
 
     }
 
-    public function downloadModules2Action()
+    public function downloadModulesAction()
     {
-        $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+        $request = $this->getRequest();
 
-        set_time_limit(0);
-        ini_set('memory_limit', -1);
-        $composerSvc->update();
+        if($request->isXmlHttpRequest()) {
 
-        die;
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+
+            $composerSvc->update();
+
+        }
+
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        return $view;
     }
 
     private function installDemoSite()
@@ -695,7 +705,7 @@ class InstallerController extends AbstractActionController
 
         if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
 
-            echo '<i class="fa fa-plus"></i> Adding ' . $siteConfiguration['site'] .'<br/>';
+            echo '<i class="fa fa-plus-circle"></i> Adding ' . $siteConfiguration['site'] .'<br/>';
 
             $siteModule = $siteConfiguration['website_module'];
 
