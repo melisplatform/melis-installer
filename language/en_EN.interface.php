@@ -227,7 +227,13 @@ return array(
     'melis_installer_selection_heading' => 'Modules to install',
     'melis_installer_site_to_install_heading' => 'Site to install (optional)',
     'melis_installer_site_to_install_desc' => 'You can choose a site to install along with MelisCms setup',
+<<<<<<< Updated upstream
     'melis_installer_common_downloading' => 'Downloading ...'
+=======
+
+    'melis_installer_common_checking' => 'Checking...',
+
+>>>>>>> Stashed changes
 
 
     

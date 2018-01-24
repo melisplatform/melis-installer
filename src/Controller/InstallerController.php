@@ -666,7 +666,7 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $composerSvc->download($downloadableModules);
+            $composerSvc->download($downloadableModules, null, true);
 
         }
 
