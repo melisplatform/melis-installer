@@ -54,16 +54,6 @@ class Module
             }
 
 
-            if($uri == '/melis' || $uri == '/melis/login') {
-
-                // proceed on setup if there is no platform configuration file available
-                if(!file_exists($platformFile)) {
-                    header('location: ' . $setupRoute);
-                    die;
-                }
-
-            }
-
             if($uri == $setupRoute) {
                 if(file_exists($platformFile))
                     unlink($platformFile);
@@ -81,6 +71,13 @@ class Module
                 }
 
 
+            }
+            else {
+                if(preg_match('/(\/?)(melis*.?)/', $uri) || ($uri == '/')) {
+                    header('location: ' . $setupRoute);
+                    die;
+
+                }
             }
 
 
