@@ -31,16 +31,25 @@ class Module
         $eventManager->attach(new MelisInstallModuleConfigListener());
 
         // force route to setup if this module is activated
-        $eventManager->attach(MvcEvent::EVENT_ROUTE, function($e) {
+        $eventManager->attach(MvcEvent::EVENT_FINISH, function($e) {
+            $uri        = $_SERVER['REQUEST_URI'];
+            $setupRoute = '/melis/setup';
+
+            if($uri == '/') {
+                header("location: " . $setupRoute);
+                die;
+            }
+
+        });
+
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH, function($e) {
 
             $uri          = $_SERVER['REQUEST_URI'];
-
-            $setupRoute   = '/melis/setup';
 
             // check if the platform configuration file is available
             $env          = getenv('MELIS_PLATFORM');
             $docRoot      = $_SERVER['DOCUMENT_ROOT'] . '/../';
-
+            $setupRoute   = '/melis/setup';
             $platformFile = $docRoot . '/../config/autoload/platforms/'.$env.'.php';
 
             $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
@@ -53,8 +62,21 @@ class Module
                 copy($appLoader, $docRoot.'/config/application.config.php');
             }
 
+            $routeMatch       = $e->getRouteMatch();
+            $matchedRouteName = $routeMatch->getMatchedRouteName();
 
-            if($uri == $setupRoute) {
+            $excludedRoutes = array(
+                'melis-backoffice/application-MelisInstaller',
+                'melis-backoffice/application-MelisInstaller/default',
+                'melis-backoffice/setup',
+                'melis-backoffice/translations',
+            );
+
+            if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {
+                header("location: $setupRoute");
+                die;
+            }
+            else {
                 if(file_exists($platformFile))
                     unlink($platformFile);
 
@@ -69,18 +91,7 @@ class Module
                         'MelisInstaller',
                         'MelisModuleConfig'), array(), array());
                 }
-
-
             }
-            else {
-                if(preg_match('/(\/?)(melis*.?)/', $uri) || ($uri == '/')) {
-                    header('location: ' . $setupRoute);
-                    die;
-
-                }
-            }
-
-
 
         }, 10000);
     }
