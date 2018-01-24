@@ -222,13 +222,12 @@ return array(
     'melis_installer_site_to_install_heading' => 'Site à installer (optionnel)',
     'melis_installer_site_to_install_desc' => 'Vous pouvez choisir d\'installer un site lors de l\'installation du module MelisCms',
 
-<<<<<<< Updated upstream
+
     'melis_installer_download_module_title' => 'Modules / Téléchargement',
     'melis_installer_download_module_subtitle' => 'Téléchargement des modules, ceci peut prendre un peu de temps',
-    'melis_installer_common_downloading' => 'Téléchargement ...'
-=======
+    'melis_installer_common_downloading' => 'Téléchargement ...',
     'melis_installer_common_checking' => 'Checking...',
->>>>>>> Stashed changes
+
 
 
 );
