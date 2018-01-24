@@ -666,7 +666,8 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $composerSvc->download($downloadableModules);
+            $composerSvc->download($downloadableModules, null, true);
+            $composerSvc->update();
 
         }
 
@@ -674,6 +675,17 @@ class InstallerController extends AbstractActionController
         $view->setTerminal(true);
         return $view;
 
+    }
+
+    public function downloadModules2Action()
+    {
+        $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
+        $composerSvc->update();
+
+        die;
     }
 
     private function installDemoSite()
@@ -736,7 +748,6 @@ class InstallerController extends AbstractActionController
                 array_push($downloadableModules, $siteConfiguration['site']);
             }
 
-            $modules = array_merge($autoInstallModules, $downloadableModules);
             $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
 
         }
