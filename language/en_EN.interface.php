@@ -217,7 +217,7 @@ return array(
     'melis_installer_activate_modules_notice' => 'Activating modules...',
 
     'melis_installer_download_module_title' => 'Modules / Download',
-    'melis_installer_download_module_subtitle' => 'Downloading modules, this will take awhile',
+    'melis_installer_download_module_subtitle' => 'Downloading modules, this might take some time',
 
     'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
 
@@ -227,7 +227,7 @@ return array(
     'melis_installer_selection_heading' => 'Modules to install',
     'melis_installer_site_to_install_heading' => 'Site to install (optional)',
     'melis_installer_site_to_install_desc' => 'You can choose a site to install along with MelisCms setup',
-
+    'melis_installer_common_downloading' => 'Downloading ...'
 
 
     
