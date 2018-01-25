@@ -222,7 +222,7 @@ return array(
     'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
 
     'melis_installer_language_header_en' => 'English',
-    'melis_installer_language_header_fr' => 'French',
+    'melis_installer_language_header_fr' => 'Français',
 
     'melis_installer_selection_heading' => 'Modules to install',
     'melis_installer_site_to_install_heading' => 'Site to install (optional)',
