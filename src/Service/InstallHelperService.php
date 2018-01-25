@@ -493,6 +493,8 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      */
     function xcopy($source, $dest, $permissions = self::CHMOD_775)
     {
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
         // Check for symlinks
         if (is_link($source)) {
             return symlink(readlink($source), $dest);

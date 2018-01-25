@@ -681,16 +681,41 @@ class InstallerController extends AbstractActionController
     {
         $request = $this->getRequest();
 
-        if($request->isXmlHttpRequest()) {
+        //if($request->isXmlHttpRequest()) {
 
-            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $paths = explode(';', $_SERVER["PATH"]);
+            $phpPath = null;
+            foreach($paths as $path) {
+                if(file_exists($path.'\php.exe')) {
+                    $phpPath = $path.'\php.exe';
+                }
+            }
 
-            set_time_limit(0);
-            ini_set('memory_limit', -1);
+            if($phpPath) {
+                $phpPath = str_replace('\\', '/', $phpPath);
+                // use the composer.phar inside MelisComposerDeploy
+                $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+                $melisComposerDeploy = $moduleSvc->getModulePath('MelisComposerDeploy');
+                $composer = $melisComposerDeploy.'/bin/composer.phar';
 
-            $composerSvc->update();
+                if(file_exists($composer)) {
+                    $cmdString = "$phpPath -d memory_limit=-1 $composer update --verbose --profile";
+                    echo $cmdString;
+//                    system($cmdString, $output);
+//
+//                    print $output;
 
+                }
+            }
         }
+        else {
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc->update();
+        }
+        //}
 
         $view = new ViewModel();
         $view->setTerminal(true);
