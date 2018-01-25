@@ -709,6 +709,9 @@ class InstallerController extends AbstractActionController
                     http_response_code(200);
                     print $output;
                     http_response_code(200);
+                    system($cmdString, $output);
+
+                    print $output;
 
                 }
             }
