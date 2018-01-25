@@ -685,35 +685,35 @@ class InstallerController extends AbstractActionController
 
         set_time_limit(0);
         ini_set('memory_limit', -1);
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $paths = explode(';', $_SERVER["PATH"]);
-            $phpPath = null;
-            foreach($paths as $path) {
-                if(file_exists($path.'\php.exe')) {
-                    $phpPath = $path.'\php.exe';
-                }
-            }
-
-            if($phpPath) {
-                $phpPath = str_replace('\\', '/', $phpPath);
-                // use the composer.phar inside MelisComposerDeploy
-                $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
-                $melisComposerDeploy = $moduleSvc->getModulePath('MelisComposerDeploy');
-                $composer = $melisComposerDeploy.'/bin/composer.phar';
-
-                if(file_exists($composer)) {
-                    $cmdString = "$phpPath -dmemory_limit=-1 $composer update --verbose --profile";
-
-                    system($cmdString, $output);
-                    echo $output;
-
-                }
-            }
-        }
-        else {
+//        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+//            $paths = explode(';', $_SERVER["PATH"]);
+//            $phpPath = null;
+//            foreach($paths as $path) {
+//                if(file_exists($path.'\php.exe')) {
+//                    $phpPath = $path.'\php.exe';
+//                }
+//            }
+//
+//            if($phpPath) {
+//                $phpPath = str_replace('\\', '/', $phpPath);
+//                // use the composer.phar inside MelisComposerDeploy
+//                $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+//                $melisComposerDeploy = $moduleSvc->getModulePath('MelisComposerDeploy');
+//                $composer = $melisComposerDeploy.'/bin/composer.phar';
+//
+//                if(file_exists($composer)) {
+//                    $cmdString = "$phpPath -dmemory_limit=-1 $composer update --verbose --profile";
+//
+//                    system($cmdString, $output);
+//                    echo $output;
+//
+//                }
+//            }
+//        }
+//        else {
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
             $composerSvc->update();
-        }
+//        }
         //}
 
         $view = new ViewModel();
