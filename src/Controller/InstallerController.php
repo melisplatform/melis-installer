@@ -702,11 +702,13 @@ class InstallerController extends AbstractActionController
                 $composer = $melisComposerDeploy.'/bin/composer.phar';
 
                 if(file_exists($composer)) {
-                    $cmdString = "$phpPath -d memory_limit=-1 $composer update --verbose --profile";
+                    $cmdString = "$phpPath -dmemory_limit=-1 $composer update --verbose --profile";
                     echo $cmdString;
-//                    system($cmdString, $output);
-//
-//                    print $output;
+                    http_response_code(200);
+                    system($cmdString, $output);
+                    http_response_code(200);
+                    print $output;
+                    http_response_code(200);
 
                 }
             }
