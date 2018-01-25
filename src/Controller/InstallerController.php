@@ -703,9 +703,9 @@ class InstallerController extends AbstractActionController
 
                 if(file_exists($composer)) {
                     $cmdString = "$phpPath -dmemory_limit=-1 $composer update --verbose --profile";
-                    echo $cmdString;
+
                     system($cmdString, $output);
-                    print $output;
+                    echo $output;
 
                 }
             }
