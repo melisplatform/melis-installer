@@ -431,7 +431,7 @@
             disableNextButton();
             $owl.trigger('to.owl.carousel', [8, 500]);
 
-            $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> Downloading...</span>');
+            $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i>' + translators.melis_installer_common_downloading + '</span>');
 
             setTimeout(function() {
                 var vConsole = $("body").find("#melis-installer-event-do-response");
