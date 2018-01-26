@@ -685,36 +685,12 @@ class InstallerController extends AbstractActionController
 
         set_time_limit(0);
         ini_set('memory_limit', -1);
-//        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-//            $paths = explode(';', $_SERVER["PATH"]);
-//            $phpPath = null;
-//            foreach($paths as $path) {
-//                if(file_exists($path.'\php.exe')) {
-//                    $phpPath = $path.'\php.exe';
-//                }
-//            }
-//
-//            if($phpPath) {
-//                $phpPath = str_replace('\\', '/', $phpPath);
-//                // use the composer.phar inside MelisComposerDeploy
-//                $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
-//                $melisComposerDeploy = $moduleSvc->getModulePath('MelisComposerDeploy');
-//                $composer = $melisComposerDeploy.'/bin/composer.phar';
-//
-//                if(file_exists($composer)) {
-//                    $cmdString = "$phpPath -dmemory_limit=-1 $composer update --verbose --profile";
-//
-//                    system($cmdString, $output);
-//                    echo $output;
-//
-//                }
-//            }
-//        }
-//        else {
-            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-            $composerSvc->update();
-//        }
+
+        $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+        //$composerSvc->update();
+
         //}
+
 
         $view = new ViewModel();
         $view->setTerminal(true);
@@ -783,6 +759,8 @@ class InstallerController extends AbstractActionController
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
 
+            $this->installDemoSite();
+
         }
 
         $view          = new ViewModel();
@@ -797,14 +775,14 @@ class InstallerController extends AbstractActionController
 
         $request = $this->getRequest();
         $modules = array();
-        if($request->isXmlHttpRequest()) {
+        //if($request->isXmlHttpRequest()) {
 
             $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
             $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
             $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
             $container           = new Container('melisinstaller');
             $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
-            $modules             = array_merge($autoInstallModules, $downloadableModules);
+            $modules             = array_merge(array('MelisCore'), $autoInstallModules, $downloadableModules);
             $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
             if($modules && is_array($modules)) {
@@ -824,6 +802,7 @@ class InstallerController extends AbstractActionController
 
 
                         if($modulePath && $dir)
+                            //echo $modulePath.'<br/>';
                             $deployDiscoveryService->processing($module, $database);
 
                         else
@@ -851,8 +830,7 @@ class InstallerController extends AbstractActionController
                 file_put_contents('config/autoload/platforms/'.$fileName, $conf);
 
 
-            $this->installDemoSite();
-        }
+        //}
 
         $view          = new ViewModel();
         $view->setTerminal(true);

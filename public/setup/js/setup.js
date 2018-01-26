@@ -431,7 +431,7 @@
             disableNextButton();
             $owl.trigger('to.owl.carousel', [8, 500]);
 
-            $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i>' + translators.melis_installer_common_downloading + '</span>');
+            $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
 
             setTimeout(function() {
                 var vConsole = $("body").find("#melis-installer-event-do-response");
@@ -482,16 +482,16 @@
                                     scrollTop: vConsole.prop("scrollHeight")
                                 }, 1115);
 
-                                // activate module
-                                getRequest('/melis/MelisInstaller/Installer/activateModules', [], function(response) {
+                                // dbdeploy
+                                getRequest('/melis/MelisInstaller/Installer/execDbDeploy', [], function(response) {
                                     vConsoleText = "" + vConsole.html();
                                     vConsole.html(vConsoleText + '<br/>' + response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_module_import_tables + '<br/>');
                                     vConsole.animate({
                                         scrollTop: vConsole.prop("scrollHeight")
                                     }, 1115);
 
-                                    // dbdeploy
-                                    getRequest('/melis/MelisInstaller/Installer/execDbDeploy', [], function(response) {
+                                    // activate module
+                                    getRequest('/melis/MelisInstaller/Installer/activateModules', [], function(response) {
                                         vConsoleText = "" + vConsole.html();
                                         vConsole.html(vConsoleText + '<br/>' + response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
                                         vConsole.animate({
