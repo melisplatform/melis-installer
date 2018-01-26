@@ -477,7 +477,7 @@
 
                             getRequest('/melis/MelisInstaller/Installer/downloadModules', [], function(response) {
                                 vConsoleText = "" + vConsole.html() + "<br/>" + response;
-                                vConsole.html(vConsoleText + '<i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
+                                vConsole.html(vConsoleText + '<i class="fa fa-info-circle"></i> ' + translators.melis_installer_module_import_tables + '<br/>');
                                 vConsole.animate({
                                     scrollTop: vConsole.prop("scrollHeight")
                                 }, 1115);
@@ -485,7 +485,7 @@
                                 // dbdeploy
                                 getRequest('/melis/MelisInstaller/Installer/execDbDeploy', [], function(response) {
                                     vConsoleText = "" + vConsole.html();
-                                    vConsole.html(vConsoleText + '<br/>' + response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_module_import_tables + '<br/>');
+                                    vConsole.html(vConsoleText + '<br/>' + response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
                                     vConsole.animate({
                                         scrollTop: vConsole.prop("scrollHeight")
                                     }, 1115);

@@ -667,7 +667,6 @@ class InstallerController extends AbstractActionController
             ini_set('memory_limit', -1);
 
             $composerSvc->download($downloadableModules, null, true);
-            echo 'called';
 
         }
 
@@ -681,15 +680,15 @@ class InstallerController extends AbstractActionController
     {
         $request = $this->getRequest();
 
-        //if($request->isXmlHttpRequest()) {
+        if($request->isXmlHttpRequest()) {
 
-        set_time_limit(0);
-        ini_set('memory_limit', -1);
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
 
-        $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-        //$composerSvc->update();
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            //$composerSvc->update();
 
-        //}
+        }
 
 
         $view = new ViewModel();
@@ -758,9 +757,6 @@ class InstallerController extends AbstractActionController
             }
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
-
-            $this->installDemoSite();
-
         }
 
         $view          = new ViewModel();
@@ -775,7 +771,7 @@ class InstallerController extends AbstractActionController
 
         $request = $this->getRequest();
         $modules = array();
-        //if($request->isXmlHttpRequest()) {
+        if($request->isXmlHttpRequest()) {
 
             $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
             $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
@@ -788,10 +784,32 @@ class InstallerController extends AbstractActionController
             if($modules && is_array($modules)) {
 
                 $database = isset($container['database']) ? $container['database'] : null;
+
                 if($database) {
+
+                    // -> Create Database data SQL file configured from what was filled in forms
+                    $fileName = $installHelper->getMelisPlatform().'.php';
+                    $configValue = array(
+                        'db' => array(
+                            'dsn'      => sprintf('mysql:dbname=%s;host=%s',$database['database'],$database['hostname']),
+                            'username' => $database['username'],
+                            'password' => $database['password'],
+                        ),
+                    );
+
+                    $config = new Config($configValue, true);
+                    $writer = new PhpArray();
+                    $conf = $writer->toString($config);
+                    if(is_writable('config/autoload/platforms/'))
+                        file_put_contents('config/autoload/platforms/'.$fileName, $conf);
+
+
                     $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
 
                     $ctr = 0;
+                    set_time_limit(0);
+                    ini_set('memory_limit', -1);
+
                     foreach($modules as $module) {
                         $modulePath = $moduleSvc->getModulePath($module);
 
@@ -802,8 +820,7 @@ class InstallerController extends AbstractActionController
 
 
                         if($modulePath && $dir)
-                            //echo $modulePath.'<br/>';
-                            $deployDiscoveryService->processing($module, $database);
+                            $deployDiscoveryService->processing($module);
 
                         else
                             unset($modules[$ctr]);
@@ -812,25 +829,8 @@ class InstallerController extends AbstractActionController
                     }
                 }
             }
-
-            // -> Create Database data SQL file configured from what was filled in forms
-            $fileName = $installHelper->getMelisPlatform().'.php';
-            $configValue = array(
-                'db' => array(
-                    'dsn'      => sprintf('mysql:dbname=%s;host=%s',$database['database'],$database['hostname']),
-                    'username' => $database['username'],
-                    'password' => $database['password'],
-                ),
-            );
-
-            $config = new Config($configValue, true);
-            $writer = new PhpArray();
-            $conf = $writer->toString($config);
-            if(is_writable('config/autoload/platforms/'))
-                file_put_contents('config/autoload/platforms/'.$fileName, $conf);
-
-
-        //}
+            $this->installDemoSite();
+        }
 
         $view          = new ViewModel();
         $view->setTerminal(true);
@@ -838,6 +838,7 @@ class InstallerController extends AbstractActionController
 
         return $view;
     }
+
 
     public function getModuleConfigurationFormsAction()
     {

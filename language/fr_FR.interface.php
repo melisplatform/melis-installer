@@ -225,7 +225,7 @@ return array(
 
     'melis_installer_download_module_title' => 'Modules / Téléchargement',
     'melis_installer_download_module_subtitle' => 'Téléchargement des modules, ceci peut prendre un peu de temps',
-    'melis_installer_common_downloading' => 'Téléchargement ...',
+    'melis_installer_common_downloading' => ' Téléchargement ...',
 
     'melis_installer_common_checking' => 'Checking...',
 
