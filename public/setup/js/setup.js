@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        startPosition:8,
+        startPosition:7,
         // nav: true,
     });
 
@@ -484,7 +484,7 @@
 
                                 // dbdeploy
                                 getRequest('/melis/MelisInstaller/Installer/execDbDeploy', 'html', function(response) {
-                                    updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + response);
+                                    updateCmdText('<br/>' + response);
 
                                     // check for site installation
                                     updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_site_checking + '<br/>');
@@ -497,7 +497,7 @@
                                                 updateCmdText(response.message + '<br/>');
 
                                                 // activate module
-                                                updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
+                                                updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
                                                 getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                     updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
                                                 });
@@ -505,7 +505,7 @@
                                         }
                                         else {
                                             // activate module
-                                            updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
+                                            updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
                                             getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                 updateCmdText(response + '<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
                                             });
