@@ -10,6 +10,16 @@
 return array(
     'router' => array(
         'routes' => array(
+            'MelisInstaller-home' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/',
+                    'defaults' => array(
+                        'controller' => 'MelisInstaller\Controller\Installer',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
         	'melis-backoffice' => array(
                 'type' => 'Segment',
                 'options' => array(
