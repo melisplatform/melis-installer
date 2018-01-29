@@ -636,8 +636,6 @@ class InstallerController extends AbstractActionController
 
             $container['site_module']  = array_merge(array('site' => $post['site']), $siteLang, $siteData);
 
-
-
         }
 
         return new JsonModel(['success' => 1, 'packages' => $packages]);
@@ -704,8 +702,6 @@ class InstallerController extends AbstractActionController
 
         if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
 
-            echo '<i class="fa fa-plus-circle"></i> Adding ' . $siteConfiguration['site'] .'<br/>';
-
             $siteModule = $siteConfiguration['website_module'];
 
             $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
@@ -757,6 +753,7 @@ class InstallerController extends AbstractActionController
             }
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
+            array_push($modules, 'MelisCore');
         }
 
         $view          = new ViewModel();
@@ -829,7 +826,6 @@ class InstallerController extends AbstractActionController
                     }
                 }
             }
-            $this->installDemoSite();
         }
 
         $view          = new ViewModel();
@@ -837,6 +833,74 @@ class InstallerController extends AbstractActionController
         $view->modules = $modules;
 
         return $view;
+    }
+
+    public function checkSiteModuleAction()
+    {
+        $success  = 1;
+        $hasSite  = null;
+        $siteName = null;
+        $request  = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+            $container         = new Container('melisinstaller');
+            $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
+            if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
+
+                $hasSite  = true;
+                $siteName = $siteConfiguration['site'];
+            }
+        }
+
+        $response = array(
+            'success'  => $success,
+            'hasSite'  => $hasSite,
+            'siteName' => $siteName
+        );
+
+        return new JsonModel($response);
+
+    }
+
+    public function installSiteModuleAction()
+    {
+        $success    = 0;
+        $message    = null;
+        $request    = $this->getRequest();
+        $translator = $this->getServiceLocator()->get('translator');
+        if($request->isXmlHttpRequest()) {
+
+            $container = new Container('melisinstaller');
+            $site      = isset($container['site_module']['site']) ?
+                $container['site_module']['site'] : null;
+
+            if($site) {
+
+                $siteModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . $site;
+
+                // if site does not exists
+                if(!file_exists($siteModule)) {
+                    set_time_limit(0);
+                    ini_set('memory_limit', -1);
+                    $this->installDemoSite();
+                    sleep(3 );
+                    $success = 1;
+                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
+                }
+                else {
+                    $success = 1;
+                }
+            }
+
+        }
+
+        $response = array(
+            'success'  => $success,
+            'message'  => $message
+        );
+
+        return new JsonModel($response);
+
     }
 
 

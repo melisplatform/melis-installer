@@ -231,4 +231,8 @@ return array(
 
     'melis_installer_common_checking' => 'Checking...',
 
+    'melis_installer_site_checking' => 'Checking site to install...',
+    'melis_installer_site_installing' => 'Installing site...',
+    'melis_installer_site_installed' => '<p style="color:#02de02"><i class="fa fa-check-circle"></i> Site %s has been installed.</p>',
+
 );
