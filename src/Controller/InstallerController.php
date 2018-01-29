@@ -888,6 +888,7 @@ class InstallerController extends AbstractActionController
                     $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
                 }
                 else {
+                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
                     $success = 1;
                 }
             }
