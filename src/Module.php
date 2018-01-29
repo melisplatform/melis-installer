@@ -77,13 +77,14 @@ class Module
                 die;
             }
             else {
-                if(file_exists($platformFile))
-                    unlink($platformFile);
-
                 // reset module load
-                $testMode = false;
+                $testMode = true;
 
                 if(!$testMode) {
+
+                    if(file_exists($platformFile))
+                        unlink($platformFile);
+
                     $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
                     $moduleSvc->createModuleLoader('config/', array('MelisAssetManager',
                         'MelisDbDeploy',
