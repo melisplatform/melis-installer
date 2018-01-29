@@ -1024,14 +1024,9 @@ class InstallerController extends AbstractActionController
     {
 
         $mm      = $this->getServiceLocator()->get('ModuleManager');
-        $config  = $this->getServiceLocator()->get('MelisInstallerConfig');
         $modules = array_keys($mm->getLoadedModules());
 
         $params  = $this->params()->fromQuery();
-
-
-        $defaultModules  = $config->getItem('melis_installer/datas/module_default');
-        $modules         = array_diff($modules, array_merge($defaultModules, array('MelisInstaller', 'MelisModuleConfig')));
 
         $errors = array();
         $success = true;
