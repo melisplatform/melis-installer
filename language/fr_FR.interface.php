@@ -214,6 +214,10 @@ return array(
     'melis_installer_common_confirmation' => 'Confirmation',
 
     'melis_installer_module_active' => 'Activated %s',
+    'melis_installer_module_import_tables' => 'Importing tables....',
+    'melis_installer_module_import_tables_ok' => 'Table from %s has been imported successfully',
+    'melis_installer_common_done' => 'Done',
+    'melis_installer_activate_modules_notice' => 'Activating modules...',
 
     'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
     'melis_installer_language_header_fr' => 'Français',
