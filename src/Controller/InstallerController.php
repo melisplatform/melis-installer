@@ -684,7 +684,7 @@ class InstallerController extends AbstractActionController
             ini_set('memory_limit', -1);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-            //$composerSvc->update();
+            $composerSvc->update();
 
         }
 
