@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        startPosition:7,
+        // startPosition:7,
         // nav: true,
     });
 
