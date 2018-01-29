@@ -50,7 +50,7 @@ class Module
             $env          = getenv('MELIS_PLATFORM');
             $docRoot      = $_SERVER['DOCUMENT_ROOT'] . '/../';
             $setupRoute   = '/melis/setup';
-            $platformFile = $docRoot . '/../config/autoload/platforms/'.$env.'.php';
+            $platformFile = $docRoot . 'config/autoload/platforms/'.$env.'.php';
 
             $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
 
