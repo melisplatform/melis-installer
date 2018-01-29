@@ -684,7 +684,7 @@ class InstallerController extends AbstractActionController
             ini_set('memory_limit', -1);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-            $composerSvc->update();
+            //$composerSvc->update();
 
         }
 
@@ -913,7 +913,6 @@ class InstallerController extends AbstractActionController
 
     }
 
-
     public function getModuleConfigurationFormsAction()
     {
 
@@ -922,7 +921,6 @@ class InstallerController extends AbstractActionController
         $modules = array_keys($mm->getLoadedModules());
 
         $defaultModules  = $config->getItem('melis_installer/datas/module_default');
-        $modules         = array_diff($modules, array_merge($defaultModules, array('MelisInstaller', 'MelisModuleConfig')));
 
         $content         = '';
         $tabs            = '';
