@@ -684,7 +684,7 @@ class InstallerController extends AbstractActionController
             ini_set('memory_limit', -1);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-            //$composerSvc->update();
+            $composerSvc->update();
 
         }
 
@@ -850,6 +850,15 @@ class InstallerController extends AbstractActionController
                 $hasSite  = true;
                 $siteName = $siteConfiguration['site'];
             }
+            else {
+                if($siteConfiguration['site'] == 'NewSite') {
+                    $hasSite  = true;
+                    $siteName = $siteConfiguration['site'];
+                }
+                else {
+                    $siteName = 'None';
+                }
+            }
         }
 
         $response = array(
@@ -874,7 +883,7 @@ class InstallerController extends AbstractActionController
             $site      = isset($container['site_module']['site']) ?
                 $container['site_module']['site'] : null;
 
-            if($site) {
+            if($site && !in_array($site, array('NewSite', 'None'))) {
 
                 $siteModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . $site;
 
