@@ -168,7 +168,7 @@ return array(
     'tr_melis_installer_new_user_pass_empty' => 'Veuillez saisir votre mot de passe',
     'tr_melis_installer_new_user_pass_max' => 'Mot de passe trop long',
     'tr_melis_installer_new_user_pass_short' => 'Mot de passe trop faible, il doit être de plus de 8 caractères',
-    'tr_melis_installer_new_user_pass_invalid' => 'Le mot de passe doit comprendre au moins 1 lettre et 1 chiffre',
+    'tr_melis_installer_new_user_pass_invalid' => 'Le mot de passe doit être de 8 caractères minimum et contenir au moins une lettre ET un chiffre',
     'tr_melis_installer_new_user_pass_no_match' => 'Le mot de passe ne correspond pas',
     
     'tr_melis_installer_new_user_first_name_empty' => 'Veuillez saisir votre prénom',
