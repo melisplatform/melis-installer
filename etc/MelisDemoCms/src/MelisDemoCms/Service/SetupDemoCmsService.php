@@ -96,7 +96,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
      * @param array $site
      * @param array $siteId
      */
-    private function setupSite($site, $siteId = null)
+    public function setupSite($site, $siteId = null)
     {
         $siteTbl = $this->getServiceLocator()->get('MelisEngineTableSite');
         if (is_null($siteId))
