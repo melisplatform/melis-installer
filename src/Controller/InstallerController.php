@@ -658,7 +658,7 @@ class InstallerController extends AbstractActionController
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
 
-            $downloadableModules = implode(' ', $downloadableModules);
+            $downloadableModules = implode(':dev-develop ', $downloadableModules).':dev-develop';
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
 

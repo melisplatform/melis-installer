@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        // startPosition:9,
+        startPosition:7,
         // nav: true,
     });
 
@@ -684,6 +684,19 @@
         }
         else {
             $owl.trigger('to.owl.carousel', [5, 500]);
+        }
+    });
+
+    $("body").on("click", "input[name='weboption']", function() {
+        var value = $("input[name='weboption']:checked").val();
+
+        if(value == "MelisDemoCms") {
+            // slider
+
+            // news
+
+            // prospect
+
         }
     });
 
