@@ -15,6 +15,7 @@ use Zend\ModuleManager\ModuleManager;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Session\Container;
 use MelisInstaller\Listener\MelisInstallModuleConfigListener;
+use MelisInstaller\Listener\MelisInstallerNewPlatformListener;
 use Zend\Session\SessionManager;
 
 class Module
@@ -29,18 +30,8 @@ class Module
         $this->initSession();
 
         $eventManager->attach(new MelisInstallModuleConfigListener());
+        $eventManager->attach(new MelisInstallerNewPlatformListener());
 
-        // force route to setup if this module is activated
-        $eventManager->attach(MvcEvent::EVENT_FINISH, function($e) {
-            $uri        = $_SERVER['REQUEST_URI'];
-            $setupRoute = '/melis/setup';
-
-            if($uri == '/') {
-                header("location: " . $setupRoute);
-                die;
-            }
-
-        });
 
         $eventManager->attach(MvcEvent::EVENT_DISPATCH, function($e) {
 
@@ -70,6 +61,7 @@ class Module
                 'melis-backoffice/application-MelisInstaller/default',
                 'melis-backoffice/setup',
                 'melis-backoffice/translations',
+                'melis-backoffice/application-MelisEngine/default'
             );
 
             if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {

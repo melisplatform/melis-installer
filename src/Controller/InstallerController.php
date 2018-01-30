@@ -302,9 +302,10 @@ class InstallerController extends AbstractActionController
               'siteDomain' => $domainEnv
                 
             );
+
             // add the new values
             $this->getEventManager()->trigger('melis_install_new_platform_start', $this, $request);
-            
+
             $success = 1;
             
             // add status to session
@@ -791,6 +792,9 @@ class InstallerController extends AbstractActionController
                             'dsn'      => sprintf('mysql:dbname=%s;host=%s',$database['database'],$database['hostname']),
                             'username' => $database['username'],
                             'password' => $database['password'],
+                            'driver_options' => array(
+                                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+                            ),
                         ),
                     );
 
