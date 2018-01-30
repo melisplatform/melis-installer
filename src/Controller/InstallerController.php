@@ -1152,7 +1152,7 @@ class InstallerController extends AbstractActionController
 
             unlink($docPath.'config/melis.modules.path.php');
 
-            $this->getEventManager()->trigger('melis_install_last_process_start', $this, $container->getArrayCopy());
+            $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
 
             // replace the application.config
             $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
