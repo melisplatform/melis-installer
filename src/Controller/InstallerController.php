@@ -679,15 +679,46 @@ class InstallerController extends AbstractActionController
     {
         $request = $this->getRequest();
 
-        if($request->isXmlHttpRequest()) {
+        //if($request->isXmlHttpRequest()) {
 
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-            $composerSvc->update();
+            // TEMPORARY: Add alias tag on engine, front, and cms
+            $composerFile = $_SERVER['DOCUMENT_ROOT'] . '/../composer.json';
+            if(file_exists($composerFile)) {
+                $content = file_get_contents($composerFile);
 
-        }
+
+                $config = \Zend\Json\Json::decode($content, true);
+
+                $require = $config['require'];
+
+                $require['melisplatform/melis-front'] = 'dev-develop as 2.2.1';
+                $require['melisplatform/melis-engine'] = 'dev-develop as 2.2.1';
+                $require['melisplatform/melis-cms'] = 'dev-develop as 2.2.1';
+
+                if(isset($require['melisplatform/melis-page-analytics'])) {
+                    $require['melisplatform/melis-page-analytics'] = 'dev-develop as 2.2.1';
+                }
+
+                $config['require'] = $require;
+
+                $newContent = \Zend\Json\Json::encode($config, false  , array('prettyPrint' => true));
+                $newContent = str_replace('\/', '/', $newContent);
+
+                unlink($composerFile);
+                file_put_contents($composerFile, $newContent);
+
+                die;
+            }
+
+            // END
+
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            //$composerSvc->update();
+
+        //}
 
 
         $view = new ViewModel();
@@ -771,19 +802,19 @@ class InstallerController extends AbstractActionController
         $modules = array();
         if($request->isXmlHttpRequest()) {
 
-            $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
-            $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
-            $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
-            $container           = new Container('melisinstaller');
-            $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
-            $modules             = array_merge(array('MelisCore'), $autoInstallModules, $downloadableModules);
-            $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
+            $database = isset($container['database']) ? $container['database'] : null;
 
-            if($modules && is_array($modules)) {
+            if($database) {
 
-                $database = isset($container['database']) ? $container['database'] : null;
+                $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
+                $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
+                $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+                $container           = new Container('melisinstaller');
+                $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
+                $modules             = array_merge(array('MelisCore'), $autoInstallModules, $downloadableModules);
+                $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
-                if($database) {
+                if($modules && is_array($modules)) {
 
                     // -> Create Database data SQL file configured from what was filled in forms
                     $fileName = $installHelper->getMelisPlatform().'.php';
@@ -804,7 +835,6 @@ class InstallerController extends AbstractActionController
                     if(is_writable('config/autoload/platforms/'))
                         file_put_contents('config/autoload/platforms/'.$fileName, $conf);
 
-
                     $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
 
                     $ctr = 0;
@@ -822,7 +852,6 @@ class InstallerController extends AbstractActionController
 
                         if($modulePath && $dir)
                             $deployDiscoveryService->processing($module);
-
                         else
                             unset($modules[$ctr]);
 
@@ -831,6 +860,7 @@ class InstallerController extends AbstractActionController
                 }
             }
         }
+
 
         $view          = new ViewModel();
         $view->setTerminal(true);
