@@ -802,6 +802,7 @@ class InstallerController extends AbstractActionController
         $modules = array();
         if($request->isXmlHttpRequest()) {
 
+            $container           = new Container('melisinstaller');
             $database = isset($container['database']) ? $container['database'] : null;
 
             if($database) {
@@ -809,7 +810,7 @@ class InstallerController extends AbstractActionController
                 $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
                 $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
                 $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
-                $container           = new Container('melisinstaller');
+
                 $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
                 $modules             = array_merge(array('MelisCore'), $autoInstallModules, $downloadableModules);
                 $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
@@ -1094,6 +1095,7 @@ class InstallerController extends AbstractActionController
             'success' => $success,
             'errors' => $errors
         );
+
 
         header('Content-Type: application/json');
         die(Json::encode($data));
