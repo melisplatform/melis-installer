@@ -7,6 +7,5 @@ return array(
     'MelisCmsNews',
     'MelisCmsSlider',
     'MelisCmsProspects',
-	'MelisPackagist',
 	'MelisDemoCms',
 );
