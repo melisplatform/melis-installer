@@ -1027,22 +1027,20 @@ class InstallerController extends AbstractActionController
     public function submitModuleConfigurationFormAction()
     {
 
-        $mm      = $this->getServiceLocator()->get('ModuleManager');
-        $modules = array_keys($mm->getLoadedModules());
+        $mm         = $this->getServiceLocator()->get('ModuleManager');
+        $modules    = array_keys($mm->getLoadedModules());
 
-        $params  = $this->params()->fromQuery();
+        $params     = $this->params()->fromQuery();
 
-        $errors = array();
-        $success = true;
+        $errors     = array();
+        $success    = true;
 
-        $container = new Container('melis_modules_configuration_status');
+        $container  = new Container('melis_modules_configuration_status');
 
         foreach($modules as $module) {
 
             $container->$module = true;
-
-            $result = $this->submitModuleConfigurationForm($module, $params);
-
+            $result             = $this->submitModuleConfigurationForm($module, $params);
 
             if(is_array($result)) {
 
@@ -1066,6 +1064,7 @@ class InstallerController extends AbstractActionController
             'success' => $success,
             'errors' => $errors
         );
+
         header('Content-Type: application/json');
         die(Json::encode($data));
 
@@ -1138,6 +1137,14 @@ class InstallerController extends AbstractActionController
             if(file_exists($moduleLoadFile)) {
                 $content = file_get_contents($moduleLoadFile);
                 $content = str_replace(array("'MelisInstaller',\n",), '', $content);
+
+                $site      = isset($container['site_module']['site']) ?
+                    $container['site_module']['site'] : null;
+
+
+                if($site && !in_array($site, array('NewSite', 'None'))) {
+                    $content = str_replace(array("'$site',\n",), '', $content);
+                }
 
                 file_put_contents($moduleLoadFile, $content);
 
