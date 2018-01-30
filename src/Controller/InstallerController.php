@@ -679,7 +679,7 @@ class InstallerController extends AbstractActionController
     {
         $request = $this->getRequest();
 
-        //if($request->isXmlHttpRequest()) {
+        if($request->isXmlHttpRequest()) {
 
             set_time_limit(0);
             ini_set('memory_limit', -1);
@@ -718,7 +718,7 @@ class InstallerController extends AbstractActionController
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
             $composerSvc->update();
 
-        //}
+        }
 
 
         $view = new ViewModel();
