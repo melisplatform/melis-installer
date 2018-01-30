@@ -750,7 +750,7 @@ class InstallerController extends AbstractActionController
             // load site module in installer
             $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
             if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
-                array_push($downloadableModules, $siteConfiguration['site']);
+                array_push($modules, $siteConfiguration['site']);
             }
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
@@ -793,7 +793,7 @@ class InstallerController extends AbstractActionController
                             'username' => $database['username'],
                             'password' => $database['password'],
                             'driver_options' => array(
-                                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+                                'PDO::MYSQL_ATTR_INIT_COMMAND' => 'SET NAMES "UTF8"'
                             ),
                         ),
                     );
