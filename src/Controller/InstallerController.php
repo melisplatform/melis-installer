@@ -710,13 +710,13 @@ class InstallerController extends AbstractActionController
                 unlink($composerFile);
                 file_put_contents($composerFile, $newContent);
 
-                die;
+
             }
 
             // END
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
-            //$composerSvc->update();
+            $composerSvc->update();
 
         //}
 
