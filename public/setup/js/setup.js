@@ -70,9 +70,19 @@
     	if($(this).is(':checked')) {
     		$(this).prop("checked", true);
     		$(this).prev("span").find(".cbmask-inner").addClass('cb-active');
+    		
+    		// Checking "Select all" checkbox if all modules selected monually
+    		if($("#frmSelModules input[type='checkbox']").length == $("#frmSelModules .cbmask-inner.cb-active").length){
+           		$("#chkSelectAllModules").prop("checked", true);
+           		$("#chkSelectAllModules").prev("span").find(".cbmask-inner").addClass('cb-active');
+           	}
     	}else{
     		$(this).not(".requried-module").prop("checked", false);
     		$(this).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+    		
+    		// unchecking "Select all" checkbox if one of the module unchecked
+    		$("#chkSelectAllModules").prop("checked", false);
+       		$("#chkSelectAllModules").prev("span").find(".cbmask-inner").removeClass('cb-active');
     	}
     });
     // Toggle all checkboxes
