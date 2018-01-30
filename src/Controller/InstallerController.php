@@ -851,8 +851,10 @@ class InstallerController extends AbstractActionController
                             $dir = scandir($modulePath.'/install/dbdeploy');
 
 
-                        if($modulePath && $dir)
+                        if($modulePath && $dir) {
+                            echo "DB Deploy Execute $module<br/>\n";
                             $deployDiscoveryService->processing($module);
+                        }
                         else
                             unset($modules[$ctr]);
 
@@ -952,10 +954,7 @@ class InstallerController extends AbstractActionController
     {
 
         $mm      = $this->getServiceLocator()->get('ModuleManager');
-        $config  = $this->getServiceLocator()->get('MelisInstallerConfig');
         $modules = array_keys($mm->getLoadedModules());
-
-        $defaultModules  = $config->getItem('melis_installer/datas/module_default');
 
         $content         = '';
         $tabs            = '';
@@ -963,12 +962,11 @@ class InstallerController extends AbstractActionController
 
         $flag = 0;
 
-
         foreach($modules as $module) {
 
             $moduleFormContent = $this->getModuleConfigurationForm($module);
 
-            if($moduleFormContent !== null) {
+            if($moduleFormContent) {
 
                 $active = '';
                 $id     = 'id'.$module;
