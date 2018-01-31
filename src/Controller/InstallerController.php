@@ -879,6 +879,8 @@ class InstallerController extends AbstractActionController
 
                         $ctr++;
                     }
+					
+					$this->reprocessDbDeploy();
                 }
             }
         }
@@ -890,6 +892,12 @@ class InstallerController extends AbstractActionController
 
         return $view;
     }
+	
+	public function reprocessDbDeploy()
+	{
+		$deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
+		$deployDiscoveryService->processing();
+	}
 
     public function checkSiteModuleAction()
     {
