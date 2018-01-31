@@ -536,6 +536,7 @@
                                                 updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
                                                 getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                     updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                                                    getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'json', function(response) {});
                                                     enableNextButton();
                                                 });
                                             });
@@ -545,9 +546,12 @@
                                             updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
                                             getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                 updateCmdText(response + '<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                                                getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'json', function(response) {});
                                                 enableNextButton();
-                                        });
+                                            });
                                         }
+
+
                                     });
 
 

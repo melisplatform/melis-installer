@@ -726,6 +726,25 @@ class InstallerController extends AbstractActionController
         return $view;
     }
 
+    public function rebuildAutoloaderAction()
+    {
+
+        $success = 0;
+        $request = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc->dumpAutoload();
+
+            $success = 1;
+        }
+
+        return new JsonModel(array('success' => $success));
+
+    }
+
     private function installDemoSite()
     {
         $container         = new Container('melisinstaller');
