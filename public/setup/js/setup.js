@@ -75,15 +75,51 @@
             $(this).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
         }
     });
+
+    // global var
+    var checkBox = $("#frmSelModules").find(".cb-cont input[type=checkbox]");
+
     // Toggle all checkboxes
     $body.on("click", "#chkSelectAllModules", function() {
         if($(this).is(':checked')) {
-            $("#frmSelModules").find(".cb-cont input[type=checkbox]").prop("checked", true);
+            $(checkBox).prop("checked", true);
             $("#frmSelModules").find(".cbmask-inner").addClass('cb-active');
         }else {
-            $("#frmSelModules").find(".cb-cont input[type=checkbox]").not(".requried-module").prop("checked", false);
-            $("#frmSelModules").find(".cb-cont input[type=checkbox]").not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+            $(checkBox).not(".requried-module").prop("checked", false);
+            $(checkBox).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
         }
+    });
+
+    // Toogle Select All
+    $('.cb-cont input[type=checkbox]').change(function(){
+
+        if( false == $("#weboption-democms").prop("checked") ) {
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if(false == $(this).prop("checked")){ //if this item is unchecked
+                //change "select all" checked status to false
+                $("#chkSelectAllModules").prop('checked', false)
+                    .closest('.cb-cont').find(".cbmask-inner").removeClass('cb-active');
+            }
+
+
+            //check "select all" if all checkbox items are checked
+            if ($('.cb-cont input[type=checkbox]:checked').length == $('.cb-cont input[type=checkbox]').length - 1 ){
+                $("#chkSelectAllModules").prop('checked', true)
+                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+            }
+        } else {
+            $(".cb-cont input[type=checkbox][name=chkMelisCmsSlider]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+            // news
+            $(".cb-cont input[type=checkbox][name=chkMelisCmsNews]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+
+            // prospect
+            $(".cb-cont input[type=checkbox][name=chkMelisCmsProspects]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+        }
+
+
     });
 
 
@@ -690,12 +726,17 @@
     $("body").on("click", "input[name='weboption']", function() {
         var value = $("input[name='weboption']:checked").val();
 
-        if(value == "MelisDemoCms") {
+        if(value === "MelisDemoCms") {
             // slider
-
+            $(".cb-cont input[type=checkbox][name=chkMelisCmsSlider]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
             // news
+            $(".cb-cont input[type=checkbox][name=chkMelisCmsNews]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
 
             // prospect
+            $(".cb-cont input[type=checkbox][name=chkMelisCmsProspects]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
 
         }
     });
