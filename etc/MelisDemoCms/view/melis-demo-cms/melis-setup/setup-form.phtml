@@ -11,11 +11,12 @@ foreach($siteDemoCmsForm->getElements() as $element => $attributes)  {
     $label=$el->getLabel();
     $toolTip = $this->translate($el->getOptions()['tooltip']);
 
+    $placeHolder  = isset($el->getAttributes()['placeholder']) ? $el->getAttributes()['placeholder'] : null;
     echo '<div class="form-group">';
     echo '<label for="'.$el->getAttributes()['name'].'">'.$this->translate($label);
     echo   "<i class='fa fa-info-circle fa-lg pull-right' data-toggle='tooltip' data-placement='left' title='$toolTip' ></i>";
     echo '</label>';
-    echo '<input type="'.$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $el->getAttributes()['placeholder'] .'">';
+    echo '<input type="'.$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $placeHolder .'">';
     echo '</div>'.PHP_EOL;
 
 
