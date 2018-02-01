@@ -735,6 +735,7 @@ class InstallerController extends AbstractActionController
         if($request->isXmlHttpRequest()) {
             set_time_limit(0);
             ini_set('memory_limit', -1);
+			$this->reprocessDbDeploy();
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
             $composerSvc->dumpAutoload();
 
