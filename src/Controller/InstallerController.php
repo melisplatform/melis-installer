@@ -1720,11 +1720,9 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        $svc = $this->getServiceLocator()->get('InstallerHelper');
+        
 
-        $module = $svc->getPackagistMelisModules();
 
-        print_r($module);
         die;
     }
 
