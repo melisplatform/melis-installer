@@ -898,6 +898,12 @@ class InstallerController extends AbstractActionController
 		$deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
 		$deployDiscoveryService->processing();
 	}
+	
+	public function reprocessDbDeployAction()
+	{
+		$this->reprocessDbDeploy();
+		return new JsonModel(array('success' => 1));
+	}
 
     public function checkSiteModuleAction()
     {
@@ -979,7 +985,7 @@ class InstallerController extends AbstractActionController
 
     public function getModuleConfigurationFormsAction()
     {
-
+		$this->reprocessDbDeploy();
         $mm      = $this->getServiceLocator()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
 
