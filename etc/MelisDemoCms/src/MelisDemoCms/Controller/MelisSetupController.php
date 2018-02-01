@@ -65,41 +65,46 @@ class MelisSetupController extends AbstractActionController
 
         if($siteDemoCmsForm->isValid()) {
 
+            try
+            {
+                foreach($container->getArrayCopy() as $module) {
+                    if(!$module)
+                        $hasErrors = true;
+                }
 
-            foreach($container->getArrayCopy() as $module) {
-                if(!$module)
-                    $hasErrors = true;
+                $container = new \Zend\Session\Container('melismodules');
+                $installerModuleConfigurationSuccess = isset($container['module_configuration']['success']) ?
+                    (bool) $container['module_configuration']['success'] : false;
+
+
+                //siteDemoCms installation start
+                $scheme  = $siteDemoCmsForm->get('sdom_scheme')->getValue();
+                $domain  = $siteDemoCmsForm->get('sdom_domain')->getValue();
+
+
+                //Save siteDemoCms config
+                if(false === $hasErrors) {
+
+                    /*
+                    * For auto save data
+                    */
+                    // DemoCms Service that process the DemoCms pre-defined datas
+
+
+                    $setupSrv = $this->getServiceLocator()->get('SetupDemoCmsService');
+
+                    $setupSrv->setupSite($siteData);
+                    $setupSrv->setup(getenv('MELIS_PLATFORM'));
+                    $setupSrv->setupSiteDomain($scheme, $domain);
+
+                    $success = 1;
+                    $message = 'tr_install_setup_message_ok';
+                }
             }
-
-            $container = new \Zend\Session\Container('melismodules');
-            $installerModuleConfigurationSuccess = isset($container['module_configuration']['success']) ?
-                (bool) $container['module_configuration']['success'] : false;
-
-
-            //siteDemoCms installation start
-            $scheme  = $siteDemoCmsForm->get('sdom_scheme')->getValue();
-            $domain  = $siteDemoCmsForm->get('sdom_domain')->getValue();
-
-
-            //Save siteDemoCms config
-            if(false === $hasErrors) {
-
-                /*
-                * For auto save data
-                */
-                // DemoCms Service that process the DemoCms pre-defined datas
-
-
-                $setupSrv = $this->getServiceLocator()->get('SetupDemoCmsService');
-
-                $setupSrv->setupSite($siteData);
-                $setupSrv->setup(getenv('MELIS_PLATFORM'));
-                $setupSrv->setupSiteDomain($scheme, $domain);
-
-                $success = 1;
-                $message = 'tr_install_setup_message_ok';
+            catch(\Exception $e)
+            {
+                $errors = $e->getMessage();
             }
-
 
         }
         else {
