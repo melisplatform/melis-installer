@@ -16,7 +16,24 @@ foreach($siteDemoCmsForm->getElements() as $element => $attributes)  {
     echo '<label for="'.$el->getAttributes()['name'].'">'.$this->translate($label);
     echo   "<i class='fa fa-info-circle fa-lg pull-right' data-toggle='tooltip' data-placement='left' title='$toolTip' ></i>";
     echo '</label>';
-    echo '<input type="'.$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $placeHolder .'">';
+
+
+
+    if($el->getAttributes()['type'] == 'Text' || $el->getAttributes()['type'] == 'text')
+    {
+
+        echo '<input type="'.$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $placeHolder .'">';
+    }
+    else if($el->getAttributes()['type'] == 'Select' || $el->getAttributes()['type'] == 'select')
+    {
+
+        echo '<select name="'. $el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" >';
+        foreach($el->getOptions()['value_options'] as $name => $value) {
+            echo '<option value=' .  $name . '>' . $value . '</option>';
+        }
+        echo '</select>';
+    }
+
     echo '</div>'.PHP_EOL;
 
 
