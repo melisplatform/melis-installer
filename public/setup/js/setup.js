@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        // startPosition:7,
+        startPosition:7,
         // nav: true,
     });
 
@@ -117,9 +117,21 @@
             // prospect
             $(".cb-cont input[type=checkbox][name=chkMelisCmsProspects]").prop('checked', true)
                 .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+
+            // cms
+            $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
         }
 
+    });
 
+    $('.cb-cont input[type=checkbox]').click(function() {
+
+        var name = $(this).prop("name");
+        if(name != 'chkMelisCms' && name.indexOf("Cms")) {
+            $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+        }
     });
 
 
@@ -746,6 +758,10 @@
 
             // prospect
             $(".cb-cont input[type=checkbox][name=chkMelisCmsProspects]").prop('checked', true)
+                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+
+            // cms
+            $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
                 .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
 
         }
