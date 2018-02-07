@@ -546,10 +546,10 @@
 
                                                 // activate module
                                                 updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
-                                                getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
-													getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function($response) {
+                                                getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function(response) {
+													getRequest('/melis/MelisInstaller/Installer/activateModules', 'json', function($response) {
 														updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-														getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'json', function(response) {});
+														getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(response) {});
 														enableNextButton();
 													});
 
@@ -559,10 +559,10 @@
                                         else {
                                             // activate module
                                             updateCmdText('<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_activate_modules_notice + '<br/>');
-											getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
-												getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function($response) {
+											getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function(response) {
+												getRequest('/melis/MelisInstaller/Installer/activateModules', 'json', function($response) {
 													updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-													getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'json', function(response) {});
+													getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(response) {});
 													enableNextButton();
 												});
 
