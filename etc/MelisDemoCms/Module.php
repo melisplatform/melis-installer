@@ -73,15 +73,8 @@ class Module
     {
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('translator');
-        
-        $container = new Container('meliscore');
-        $locale = $container['melis-lang-locale'];
-     
-        if(empty($locale))
-        {
-            $locale = 'en_EN';
-        }
-       // $locale = 'en_EN.interface';
+
+        $locale = 'en_EN';
         $translator->addTranslationFile('phparray', __DIR__ . '/language/' . $locale . '.interface.php');
     }
 }
