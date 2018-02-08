@@ -24,7 +24,6 @@ return array(
                     'MelisAssetManager',
                     'MelisDbDeploy',
                     'MelisComposerDeploy',
-                    'MelisCms',
                     'MelisMarketPlace',
                 ),
                 'module_auto_install' => array(
@@ -32,7 +31,7 @@ return array(
                     //'MelisCore'   => 'melisplatform/melis-core',
                     'MelisFront'  => 'melisplatform/melis-front',
                     'MelisEngine' => 'melisplatform/melis-engine',
-                    'MelisCms'    => 'melisplatform/melis-cms',
+//                    'MelisCms'    => 'melisplatform/melis-cms',
                     'MelisMarketPlace' => 'melisplatform/melis-marketplace'
                 ),
                 'module_default' => array(

@@ -1085,6 +1085,27 @@ class InstallerController extends AbstractActionController
         }
 
     }
+	
+	public function validateModuleConfigurationFormData($module, $params)
+	{
+		$controller = 'MelisSetup';
+        $action     = 'setupValidateData';
+
+        $namespace  = $module.'\\Controller\\'.$controller .'Controller';
+
+        if(class_exists($namespace) && method_exists($namespace, $action.'Action')) {
+
+            $class   = $module.'\\Controller\\'.$controller;
+            $result  = $this->forward()->dispatch($class, array_merge(array('action' => $action), $params));
+
+            if($result instanceof JsonModel) {
+                return $result->getVariables();
+            }
+        }
+        else {
+            return null;
+        }
+	}
 
 
     public function submitModuleConfigurationFormAction()
@@ -1099,6 +1120,8 @@ class InstallerController extends AbstractActionController
         $success    = true;
 
         $container  = new Container('melis_modules_configuration_status');
+
+		// validate form firm before calling submitModuleConfigurationForm
 
         foreach($modules as $module) {
 
