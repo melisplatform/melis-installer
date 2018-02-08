@@ -77,7 +77,10 @@ class Module
         $container = new Container('meliscore');
         $locale = $container['melis-lang-locale'];
      
-        
+        if(empty($locale))
+        {
+            $locale = 'en_EN';
+        }
        // $locale = 'en_EN.interface';
         $translator->addTranslationFile('phparray', __DIR__ . '/language/' . $locale . '.interface.php');
     }
