@@ -33,5 +33,14 @@ return array(
     'tr_install_news_menu_page_id_empty' => 'News menu page id must not be empty',
     'tr_install_site_id_empty' => 'Site id must not be empty',
 
+    'tr_melis_installer_tool_site_scheme' => 'Scheme',
+    'tr_melis_installer_tool_site_scheme tooltip' => 'Protocole http ou https',
+    'tr_melis_installer_tool_site_domain' => 'Domaine',
+    'tr_melis_installer_tool_site_domain tooltip' => 'Domaine sur lequel le site est accessible (ex : www.monsite.com)',
+
+    'tr_melis_installer_tool_site_scheme_invalid_selection' => 'Sélection de scheme invalide',
+    'tr_melis_installer_tool_site_domain_error_long' => 'Valeur du domaine trop longue, nombre de caractères maximum 50',
+    'tr_melis_installer_tool_site_domain_error_empty' => 'Veuillez saisir le domaine',
+    'tr_melis_installer_tool_site_domain_invalid' => 'Veuillez saisir un nom de domaine valide',
 );
 ?>

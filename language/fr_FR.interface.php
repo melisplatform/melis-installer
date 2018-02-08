@@ -235,6 +235,10 @@ return array(
     'melis_installer_site_checking' => 'Checking site to install...',
     'melis_installer_site_installing' => 'Installing site...',
     'melis_installer_site_installed' => '<p style="color:#02de02"><i class="fa fa-check-circle"></i> Site %s has been installed.</p>',
+    
+    //Step 3.1 text
+    'tr_melis_installer_module_selection_heading' => 'Step 3.1: Modules / Selection',
+    'tr_melis_installer_module_selection_sub_heading' => 'Selection of the additional modules to install and enable',
 
 
 );

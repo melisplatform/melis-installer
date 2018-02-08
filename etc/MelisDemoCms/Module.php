@@ -13,6 +13,7 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ArrayUtils;
 
+use Zend\Session\Container;
 use MelisDemoCms\Listener\SiteMenuCustomizationListener;
 use MelisDemoCms\Listener\SetupDemoCmsListener;
 
@@ -72,7 +73,12 @@ class Module
     {
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('translator');
-        $locale = 'en_EN';
-        $translator->addTranslationFile('phparray', __DIR__ . '/language/' . $locale . '.php');
+        
+        $container = new Container('meliscore');
+        $locale = $container['melis-lang-locale'];
+     
+        
+       // $locale = 'en_EN.interface';
+        $translator->addTranslationFile('phparray', __DIR__ . '/language/' . $locale . '.interface.php');
     }
 }

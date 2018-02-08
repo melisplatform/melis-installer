@@ -17,8 +17,8 @@ return array(
                                 'name' => 'sdom_scheme',
                                 'type' => 'Zend\Form\Element\Select',
                                 'options' => array(
-                                    'label' => 'tr_meliscms_tool_site_scheme',
-                                    'tooltip' => 'tr_meliscms_tool_site_scheme tooltip',
+                                    'label' => 'tr_melis_installer_tool_site_scheme',
+                                    'tooltip' => 'tr_melis_installer_tool_site_scheme tooltip',
                                     'value_options' => array(
                                         'http' => 'http://',
                                         'https' => 'https://',
@@ -39,8 +39,8 @@ return array(
                                 'name' => 'sdom_domain',
                                 'type' => 'text',
                                 'options' => array(
-                                    'label' => 'tr_meliscms_tool_site_domain',
-                                    'tooltip' => 'tr_meliscms_tool_site_domain tooltip',
+                                    'label' => 'tr_melis_installer_tool_site_domain',
+                                    'tooltip' => 'tr_melis_installer_tool_site_domain tooltip',
                                 ),
                                 'attributes' => array(
                                     'id' => 'id_sdom_domain',
@@ -63,7 +63,7 @@ return array(
                                     'options' => array(
                                         'haystack' => array('http', 'https'),
                                         'messages' => array(
-                                            \Zend\Validator\InArray::NOT_IN_ARRAY => 'tr_meliscms_tool_site_scheme_invalid_selection',
+                                            \Zend\Validator\InArray::NOT_IN_ARRAY => 'tr_melis_installer_tool_site_scheme_invalid_selection',
                                         ),
                                     )
                                 ),
@@ -71,7 +71,7 @@ return array(
                                     'name'    => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_scheme_error_empty',
+                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'empty brad',
                                         ),
                                     ),
                                 ),
@@ -89,7 +89,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 50,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_meliscms_tool_site_domain_error_long',
+                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_tool_site_domain_error_long',
                                         ),
                                     ),
                                 ),
@@ -97,7 +97,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_domain_error_empty',
+                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_tool_site_domain_error_empty',
                                         ),
                                     ),
                                 ),
