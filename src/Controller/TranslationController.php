@@ -25,10 +25,10 @@ class TranslationController  extends AbstractActionController
         $translations = (array) $translator->getAllMessages();
         $jsTranslations = null;
 
-        $container  = new Container('application');
+        $container  = new Container('meliscore');
         $locale     = 'en_EN';
-        if(isset($container['locale'])) {
-            $locale = $container['locale'];
+        if(isset($container['melis-lang-locale'])) {
+            $locale = $container['melis-lang-locale'];
         }
 
         $response = $this->getResponse();

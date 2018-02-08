@@ -94,8 +94,9 @@ class InstallerController extends AbstractActionController
         if(!empty($container['install_modules'])){
             $selectedModules = $container['install_modules'];
         }
-        
-        $currentLocale = isset($container['setup-language']) ? $container['setup-language'] : 'en_EN';
+        $coreContainer = new Container('meliscore');
+		
+        $currentLocale = isset($coreContainer['melis-lang-locale']) ? $coreContainer['melis-lang-locale'] : 'en_EN';
         
         $requiredModules = array();
         if (!empty($container['cms_data']['required_modules'])){
@@ -179,8 +180,9 @@ class InstallerController extends AbstractActionController
         
         if($this->getRequest()->isPost()) {
             $locale = $this->getRequest()->getPost('langLocale');
-            $container = new Container('melisinstaller');
-            $container['setup-language'] = $locale;
+
+            $container = new Container('meliscore');
+            $container['melis-lang-locale'] = $locale;
             $success = 1;
         }
         
@@ -986,7 +988,9 @@ class InstallerController extends AbstractActionController
 
     public function getModuleConfigurationFormsAction()
     {
-		$this->reprocessDbDeploy();
+		set_time_limit(0);
+		ini_set('memory_limit', -1);
+		
         $mm      = $this->getServiceLocator()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
 
@@ -1037,6 +1041,12 @@ class InstallerController extends AbstractActionController
         die($content);
 
     }
+	
+	public function getFormTestAction()
+	{
+		$form = $this->getModuleConfigurationForm('MelisEngine');
+		die($form);
+	}
 
     public function getModuleConfigurationForm($module)
     {
@@ -1086,7 +1096,7 @@ class InstallerController extends AbstractActionController
 
     }
 	
-	public function validateModuleConfigurationFormData($module, $params)
+	public function validateModuleConfigurationForm($module, $params)
 	{
 		$controller = 'MelisSetup';
         $action     = 'setupValidateData';
@@ -1105,6 +1115,63 @@ class InstallerController extends AbstractActionController
         else {
             return null;
         }
+	}
+	
+	public function checkDataAction()
+	{
+		$container  = new Container('melis_modules_configuration_status');
+		print_r($container->getArrayCopy());
+		
+		die;
+	}
+	
+	public function validateModuleConfigurationFormAction()
+	{
+		$mm         = $this->getServiceLocator()->get('ModuleManager');
+        $modules    = array_keys($mm->getLoadedModules());
+
+        $params     = $this->params()->fromQuery();
+
+        $errors     = array();
+        $success    = true;
+
+        $container  = new Container('melis_modules_configuration_status');
+		
+		$container->formData = $params;
+
+		// validate form firm before calling submitModuleConfigurationForm
+
+        foreach($modules as $module) {
+
+            $container->$module = true;
+            $result             = $this->validateModuleConfigurationForm($module, $params);
+
+            if(is_array($result)) {
+
+                if($result['errors']) {
+                    $errors[] = array(
+                        'errors'  => $result['errors'],
+                        'message' => $result['message'],
+                        'name'    => $module,
+                        'success' => (bool) $result['success']
+                    );
+                    $success = false;
+                    $container->$module = (bool) $success;
+                }
+                else {
+                    $container->$module = true;
+                }
+            }
+        }
+
+        $data = array(
+            'success' => $success,
+            'errors' => $errors
+        );
+
+
+        header('Content-Type: application/json');
+        die(Json::encode($data));
 	}
 
 

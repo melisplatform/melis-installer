@@ -159,8 +159,10 @@ class Module
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('translator');
     
-        $container = new Container('melisinstaller');
-        $locale = !empty($container['setup-language']) ? $container['setup-language'] : 'en_EN';
+        $container = new Container('meliscore');
+		
+		
+        $locale = isset($container['melis-lang-locale']) ? $container['melis-lang-locale'] : 'en_EN';
         
         if (!empty($locale)){
             $translationType = array(
