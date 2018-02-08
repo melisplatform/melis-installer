@@ -240,5 +240,6 @@ return array(
     'tr_melis_installer_module_selection_heading' => 'Step 3.1: Modules / Selection',
     'tr_melis_installer_module_selection_sub_heading' => 'Selection of the additional modules to install and enable',
 
-
+    //test db connection close button
+    'tr_meliscore_notification_modal_Close' => 'Fermer',
 );
