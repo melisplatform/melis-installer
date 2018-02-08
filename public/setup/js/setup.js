@@ -507,7 +507,7 @@
 								curResponse = response.substring(lastResponseLen);
 								lastResponseLen = response.length;
 							}
-							vConsoleText += curResponse + "\n<br/>";
+							vConsoleText += curResponse + "\n";
 							if(typeof vConsoleText !== "undefined") {
 
 								vConsole.html(vConsoleText);
@@ -533,11 +533,6 @@
 							dataType: "html",
 							xhrFields: {
 								onprogress: function(e) {
-									$("#preloading-cont").remove();
-									var vConsole      = $("body").find("#melis-installer-event-do-response");
-									vConsole.html("");
-									var vConsoleText  = vConsole.html();
-
 									var curResponse, response = e.currentTarget.response;
 									if(lastResponseLen === false) {
 										curResponse = response;
@@ -547,10 +542,10 @@
 										curResponse = response.substring(lastResponseLen);
 										lastResponseLen = response.length;
 									}
-									vConsoleText += curResponse + "\n<br/>";
-									if(typeof vConsoleText !== "undefined") {
 
-										vConsole.html(vConsoleText);
+									if(typeof vConsoleText !== "undefined") {
+										
+										updateCmdText(curResponse);
 
 										// always scroll to bottom
 										vConsole.animate({
