@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        startPosition:7,
+        // startPosition:7,
         // nav: true,
     });
 
@@ -716,7 +716,7 @@
         lazyNextButton();
         $('.hasSubmenu:eq( 2 )').find("i").removeClass("fa-circle-o").css("color","").addClass("fa fa-check fa-color-green");
         var forms = $("#melis-installer-configuration-forms form").serialize();
-        getRequestgetRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(response) {
+        getRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(response) {
             if(response.success == '1') {
                 $owl.trigger('to.owl.carousel', [10, 500]);
             }
