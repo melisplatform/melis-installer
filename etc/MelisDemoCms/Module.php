@@ -74,7 +74,38 @@ class Module
         $sm = $e->getApplication()->getServiceManager();
         $translator = $sm->get('translator');
 
-        $locale = 'en_EN';
-        $translator->addTranslationFile('phparray', __DIR__ . '/language/' . $locale . '.interface.php');
+        $container = new Container('meliscore');
+        $locale = $container['melis-lang-locale'];
+
+        if (!empty($locale)){
+
+            $translationType = array(
+                'interface',
+            );
+
+            $translationList = array();
+            if(file_exists($_SERVER['DOCUMENT_ROOT'].'/../module/MelisModuleConfig/config/translation.list.php')){
+                $translationList = include 'module/MelisModuleConfig/config/translation.list.php';
+            }
+
+            foreach($translationType as $type){
+
+                $transPath = '';
+                $moduleTrans = __NAMESPACE__."/$locale.$type.php";
+
+                if(in_array($moduleTrans, $translationList)){
+                    $transPath = "module/MelisModuleConfig/languages/".$moduleTrans;
+                }
+
+                if(empty($transPath)){
+
+                    // if translation is not found, use melis default translations
+                    $defaultLocale = (file_exists(__DIR__ . "/language/$locale.$type.php"))? $locale : "en_EN";
+                    $transPath = __DIR__ . "/language/$defaultLocale.$type.php";
+                }
+
+                $translator->addTranslationFile('phparray', $transPath);
+            }
+        }
     }
 }

@@ -32,6 +32,37 @@ class MelisSetupController extends AbstractActionController
         return $view;
 
     }
+	
+	public function setupValidateDataAction()
+	{
+		$success = 0;
+        $message = 'tr_install_setup_message_ko';
+        $errors  = array();
+		
+		$data = $this->getTool()->sanitizeRecursive($this->params()->fromRoute());
+		
+        $siteDemoCmsForm = $this->getFormSiteDemo();
+        $siteDemoCmsForm->setData($data);
+		
+		if($siteDemoCmsForm->isValid()) {
+			$success = 1;
+			$message = 'tr_install_setup_message_ok';
+		}
+		else {
+			$errors = $this->formatErrorMessage($siteDemoCmsForm->getMessages());
+		}
+		
+		
+        $response = array(
+            'success' => $success,
+            'message' => $this->getTool()->getTranslation($message),
+            'errors'  => $errors,
+            'siteDemoCmsForm'    => 'melis_installer_demo_cms',
+            'domainForm'    => 'melis_installer_domain'
+        );
+
+        return new JsonModel($response);
+	}
 
     public function setupResultAction()
     {
@@ -142,39 +173,27 @@ class MelisSetupController extends AbstractActionController
      */
     private function getFormSiteDemo()
     {
-        $coreConfig = $this->getServiceLocator()->get('config');
-        $form = $coreConfig['plugins']['melis_demo_cms_setup']['forms']['melis_installer_demo_cms'];
+        $melisMelisCoreConfig = $this->serviceLocator->get('MelisCoreConfig');
+        $appConfigForm = $melisMelisCoreConfig->getItem('melis_demo_cms_setup/forms/melis_installer_demo_cms');
 
 
         $factory = new \Zend\Form\Factory();
         $formElements = $this->getServiceLocator()->get('FormElementManager');
         $factory->setFormElementManager($formElements);
-        $form = $factory->createForm($form);
+        $form = $factory->createForm($appConfigForm);
 
 
         return $form;
 
     }
 
-    private function getFormDomain()
-    {
-        $coreConfig = $this->getServiceLocator()->get('config');
-        $form = $coreConfig['plugins']['melis_demo_cms_setup']['forms']['melis_installer_domain'];
-
-
-        $factory = new \Zend\Form\Factory();
-        $formElements = $this->getServiceLocator()->get('FormElementManager');
-        $factory->setFormElementManager($formElements);
-        $form = $factory->createForm($form);
-
-
-        return $form;
-
-    }
     private function formatErrorMessage($errors = array())
     {
-        $coreConfig = $this->getServiceLocator()->get('config');
-        $appConfigForm = $coreConfig['plugins']['melis_demo_cms_setup']['forms']['melis_installer_demo_cms'];
+		
+        $melisMelisCoreConfig = $this->serviceLocator->get('MelisCoreConfig');
+		
+        $appConfigForm = $melisMelisCoreConfig->getItem('melis_demo_cms_setup/forms/melis_installer_demo_cms');
+		
         $appConfigForm = $appConfigForm['elements'];
 
         foreach ($errors as $keyError => $valueError)
@@ -186,6 +205,7 @@ class MelisSetupController extends AbstractActionController
                     $errors[$keyError]['label'] = $valueForm['spec']['options']['label'];
             }
         }
+
 
         return $errors;
     }
