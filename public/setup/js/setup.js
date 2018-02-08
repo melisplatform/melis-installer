@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        // startPosition:7,
+        startPosition:7,
         // nav: true,
     });
 
@@ -472,6 +472,7 @@
         var data 		 = {packages : packages, modules : modules, site: selectedSite, siteLang: formWebLang, siteData: formWebData};
 
 
+
         disableNextButton();
 
         ajaxRequest('/melis/MelisInstaller/Installer/setDownloadableModules', data, function(response) {
@@ -507,7 +508,7 @@
 								curResponse = response.substring(lastResponseLen);
 								lastResponseLen = response.length;
 							}
-							vConsoleText += curResponse + "\n<br/>";
+							vConsoleText += curResponse + "\n";
 							if(typeof vConsoleText !== "undefined") {
 
 								vConsole.html(vConsoleText);
@@ -521,87 +522,35 @@
 						}
 					},
 					success: function(data) {
-						
-						$("#preloading-cont").remove();
+
 						// add downloader spinner
-						updateCmdText('<br/><span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
-						
-						$.ajax(
-						{
-							type: 'GET',
-							url: '/melis/MelisInstaller/Installer/downloadModules',
-							dataType: "html",
-							xhrFields: {
-								onprogress: function(e) {
-									$("#preloading-cont").remove();
-									var vConsole      = $("body").find("#melis-installer-event-do-response");
-									vConsole.html("");
-									var vConsoleText  = vConsole.html();
+						$("#preloading-cont").remove();
+						updateCmdText('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
+					
+						getRequest('/melis/MelisInstaller/Installer/downloadModules', 'html', function(response) {
+							$("#preloading-cont").remove();
+							vConsoleText = "" + vConsole.html() + "<br/>" + response;
+							vConsole.html(vConsoleText + '<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_module_import_tables + '<br/>');
+							vConsole.animate({
+								scrollTop: vConsole.prop("scrollHeight")
+							}, 1115);
 
-									var curResponse, response = e.currentTarget.response;
-									if(lastResponseLen === false) {
-										curResponse = response;
-										lastResponseLen = response.length;
-									}
-									else {
-										curResponse = response.substring(lastResponseLen);
-										lastResponseLen = response.length;
-									}
-									vConsoleText += curResponse + "\n<br/>";
-									if(typeof vConsoleText !== "undefined") {
+							// dbdeploy
+							getRequest('/melis/MelisInstaller/Installer/execDbDeploy', 'html', function(response) {
+								$("#cmd-imp-tbl").html('<i class="fa fa-info-circle"></i>');
+								updateCmdText('<br/>' + response);
 
-										vConsole.html(vConsoleText);
+								// check for site installation
+								updateCmdText('<br/><span id="cmd-chk-site"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_checking + '<br/>');
+								getRequest('/melis/MelisInstaller/Installer/checkSiteModule', 'json', function(response) {
+									$("#cmd-chk-site").html('<i class="fa fa-info-circle"></i>');
+									if(response.hasSite) {
+										updateCmdText('<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_installing + '<br/>');
+										// install site
+										getRequest('/melis/MelisInstaller/Installer/installSiteModule', 'json', function(response) {
+											$("#cmd-site-install").html('<i class="fa fa-info-circle"></i>');
+											updateCmdText(response.message + '<br/>');
 
-										// always scroll to bottom
-										vConsole.animate({
-											scrollTop: vConsole.prop("scrollHeight")
-										}, 1115);
-									}
-
-								}
-							},
-							success: function(response) {
-
-								$("#preloading-cont").remove();
-								vConsoleText = "" + vConsole.html();
-								vConsole.html(vConsoleText + '<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_module_import_tables + '<br/>');
-								vConsole.animate({
-									scrollTop: vConsole.prop("scrollHeight")
-								}, 1115);
-
-								// dbdeploy
-								getRequest('/melis/MelisInstaller/Installer/execDbDeploy', 'html', function(response) {
-									$("#cmd-imp-tbl").html('<i class="fa fa-info-circle"></i>');
-									updateCmdText('<br/>' + response);
-
-									// check for site installation
-									updateCmdText('<br/><span id="cmd-chk-site"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_checking + '<br/>');
-									getRequest('/melis/MelisInstaller/Installer/checkSiteModule', 'json', function(response) {
-										$("#cmd-chk-site").html('<i class="fa fa-info-circle"></i>');
-										if(response.hasSite) {
-											updateCmdText('<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_installing + '<br/>');
-											// install site
-											getRequest('/melis/MelisInstaller/Installer/installSiteModule', 'json', function(response) {
-												$("#cmd-site-install").html('<i class="fa fa-info-circle"></i>');
-												updateCmdText(response.message + '<br/>');
-
-												// activate module
-												updateCmdText('<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_activate_modules_notice + '<br/>');
-												getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function(rebuildAutoloaderResp) {
-													setTimeout(function() {
-														getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
-															$("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
-															updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-															getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {});
-															enableNextButton();
-														});
-
-													}, 800);
-
-												});
-											});
-										}
-										else {
 											// activate module
 											updateCmdText('<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_activate_modules_notice + '<br/>');
 											getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function(rebuildAutoloaderResp) {
@@ -616,17 +565,33 @@
 												}, 800);
 
 											});
-										}
+										});
+									}
+									else {
+										// activate module
+										updateCmdText('<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_activate_modules_notice + '<br/>');
+										getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function(rebuildAutoloaderResp) {
+											setTimeout(function() {
+												getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
+													$("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
+													updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+													getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {});
+													enableNextButton();
+												});
 
+											}, 800);
 
-									});
+										});
+									}
 
 
 								});
-	
-							}
+
+
+							});
 						});
-						
+
+
 					}
 				});
 
@@ -751,7 +716,7 @@
         lazyNextButton();
         $('.hasSubmenu:eq( 2 )').find("i").removeClass("fa-circle-o").css("color","").addClass("fa fa-check fa-color-green");
         var forms = $("#melis-installer-configuration-forms form").serialize();
-        getRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(response) {
+        getRequestgetRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(response) {
             if(response.success == '1') {
                 $owl.trigger('to.owl.carousel', [10, 500]);
             }
