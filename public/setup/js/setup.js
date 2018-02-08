@@ -563,7 +563,7 @@
 							success: function(response) {
 
 								$("#preloading-cont").remove();
-								vConsoleText = "" + vConsole.html() + "<br/>" + response;
+								vConsoleText = "" + vConsole.html();
 								vConsole.html(vConsoleText + '<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_module_import_tables + '<br/>');
 								vConsole.animate({
 									scrollTop: vConsole.prop("scrollHeight")
