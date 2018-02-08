@@ -720,6 +720,7 @@
             if(response.success == '1') {
 				getRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(resp) {
 					if(resp.success == '1') {
+                        enableNextButton();
 						$owl.trigger('to.owl.carousel', [10, 500]);
 					}
 					else {
@@ -729,8 +730,9 @@
             }
             else {
                 melisInstallerFormHelper.melisMultiKoNotification(response.errors);
+                enableNextButton();
             }
-            enableNextButton();
+
         });
     }
 
