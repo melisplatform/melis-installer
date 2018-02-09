@@ -913,7 +913,8 @@ class InstallerController extends AbstractActionController
 	public function reprocessDbDeployAction()
 	{
 		$this->reprocessDbDeploy();
-		return new JsonModel(array('success' => 1));
+		header('Content-Type: application/json');
+		die(Json::encode(array('success' => 1)));
 	}
 
     public function checkSiteModuleAction()
