@@ -755,6 +755,9 @@ class InstallerController extends AbstractActionController
         $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
 
         if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
+            
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
 
             $siteModule = $siteConfiguration['website_module'];
 
@@ -770,6 +773,8 @@ class InstallerController extends AbstractActionController
 
             // copy MelisDemoCms in MelisSites
             $installHelper->xcopy($installerPath, $melisSitePathModule, 0777);
+            
+            $this->mapDirectoryDemo($melisSitePathModule, 'MelisDemoCms', getenv('MELIS_MODULE'));
         }
 
     }
@@ -780,6 +785,9 @@ class InstallerController extends AbstractActionController
         $modules = array();
 
         if($request->isXmlHttpRequest()) {
+            
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
 
             $config = $this->getServiceLocator()->get('MelisInstallerConfig');
 
@@ -1785,6 +1793,7 @@ class InstallerController extends AbstractActionController
          
         return $result;
     }
+    
     
     function moduleNameToViewName($string) {
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $string));
