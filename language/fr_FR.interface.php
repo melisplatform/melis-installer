@@ -237,8 +237,8 @@ return array(
     'melis_installer_site_installed' => '<p style="color:#02de02"><i class="fa fa-check-circle"></i> Site %s has been installed.</p>',
     
     //Step 3.1 text
-    'tr_melis_installer_module_selection_heading' => 'Step 3.1: Modules / Selection',
-    'tr_melis_installer_module_selection_sub_heading' => 'Selection of the additional modules to install and enable',
+    'tr_melis_installer_module_selection_heading' => 'Etape 3.1: Modules / Sélection',
+    'tr_melis_installer_module_selection_sub_heading' => 'Sélection des modules supplémentaires à installer et activer',
 
     //test db connection close button
     'tr_meliscore_notification_modal_Close' => 'Fermer',
