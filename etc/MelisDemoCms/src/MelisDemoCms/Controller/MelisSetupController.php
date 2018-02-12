@@ -130,7 +130,7 @@ class MelisSetupController extends AbstractActionController
 
                     $setupSrv = $this->getServiceLocator()->get('SetupDemoCmsService');
 
-                    $setupSrv->setupSite($siteData);
+                   // $setupSrv->setupSite($siteData);
                     $setupSrv->setup(getenv('MELIS_PLATFORM'));
                     $setupSrv->setupSiteDomain($scheme, $domain);
 
