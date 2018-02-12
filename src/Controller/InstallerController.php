@@ -696,9 +696,14 @@ class InstallerController extends AbstractActionController
 
                 $require = $config['require'];
 
-                $require['melisplatform/melis-front'] = 'dev-develop as 2.2.1';
-                $require['melisplatform/melis-engine'] = 'dev-develop as 2.2.1';
-                $require['melisplatform/melis-cms'] = 'dev-develop as 2.2.1';
+                if(isset($require['melisplatform/melis-front']))
+                    $require['melisplatform/melis-front'] = 'dev-develop as 2.2.1';
+
+                if(isset($require['melisplatform/melis-engine']))
+                    $require['melisplatform/melis-engine'] = 'dev-develop as 2.2.1';
+
+                if(isset($require['melisplatform/melis-cms']))
+                    $require['melisplatform/melis-cms'] = 'dev-develop as 2.2.1';
 
                 if(isset($require['melisplatform/melis-page-analytics'])) {
                     $require['melisplatform/melis-page-analytics'] = 'dev-develop as 2.2.1';
