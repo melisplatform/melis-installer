@@ -413,6 +413,9 @@
             encode: true,
             success: function(data) {
                 callBack(data);
+            },
+            error: function (request, status, error) {
+                updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_cmd_ko);
             }
         });
     }
@@ -592,7 +595,10 @@
 						});
 
 
-					}
+					},
+                    error: function (request, status, error) {
+                        updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_download_ko);
+                    }
 				});
 
             }, 800);
