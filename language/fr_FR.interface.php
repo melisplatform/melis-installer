@@ -244,4 +244,5 @@ return array(
     'tr_meliscore_notification_modal_Close' => 'Fermer',
     'tr_melis_installer_download_ko' => 'Unable to download packages, please refresh the page and try again.',
     'tr_melis_installer_cmd_ko' => 'An error has encountered during installation, please refresh the page and try again',
+    'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
 );

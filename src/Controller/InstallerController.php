@@ -960,10 +960,10 @@ class InstallerController extends AbstractActionController
 
     public function installSiteModuleAction()
     {
-        $success    = 0;
-        $message    = null;
-        $request    = $this->getRequest();
         $translator = $this->getServiceLocator()->get('translator');
+        $success    = 0;
+        $message    = $translator->translate('tr_melis_installer_no_site_install');
+        $request    = $this->getRequest();
         if($request->isXmlHttpRequest()) {
 
             $container = new Container('melisinstaller');
