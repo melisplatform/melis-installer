@@ -28,7 +28,10 @@ return array(
                 ),
                 'module_auto_install' => array(
                     // this configuration consists of the required modules that is need to run Melis Platform
-                    'MelisMarketPlace' => 'melisplatform/melis-marketplace'
+                    'MelisMarketPlace' => 'melisplatform/melis-marketplace',
+                    // added temporarily
+                    'MelisEngine' => 'melisplatform/melis-engine',
+                    'MelisFront' => 'melisplatform/melis-front'
                 ),
                 'module_default' => array(
                     'MelisAssetManager',
