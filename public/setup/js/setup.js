@@ -353,31 +353,34 @@
             value: url
         });
         dataString = $.param(dataString);
-        if(url != "") {
-            $.ajax({
-                type        : 'POST',
-                url         : '/melis/MelisInstaller/Installer/deleteEnvironment',
-                data		: dataString,
-                dataType    : 'json',
-                encode		: true,
-                success		: function(data){
-                    if(data.success === 1) {
-                        objParent.fadeOut(300, function(){
-                            $(this).remove();
-                        });
-                    }
-                    else {
-                        alert('There was an error upon deleting an existing site domain');
-                    }
-
-                }
-            });
-        }
-        else {
-            $(this).parents(".environment-cont").fadeOut(300, function(){
-                $(this).remove();
-            });
-        }
+        // if(url != "") {
+        //     $.ajax({
+        //         type        : 'POST',
+        //         url         : '/melis/MelisInstaller/Installer/deleteEnvironment',
+        //         data		: dataString,
+        //         dataType    : 'json',
+        //         encode		: true,
+        //         success		: function(data){
+        //             if(data.success === 1) {
+        //                 objParent.fadeOut(300, function(){
+        //                     $(this).remove();
+        //                 });
+        //             }
+        //             else {
+        //                 alert('There was an error upon deleting an existing site domain');
+        //             }
+        //
+        //         }
+        //     });
+        // }
+        // else {
+        //     $(this).parents(".environment-cont").fadeOut(300, function(){
+        //         $(this).remove();
+        //     });
+        // }
+        $(this).parents(".environment-cont").fadeOut(300, function(){
+            $(this).remove();
+        });
 
     });
 
