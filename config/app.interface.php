@@ -18,8 +18,6 @@ return array(
                 'module_exceptions' => array(
                     // modules that will not be displayed when selecting a module to be installed
                     'MelisCore',
-                    'MelisFront',
-                    'MelisEngine',
                     'MelisInstaller',
                     'MelisAssetManager',
                     'MelisDbDeploy',
@@ -29,9 +27,6 @@ return array(
                 'module_auto_install' => array(
                     // this configuration consists of the required modules that is need to run Melis Platform
                     'MelisMarketPlace' => 'melisplatform/melis-marketplace',
-                    // added temporarily
-                    'MelisEngine' => 'melisplatform/melis-engine',
-                    'MelisFront' => 'melisplatform/melis-front'
                 ),
                 'module_default' => array(
                     'MelisAssetManager',

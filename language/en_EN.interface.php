@@ -249,4 +249,5 @@ return array(
 
     'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
 
+    'tr_melis_installer_option_melis_core_only' => '<strong>Platform Only</strong> - this will install MelisCore only in the platform',
 );
