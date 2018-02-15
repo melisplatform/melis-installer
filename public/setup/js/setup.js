@@ -21,7 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        //startPosition:7,
+        // startPosition:7,
         // nav: true,
     });
 
@@ -101,50 +101,65 @@
         }else {
             $(checkBox).not(".requried-module").prop("checked", false);
             $(checkBox).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+            dependencyChecker($("input[name='weboption']:checked"));
+        }
+    });
+
+    // Site to install radio button
+    $("body").on("click", "input[name='weboption']", function() {
+        // reset checkbox
+        $("#chkSelectAllModules").prop('checked', false);
+        $("#frmSelector").find(".cbmask-inner").removeClass('cb-active');
+        $(checkBox).not(".requried-module").prop("checked", false);
+        $(checkBox).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+
+        var value = $("input[name='weboption']:checked").val();
+        if(value == 'MelisCoreOnly') {
+            $('#module-selection').slideUp();
+        } else {
+            $('#module-selection').slideDown();
+        }
+        dependencyChecker($(this))
+    });
+
+    $('.setup-button-cont').on('click', function() {
+        if( $('.module-selection').length ) {
+            if( $("input[name='weboption']:checked").length ) {
+                dependencyChecker($("input[name='weboption']:checked"));
+            }
         }
     });
 
     // Toogle Select All
     $('.cb-cont input[type=checkbox]').change(function(){
-
-        if( false == $("#weboption-democms").prop("checked") ) {
-            //uncheck "select all", if one of the listed checkbox item is unchecked
-            if(false == $(this).prop("checked")){ //if this item is unchecked
-                //change "select all" checked status to false
-                $("#chkSelectAllModules").prop('checked', false)
-                    .closest('.cb-cont').find(".cbmask-inner").removeClass('cb-active');
-            }
+        //uncheck "select all", if one of the listed checkbox item is unchecked
+        if(false == $(this).prop("checked")) {
+            //change "select all" checked status to false
+            $("#chkSelectAllModules").prop('checked', false)
+                .closest('.cb-cont').find(".cbmask-inner").removeClass('cb-active');
+        }
 
 
-            //check "select all" if all checkbox items are checked
-            if ($('.cb-cont input[type=checkbox]:checked').length == $('.cb-cont input[type=checkbox]').length - 1 ){
-                $("#chkSelectAllModules").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-            }
-        } else {
-            $(".cb-cont input[type=checkbox][name=chkMelisCmsSlider]").prop('checked', true)
-                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-            // news
-            $(".cb-cont input[type=checkbox][name=chkMelisCmsNews]").prop('checked', true)
-                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-
-            // prospect
-            $(".cb-cont input[type=checkbox][name=chkMelisCmsProspects]").prop('checked', true)
-                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-
-            // cms
-            $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
+        //check "select all" if all checkbox items are checked
+        if ($('.cb-cont input[type=checkbox]:checked').length == $('.cb-cont input[type=checkbox]').length - 1 ){
+            $("#chkSelectAllModules").prop('checked', true)
                 .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
         }
+        dependencyChecker($("input[name='weboption']:checked"));
 
     });
 
-    $('.cb-cont input[type=checkbox]:not(#chkSelectAllModules)').click(function() {
+    /*
+     * Check dependency
+     * @var dom selector
+     * @return null
+     */
+    function dependencyChecker(dom) {
+        var name 		 = dom.prop("name");
+        var dependencies = dom.data().dependency;
+        var status 	     = dom.prop('checked');
+        var value 		 = dom.val();
 
-        var name 		 = $(this).prop("name");
-        var dependencies = $(this).data().dependency;
-        var status 	     = $(this).prop('checked');
-        var value 		 = $(this).val();
         dependencies = dependencies.split("|").map(function(v, i, a) {
             var n = v[i] = "chk"+v;
             return n;
@@ -176,50 +191,10 @@
                 });
             }
         }
+    }
+    $('.cb-cont input[type=checkbox]:not(#chkSelectAllModules)').click(function() {
+        dependencyChecker($(this));
     });
-
-    $("body").on("click", "input[name='weboption']", function() {
-        var value = $("input[name='weboption']:checked").val();
-
-        switch(value) {
-            case 'MelisDemoCms':
-                $(".cb-cont input[type=checkbox][name=chkMelisCmsSlider]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-                // news
-                $(".cb-cont input[type=checkbox][name=chkMelisCmsNews]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-
-                // prospect
-                $(".cb-cont input[type=checkbox][name=chkMelisCmsProspects]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-
-                // cms
-                $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-
-                $(".cb-cont input[type=checkbox][name=chkMelisEngine]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-                $(".cb-cont input[type=checkbox][name=chkMelisFront]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-
-                $("#module-selection").show();
-                break;
-            case 'MelisCoreOnly':
-                setModuleCheckboxStatus(false);
-                $("#module-selection").hide();
-            break;
-            default:
-                $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-                $(".cb-cont input[type=checkbox][name=chkMelisEngine]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-                $(".cb-cont input[type=checkbox][name=chkMelisFront]").prop('checked', true)
-                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-                $("#module-selection").show()
-            break;
-        }
-    });
-
 
     // ---=[ SIDEBAR ]=---
     // sidebar menu click
@@ -362,31 +337,6 @@
             value: url
         });
         dataString = $.param(dataString);
-        // if(url != "") {
-        //     $.ajax({
-        //         type        : 'POST',
-        //         url         : '/melis/MelisInstaller/Installer/deleteEnvironment',
-        //         data		: dataString,
-        //         dataType    : 'json',
-        //         encode		: true,
-        //         success		: function(data){
-        //             if(data.success === 1) {
-        //                 objParent.fadeOut(300, function(){
-        //                     $(this).remove();
-        //                 });
-        //             }
-        //             else {
-        //                 alert('There was an error upon deleting an existing site domain');
-        //             }
-        //
-        //         }
-        //     });
-        // }
-        // else {
-        //     $(this).parents(".environment-cont").fadeOut(300, function(){
-        //         $(this).remove();
-        //     });
-        // }
         $(this).parents(".environment-cont").fadeOut(300, function(){
             $(this).remove();
         });
@@ -475,10 +425,13 @@
 
     // Website Option action event
     $body.on("change", ".weboption-radio", function(){
-        $(".setup3-webform").addClass("hidden");
+        // $(".setup3-webform").addClass("hidden");
+        $(".setup3-webform").slideUp();
         if($(this).val() == "NewSite"){
-            $(".setup3-webform").removeClass("hidden");
+            // $(".setup3-webform").removeClass("hidden");
+            $(".setup3-webform").slideDown();
         }
+
     });
 
     function ajaxRequest(url, dataString, callBack) {

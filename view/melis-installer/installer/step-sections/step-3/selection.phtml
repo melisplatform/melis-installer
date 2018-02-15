@@ -39,28 +39,28 @@ function toModuleName($modules) {
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container pull-left">
-                                <input id="weboption-melis-core" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisCoreOnly" <?= ($webOption == 'MelisCoreOnly') ? 'checked' : ''?>>
+                                <input id="weboption-melis-core" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisCoreOnly" <?= ($webOption == 'MelisCoreOnly') ? 'checked' : ''?> data-dependency="">
                                 <label for="weboption-melis-core"></label>
                             </div>
                             <?= $this->translate('tr_melis_installer_option_melis_core_only'); ?>
                         </li>
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container pull-left">
-                                <input id="weboption-none" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="None" <?= ($webOption == 'None') ? 'checked' : ''?>>
+                                <input id="weboption-none" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="None" <?= ($webOption == 'None') ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms">
                                 <label for="weboption-none"></label>
                             </div>
                             <?= $this->translate('tr_melis_installer_option_none'); ?>
                         </li>
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container pull-left">
-                                <input id="weboption-newsite" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="NewSite" <?= ($webOption == 'NewSite')? 'checked' : ''?>>
+                                <input id="weboption-newsite" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="NewSite" <?= ($webOption == 'NewSite')? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms">
                                 <label for="weboption-newsite"></label>
                             </div>
                             <?= $this->translate('tr_melis_installer_option_new_website'); ?>
                         </li>
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container pull-left">
-                                <input id="weboption-democms" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisDemoCms" <?= ($webOption == 'MelisDemoCms' || empty($webOption)) ? 'checked' : ''?>>
+                                <input id="weboption-democms" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisDemoCms" <?= ($webOption == 'MelisDemoCms' || empty($webOption)) ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects">
                                 <label for="weboption-democms"></label>
                             </div>
                             <?= $this->translate('tr_melis_installer_option_use_demo_cms'); ?>
@@ -74,7 +74,7 @@ function toModuleName($modules) {
             <br>
             <div class="row">
                 <div class="col-xs-12 col-md-6">
-                    <div class="setup3-webform <?php echo (!$this->setup3_showWebForm) ? 'hidden' : '' ?>">
+                    <div class="setup3-webform" style="display: none;">
                         <h4 class="border-bottom"><?php echo $this->translate('tr_melis_installer_web_config_create_web_sel_language')?></h4>
                         <?php
                         $form = $this->setup3_webLangForm;
