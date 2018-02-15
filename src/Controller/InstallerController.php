@@ -635,9 +635,16 @@ class InstallerController extends AbstractActionController
 
                 $container['download_modules'] = $downloadModules;
 
+
+
             }
 
             $container['site_module']  = array_merge(array('site' => $post['site']), $siteLang, $siteData);
+
+            if($this->isUsingCoreOnly()) {
+                $container['download_modules'] = array();
+                $container['install_modules']  = array();
+            }
 
         }
 
@@ -667,8 +674,10 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $composerSvc->download($downloadableModules, null, true);
-
+            if(!$this->isUsingCoreOnly())
+                $composerSvc->download($downloadableModules, null, true);
+            else
+                $composerSvc->download($autoInstallModules, null, true);
         }
 
         $view = new ViewModel();
@@ -759,7 +768,7 @@ class InstallerController extends AbstractActionController
         $moduleSvc         = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
 
-        if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
+        if($this->isUsingDemoCms()) {
             
             set_time_limit(0);
             ini_set('memory_limit', -1);
@@ -1798,6 +1807,38 @@ class InstallerController extends AbstractActionController
          
         return $result;
     }
+
+    protected function getNoneDemoSiteSelection()
+    {
+        return array('MelisCoreOnly', 'None', 'NewSite');
+    }
+
+    protected function getSelectedSiteOption()
+    {
+        $container = new Container('melisinstaller');
+        $site      = $container['site_module'];
+        $siteName  = 'None';
+        if($site) {
+            $siteName = $site['site'];
+        }
+
+        return $siteName;
+    }
+
+    protected function isUsingDemoCms()
+    {
+        if(!in_array($this->getSelectedSiteOption(), $this->getNoneDemoSiteSelection()))
+            return true;
+
+        return false;
+    }
+
+    protected function isUsingCoreOnly()
+    {
+        if($this->getSelectedSiteOption() == 'MelisCoreOnly')
+            return true;
+        return false;
+    }
     
     
     function moduleNameToViewName($string) {
@@ -1824,8 +1865,8 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        
 
+        var_dump($this->isUsingCoreOnly());
 
         die;
     }
