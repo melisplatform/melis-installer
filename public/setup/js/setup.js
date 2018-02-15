@@ -197,6 +197,11 @@
                 $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
                     .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
 
+                $(".cb-cont input[type=checkbox][name=chkMelisEngine]").prop('checked', true)
+                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+                $(".cb-cont input[type=checkbox][name=chkMelisFront]").prop('checked', true)
+                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+
                 $("#module-selection").show();
                 break;
             case 'MelisCoreOnly':
@@ -205,6 +210,10 @@
             break;
             default:
                 $(".cb-cont input[type=checkbox][name=chkMelisCms]").prop('checked', true)
+                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+                $(".cb-cont input[type=checkbox][name=chkMelisEngine]").prop('checked', true)
+                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+                $(".cb-cont input[type=checkbox][name=chkMelisFront]").prop('checked', true)
                     .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
                 $("#module-selection").show()
             break;
