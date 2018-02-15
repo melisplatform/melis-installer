@@ -620,8 +620,9 @@ input[type="text"] {
 }
 
 .form-modules {
+    padding: 30px 0 30px;
     margin-top: 15px;
-    height: 250px;
+    height: 310px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -674,16 +675,23 @@ input[type="text"] {
     word-wrap: break-word;
 }
 
-.modal-setup-module-form-configuration{
-    height: 650px;
+.modal-setup-module-form-configuration {
+    padding: 50px 0px 50px;
+    height: auto;
     overflow: auto;
     position: relative;
 }
+.modal-setup-module-form-configuration-content {
+    padding: 0 50px;
+    height: 550px;
+    overflow: auto;
+}
 
-.modal-setup-module-form-configuration .btn-block.btn-primary {
-    position: fixed;
-    bottom: 10px;
-    width: 85%;
+.modal-setup-module-form-configuration span.btn-block.btn-primary {
+    margin-top: 0;
+}
+.modal-btn-close-container {
+      padding: 0 50px;
 }
 .melis-installer-module-configuration-form-content{
     height: 486px;
