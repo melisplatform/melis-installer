@@ -759,7 +759,7 @@ var melisInstallerFormHelper = (function($, window) {
         });
 
         var div = '<div class="melis-modaloverlay '+ closeByButtonOnly +'"></div>';
-        div += '<div class="melis-modal-cont KOnotif">  <div class="modal-content modal-setup-module-form-configuration">'+ errorTexts +' <span class="btn btn-block btn-primary">' + translators.tr_melis_installer_common_close +'</span></div> </div>';
+        div += '<div class="melis-modal-cont KOnotif">  <div class="modal-content modal-setup-module-form-configuration"><div class="modal-setup-module-form-configuration-content">'+ errorTexts +' </div><div class="modal-btn-close-container"><span class="btn btn-block btn-primary">' + translators.tr_melis_installer_common_close +'</span></div></div> </div>';
         $body.append(div);
     }
 
