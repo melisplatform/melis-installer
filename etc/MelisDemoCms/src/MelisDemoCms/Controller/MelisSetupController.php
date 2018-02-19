@@ -23,9 +23,9 @@ class MelisSetupController extends AbstractActionController
     public function setupFormAction()
     {
 
-		$form 		= $this->getFormSiteDemo();
-		$container  = new Container('melis_modules_configuration_status');
-		$formData 	= isset($container['formData']) ? (array) $container['formData'] : null;
+        $form 		= $this->getFormSiteDemo();
+        $container  = new Container('melis_modules_configuration_status');
+        $formData 	= isset($container['formData']) ? (array) $container['formData'] : null;
 
         if($formData)
             $form->setData($formData);
@@ -38,27 +38,27 @@ class MelisSetupController extends AbstractActionController
         return $view;
 
     }
-	
-	public function setupValidateDataAction()
-	{
-		$success = 0;
+
+    public function setupValidateDataAction()
+    {
+        $success = 0;
         $message = 'tr_install_setup_message_ko';
         $errors  = array();
-		
-		$data = $this->getTool()->sanitizeRecursive($this->params()->fromRoute());
-		
+
+        $data = $this->getTool()->sanitizeRecursive($this->params()->fromRoute());
+
         $siteDemoCmsForm = $this->getFormSiteDemo();
         $siteDemoCmsForm->setData($data);
-		
-		if($siteDemoCmsForm->isValid()) {
-			$success = 1;
-			$message = 'tr_install_setup_message_ok';
-		}
-		else {
-			$errors = $this->formatErrorMessage($siteDemoCmsForm->getMessages());
-		}
-		
-		
+
+        if($siteDemoCmsForm->isValid()) {
+            $success = 1;
+            $message = 'tr_install_setup_message_ok';
+        }
+        else {
+            $errors = $this->formatErrorMessage($siteDemoCmsForm->getMessages());
+        }
+
+
         $response = array(
             'success' => $success,
             'message' => $this->getTool()->getTranslation($message),
@@ -68,7 +68,7 @@ class MelisSetupController extends AbstractActionController
         );
 
         return new JsonModel($response);
-	}
+    }
 
     public function setupResultAction()
     {
@@ -130,7 +130,7 @@ class MelisSetupController extends AbstractActionController
 
                     $setupSrv = $this->getServiceLocator()->get('SetupDemoCmsService');
 
-                   // $setupSrv->setupSite($siteData);
+                    // $setupSrv->setupSite($siteData);
                     $setupSrv->setup(getenv('MELIS_PLATFORM'));
                     $setupSrv->setupSiteDomain($scheme, $domain);
 
@@ -188,6 +188,16 @@ class MelisSetupController extends AbstractActionController
         $factory->setFormElementManager($formElements);
         $form = $factory->createForm($appConfigForm);
 
+        // default data
+        $scheme = 'https';
+        $domain = $this->getRequest()->getUri()->getHost();
+
+        $data = array(
+            'sdom_scheme' => $scheme,
+            'sdom_domain' => $domain
+        );
+
+        $form->setData($data);
 
         return $form;
 
@@ -195,11 +205,11 @@ class MelisSetupController extends AbstractActionController
 
     private function formatErrorMessage($errors = array())
     {
-		
+
         $melisMelisCoreConfig = $this->serviceLocator->get('MelisCoreConfig');
-		
+
         $appConfigForm = $melisMelisCoreConfig->getItem('melis_demo_cms_setup/forms/melis_installer_demo_cms');
-		
+
         $appConfigForm = $appConfigForm['elements'];
 
         foreach ($errors as $keyError => $valueError)

@@ -12,7 +12,7 @@ return array(
     'tr_melis_installer_navigation_platform' => 'Platform initialization',
     'tr_melis_installer_navigation_web_config' => 'Site configuration',
     'tr_melis_installer_navigation_melis_config' => 'Admin account configuration',
-    'tr_melis_installer_navigation_modules' => 'Modules',
+    'tr_melis_installer_navigation_modules' => 'Setup type',
     'tr_melis_installer_navigation_final' => 'Installation',
     
     'tr_melis_installer_common_close' => 'Close',
@@ -112,9 +112,9 @@ return array(
     'tr_melis_installer_web_config_empty_vhost_module_name' => 'Module name (MELIS_MODULE) must be set on server vhost before proceeding the setup',
     'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Module name (MELIS_MODULE) in the server vhost is invalid, alphanumeric and underscore are the only valid characters allowed for naming the module name',
 
-    'tr_melis_installer_option_none'         => '<strong>No site</strong> - This option will not create anything (no module, no folder, no page) and you will have to build your site from scratch. <br>Recommended for advanced users or for those having special requirements.',
-    'tr_melis_installer_option_new_website'  => '<strong>Create new website</strong> - This option will create a site base including a module with its configuration, its Module.php, a layout, a controller, a first action/view and a first page in the site tree view. <br>Recommanded for those already familiar with the Melis Platform site structure.',
-    'tr_melis_installer_option_use_demo_cms' => '<strong>Use the demo site</strong> - This option will import the Melis demo CMS site to be used as a tutorial on how to build a website in Melis Platform. <br>Recommanded for those discovering Melis Platform.',
+    'tr_melis_installer_option_none'         => '<strong>CMS platform with no site</strong> - This option will not create anything (no module, no folder, no page) and you will have to build your site from scratch. Recommended for advanced users or for those having special requirements.',
+    'tr_melis_installer_option_new_website'  => '<strong>CMS platform with new website</strong> - This option will create a site base including a module with its configuration, its Module.php, a layout, a controller, a first action/view and a first page in the site tree. Recommended for those already familiar with the Melis CMS site structure.',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>CMS platform with demo site</strong> - This option will import the Melis Demo CMS site to be used as a tutorial on how to build a website in Melis Platform. Recommanded for those discovering Melis Platform.',
 
 
     // MELIS CONFIGURATION
@@ -194,7 +194,7 @@ return array(
     'tr_melis_installer_failed_table_install' => 'Failed to install table "%s", please check the query and try again',
     
     'tr_melis_installer_creation_result' => 'Installation',
-    'tr_melis_installer_creation_result_subtext' => 'Validate and start the installation of Melis Platform with the information provided.',
+    'tr_melis_installer_creation_result_subtext' => 'Validate and finish the setup of Melis Platform with configuration provided.',
     
     'tr_melis_installer_common_next' => 'Next',
     'tr_melis_installer_common_finish' => 'Install',
@@ -237,8 +237,8 @@ return array(
     
     
     //Step 3.1 text
-    'tr_melis_installer_module_selection_heading' => 'Step 3.1: Modules / Selection',
-    'tr_melis_installer_module_selection_sub_heading' => 'Selection of the additional modules to install and enable',
+    'tr_melis_installer_module_selection_heading' => '3.1 Setup type and modules',
+    'tr_melis_installer_module_selection_sub_heading' => 'Choose the setup type to do',
 
     //test db connection close button
     'tr_meliscore_notification_modal_Close' => 'Close',
@@ -249,5 +249,5 @@ return array(
 
     'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
 
-    'tr_melis_installer_option_melis_core_only' => '<strong>Platform Only</strong> - this will install MelisCore only in the platform',
+    'tr_melis_installer_option_melis_core_only' => '<strong> Core Platform only (MelisCore)</strong> - This option will install MelisCore only: a back-office interface with users\' management and default tools of the platform. A develomment environement ready to use for specific projects that do not need a CMS.',
 );
