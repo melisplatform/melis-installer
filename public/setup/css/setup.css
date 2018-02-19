@@ -698,3 +698,6 @@ input[type="text"] {
     overflow: scroll;
     padding: 5px 20px;
 }
+#module-selection {
+    display: none;
+}

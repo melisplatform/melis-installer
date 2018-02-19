@@ -1882,9 +1882,12 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child, table.dataTa
 	    margin-bottom: 0;
 	}
 	.melis-modal-cont .modal-content{
-	    padding: 50px 0 12px;
+        padding: 50px 50px 40px;
 	    width: 600px;
-	}    
+	}
+    .melis-modal-cont .modal-content.modal-setup-module-form-configuration {
+        padding: 50px 0 12px;
+    }
 	
 	
     

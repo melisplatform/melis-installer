@@ -58,7 +58,7 @@ class InstallerController extends AbstractActionController
             if (array_key_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None'){
                 $showWebForm = true;
             }
-            
+
             $webConfigOption->get('weboption')->setValue($container['cms_data']['weboption']);
         }
         
@@ -103,7 +103,7 @@ class InstallerController extends AbstractActionController
             $requiredModules = $container['cms_data']['required_modules'];
         }
 
-        $currentSite = isset($container['site_module']['site']) ? $container['site_module']['site'] : 'NewSite';
+        $currentSite = isset($container['site_module']['site']) ? $container['site_module']['site'] : 'MelisCoreOnly';
         $webConfigOption->get('weboption')->setValue($currentSite);
             
         $view = new ViewModel();
