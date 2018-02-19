@@ -585,7 +585,6 @@
 								updateCmdText('<br/>' + response);
 
 								// check for site installation
-
 								getRequest('/melis/MelisInstaller/Installer/checkSiteModule', 'json', function(response) {
 									if(response.hasSite) {
 										updateCmdText('<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_installing + '<br/>');
