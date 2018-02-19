@@ -585,9 +585,8 @@
 								updateCmdText('<br/>' + response);
 
 								// check for site installation
-								updateCmdText('<br/><span id="cmd-chk-site"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_checking + '<br/>');
+
 								getRequest('/melis/MelisInstaller/Installer/checkSiteModule', 'json', function(response) {
-									$("#cmd-chk-site").html('<i class="fa fa-info-circle"></i>');
 									if(response.hasSite) {
 										updateCmdText('<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_installing + '<br/>');
 										// install site
