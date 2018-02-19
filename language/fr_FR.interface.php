@@ -113,9 +113,9 @@ return array(
     'tr_melis_installer_web_config_empty_vhost_module_name' => 'Le nom du module (MELIS_MODULE) doit être défini avant de procéder à l\'installation',
     'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Le nom du module (MELIS_MODULE) dans le vhost du server est invalide, seuls les caractères alphanumériques and l\'underscore sont autorisés dans le nom du module',
 
-    'tr_melis_installer_option_none'         => '<strong>Platforme CMS sans site</strong> - Cette option ne créera aucun fichiers (pas de module, pas de dossier, pas de page) et vous devrez construire votre site complètement.',
-    'tr_melis_installer_option_new_website'  => '<strong>Platforme CMS avec nouveau site</strong> - Cette option créera une base de site incluant un module avec sa configuration, son Module.php, un layout, un controller, une action/vue et une première page dans l\'arborescence. Recommandé pour ceux ayant déjà une connaissance de l\'architecture d\'un site Melis CMS.',
-    'tr_melis_installer_option_use_demo_cms' => '<strong>Platforme CMS avec site démo</strong> - Cette option créera un site Melis Demo CMS à utiliser comme un tutoriel pour apprendre à créer un site avec Melis Platform.',
+    'tr_melis_installer_option_none'         => '<strong>Platforme CMS sans site</strong><br/>Cette option ne créera aucun fichiers (pas de module, pas de dossier, pas de page) et vous devrez construire votre site complètement.',
+    'tr_melis_installer_option_new_website'  => '<strong>Platforme CMS avec nouveau site</strong><br/>Cette option créera une base de site incluant un module avec sa configuration, son Module.php, un layout, un controller, une action/vue et une première page dans l\'arborescence.<br/></i>Recommandé pour ceux ayant déjà une connaissance de l\'architecture d\'un site Melis CMS.',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>Platforme CMS avec site démo</strong><br/>Cette option créera un site Melis Demo CMS à utiliser comme un tutoriel pour apprendre à créer un site avec Melis Platform.',
     
     // STEP 3: Platform Initialization
     'tr_melis_installer_platform_modal_title' => 'Melis Platform initialisation',
@@ -245,5 +245,5 @@ return array(
     'tr_melis_installer_download_ko' => 'Unable to download packages, please refresh the page and try again.',
     'tr_melis_installer_cmd_ko' => 'An error has encountered during installation, please refresh the page and try again',
     'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
-    'tr_melis_installer_option_melis_core_only' => '<strong>Noyau plateforme uniquement (MelisCore)</strong> - Cette option créera une installation de MelisCore uniquement : une interface de back-office avec gestion des utilisateurs et les outils de base de la plateforme. Un environnement de développement prêt à l\'emploi pour des projets spécifiques ne nécéssitant pas de CMS.',
+    'tr_melis_installer_option_melis_core_only' => '<strong>Noyau plateforme uniquement (MelisCore)</strong><br/>Cette option créera une installation de MelisCore uniquement : une interface de back-office avec gestion des utilisateurs et les outils de base de la plateforme.<br/><i>Un environnement de développement prêt à l\'emploi pour des projets spécifiques ne nécéssitant pas de CMS.</i>',
 );
