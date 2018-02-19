@@ -13,7 +13,7 @@ foreach($siteDemoCmsForm->getElements() as $element => $attributes)  {
     $requiredSign = isset($el->getAttributes()['text-required']) ? $el->getAttributes()['text-required'] : null;
 
     $placeHolder  = isset($el->getAttributes()['placeholder']) ? $el->getAttributes()['placeholder'] : null;
-    
+
     echo '<div class="form-group">';
     echo '<label for="'.$el->getAttributes()['name'].'">'.$this->translate($label) . " " .$requiredSign;
     echo   "<i class='fa fa-info-circle fa-lg pull-right' data-toggle='tooltip' data-placement='left' title='$toolTip' ></i>";
@@ -24,7 +24,7 @@ foreach($siteDemoCmsForm->getElements() as $element => $attributes)  {
     if($el->getAttributes()['type'] == 'Text' || $el->getAttributes()['type'] == 'text')
     {
 
-        echo '<input type="' .$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $placeHolder .'">';
+        echo '<input type="' .$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $placeHolder .'" value="'.$el->getValue().'">';
     }
     else if($el->getAttributes()['type'] == 'Select' || $el->getAttributes()['type'] == 'select')
     {
