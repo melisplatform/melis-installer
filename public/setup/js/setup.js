@@ -699,12 +699,18 @@
         });
     }
 
-    function enableNextButton()
+    function enableNextButton(retainText)
     {
         $(".setup-pass-page").removeAttr("disabled");
         $(".setup-pass-page").removeClass("btn-default disabled");
         $(".setup-pass-page").addClass("btn-success");
-        $(".setup-pass-page").html(translators.tr_melis_installer_common_next);
+
+        retainText = retainText || false;
+
+        if(retainText === false) {
+            $(".setup-pass-page").html(translators.tr_melis_installer_common_next);
+        }
+
     }
 
     function disableNextButton()
@@ -765,7 +771,7 @@
             if(response.success == '1') {
 				getRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(resp) {
 					if(resp.success == '1') {
-                        enableNextButton();
+                        enableNextButton(true);
 						$owl.trigger('to.owl.carousel', [10, 500]);
 					}
 					else {
