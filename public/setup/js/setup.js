@@ -710,6 +710,9 @@
         if(retainText === false) {
             $(".setup-pass-page").html(translators.tr_melis_installer_common_next);
         }
+        else {
+            $(".setup-pass-page").html(retainText);
+        }
 
     }
 
@@ -771,7 +774,7 @@
             if(response.success == '1') {
 				getRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?'+forms, 'json', function(resp) {
 					if(resp.success == '1') {
-                        enableNextButton(true);
+                        enableNextButton(translators.tr_melis_installer_common_finish);
 						$owl.trigger('to.owl.carousel', [10, 500]);
 					}
 					else {
