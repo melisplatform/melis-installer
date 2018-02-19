@@ -676,8 +676,10 @@ class InstallerController extends AbstractActionController
 
             if(!$this->isUsingCoreOnly())
                 $composerSvc->download($downloadableModules, null, true);
-            else
-                $composerSvc->download($autoInstallModules, null, true);
+            else {
+                $autoInstallModules = implode(' ', $autoInstallModules);
+                $composerSvc->download($autoInstallModules, 'dev-develop', true);
+            }
         }
 
         $view = new ViewModel();
