@@ -21,8 +21,7 @@
         dotsSpeed: 500,
         navSpeed: 500,
         dots: false,
-        // startPosition:7,
-        // nav: true,
+        // startPosition:9,
     });
 
     $body.find('[data-toggle="tooltip"]').tooltip({
