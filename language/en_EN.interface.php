@@ -26,7 +26,6 @@ return array(
     'tr_melis_installer_layout_introduction_welcome_start_button' => 'Let\'s start',
     'tr_melis_installer_layout_introduction_welcome_view_online_doc' => 'View online documentation',
     'tr_melis_installer_layout_introduction_welcome_php_version_error' => 'Unable to proceed on installation, minimum PHP version required is <strong>%s</strong>, current version installed <strong>%s</strong>',
-    
     'tr_melis_installer_layout_sys_req' => 'Step 1: System requirements',
     'tr_melis_installer_layout_sys_req_subtext' => 'Let\'s check your PHP installed variables and properties.',
     'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommended 5.5 to 7.1',
@@ -250,4 +249,5 @@ return array(
     'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
 
     'tr_melis_installer_option_melis_core_only' => '<strong> Core Platform only (MelisCore)</strong><br/>This option will install MelisCore only: a back-office interface with users\' management and default tools of the platform.<br/><i>A development environment ready to use for specific projects that do not need a CMS.</i>',
+    'tr_melis_installer_layout_introduction_welcome_network_error' => 'Unable to proceed on installation, please check your <strong> internet connection</strong>',
 );

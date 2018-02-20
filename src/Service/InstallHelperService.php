@@ -610,13 +610,26 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
         $packages       = [];
         $requestJsonUrl = 'http://marketplace.melisplatform.com/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/1';
-
+        $netStatus      = 0;
         $config           = $this->getServiceLocator()->get('MelisInstallerConfig');
         $moduleExceptions = $config->getItem('melis_installer/datas/module_exceptions');
-        $serverPackages   = array();
+        $serverPackages   = null;
         try {
-            $serverPackages   = file_get_contents($requestJsonUrl);
+            //Start using cURL
+            $ch = curl_init($requestJsonUrl);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            if(!curl_exec($ch) === false) {
+                $netStatus = 1;
+                $serverPackages = file_get_contents($requestJsonUrl);
+            }
+
+            // Close handle
+            curl_close($ch);
+
             $serverPackages   = Json::decode($serverPackages, Json::TYPE_ARRAY);
+
         }catch(\Exception $e) {
             $serverPackages   = array();
         }
@@ -638,7 +651,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
 
         
-        return $packages;
+        return array(
+            'packages'  => $packages,
+            'netStatus' => $netStatus
+        );
 
     }
 

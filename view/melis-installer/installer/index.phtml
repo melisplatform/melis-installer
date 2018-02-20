@@ -163,11 +163,17 @@
 						</div>
 						<div class="setup-button-cont text-center">
 							<?php if(version_compare($phpVersion, $phpVersionRequired) > 0) {?>
-								<a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
-								<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
-							<?php } else {?>
+
+                                <?php  if($this->netStatus){?>
+								    <a class="btn btn-success setup-pass-page " id="welcome_start_button"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
+								    <!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
+							    <?php }else{?>
+                                    <div class="alert alert-danger" role="alert"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_network_error')?></div>
+                                <?php }?>
+
+                            <?php } else {?>
 								<div class="alert alert-danger" role="alert"><?= sprintf($this->translate('tr_melis_installer_layout_introduction_welcome_php_version_error'), $phpVersionRequired, $phpVersion);?></div>
-								<a class="btn btn-default"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
+								<a class="btn btn-default" id="welcome_start_button"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
 								<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
 							<?php }?>
 						</div>
