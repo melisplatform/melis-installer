@@ -613,9 +613,15 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
         $config           = $this->getServiceLocator()->get('MelisInstallerConfig');
         $moduleExceptions = $config->getItem('melis_installer/datas/module_exceptions');
-        $serverPackages   = array();
+        $serverPackages   = null;
         try {
-            $serverPackages   = file_get_contents($requestJsonUrl);
+            /*
+             * Check if there is a internet connection
+             */
+            $connected = @fsockopen("https://www.google.com/", 80);
+            if($connected)
+                $serverPackages   = file_get_contents($requestJsonUrl);
+
             $serverPackages   = Json::decode($serverPackages, Json::TYPE_ARRAY);
         }catch(\Exception $e) {
             $serverPackages   = array();
