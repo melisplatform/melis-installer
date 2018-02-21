@@ -113,7 +113,7 @@ return array(
 
     'tr_melis_installer_option_none'         => '<strong>CMS platform with no site</strong><br/>This option will not create anything (no module, no folder, no page) and you will have to build your site from scratch.<br/><i>Recommended for advanced users or for those having special requirements.</i>',
     'tr_melis_installer_option_new_website'  => '<strong>CMS platform with new website</strong><br/>This option will create a site base including a module with its configuration, its Module.php, a layout, a controller, a first action/view and a first page in the site tree.<br/><i>Recommended for those already familiar with the Melis CMS site structure.</i>',
-    'tr_melis_installer_option_use_demo_cms' => '<strong>CMS platform with demo site</strong>This option will import the Melis Demo CMS site to be used as a tutorial on how to build a website in Melis Platform.<br/><i>Recommended for those discovering Melis Platform.</i>',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>CMS platform with demo site</strong><br/>This option will import the Melis Demo CMS site to be used as a tutorial on how to build a website in Melis Platform.<br/><i>Recommended for those discovering Melis Platform.</i>',
 
 
     // MELIS CONFIGURATION
