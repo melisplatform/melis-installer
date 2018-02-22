@@ -1,3 +1,6 @@
+$(window).load(function() {
+    $("#content").css("visibility", "visible");
+});
 (function($) {
     // To avoid tab key on the last input on the form that cause a bus on owl carousel in setup
     $(document).keydown(function(objEvent) {
