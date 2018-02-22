@@ -1020,9 +1020,10 @@ class InstallerController extends AbstractActionController
     {
 		set_time_limit(0);
 		ini_set('memory_limit', -1);
-		
+
         $mm      = $this->getServiceLocator()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
+        $modules = array_diff($modules, $this->getInstallerModules());
 
         $content         = '';
         $tabs            = '';
@@ -1846,9 +1847,22 @@ class InstallerController extends AbstractActionController
             return true;
         return false;
     }
+
+    protected function getInstallerModules()
+    {
+        $modules = array(
+            'MelisAssetManager',
+            'MelisDbDeploy',
+            'MelisComposerDeploy',
+            'MelisInstaller',
+            'MelisModuleConfig'
+        );
+
+        return $modules;
+    }
     
     
-    function moduleNameToViewName($string) {
+    private function moduleNameToViewName($string) {
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $string));
     }
 

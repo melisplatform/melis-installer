@@ -456,6 +456,7 @@
                 callBack(data);
             },
             error: function (request, status, error) {
+                console.log(request, status, error)
                 updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_cmd_ko);
             }
         });
