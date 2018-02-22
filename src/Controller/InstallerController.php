@@ -1087,19 +1087,23 @@ class InstallerController extends AbstractActionController
 
         $namespace  = $module.'\\Controller\\'.$controller .'Controller';
 
-        if(class_exists($namespace) && method_exists($namespace, $action.'Action')) {
+        try {
+            if(class_exists($namespace) && method_exists($namespace, $action.'Action')) {
 
-            $viewModel  = $this->forward()->dispatch($module.'\\Controller\\'.$controller, array('action' => $action));
+                $viewModel  = $this->forward()->dispatch($module.'\\Controller\\'.$controller, array('action' => $action));
 
-            $renderer   = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
-            $html       = new \Zend\Mime\Part($renderer->render($viewModel));
+                $renderer   = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
+                $html       = new \Zend\Mime\Part($renderer->render($viewModel));
 
-            $content    = (string) $html->getContent();
+                $content    = (string) $html->getContent();
 
+            }
+
+        }catch(\Exception $e) {
+            $content = $e->getMessage();
         }
-        else {
-            $content = null;
-        }
+
+
 
         return $content;
     }
