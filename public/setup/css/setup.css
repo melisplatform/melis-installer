@@ -704,3 +704,32 @@ input[type="text"] {
 #module-selection {
     display: none;
 }
+
+.list-group-descrip {
+    position: relative;
+    padding-left: 45px;
+}
+
+/* Melis svg */
+.melis-svg {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    left: 0;
+}
+
+.melis-svg.melis-core .bg-color {
+    fill: #ef6623;
+}
+
+.melis-svg.melis-core .light-color {
+    fill: #f7962c;
+}
+.melis-svg.melis-cms .bg-color {
+    fill: #67b345;
+}
+
+.melis-svg.melis-cms .light-color {
+    fill: #85c556;
+}

@@ -39,28 +39,81 @@ function toModuleName($modules) {
                                 <input id="weboption-melis-core" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisCoreOnly" <?= ($webOption == 'MelisCoreOnly') ? 'checked' : ''?> data-dependency="">
                                 <label for="weboption-melis-core"></label>
                             </div>
-                            <?= $this->translate('tr_melis_installer_option_melis_core_only'); ?>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-core">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <?= $this->translate('tr_melis_installer_option_melis_core_only'); ?>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container radio-content">
                                 <input id="weboption-none" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="None" <?= ($webOption == 'None') ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms">
                                 <label for="weboption-none"></label>
                             </div>
-                            <?= $this->translate('tr_melis_installer_option_none'); ?>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-cms">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <?= $this->translate('tr_melis_installer_option_none'); ?>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container radio-content">
                                 <input id="weboption-newsite" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="NewSite" <?= ($webOption == 'NewSite')? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms">
                                 <label for="weboption-newsite"></label>
                             </div>
-                            <?= $this->translate('tr_melis_installer_option_new_website'); ?>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-cms">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+
+                                <?= $this->translate('tr_melis_installer_option_new_website'); ?>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <div class="font-awesome-radio-container radio-content">
                                 <input id="weboption-democms" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisDemoCms" <?= ($webOption == 'MelisDemoCms' || empty($webOption)) ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects">
                                 <label for="weboption-democms"></label>
                             </div>
-                            <?= $this->translate('tr_melis_installer_option_use_demo_cms'); ?>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-cms">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                 <?= $this->translate('tr_melis_installer_option_use_demo_cms'); ?>
+                            </div>
                         </li>
                     </ul>
                     <?php
