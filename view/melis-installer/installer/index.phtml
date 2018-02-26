@@ -2,6 +2,21 @@
     $localeImg = substr($this->currentLocale, 0, 2);
     $phpVersion = phpversion();
     $phpVersionRequired = '5.3.23';
+
+
+function isConnected()
+{
+    $connected = @fsockopen("www.google.com.ph", 443);
+
+    if ($connected) {
+        fclose($connected);
+        return true;
+    }
+    else
+        return false;
+
+}
+
 ?>
 <!-- header -->
 <div class="navbar navbar-fixed-top navbar-primary main" role="navigation">
@@ -164,7 +179,10 @@
 						<div class="setup-button-cont text-center">
 							<?php if(version_compare($phpVersion, $phpVersionRequired) > 0) {?>
 
-                                <?php  if($this->netStatus){?>
+                                <div id="check-proceed">
+
+                                </div>
+                                <?php if(isConnected()) { ?>
 								    <a class="btn btn-success setup-pass-page " id="welcome_start_button"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
 								    <!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
 							    <?php }else{?>
