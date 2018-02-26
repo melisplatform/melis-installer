@@ -247,5 +247,4 @@ return array(
     'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
     'tr_melis_installer_option_melis_core_only' => '<strong>Noyau plateforme uniquement (MelisCore)</strong><br/>Cette option créera une installation de MelisCore uniquement : une interface de back-office avec gestion des utilisateurs et les outils de base de la plateforme.<br/><i>Un environnement de développement prêt à l\'emploi pour des projets spécifiques ne nécéssitant pas de CMS.</i>',
     'tr_melis_installer_layout_introduction_welcome_network_error' => 'Impossible de continuer l\'installation, merci de vérifier votre <strong>connexion internet</strong>',
-
 );
