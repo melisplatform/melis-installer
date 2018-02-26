@@ -132,7 +132,7 @@ class InstallerController extends AbstractActionController
         $view->setup3_3_requiredModules = $requiredModules;
 
         $view->packagistMelisModules   = $packagist['packages'];
-        $view->netStatus               = $packagist['netStatus'];
+
 
         return $view;
     }
@@ -667,7 +667,7 @@ class InstallerController extends AbstractActionController
             $downloadableModules = isset($container['download_modules']) ? $container['download_modules'] : [];
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
-
+            $downloadableModules = implode(' ', $downloadableModules);
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
 
