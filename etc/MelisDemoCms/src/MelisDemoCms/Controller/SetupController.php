@@ -56,4 +56,25 @@ class SetupController extends BaseController
         
         return new JsonModel(array());
     }
+
+    public function setupFormAction()
+    {
+        $siteConfig = $this->getServiceLocator()->get('config');
+
+        $formSetupDemoCms = $siteConfig['plugins']['melis_demo_cms_setup'];
+
+
+        $view = new ViewModel();
+
+        $view->formSetupDemoCms = $formSetupDemoCms;
+        //$this->layout('MelisDemoCms/setup');
+        $view->setTerminal(true);
+
+        return $view;
+
+    }
+    public function setupResultAction()
+    {
+
+    }
 }

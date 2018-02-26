@@ -31,7 +31,7 @@ return array(
 					    'renderType'     => 'melis_zf2_mvc',
 					    'renderMode'     => 'front',
 					    'preview'        => false,
-					    'idpage'         => '[:homePageId]'
+					    'idpage'         => 1
 					)
 				),
 			),
@@ -45,8 +45,8 @@ return array(
                     'route'    => '/MelisDemoCms',
                     'defaults' => array(
                         '__NAMESPACE__' => 'MelisDemoCms\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'indexsite',
+                        'controller'    => 'MelisSetup',
+                        'action'        => 'setupForm',
                     ),
                 ),
                 'may_terminate' => true,
@@ -69,8 +69,8 @@ return array(
                         'options' => array(
                             'route' => '/setup',
                             'defaults' => array(
-                                'controller' => 'MelisDemoCms\Controller\Setup',
-                                'action' => 'setup',
+                                'controller' => 'MelisDemoCms\Controller\MelisSetup',
+                                'action' => 'setupForm',
                             ),
                         ),
                     ),
@@ -109,6 +109,7 @@ return array(
             'MelisDemoCms\Controller\Testimonial'   => 'MelisDemoCms\Controller\TestimonialController',
             'MelisDemoCms\Controller\Search'        => 'MelisDemoCms\Controller\SearchController',
             'MelisDemoCms\Controller\Setup'         => 'MelisDemoCms\Controller\SetupController',
+            'MelisDemoCms\Controller\MelisSetup'    => 'MelisDemoCms\Controller\MelisSetupController',
         ),
     ),
     'view_helpers' => array(

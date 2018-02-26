@@ -24,9 +24,9 @@ return array(
                             // Download latest release: https://phar.phpunit.de/phpunit.phar
 
                             // php executable file path
-                            'php_cli' => '"D:\xampp\app\php/php.exe"',
+                            'php_cli' => '"path/to/php.exe"',
                             // the path where you save your phpunit
-                            'phpunit' => 'C:/bin/phpunit.phar'
+                            'phpunit' => 'path/to/phpunit.phar'
                         ),
                         'others' => array(
                             /**
@@ -73,18 +73,7 @@ return array(
                         ),
                         'web' => array(
                             'user' => 'admin',
-                            'password' => 'melis',
-                        )
-                    ),
-                    'preprod' => array(
-                        'api' => array(
-                            'serverURI' => 'http://melis2.melistechnology.fr:10081/ZendServer',
-                            'username' => 'admin',
-                            'apikey' => 'f97c1b88631232feae7ea6b91bd05a4f1e73a43d5127278a3fefd5df24e06792',
-                        ),
-                        'web' => array(
-                            'user' => 'user',
-                            'password' => 'password',
+                            'password' => 'admin123',
                         )
                     ),
                 ),

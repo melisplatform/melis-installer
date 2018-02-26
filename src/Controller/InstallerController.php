@@ -15,7 +15,7 @@ use Zend\View\Model\JsonModel;
 use Zend\Session\Container;
 use Zend\Config\Config;
 use Zend\Config\Writer\PhpArray;
-
+use Zend\Json\Json;
 class InstallerController extends AbstractActionController
 {
     
@@ -25,10 +25,10 @@ class InstallerController extends AbstractActionController
     {
         $installHelper = $this->getServiceLocator()->get('InstallerHelper');
         
-        $melisCoreConfig = $this->serviceLocator->get('MelisInstallerConfig');
-        $resources = $melisCoreConfig->getItem('melis_installer/ressources');
-        $translations = $this->getServiceLocator()->get('MelisCoreTranslation');
-        $locales      = $translations->getTranslationsLocale();
+        $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
+        $resources = $melisConfig->getItem('melis_installer/ressources');
+
+        $locales      = $this->getTranslationsLocale();
 
         
         $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent();
@@ -58,7 +58,7 @@ class InstallerController extends AbstractActionController
             if (array_key_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None'){
                 $showWebForm = true;
             }
-            
+
             $webConfigOption->get('weboption')->setValue($container['cms_data']['weboption']);
         }
         
@@ -94,14 +94,18 @@ class InstallerController extends AbstractActionController
         if(!empty($container['install_modules'])){
             $selectedModules = $container['install_modules'];
         }
-        
-        $currentLocale = isset($container['setup-language']) ? $container['setup-language'] : 'en_EN';
+        $coreContainer = new Container('meliscore');
+		
+        $currentLocale = isset($coreContainer['melis-lang-locale']) ? $coreContainer['melis-lang-locale'] : 'en_EN';
         
         $requiredModules = array();
         if (!empty($container['cms_data']['required_modules'])){
             $requiredModules = $container['cms_data']['required_modules'];
         }
-            
+
+        $currentSite = isset($container['site_module']['site']) ? $container['site_module']['site'] : 'MelisCoreOnly';
+        $webConfigOption->get('weboption')->setValue($currentSite);
+        $packagist = $installHelper->getPackagistMelisModules();
         $view = new ViewModel();
         // pre-loaded stuffs 
         $view->currentLocale            = $currentLocale;
@@ -115,17 +119,49 @@ class InstallerController extends AbstractActionController
         $view->setup1_3_env_name        = $installHelper->getMelisPlatform();
         $view->setup1_3_env_domain      = $this->getRequest()->getServer()->SERVER_NAME;
         $view->setup2                   = $this->loadDatabaseCredentialFromSession();
-        $view->setup3_hasMelis          = $this->hasMelisCmsModule();
+
         $view->setup3_webConfigOption   = $webConfigOption;
         $view->setup3_showWebForm       = $showWebForm;
         $view->setup3_webLangForm       = $webLangForm;
         $view->setup3_webForm           = $webForm;
         $view->setup3_createUserForm    = $createUserForm;
-        $view->setup3_3_modules         = $this->getModuleSvc()->getModulePlugins(array('MelisCms', 'MelisModuleConfig', 'MelisAssetManager'));
+
+
+
         $view->setup3_3_selected        = $selectedModules;
         $view->setup3_3_requiredModules = $requiredModules;
-        
+
+        $view->packagistMelisModules   = $packagist['packages'];
+        $view->netStatus               = $packagist['netStatus'];
+
         return $view;
+    }
+
+    public function getTranslationsLocale()
+    {
+        $modulesSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $modules = $modulesSvc->getAllModules();
+        $modulePath = $modulesSvc->getModulePath('MelisInstaller');
+        $path = $modulePath.'/language/';
+        $dir  = scandir($path);
+        $files = array();
+        foreach($dir as $file) {
+            if(is_file($path.$file)) {
+                $files[] = $file;
+            }
+        }
+        $locales = array();
+        foreach($files as $file) {
+            $locale = explode('.',$file);
+            $locales[] = $locale[0];
+        }
+        // re-add locales to get the unique locales and fix proper array indexing
+        $uniqueLocales = array_unique($locales);
+        $newUniqueLocales = array();
+        foreach($uniqueLocales as $locale) {
+            $newUniqueLocales[] = $locale;
+        }
+        return $newUniqueLocales;
     }
 
     public function newEnvironmentFormAction()
@@ -145,8 +181,9 @@ class InstallerController extends AbstractActionController
         
         if($this->getRequest()->isPost()) {
             $locale = $this->getRequest()->getPost('langLocale');
-            $container = new Container('melisinstaller');
-            $container['setup-language'] = $locale;
+
+            $container = new Container('meliscore');
+            $container['melis-lang-locale'] = $locale;
             $success = 1;
         }
         
@@ -268,9 +305,10 @@ class InstallerController extends AbstractActionController
               'siteDomain' => $domainEnv
                 
             );
+
             // add the new values
             $this->getEventManager()->trigger('melis_install_new_platform_start', $this, $request);
-            
+
             $success = 1;
             
             // add status to session
@@ -331,6 +369,9 @@ class InstallerController extends AbstractActionController
                                         
                                         $container = new Container('melisinstaller');
                                         $container['database'] = $data;
+
+                                        $_SESSION['database'] = $data;
+
                                     }
                                     else {
                                         $errors = array(
@@ -557,17 +598,634 @@ class InstallerController extends AbstractActionController
             'requiredModules' => $requiredModules
         ));
     }
-    
-    function testFunctionAction()
+
+    public function setDownloadableModulesAction()
     {
-        $container = new Container('melisinstaller');
-        
-        //unset($container['cms_data']);
-        echo '<pre>';
-        print_r($container['cms_data']);
-        echo '</pre>';
-        
-        return new JsonModel(array());
+
+        $request  = $this->getRequest();
+        $packages = [];
+
+
+        if($request->isPost()) {
+
+            $container = new Container('melisinstaller');
+
+            $post = $request->getPost()->toArray();
+
+            $packages = isset($post['packages']) ? $post['packages'] : null;
+            $modules  = isset($post['modules'])  ? $post['modules']  : null;
+            $siteLang = isset($post['siteLang']) ? $post['siteLang'] : [];
+            $siteData = isset($post['siteData']) ? $post['siteData'] : [];
+
+            if($siteLang)
+                parse_str($siteLang, $siteLang);
+
+            if($siteData)
+                parse_str($siteData, $siteData);
+
+            if($packages && $modules) {
+
+                $downloadModules               = array();
+                $container['install_modules']  = $modules;
+
+                $ctr = 0;
+                foreach($modules as $module) {
+                    $downloadModules[$module] = $packages[$ctr];
+                    $ctr++;
+                }
+
+                $container['download_modules'] = $downloadModules;
+
+
+
+            }
+
+            $container['site_module']  = array_merge(array('site' => $post['site']), $siteLang, $siteData);
+
+            if($this->isUsingCoreOnly()) {
+                $container['download_modules'] = array();
+                $container['install_modules']  = array();
+            }
+
+        }
+
+        return new JsonModel(['success' => 1, 'packages' => $packages]);
+
+    }
+
+    public function addModulesToComposerAction()
+    {
+
+        $request = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+
+            $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+
+            $autoInstallModules  = $config->getItem('melis_installer/datas/module_auto_install');
+            $container           = new Container('melisinstaller');
+            $downloadableModules = isset($container['download_modules']) ? $container['download_modules'] : [];
+
+            $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
+
+
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+
+            if(!$this->isUsingCoreOnly())
+                $composerSvc->download($downloadableModules, null, true);
+            else {
+                $autoInstallModules = implode(' ', $autoInstallModules);
+                $composerSvc->download($autoInstallModules, null, true);
+            }
+        }
+
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        return $view;
+
+    }
+
+    public function downloadModulesAction()
+    {
+        $request = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc->update();
+
+        }
+
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        return $view;
+    }
+
+    public function rebuildAutoloaderAction()
+    {
+
+        $success = 0;
+        $request = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+
+            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc->dumpAutoload();
+
+            $success = 1;
+        }
+
+        return new JsonModel(array('success' => $success));
+
+    }
+
+    private function installDemoSite()
+    {
+        $container         = new Container('melisinstaller');
+        $moduleSvc         = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
+
+        if($this->isUsingDemoCms()) {
+            
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+
+            $siteModule = $siteConfiguration['website_module'];
+
+            $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
+            $melisSitePathModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/'.'/'.$siteModule;
+
+            if(file_exists($melisSitePathModule)) {
+                // delete the first copy
+                $installHelper->deleteDirectory($melisSitePathModule);
+            }
+
+            $installerPath = $moduleSvc->getModulePath('MelisInstaller').'/etc/MelisDemoCms';
+
+            // copy MelisDemoCms in MelisSites
+            $installHelper->xcopy($installerPath, $melisSitePathModule, 0777);
+            
+            $this->mapDirectoryDemo($melisSitePathModule, 'MelisDemoCms', getenv('MELIS_MODULE'));
+        }
+
+    }
+
+    public function activateModulesAction()
+    {
+        $request = $this->getRequest();
+        $modules = array();
+
+        if($request->isXmlHttpRequest()) {
+            
+            set_time_limit(0);
+            ini_set('memory_limit', -1);
+
+            $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+
+            $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+            $defaultModules      = $config->getItem('melis_installer/datas/module_default');
+            $container           = new Container('melisinstaller');
+            $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
+            $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
+
+            // check if the module exists before activating
+            $modules = array_merge($autoInstallModules, $downloadableModules);
+            $ctr = 0;
+            foreach($modules as $module) {
+                $modulePath = $moduleSvc->getModulePath($module);
+                if(!$modulePath)
+                    unset($modules[$ctr]);
+
+                $ctr++;
+            }
+
+            // load site module in installer
+
+            if(!$this->isUsingCoreOnly()) {
+                $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
+                if(!in_array($siteConfiguration['site'], array('NewSite', 'None'))) {
+                    array_push($modules, getenv('MELIS_MODULE'));
+                }
+            }
+
+
+            $moduleSvc->createModuleLoader('config/', array_merge($modules, array('MelisInstaller')), $defaultModules);
+            array_push($modules, 'MelisCore');
+        }
+
+        $view          = new ViewModel();
+        $view->setTerminal(true);
+        $view->modules = $modules;
+
+        return $view;
+    }
+
+    public function execDbDeployAction()
+    {
+
+        $request = $this->getRequest();
+        $modules = array();
+        if($request->isXmlHttpRequest()) {
+
+            $container           = new Container('melisinstaller');
+            $database = isset($container['database']) ? $container['database'] : null;
+
+            if($database) {
+
+                $installHelper       = $this->getServiceLocator()->get('InstallerHelper');
+                $config              = $this->getServiceLocator()->get('MelisInstallerConfig');
+                $autoInstallModules  = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+
+                $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
+                $modules             = array_merge(array('MelisCore'), $autoInstallModules, $downloadableModules);
+                $moduleSvc           = $this->getServiceLocator()->get('MelisInstallerModulesService');
+
+                if($modules && is_array($modules)) {
+
+                    // -> Create Database data SQL file configured from what was filled in forms
+                    $fileName = $installHelper->getMelisPlatform().'.php';
+                    $configValue = array(
+                        'db' => array(
+                            'dsn'      => sprintf('mysql:dbname=%s;host=%s',$database['database'],$database['hostname']),
+                            'username' => $database['username'],
+                            'password' => $database['password'],
+                            'driver_options' => array(
+                                'PDO::MYSQL_ATTR_INIT_COMMAND' => 'SET NAMES "UTF8"'
+                            ),
+                        ),
+                    );
+
+                    $config = new Config($configValue, true);
+                    $writer = new PhpArray();
+                    $conf = $writer->toString($config);
+                    if(is_writable('config/autoload/platforms/'))
+                        file_put_contents('config/autoload/platforms/'.$fileName, $conf);
+
+                    $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
+
+                    $ctr = 0;
+                    set_time_limit(0);
+                    ini_set('memory_limit', -1);
+
+                    foreach($modules as $module) {
+                        $modulePath = $moduleSvc->getModulePath($module);
+
+                        $dir = null;
+
+                        if(file_exists($modulePath.'/install/dbdeploy'))
+                            $dir = scandir($modulePath.'/install/dbdeploy');
+
+
+                        if($modulePath && $dir) {
+                            echo "DB Deploy Execute $module<br/>\n";
+                            $deployDiscoveryService->processing($module);
+                        }
+                        else
+                            unset($modules[$ctr]);
+
+                        $ctr++;
+                    }
+					
+					$this->reprocessDbDeploy();
+                }
+            }
+        }
+
+
+        $view          = new ViewModel();
+        $view->setTerminal(true);
+        $view->modules = $modules;
+
+        return $view;
+    }
+	
+	public function reprocessDbDeploy()
+	{
+		$deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
+		$deployDiscoveryService->processing();
+	}
+	
+	public function reprocessDbDeployAction()
+	{
+		$this->reprocessDbDeploy();
+		header('Content-Type: application/json');
+		die(Json::encode(array('success' => 1)));
+	}
+
+    public function checkSiteModuleAction()
+    {
+        $success  = 1;
+        $hasSite  = null;
+        $siteName = null;
+        $request  = $this->getRequest();
+
+        if($request->isXmlHttpRequest()) {
+            $container         = new Container('melisinstaller');
+            $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
+            if(!in_array($siteConfiguration['site'], $this->getNoneDemoSiteSelection())) {
+
+                $hasSite  = true;
+                $siteName = $siteConfiguration['site'];
+            }
+            else {
+                if($siteConfiguration['site'] == 'NewSite') {
+                    $hasSite  = true;
+                    $siteName = $siteConfiguration['site'];
+                }
+                else {
+                    $siteName = 'None';
+                }
+            }
+        }
+
+        $response = array(
+            'success'  => $success,
+            'hasSite'  => $hasSite,
+            'siteName' => $siteName
+        );
+
+        return new JsonModel($response);
+
+    }
+
+    public function installSiteModuleAction()
+    {
+        $translator = $this->getServiceLocator()->get('translator');
+        $success    = 0;
+        $message    = $translator->translate('tr_melis_installer_no_site_install');
+        $request    = $this->getRequest();
+        if($request->isXmlHttpRequest()) {
+
+            $container = new Container('melisinstaller');
+            $site      = isset($container['site_module']['site']) ?
+                $container['site_module']['site'] : null;
+
+            if($site && !in_array($site, $this->getNoneDemoSiteSelection())) {
+
+                $siteModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . $site;
+
+                // if site does not exists
+                if(!file_exists($siteModule)) {
+                    set_time_limit(0);
+                    ini_set('memory_limit', -1);
+                    $this->installDemoSite();
+                    sleep(3 );
+                    $success = 1;
+                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
+                }
+                else {
+                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
+                    $success = 1;
+                }
+            }
+
+        }
+
+        $response = array(
+            'success'  => $success,
+            'message'  => $message
+        );
+
+        return new JsonModel($response);
+
+    }
+
+    public function getModuleConfigurationFormsAction()
+    {
+		set_time_limit(0);
+		ini_set('memory_limit', -1);
+
+        $mm      = $this->getServiceLocator()->get('ModuleManager');
+        $modules = array_keys($mm->getLoadedModules());
+        $modules = array_diff($modules, $this->getInstallerModules());
+
+        $content         = '';
+        $tabs            = '';
+        $tabContent      = '';
+
+        $flag = 0;
+
+        foreach($modules as $module) {
+
+            $moduleFormContent = $this->getModuleConfigurationForm($module);
+
+            if($moduleFormContent) {
+
+                $active = '';
+                $id     = 'id'.$module;
+
+                if($flag === 0) {
+                    $active = 'active';
+                }
+
+                $tabs       .= '<li class="'.$active.'"><a href="#'.$id.'" data-toggle="tab">'.$module.'</a></li>';
+
+                $tabContent .= '<div class="tab-pane '.$active.'" id="'.$id.'">'.PHP_EOL;
+                $tabContent .= $moduleFormContent;
+                $tabContent .= '</div>'.PHP_EOL;
+
+                $flag++;
+            }
+
+        }
+
+        $translator = $this->getServiceLocator()->get('translator');
+
+        $content .= '<div class="col-xs-12 col-md-4">';
+        $content .= '    <ul class="nav nav-tabs nav-block">';
+        $content .= $tabs;
+        $content .= '    </ul>';
+        $content .= '</div>';
+        $content .= '    <div class="col-xs-12 col-md-6 col-md-push-1">';
+        $content .= '<div class="melis-installer-module-configuration-form-content">        <div class="tab-content">';
+        $content .= $tabContent;
+        $content .= '        </div></div>';
+        $content .= '    </div>';
+        $content .= '<div class="setup-button-cont"><a class="btn btn-success setup-pass-page">'.$translator->translate('tr_melis_installer_common_next').'</a></div>';
+
+        die($content);
+
+    }
+	
+	public function getFormTestAction()
+	{
+		$form = $this->getModuleConfigurationForm('MelisEngine');
+		die($form);
+	}
+
+    public function getModuleConfigurationForm($module)
+    {
+        $content    = '';
+        $controller = 'MelisSetup';
+        $action     = 'setupForm';
+
+        $namespace  = $module.'\\Controller\\'.$controller .'Controller';
+
+        try {
+            if(class_exists($namespace) && method_exists($namespace, $action.'Action')) {
+
+                $viewModel  = $this->forward()->dispatch($module.'\\Controller\\'.$controller, array('action' => $action));
+
+                $renderer   = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
+                $html       = new \Zend\Mime\Part($renderer->render($viewModel));
+
+                $content    = (string) $html->getContent();
+
+            }
+
+        }catch(\Exception $e) {
+            $content = $e->getMessage();
+        }
+
+
+
+        return $content;
+    }
+
+    public function submitModuleConfigurationForm($module, $params)
+    {
+
+        $controller = 'MelisSetup';
+        $action     = 'setupResult';
+
+        $namespace  = $module.'\\Controller\\'.$controller .'Controller';
+
+        if(class_exists($namespace) && method_exists($namespace, $action.'Action')) {
+
+            $class   = $module.'\\Controller\\'.$controller;
+            $result  = $this->forward()->dispatch($class, array_merge(array('action' => $action), $params));
+
+            if($result instanceof JsonModel) {
+                return $result->getVariables();
+            }
+        }
+        else {
+            return null;
+        }
+
+    }
+	
+	public function validateModuleConfigurationForm($module, $params)
+	{
+		$controller = 'MelisSetup';
+        $action     = 'setupValidateData';
+
+        $namespace  = $module.'\\Controller\\'.$controller .'Controller';
+
+        if(class_exists($namespace) && method_exists($namespace, $action.'Action')) {
+
+            $class   = $module.'\\Controller\\'.$controller;
+            $result  = $this->forward()->dispatch($class, array_merge(array('action' => $action), $params));
+
+            if($result instanceof JsonModel) {
+                return $result->getVariables();
+            }
+        }
+        else {
+            return null;
+        }
+	}
+	
+	public function checkDataAction()
+	{
+		$container  = new Container('melis_modules_configuration_status');
+		print_r($container->getArrayCopy());
+		
+		die;
+	}
+	
+	public function validateModuleConfigurationFormAction()
+	{
+		$mm         = $this->getServiceLocator()->get('ModuleManager');
+        $modules    = array_keys($mm->getLoadedModules());
+
+        $params     = $this->params()->fromQuery();
+
+        $errors     = array();
+        $success    = true;
+
+        $container  = new Container('melis_modules_configuration_status');
+		
+		$container->formData = $params;
+
+		// validate form firm before calling submitModuleConfigurationForm
+
+        foreach($modules as $module) {
+
+            $container->$module = true;
+            $result             = $this->validateModuleConfigurationForm($module, $params);
+
+            if(is_array($result)) {
+
+                if($result['errors']) {
+                    $errors[] = array(
+                        'errors'  => $result['errors'],
+                        'message' => $result['message'],
+                        'name'    => $module,
+                        'success' => (bool) $result['success']
+                    );
+                    $success = false;
+                    $container->$module = (bool) $success;
+                }
+                else {
+                    $container->$module = true;
+                }
+            }
+        }
+
+        $data = array(
+            'success' => $success,
+            'errors' => $errors
+        );
+
+
+        header('Content-Type: application/json');
+        die(Json::encode($data));
+	}
+
+
+    public function submitModuleConfigurationFormAction()
+    {
+
+        $mm         = $this->getServiceLocator()->get('ModuleManager');
+        $modules    = array_keys($mm->getLoadedModules());
+
+        $params     = $this->params()->fromQuery();
+
+        $errors     = array();
+        $success    = true;
+
+        $container  = new Container('melis_modules_configuration_status');
+
+		// validate form firm before calling submitModuleConfigurationForm
+
+        foreach($modules as $module) {
+
+            $container->$module = true;
+            $result             = $this->submitModuleConfigurationForm($module, $params);
+
+            if(is_array($result)) {
+
+                if($result['errors']) {
+                    $errors[] = array(
+                        'errors'  => $result['errors'],
+                        'message' => $result['message'],
+                        'name'    => $module,
+                        'success' => (bool) $result['success']
+                    );
+                    $success = false;
+                    $container->$module = (bool) $success;
+                }
+                else {
+                    $container->$module = true;
+                }
+            }
+        }
+
+        $data = array(
+            'success' => $success,
+            'errors' => $errors
+        );
+
+
+        header('Content-Type: application/json');
+        die(Json::encode($data));
+
+    }
+
+    public function testViewSessionAction()
+    {
+        $data = new Container('melis_modules_configuration_status');
+        print_r($data->getArrayCopy());
+        die;
     }
     
     function createNewUserAction()
@@ -611,177 +1269,65 @@ class InstallerController extends AbstractActionController
             'errors'  => $errors,
         ));
     }
-    
-    public function completeInstallationAction()
-    {
-        $success = 0;
-        $errors  = array();
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
-        $container = new Container('melisinstaller');
-        $container['installation_process'] = array();
-        $translator = $this->getServiceLocator()->get('translator');
-        
-        // make sure that the session is not empty
-       if(!empty($container->getArrayCopy()) && in_array(array_keys($container['steps']), array($this->steps)) && $this->getRequest()->isXmlHttpRequest()) {
 
-            $checkSteps     = $container['steps'];
-            $platforms      = $container['platforms'];
-            $environments   = $container['environments'];
-            $database       = $container['database'];
-            $userData       = $container['user_data'];
-            $cmsData        = $container['cms_data'];
-            $installModules = $container['install_modules'];
 
-            foreach($checkSteps as $step => $content) {
-                if((int) $content['success'] != 1) {
-                    array_push($errors, array($step => array('page', $content['page'])));
-                }
-                $container['installation_process'] = $errors;
-            }
-            
-            if(empty($errors)) {
-               
-                //Create the site module with basic files to start
-                if($this->hasMelisCmsModule()) {
-                    
-                    // MelisSites dir
-                    $melisSite = $_SERVER['DOCUMENT_ROOT'].'/../module/MelisSites';
-                    
-                    // create a new site inside MelisSite module
-                    
-                    /**
-                     * None - will escape creation of site and site module
-                     * NewSte - creation trigger by event "melis_install_last_process_start"
-                     * MelisDemoCms - this option will create site module to MelisSites directory
-                     */
-                    if (!in_array($cmsData['weboption'], array('None', 'NewSite')))
-                    {
-                        $siteModuleName = getenv('MELIS_MODULE');
-                        // Copying the Demo Site from etc to MelisSites dir with full permission
-                        $siteDestination = $melisSite.'/'.$cmsData['weboption'];
-                        $demoSite = $this->getModuleSvc()->getModulePath('MelisInstaller').'/etc/'.$cmsData['weboption'];
-                        $installHelper->xcopy($demoSite, $siteDestination, 0777);
-                        
-                        // Getting the current Modules loaded
-                        $manager = $this->getServiceLocator()->get('ModuleManager');
-                        $modules        = $manager->getLoadedModules();
-                        $loadedModules      = array_keys($modules);
-                        
-                        /**
-                         * Adding required modules from cms_data session to module.load.php 
-                         * to access the modules needed to install demo site
-                         */
-                        $requiredModule = $cmsData['required_modules'];
-                        /**
-                         * Adding the new Site module name as required module
-                         * to enable to call service for installation
-                         */
-                        array_push($requiredModule, $siteModuleName);
-                        
-                        // Unset MelisInstaller to make this last module loaded
-                        unset($loadedModules['MelisInstaller']);
-                        
-                        $moduleSvc = $this->getServiceLocator()->get('ModulesService');
-                        $moduleSvc->createModuleLoader($_SERVER['DOCUMENT_ROOT'].'/../config/', $requiredModule, $loadedModules, array('MelisInstaller'));
-
-                        $siteDestination = $melisSite.'/'.$siteModuleName;
-                        rename($melisSite.'/'.$cmsData['weboption'] , $siteDestination);
-                        
-                        // replace file contents using the weptoption value as target module name with the new Module Name
-                        $this->mapDirectoryDemo($siteDestination, $cmsData['weboption'], $siteModuleName);
-                    }
-                } // end Write Site File
-                
-                if($database) {
-                    $this->getEventManager()->trigger('melis_install_database_process_start', $this, array('install_modules' => $installModules, 'dbAdapter' => $database));
-                    $success = 1;
-                }
-            }
-        } // end check if empty session
-        
-        return new JsonModel(array(
-            'success' => $success,
-            'errors' => $errors
-        ));
-    }
-    
     public function finalizeSetupAction()
     {
         $success   = 0;
-        $iStatus   = array();
         $errors    = array();
         $container = new Container('melisinstaller');
-        $installHelper  = $this->getServiceLocator()->get('InstallerHelper');
-        $translator     = $this->getServiceLocator()->get('translator');
-        $database       = $container['database'];
-        
-        if($this->getRequest()->isXmlHttpRequest()) {
-            $dbInstallationStatusResponse = $this->getEventManager()->trigger('melis_install_background_process_start', $this,
-                array('db_tables' => $installHelper->getImportedTables(), 'dbAdapter' => $database));
-            
-            $dbInstallationStatusResponse = $dbInstallationStatusResponse[0]['status'];
-            
-            // check if all the selected tables and required tables has been installed properly
-            foreach($dbInstallationStatusResponse as $status => $table) {
-                if($status == 'failed')
-                    $iStatus = array_merge($iStatus, $table);
-            }
-            
-            // if no error, then proceed on creating the config file and module loader
-            if(empty($iStatus))  {
-                
-                // -> Create Database datas SQL file configured from what was filled in forms
-                $fileName = $installHelper->getMelisPlatform().'.php';
-                $configValue = array(
-                    'db' => array(
-                        'dsn'      => sprintf('mysql:dbname=%s;host=%s',$database['database'],$database['hostname']),
-                        'username' => $database['username'],
-                        'password' => $database['password'],
-                    ),
-                );
-                $config = new Config($configValue, true);
-                $writer = new PhpArray();
-                $conf = $writer->toString($config);
-                if(is_writable('config/autoload/platforms/'))
-                    file_put_contents('config/autoload/platforms/'.$fileName, $conf);
-                
-                    if(file_exists('config/autoload/platforms/'.$fileName)) {
-                        @unlink('config/melis.modules.path.php');
-                        $success = 1;
-                    }
-                   
-            }
-            else {
-                foreach($iStatus as $table) {
-                    array_push($errors, sprintf($translator->translate('tr_melis_installer_failed_table_install'), $table));
-                }
-            }
-        }
-       
 
         
+        if($this->getRequest()->isXmlHttpRequest()) {
+
+            $docPath = $_SERVER['DOCUMENT_ROOT'].'/../';
+
+            // re-write the module that is being loaded
+            $docPath        = $_SERVER['DOCUMENT_ROOT'] . '/../';
+            $moduleLoadFile = $docPath.'config/melis.module.load.php';
+            if(file_exists($moduleLoadFile)) {
+                $content = file_get_contents($moduleLoadFile);
+                $content = str_replace(array("'MelisInstaller',\n",), '', $content);
+
+                $site      = isset($container['site_module']['site']) ?
+                    $container['site_module']['site'] : null;
+
+
+                if($site && !in_array($site, array('NewSite', 'None'))) {
+                    $content = str_replace(array("'$site',\n",), '', $content);
+                }
+
+                file_put_contents($moduleLoadFile, $content);
+
+            }
+
+            unlink($docPath.'config/melis.modules.path.php');
+
+            $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
+
+            // replace the application.config
+            $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+            $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
+            $appLoader        = $melisInstallPath . '/etc/application.config.php';
+
+            if(file_exists($appLoader)) {
+                unlink($docPath.'/config/application.config.php');
+                copy($appLoader, $docPath.'/config/application.config.php');
+            }
+
+            $success = 1;
+
+            // clear melis installer session
+            //$container->getManager()->destroy();
+        }
+
         return new JsonModel(array(
             'success' => $success,
             'errors' => $errors
         ));
     }
     
-    public function installDatabaseDataAction()
-    {
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
-        $success = 0 ;
-        if($this->getRequest()->isXmlHttpRequest()) {
-            $container = new Container('melisinstaller');
-            
-            $this->getEventManager()->trigger('melis_install_last_process_start', $this, $container->getArrayCopy());
-            $container->getManager()->destroy();
-            $success = 1;
-        }
-        
-        return new JsonModel(array(
-            'success' => $success,
-        ));
-    }
+
     
     public function getDatabaseInstallStatusAction()
     {
@@ -1117,7 +1663,7 @@ class InstallerController extends AbstractActionController
      */
     protected function hasMelisCmsModule()
     {
-        $modulesSvc = $this->getServiceLocator()->get('ModulesService');
+        $modulesSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         $modules = $modulesSvc->getAllModules();
         $path = $modulesSvc->getModulePath('MelisCms');
         $isExists = 0;
@@ -1131,13 +1677,14 @@ class InstallerController extends AbstractActionController
     
     /**
      * Retrieves the array configuration from app.forms
-     * @param unknown $configPath
+     * @param string $configPath
+     * @return Form
      */
     protected function getForm($configPath)
     {
         $form       = null;
-        $melisCoreConfig = $this->serviceLocator->get('MelisInstallerConfig');
-        $formConfig = $melisCoreConfig->getItem($configPath);
+        $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
+        $formConfig = $melisConfig->getItem($configPath);
     
         if($formConfig) {
             $factory = new \Zend\Form\Factory();
@@ -1151,7 +1698,7 @@ class InstallerController extends AbstractActionController
     
     public function getModuleSvc()
     {
-        $moduleSvc = $this->getServiceLocator()->get('ModulesService');
+        $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
         return $moduleSvc;
     }
     
@@ -1234,8 +1781,54 @@ class InstallerController extends AbstractActionController
          
         return $result;
     }
+
+    protected function getNoneDemoSiteSelection()
+    {
+        return array('MelisCoreOnly', 'None', 'NewSite');
+    }
+
+    protected function getSelectedSiteOption()
+    {
+        $container = new Container('melisinstaller');
+        $site      = $container['site_module'];
+        $siteName  = 'None';
+        if($site) {
+            $siteName = $site['site'];
+        }
+
+        return $siteName;
+    }
+
+    protected function isUsingDemoCms()
+    {
+        if(!in_array($this->getSelectedSiteOption(), $this->getNoneDemoSiteSelection()))
+            return true;
+
+        return false;
+    }
+
+    protected function isUsingCoreOnly()
+    {
+        if($this->getSelectedSiteOption() == 'MelisCoreOnly')
+            return true;
+        return false;
+    }
+
+    protected function getInstallerModules()
+    {
+        $modules = array(
+            'MelisAssetManager',
+            'MelisDbDeploy',
+            'MelisComposerDeploy',
+            'MelisInstaller',
+            'MelisModuleConfig'
+        );
+
+        return $modules;
+    }
     
-    function moduleNameToViewName($string) {
+    
+    private function moduleNameToViewName($string) {
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $string));
     }
 
@@ -1259,8 +1852,9 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        $this->getEventManager()->trigger('melis_install_last_process_start_test', $this, [
-        ]);
+
+        var_dump($this->isUsingCoreOnly());
+
         die;
     }
 

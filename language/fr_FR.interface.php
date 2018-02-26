@@ -12,7 +12,7 @@ return array(
     'tr_melis_installer_navigation_platform' => 'Initialisation de la plateforme',
     'tr_melis_installer_navigation_web_config' => 'Configuration du site',
     'tr_melis_installer_navigation_melis_config' => 'Configuration du compte administateur',
-    'tr_melis_installer_navigation_modules' => 'Modules',
+    'tr_melis_installer_navigation_modules' => 'Type d\'installation',
     'tr_melis_installer_navigation_final' => 'Installation',
     
     'tr_melis_installer_common_close' => 'Fermer',
@@ -113,9 +113,9 @@ return array(
     'tr_melis_installer_web_config_empty_vhost_module_name' => 'Le nom du module (MELIS_MODULE) doit être défini avant de procéder à l\'installation',
     'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Le nom du module (MELIS_MODULE) dans le vhost du server est invalide, seuls les caractères alphanumériques and l\'underscore sont autorisés dans le nom du module',
 
-    'tr_melis_installer_option_none'         => '<strong>Aucun site</strong> - Cette option ne créera rien (aucun module, aucun dossier, aucune page) et vous devrez construire votre site complètement. <br>Recommandé aux initiés ou pour ceux ayant des besoins spéciaux.',
-    'tr_melis_installer_option_new_website'  => '<strong>Créer un nouveau site web</strong> - Cette option créera une base de site incluant un module avec sa configuration, son Module.php, un layout, un controller, une première action/vue et une première page dans l\'arborescence du site. <br>Recommandé pour ceux connaissant déjà la structure d\'un site Melis Platform.',
-    'tr_melis_installer_option_use_demo_cms' => '<strong>Utiliser le site démo</strong> - Cette option importera le site de test Melis Demo CMS, afin de pouvoir l\'utiliser en tant que tutoriel sur comment construire un site avec Melis Platform. <br>Recommandé pour ceux découvrant Melis Platform',
+    'tr_melis_installer_option_none'         => '<strong>Platforme CMS sans site</strong><br/>Cette option ne créera aucun fichiers (pas de module, pas de dossier, pas de page) et vous devrez construire votre site complètement.',
+    'tr_melis_installer_option_new_website'  => '<strong>Platforme CMS avec nouveau site</strong><br/>Cette option créera une base de site incluant un module avec sa configuration, son Module.php, un layout, un controller, une action/vue et une première page dans l\'arborescence.<br/></i>Recommandé pour ceux ayant déjà une connaissance de l\'architecture d\'un site Melis CMS.',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>Platforme CMS avec site démo</strong><br/>Cette option créera un site Melis Demo CMS à utiliser comme un tutoriel pour apprendre à créer un site avec Melis Platform.',
     
     // STEP 3: Platform Initialization
     'tr_melis_installer_platform_modal_title' => 'Melis Platform initialisation',
@@ -207,5 +207,44 @@ return array(
     'tr_melis_installer_common_finish_error' =>  'Il y a eu un problème lors de l\'étape finale, si vous souhaitez recommencer, rafraichissez la page et réessayez',
     'tr_melis_installer_common_installing' => 'Installation . . .',
     'tr_melis_installer_common_finalizing' => 'Finalisation du setup . . .',
+
+    'melis_installer_common_selection' => 'Sélection',
+    'melis_installer_common_download' => 'Téléchargement',
+    'melis_installer_common_configuration' => 'Configuration',
+    'melis_installer_common_confirmation' => 'Confirmation',
+
+    'melis_installer_module_active' => 'Activated %s',
+    'melis_installer_module_import_tables' => 'Importing tables....',
+    'melis_installer_module_import_tables_ok' => 'Table from %s has been imported successfully',
+    'melis_installer_common_done' => 'Done',
+    'melis_installer_activate_modules_notice' => 'Activating modules...',
+
+    'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
+    'melis_installer_language_header_fr' => 'Français',
+    'melis_installer_language_header_en' => 'English',
+    'melis_installer_selection_heading'  => 'Modules à installer',
+    'melis_installer_site_to_install_heading' => 'Site à installer (optionnel)',
+    'melis_installer_site_to_install_desc' => 'Vous pouvez choisir d\'installer un site lors de l\'installation du module MelisCms',
+
+
+    'melis_installer_download_module_title' => 'Modules / Téléchargement',
+    'melis_installer_download_module_subtitle' => 'Téléchargement des modules, ceci peut prendre un peu de temps',
+    'melis_installer_common_downloading' => ' Téléchargement ...',
+
+    'melis_installer_common_checking' => 'Checking...',
+    'melis_installer_site_checking' => 'Checking site to install...',
+    'melis_installer_site_installing' => 'Installing site...',
+    'melis_installer_site_installed' => '<p style="color:#02de02"><i class="fa fa-check-circle"></i> Site %s has been installed.</p>',
     
+    //Step 3.1 text
+    'tr_melis_installer_module_selection_heading' => 'Etape 3.1 : Type d\'installation et modules',
+    'tr_melis_installer_module_selection_sub_heading' => 'Choisissez le type d\'installation à effectuer',
+
+    //test db connection close button
+    'tr_meliscore_notification_modal_Close' => 'Fermer',
+    'tr_melis_installer_download_ko' => 'Unable to download packages, please check your connection and try the installation again by refreshing this page.',
+    'tr_melis_installer_cmd_ko' => 'An error has encountered during installation, please refresh the page and try again',
+    'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
+    'tr_melis_installer_option_melis_core_only' => '<strong>Noyau plateforme uniquement (MelisCore)</strong><br/>Cette option créera une installation de MelisCore uniquement : une interface de back-office avec gestion des utilisateurs et les outils de base de la plateforme.<br/><i>Un environnement de développement prêt à l\'emploi pour des projets spécifiques ne nécéssitant pas de CMS.</i>',
+    'tr_melis_installer_layout_introduction_welcome_network_error' => 'Unable to proceed on installation, please check your <strong> internet connection</strong>',
 );

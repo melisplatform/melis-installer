@@ -20,11 +20,23 @@
 			</a>
 			<ul class="dropdown-menu">
 				<?php
+              //  print_r($this->currentLocale);
+                $enTranslation = 'melis_installer_language_header_en';
+                $frTranslation = 'melis_installer_language_header_fr';
+                $currentLang   = null;
 				foreach($this->setupLocales as $locale) {
+				    if($locale == 'en_EN')
+                    {
+                        $currentLang = $enTranslation;
+                    }else
+                    {
+                        $currentLang = $frTranslation;
+                    }
 					if($this->currentLocale == $locale)
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($locale).'</b></a></li>';
+
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($currentLang).'</b></a></li>';
 					else
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisCore/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($locale).'</a></li>';
+						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($currentLang).'</a></li>';
 				}
 				?>
 			</ul>
@@ -83,32 +95,35 @@
 					<i class="fa fa-circle-o"></i>
 					<span>
 				     	<span class="step-number">3</span>
-						<?= $this->translate('tr_melis_installer_navigation_platform'); ?>
+						<?= $this->translate('tr_melis_installer_navigation_modules'); ?>
 				     </span>
 				</a>
 			</li>
-			<li>
-				<a href="#" class="sub">
-					<i class="fa fa-circle-o"></i>
-					<span><?= $this->translate('tr_melis_installer_navigation_web_config'); ?></span>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="sub">
-					<i class="fa fa-circle-o"></i>
-					<span><?= $this->translate('tr_melis_installer_navigation_melis_config'); ?></span>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="sub">
-					<i class="fa fa-circle-o"></i>
-					<span><?= $this->translate('tr_melis_installer_navigation_modules'); ?></span>
-				</a>
-			</li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('melis_installer_common_selection'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('melis_installer_common_download'); ?></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('melis_installer_common_configuration'); ?></span>
+                </a>
+            </li>
+
+
+
 			<li class="">
 				<a href="#" data-target="#collapse-commerce" data-toggle="collapse" class="collapsed">
 					<i class="fa fa-circle-o"></i>
-					<span><?= $this->translate('tr_melis_installer_navigation_final'); ?></span>
+					<span><?= $this->translate('melis_installer_common_confirmation'); ?></span>
 				</a>
 			</li>
 		</ul>
@@ -118,7 +133,7 @@
 
 
 <!-- content -->
-<div id="content">
+<div id="content" style="visibility: hidden;">
 	<div class="owl-carousel owl-theme owl-loaded">
 		<!-- introduction -->
 		<div class="item">
@@ -142,17 +157,23 @@
 								</div>
 								<div class="col-xs-12 col-md-4">
 									<span class="circle-number">3</span>
-									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_platforminit'); ?></p>
+									<p><?= $this->translate('tr_melis_installer_navigation_modules'); ?></p>
 								</div>
 							</div>
 						</div>
 						<div class="setup-button-cont text-center">
 							<?php if(version_compare($phpVersion, $phpVersionRequired) > 0) {?>
-								<a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
-								<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
-							<?php } else {?>
+
+                                <?php  if($this->netStatus){?>
+								    <a class="btn btn-success setup-pass-page " id="welcome_start_button"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
+								    <!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
+							    <?php }else{?>
+                                    <div class="alert alert-danger" role="alert"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_network_error')?></div>
+                                <?php }?>
+
+                            <?php } else {?>
 								<div class="alert alert-danger" role="alert"><?= sprintf($this->translate('tr_melis_installer_layout_introduction_welcome_php_version_error'), $phpVersionRequired, $phpVersion);?></div>
-								<a class="btn btn-default"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
+								<a class="btn btn-default" id="welcome_start_button"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_start_button'); ?></a>
 								<!-- <p> <a href="#"><?= $this->translate('tr_melis_installer_layout_introduction_welcome_view_online_doc'); ?></a></p> -->
 							<?php }?>
 						</div>
@@ -168,10 +189,10 @@
     		    'step-1/step-1.2',
     		    'step-1/step-1.3',
     		    'step-2/step-2.0',
-    		    'step-3/step-3.0', 
-    		    'step-3/step-3.1', 
-    		    'step-3/step-3.2', 
-    		    'step-3/step-3.3', 
+    		    'step-3/step-3.0',
+    		    'step-3/selection',
+    		    'step-3/download',
+    		    'step-3/configuration',
     		    'finish/finish'
     	    );
     		

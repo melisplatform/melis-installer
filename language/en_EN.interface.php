@@ -12,7 +12,7 @@ return array(
     'tr_melis_installer_navigation_platform' => 'Platform initialization',
     'tr_melis_installer_navigation_web_config' => 'Site configuration',
     'tr_melis_installer_navigation_melis_config' => 'Admin account configuration',
-    'tr_melis_installer_navigation_modules' => 'Modules',
+    'tr_melis_installer_navigation_modules' => 'Setup type',
     'tr_melis_installer_navigation_final' => 'Installation',
     
     'tr_melis_installer_common_close' => 'Close',
@@ -26,7 +26,6 @@ return array(
     'tr_melis_installer_layout_introduction_welcome_start_button' => 'Let\'s start',
     'tr_melis_installer_layout_introduction_welcome_view_online_doc' => 'View online documentation',
     'tr_melis_installer_layout_introduction_welcome_php_version_error' => 'Unable to proceed on installation, minimum PHP version required is <strong>%s</strong>, current version installed <strong>%s</strong>',
-    
     'tr_melis_installer_layout_sys_req' => 'Step 1: System requirements',
     'tr_melis_installer_layout_sys_req_subtext' => 'Let\'s check your PHP installed variables and properties.',
     'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommended 5.5 to 7.1',
@@ -112,9 +111,9 @@ return array(
     'tr_melis_installer_web_config_empty_vhost_module_name' => 'Module name (MELIS_MODULE) must be set on server vhost before proceeding the setup',
     'tr_melis_installer_web_config_invalid_vhost_module_name' => 'Module name (MELIS_MODULE) in the server vhost is invalid, alphanumeric and underscore are the only valid characters allowed for naming the module name',
 
-    'tr_melis_installer_option_none'         => '<strong>No site</strong> - This option will not create anything (no module, no folder, no page) and you will have to build your site from scratch. <br>Recommended for advanced users or for those having special requirements.',
-    'tr_melis_installer_option_new_website'  => '<strong>Create new website</strong> - This option will create a site base including a module with its configuration, its Module.php, a layout, a controller, a first action/view and a first page in the site tree view. <br>Recommanded for those already familiar with the Melis Platform site structure.',
-    'tr_melis_installer_option_use_demo_cms' => '<strong>Use the demo site</strong> - This option will import the Melis demo CMS site to be used as a tutorial on how to build a website in Melis Platform. <br>Recommanded for those discovering Melis Platform.',
+    'tr_melis_installer_option_none'         => '<strong>CMS platform with no site</strong><br/>This option will not create anything (no module, no folder, no page) and you will have to build your site from scratch.<br/><i>Recommended for advanced users or for those having special requirements.</i>',
+    'tr_melis_installer_option_new_website'  => '<strong>CMS platform with new website</strong><br/>This option will create a site base including a module with its configuration, its Module.php, a layout, a controller, a first action/view and a first page in the site tree.<br/><i>Recommended for those already familiar with the Melis CMS site structure.</i>',
+    'tr_melis_installer_option_use_demo_cms' => '<strong>CMS platform with demo site</strong><br/>This option will import the Melis Demo CMS site to be used as a tutorial on how to build a website in Melis Platform.<br/><i>Recommended for those discovering Melis Platform.</i>',
 
 
     // MELIS CONFIGURATION
@@ -194,7 +193,7 @@ return array(
     'tr_melis_installer_failed_table_install' => 'Failed to install table "%s", please check the query and try again',
     
     'tr_melis_installer_creation_result' => 'Installation',
-    'tr_melis_installer_creation_result_subtext' => 'Validate and start the installation of Melis Platform with the information provided.',
+    'tr_melis_installer_creation_result_subtext' => 'Validate and finish the setup of Melis Platform with configuration provided.',
     
     'tr_melis_installer_common_next' => 'Next',
     'tr_melis_installer_common_finish' => 'Install',
@@ -204,5 +203,51 @@ return array(
     'tr_melis_installer_common_finish_error' => 'There was a problem while doing the final step, if you want to redo everything, just refresh the page and try again',
     'tr_melis_installer_common_installing' => 'Installing . . .',
     'tr_melis_installer_common_finalizing' => 'Finalizing setup . . .',
+
+    'melis_installer_common_selection' => 'Selection',
+    'melis_installer_common_download' => 'Download',
+    'melis_installer_common_configuration' => 'Configuration',
+    'melis_installer_common_confirmation' => 'Confirmation',
+
+    'melis_installer_module_active' => 'Activated %s',
+    'melis_installer_module_import_tables' => 'Importing tables....',
+    'melis_installer_module_import_tables_ok' => 'Table from %s has been imported successfully',
+    'melis_installer_common_done' => 'Done',
+    'melis_installer_activate_modules_notice' => 'Activating modules...',
+
+    'melis_installer_download_module_title' => 'Modules / Download',
+    'melis_installer_download_module_subtitle' => 'Downloading modules, this might take some time',
+
+    'melis_installer_configuration_subtitle' => 'Please fill the following configuration of the modules',
+
+    'melis_installer_language_header_en' => 'English',
+    'melis_installer_language_header_fr' => 'Français',
+
+    'melis_installer_selection_heading' => 'Modules to install',
+    'melis_installer_site_to_install_heading' => 'Site to install (optional)',
+    'melis_installer_site_to_install_desc' => 'You can choose a site to install along with MelisCms setup',
+    'melis_installer_common_downloading' => ' Downloading ...',
+
+    'melis_installer_common_checking' => 'Checking...',
+
+    'melis_installer_site_checking' => 'Checking site to install...',
+    'melis_installer_site_installing' => 'Installing site...',
+    'melis_installer_site_installed' => '<p style="color:#02de02"><i class="fa fa-check-circle"></i> Site %s has been installed.</p>',
     
+    
+    //Step 3.1 text
+    'tr_melis_installer_module_selection_heading' => '3.1 Setup type and modules',
+    'tr_melis_installer_module_selection_sub_heading' => 'Choose the setup type to do',
+
+    //test db connection close button
+    'tr_meliscore_notification_modal_Close' => 'Close',
+
+    'tr_melis_installer_download_ko' => 'Unable to download packages, please check your connection and try the installation again by refreshing this page.',
+
+    'tr_melis_installer_cmd_ko' => 'An error has encountered during installation, please refresh the page and try again',
+
+    'tr_melis_installer_no_site_install' => 'Site will be installed after completing the installation',
+
+    'tr_melis_installer_option_melis_core_only' => '<strong> Core Platform only (MelisCore)</strong><br/>This option will install MelisCore only: a back-office interface with users\' management and default tools of the platform.<br/><i>A development environment ready to use for specific projects that do not need a CMS.</i>',
+    'tr_melis_installer_layout_introduction_welcome_network_error' => 'Unable to proceed on installation, please check your <strong> internet connection</strong>',
 );

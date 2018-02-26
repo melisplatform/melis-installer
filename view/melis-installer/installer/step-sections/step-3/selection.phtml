@@ -1,0 +1,232 @@
+<!-- STEP 3.1 -->
+<?php
+function toModuleName($modules) {
+
+    $modules        = explode('|', $modules);
+    $newModuleNames = array();
+    if(is_array($modules)) {
+        foreach($modules as $module) {
+            $moduleName       = explode('-', $module);
+            $parts            = array_map('ucwords', $moduleName);
+            $newModuleNames[] = implode('', $parts);
+        }
+    }
+
+    return implode('|', $newModuleNames);
+}
+?>
+<div class="item">
+    <div class="setup-content-container">
+        <div class="setup-heading">
+            <h2><?= $this->translate('tr_melis_installer_module_selection_heading') ?></h2>
+            <p><?= $this->translate('tr_melis_installer_module_selection_sub_heading') ?></p>
+
+        </div>
+
+
+        <div class="setup-content setup-p3 mt-25" id="setup-step3">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <?php
+                    $form = $this->setup3_webConfigOption;
+                    echo $this->form()->openTag($form);
+                    $webOption = $form->get('weboption')->getValue();
+                    ?>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="font-awesome-radio-container radio-content">
+                                <input id="weboption-melis-core" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisCoreOnly" <?= ($webOption == 'MelisCoreOnly') ? 'checked' : ''?> data-dependency="">
+                                <label for="weboption-melis-core"></label>
+                            </div>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-core">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <?= $this->translate('tr_melis_installer_option_melis_core_only'); ?>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="font-awesome-radio-container radio-content">
+                                <input id="weboption-none" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="None" <?= ($webOption == 'None') ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms">
+                                <label for="weboption-none"></label>
+                            </div>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-cms">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <?= $this->translate('tr_melis_installer_option_none'); ?>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="font-awesome-radio-container radio-content">
+                                <input id="weboption-newsite" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="NewSite" <?= ($webOption == 'NewSite')? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms">
+                                <label for="weboption-newsite"></label>
+                            </div>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-cms">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+
+                                <?= $this->translate('tr_melis_installer_option_new_website'); ?>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="font-awesome-radio-container radio-content">
+                                <input id="weboption-democms" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisDemoCms" <?= ($webOption == 'MelisDemoCms' || empty($webOption)) ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects">
+                                <label for="weboption-democms"></label>
+                            </div>
+                            <div class="list-group-descrip">
+                                <div class="melis-svg melis-cms">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+                                        <g>
+                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
+                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
+                                        </g>
+                                        <g>
+                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                 <?= $this->translate('tr_melis_installer_option_use_demo_cms'); ?>
+                            </div>
+                        </li>
+                    </ul>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="setup3-webform" style="display: none;">
+                        <h4 class="border-bottom"><?php echo $this->translate('tr_melis_installer_web_config_create_web_sel_language')?></h4>
+                        <?php
+                        $form = $this->setup3_webLangForm;
+                        echo $this->form()->openTag($form);
+                        echo $this->melisFieldCollection($form);
+                        echo $this->form()->closeTag();
+
+                        $form = $this->setup3_webForm;
+                        $siteName = $form->get('website_name');
+                        $siteModule = $form->get('website_module');
+                        if(!$siteName->getValue()) {
+                            $siteName->setValue(getenv('MELIS_MODULE'));
+                        }
+                        if(!$siteModule->getValue()) {
+                            $siteModule->setValue(getenv('MELIS_MODULE'));
+                        }
+                        echo $this->form()->openTag($form);
+                        echo $this->melisFieldCollection($form);
+                        echo $this->form()->closeTag();
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="setup-content setup-p3 mt-25">
+            <div class="row" id="module-selection">
+                <div class="col-xs-12 col-md-12">
+                    <h2><?= $this->translate('melis_installer_selection_heading')?></h2>
+                    <form role="form" id="frmSelModules" class="form-group form-modules">
+                        <div class="row">
+                            <?php foreach($this->packagistMelisModules as $module):?>
+                                <?php
+                                $pathInfo = pathinfo($module['packageName']);
+                                $fileName = isset($pathInfo['filename']) ? $pathInfo['filename'] : null;
+                                $dependencies = implode('|', $module['packageDependency']);
+                                ?>
+                                <?php if(in_array($module['packageModuleName'], $this->setup3_3_selected) || in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) :?>
+                                    <?php $requredModule = (in_array($module['packageModuleName'], $this->setup3_3_requiredModules)) ? 'requried-module' : ''?>
+
+                                    <div class="col-md-6">
+                                        <div class="checkbox">
+                                            <div class="checkbox cb-cont" style="position:relative">
+                                                <label>
+                                                <span class="cbmask-outer clearfix">
+                                                    <span  class="cbmask-inner cb-modules-mask"></span>
+                                                </span>
+                                                    <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $module['packageModuleName']; ?>" value="<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" data-dependency="<?= toModuleName($dependencies) ?>" checked>
+                                                </label>
+                                                <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] .')'; ?></span>
+                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="col-md-6">
+                                        <div class="checkbox">
+                                            <div class="checkbox cb-cont" style="position:relative">
+                                                <label class="remember-me-cont">
+                                                <span class="cbmask-outer clearfix">
+                                                    <span  class="cbmask-inner cb-modules-mask"></span>
+                                                </span>
+                                                    <input type="checkbox" value="<?= $module['packageModuleName']; ?>" name="chk<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" data-dependency="<?= toModuleName($dependencies) ?>">
+                                                </label>
+                                                <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] . ')'; ?></span>
+                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </form>
+
+                    <form role="form" id="frmSelector">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="checkbox">
+                                    <div class="checkbox cb-cont" style="position:relative">
+                                        <label class="remember-me-cont">
+                                            <span class="cbmask-outer clearfix">
+                                                <?php $allSelected = (count($this->packagistMelisModules) == count($this->setup3_3_selected)) ? 'cb-active' : '';?>
+                                                <span class="cbmask-inner <?= $allSelected?>"></span>
+                                            </span>
+                                            <input type="checkbox" id="chkSelectAllModules">
+                                        </label>
+                                        <span class="module-name"><?= $this->translate('tr_melis_installer_melis_modules_select_all'); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br/> <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-button-cont">
+            <a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+        </div>
+    </div>
+
+</div>

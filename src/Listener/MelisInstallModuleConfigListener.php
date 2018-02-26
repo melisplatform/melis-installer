@@ -23,12 +23,12 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
         $callBackHandler = $sharedEvents->attach(
             'MelisInstaller',
             array(
-                'melis_install_last_process_start'
+                'melis_installer_last_process_start'
             ),
             function($e){
                 set_time_limit(0);
                 $sm = $e->getTarget()->getServiceLocator();
-                $moduleSvc = $sm->get('ModulesService');
+                $moduleSvc = $sm->get('MelisInstallerModulesService');
                 $installHelperSvc = $sm->get('InstallerHelper');
                 $params = $e->getParams();
 

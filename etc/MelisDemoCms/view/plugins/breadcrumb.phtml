@@ -1,11 +1,3 @@
-<?php
-$widths = null;
-if($this->fromDragDropZone) {
-    $widths = "$this->widthDesktop $this->widthTablet $this->widthMobile";
-}
-?>
-
-<div class="<?= $widths; ?>">
 <?php if ($this->breadcrumb) {?>
 <ol class="breadcrumb">
     <?php foreach ($this->breadcrumb As $key => $val){?>
@@ -21,4 +13,3 @@ if($this->fromDragDropZone) {
 		No result
 	</div>
 <?php }?>
-</div>

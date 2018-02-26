@@ -493,6 +493,8 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      */
     function xcopy($source, $dest, $permissions = self::CHMOD_775)
     {
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
         // Check for symlinks
         if (is_link($source)) {
             return symlink(readlink($source), $dest);
@@ -523,6 +525,29 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         // Clean up
         $dir->close();
         return true;
+    }
+
+    public function deleteDirectory($dir) {
+        if (!file_exists($dir)) {
+            return true;
+        }
+
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+
+        }
+
+        return rmdir($dir);
     }
     
     /**
@@ -561,7 +586,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     public function isModuleExists($module) 
     {
         $status = false;
-        $modulesSvc = $this->getServiceLocator()->get('ModulesService');
+        $modulesSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
         $pathModule = $modulesSvc->getModulePath($module);
         
         if(file_exists($pathModule)) {
@@ -576,6 +601,61 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         $file = @file_get_contents($fileName);
         $file = str_replace($lookupText, $replaceText, $file);
         @file_put_contents($outputFileName, $file);
+    }
+
+    public function getPackagistMelisModules()
+    {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
+
+        $packages       = [];
+        $requestJsonUrl = 'http://marketplace.melisplatform.com/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/1';
+        $netStatus      = 0;
+        $config           = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $moduleExceptions = $config->getItem('melis_installer/datas/module_exceptions');
+        $serverPackages   = null;
+        try {
+            //Start using cURL
+            $ch = curl_init($requestJsonUrl);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            if(!curl_exec($ch) === false) {
+                $netStatus = 1;
+                $serverPackages = file_get_contents($requestJsonUrl);
+            }
+
+            // Close handle
+            curl_close($ch);
+
+            $serverPackages   = Json::decode($serverPackages, Json::TYPE_ARRAY);
+
+        }catch(\Exception $e) {
+            $serverPackages   = array();
+        }
+
+
+        if($serverPackages) {
+            $moduleExceptions = array_map(function($a) {
+                return strtolower(trim($a));
+            }, $moduleExceptions);
+
+            if(isset($serverPackages['packages']) && $serverPackages['packages']) {
+                foreach($serverPackages['packages'] as $package) {
+                    if(!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions)) {
+                        $packages[] = $package;
+                    }
+                }
+            }
+        }
+
+
+        
+        return array(
+            'packages'  => $packages,
+            'netStatus' => $netStatus
+        );
+
     }
 
     
