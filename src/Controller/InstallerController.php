@@ -132,7 +132,7 @@ class InstallerController extends AbstractActionController
         $view->setup3_3_requiredModules = $requiredModules;
 
         $view->packagistMelisModules   = $packagist['packages'];
-        $view->netStatus               = $packagist['netStatus'];
+
 
         return $view;
     }
