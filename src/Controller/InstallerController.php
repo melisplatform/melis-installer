@@ -668,7 +668,6 @@ class InstallerController extends AbstractActionController
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
 
-            $downloadableModules = implode(':dev-develop ', $downloadableModules).':dev-develop';
 
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
 
@@ -679,7 +678,7 @@ class InstallerController extends AbstractActionController
                 $composerSvc->download($downloadableModules, null, true);
             else {
                 $autoInstallModules = implode(' ', $autoInstallModules);
-                $composerSvc->download($autoInstallModules, 'dev-develop', true);
+                $composerSvc->download($autoInstallModules, null, true);
             }
         }
 
@@ -698,47 +697,10 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            // TEMPORARY: Add alias tag on engine, front, and cms
-            $composerFile = $_SERVER['DOCUMENT_ROOT'] . '/../composer.json';
-            if(file_exists($composerFile)) {
-                $content = file_get_contents($composerFile);
-
-
-                $config = \Zend\Json\Json::decode($content, true);
-
-                $require = $config['require'];
-
-                if(isset($require['melisplatform/melis-front']))
-                    $require['melisplatform/melis-front'] = 'dev-develop as 2.2.1';
-
-                if(isset($require['melisplatform/melis-engine']))
-                    $require['melisplatform/melis-engine'] = 'dev-develop as 2.2.1';
-
-                if(isset($require['melisplatform/melis-cms']))
-                    $require['melisplatform/melis-cms'] = 'dev-develop as 2.2.1';
-
-                if(isset($require['melisplatform/melis-page-analytics'])) {
-                    $require['melisplatform/melis-page-analytics'] = 'dev-develop as 2.2.1';
-                }
-
-                $config['require'] = $require;
-
-                $newContent = \Zend\Json\Json::encode($config, false  , array('prettyPrint' => true));
-                $newContent = str_replace('\/', '/', $newContent);
-
-                unlink($composerFile);
-                file_put_contents($composerFile, $newContent);
-
-
-            }
-
-            // END
-
             $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
             $composerSvc->update();
 
         }
-
 
         $view = new ViewModel();
         $view->setTerminal(true);
