@@ -7,27 +7,27 @@
         	<div class="single-blog">
                	<div class="blog-img pos-rltv product-overlay">
                		<?php 
-               		   if (!empty($val->cnews_image1))
+               		   if (!empty($val['cnews_image1']))
                		   {
                		?>
-                   		<a href="<?= $val->newsLink; ?>"><img src="<?= $val->cnews_image1; ?>" alt=""></a>
+                   		<a href="<?= $val['newsLink']; ?>"><img src="<?= $val['cnews_image1']; ?>" alt=""></a>
                    	<?php
                		   }
                    	?>
                	</div>
                	<div class="blog-content">
                    	<div class="blog-title">
-                       	<h5 class="uppercase font-bold"><a href="<?= $val->newsLink; ?>"><?= $val->cnews_title; ?></a></h5>
+                       	<h5 class="uppercase font-bold"><a href="<?= $val['newsLink']; ?>"><?= $val['cnews_title']; ?></a></h5>
                        	<div class="like-comments-date">
                            	<ul>
                            		<li></li>
-                               	<li class="blog-date text-danger"><i class="zmdi zmdi-calendar-alt"></i> <?= $val->newsDateFormated; ?></li>
+                               	<li class="blog-date text-danger"><i class="zmdi zmdi-calendar-alt"></i> <?= $val['newsDateFormated']; ?></li>
                            	</ul>
                        	</div>
                        	<div class="blog-text">
-                           	<p><?= $val->cnews_paragraph1; ?></p>
+                           	<p><?= $val['cnews_paragraph1']; ?></p>
                        	</div>
-                       	<a class="read-more montserrat" href="<?= $val->newsLink; ?>">Read More</a>
+                       	<a class="read-more montserrat" href="<?= $val['newsLink']; ?>">Read More</a>
                    	</div>
                	</div>
            	</div> 

@@ -57,7 +57,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                         $this->setupSliders($val);
                         break;
                     case 'melis_news' :
-                        $this->setupNews($val);
+                        $this->setupNews($val, $setupDatas['melis_news_text']);
                         break;
                     case 'melis_prospects_theme' :
                         $this->setupProspectsThemes($val);
@@ -277,19 +277,26 @@ class SetupDemoCmsService extends MelisCoreGeneralService
      * Create entry for melis_cms_news for MelisDemoSite
      * @param array $news
      */
-    private function setupNews($news)
+    private function setupNews($news, $newsText)
     {
-        $newsTbl = $this->getServiceLocator()->get('MelisCmsNewsTable');
-        
+        $newsTbl    = $this->getServiceLocator()->get('MelisCmsNewsTable');
+        $newsTblTxt = $this->getServiceLocator()->get('MelisCmsNewsTextsTable');
+
         $ctr = 0;
         $monthCtr = 0;
-        foreach ($news As $val)
+        $txtIndex = 0;
+        foreach ($news as $val)
         {
-            $val['cnews_creation_date'] = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
-            $val['cnews_publish_date'] = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
-            $val['cnews_site_id'] = $this->siteId;
-            $newsTbl->save($val);
-            
+//            $val['cnews_creation_date'] = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
+            $val['cnews_publish_date']  = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
+            $val['cnews_site_id']       = $this->siteId;
+            $newId = $newsTbl->save($val);
+
+            // insert text data
+            $newsText[$txtIndex]['cnews_id'] = $newId;
+            $newsTblTxt->save($newsText[$txtIndex]);
+            $txtIndex++;
+
             if (++$ctr == 4) {
                 $ctr = 0;
                 $monthCtr++;
