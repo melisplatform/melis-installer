@@ -281,7 +281,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     {
         $newsTbl    = $this->getServiceLocator()->get('MelisCmsNewsTable');
         $newsTblTxt = $this->getServiceLocator()->get('MelisCmsNewsTextsTable');
-        
+
         $ctr = 0;
         $monthCtr = 0;
         $txtIndex = 0;
@@ -293,7 +293,8 @@ class SetupDemoCmsService extends MelisCoreGeneralService
             $newId = $newsTbl->save($val);
 
             // insert text data
-            $newsTblTxt->save($newsText[$txtIndex], $newId);
+            $newsText[$txtIndex]['cnews_id'] = $newId;
+            $newsTblTxt->save($newsText[$txtIndex]);
             $txtIndex++;
 
             if (++$ctr == 4) {
