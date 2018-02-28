@@ -54,11 +54,11 @@
                     <div class="col-md-4">
                        	<div class="single-blog">
                        		<?php 
-                       		   if (!empty($val->cnews_image1))
+                       		   if (!empty($val['cnews_image1']))
                        		   {       
                        		?>
                                	<div class="blog-img pos-rltv product-overlay">
-                                   	<a href="<?= $val->newsLink; ?>"><img src="<?= $val->cnews_image1; ?>"></a>
+                                   	<a href="<?= $val['newsLink']; ?>"><img src="<?= $val['cnews_image1']; ?>"></a>
                                	</div>
                            	<?php 
                        		   }
@@ -66,20 +66,20 @@
                            	<div class="blog-content">
                                	<div class="blog-title">
                                    	<h5 class="uppercase font-bold">
-                               			<a href="<?= $val->newsLink; ?>"><?= $val->cnews_title; ?></a>
+                               			<a href="<?= $val['newsLink']; ?>"><?= $val['cnews_title']; ?></a>
                                		</h5>
                                    	<div class="like-comments-date">
                                        	<ul>
                                            	<li></li>
                                            	<li class="blog-date text-danger">
-                                           		<i class="zmdi zmdi-calendar-alt"></i> <?= $val->newsDateFormated; ?>
+                                           		<i class="zmdi zmdi-calendar-alt"></i> <?= $val['newsDateFormated']; ?>
                                        		</li>
                                        	</ul>
                                    	</div>
                                    	<div class="blog-text">
-                                       	<p><?= $val->cnews_paragraph1; ?></p>
+                                       	<p><?= $val['cnews_paragraph1']; ?></p>
                                    	</div>
-                                   	<a class="read-more montserrat" href="<?= $val->newsLink; ?>">Read More</a>
+                                   	<a class="read-more montserrat" href="<?= $val['newsLink']; ?>">Read More</a>
                                	</div>
                            	</div>
                        	</div> 
@@ -106,7 +106,7 @@
         // Generating Pagination Control using partial view
         echo $this->paginationControl($this->listNews, 
                     'Sliding', 
-                    'MelisDemoCms/plugin/list-paginator', 
+                    'WinlandTower2/plugin/list-paginator', 
                     array(
                         'searchKey' => $this->searchKey,
                         'nbPageBeforeAfter' => $this->nbPageBeforeAfter

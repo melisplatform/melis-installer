@@ -5,15 +5,15 @@
         <?php } ?>
     </div>
     <div class="blog-title">
-        <h5 class="uppercase font-bold"><?php echo $this->news->cnews_title ?></h5>
+        <h5 class="uppercase font-bold"><?php echo $this->news['cnews_title'] ?></h5>
         <div class="like-comments-date">
             <ul>
                 <li></li>
-                <li class="blog-date text-danger"><i class="zmdi zmdi-calendar-alt"></i> <?php echo date('d M Y',strtotime(($this->news->cnews_publish_date) ? $this->news->cnews_publish_date : $this->news->cnews_creation_date))?></li>
+                <li class="blog-date text-danger"><i class="zmdi zmdi-calendar-alt"></i> <?php echo date('d M Y',strtotime(($this->news['cnews_publish_date']) ? $this->news['cnews_publish_date'] : $this->news['cnews_creation_date']))?></li>
             </ul>
         </div>
         <div class="blog-text">
-            <p><?php echo $this->news->cnews_paragraph1 ?></p>
+            <p><?php echo $this->news['cnews_paragraph1'] ?></p>
         </div>
     </div>
     <?php if (!empty($this->news->cnews_paragraph2)){?>
