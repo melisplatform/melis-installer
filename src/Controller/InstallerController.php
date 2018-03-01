@@ -921,7 +921,7 @@ class InstallerController extends AbstractActionController
 			$result = $statement->execute();
 			$totalDbDeployData = $result->count();
 			
-			return $totalDbDeployData;
+			return (int) $totalDbDeployData;
 		
 		}
 		
@@ -931,16 +931,18 @@ class InstallerController extends AbstractActionController
 	
 	private function dbDeployHasMatchedItems()
 	{
+		set_time_limit(0);
+		ini_set('memory_limit', -1);
 		// recursively checks if dbdeploy data and the dbdeploy matches the same items
+		$this->reprocessDbDeploy();
 		$dbdeployPath = $_SERVER['DOCUMENT_ROOT'] . '/../dbdeploy/data';
 		if(file_exists($dbdeployPath)) {
-			$items = count(array_diff(scandir($dbdeployPath), array('.', '..')));
-
-			if( (int) $items === (int) $this->getDbDeployItems()) {
+			$items = (int) count(array_diff(scandir($dbdeployPath), array('.', '..')));
+			
+			if($items == $this->getDbDeployItems()) {
 				return true;
 			}
 			else {
-				$this->reprocessDbDeploy();
 				$this->dbDeployHasMatchedItems();
 			}
 		}
