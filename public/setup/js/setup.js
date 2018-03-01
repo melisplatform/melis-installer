@@ -279,6 +279,7 @@ $(window).load(function() {
         }
         else if(currentPage === 9) {
             lazyNextButton();
+			getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {}, false);
             getModuleConfiguration();
         }
         else if(currentPage === 10) {
@@ -449,7 +450,7 @@ $(window).load(function() {
         });
     }
 
-    function getRequest(url, type, callBack) {
+    function getRequest(url, type, callBack, logError) {
         $.ajax({
             type: 'GET',
             url : url,
@@ -459,11 +460,14 @@ $(window).load(function() {
                 callBack(data);
             },
             error: function (request, status, error) {
-                console.log(request, status, error)
-                updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_cmd_ko);
+				var logError = logError || false;
+				if(logError === true) {
+					updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_cmd_ko);
+				}
             }
         });
     }
+	
 
     function addEnvironments()
     {
@@ -604,7 +608,7 @@ $(window).load(function() {
                                                     getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                         $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
                                                         updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {});
+                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {}, false);
                                                         enableNextButton();
                                                     });
 
@@ -621,7 +625,7 @@ $(window).load(function() {
                                                 getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                     $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
                                                     updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                    getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {});
+                                                    getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {}, false);
                                                     enableNextButton();
                                                 });
 
