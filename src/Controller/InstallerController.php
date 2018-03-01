@@ -959,6 +959,7 @@ class InstallerController extends AbstractActionController
 		ini_set('memory_limit', -1);
 		
 		if($this->dbDeployHasMatchedItems()) {
+			$this->reprocessDbDeploy();
 			die(Json::encode(array('success' => 1)));
 		}
 		else {
