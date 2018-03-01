@@ -926,6 +926,7 @@ class InstallerController extends AbstractActionController
 		}
 		
 		return null;
+
 	}
 	
 	private function dbDeployHasMatchedItems()
@@ -934,12 +935,17 @@ class InstallerController extends AbstractActionController
 		$dbdeployPath = $_SERVER['DOCUMENT_ROOT'] . '/../dbdeploy/data';
 		if(file_exists($dbdeployPath)) {
 			$items = count(array_diff(scandir($dbdeployPath), array('.', '..')));
-			
-			if( (int) $items === (int) $this->getDbDeployItems())
+
+			if( (int) $items === (int) $this->getDbDeployItems()) {
 				return true;
-			else 
+			}
+			else {
+				$this->reprocessDbDeploy();
 				$this->dbDeployHasMatchedItems();
+			}
 		}
+		
+		return false;
 		
 	}
 	
@@ -951,7 +957,6 @@ class InstallerController extends AbstractActionController
 		ini_set('memory_limit', -1);
 		
 		if($this->dbDeployHasMatchedItems()) {
-
 			die(Json::encode(array('success' => 1)));
 		}
 		else {
