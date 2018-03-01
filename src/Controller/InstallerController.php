@@ -16,6 +16,9 @@ use Zend\Session\Container;
 use Zend\Config\Config;
 use Zend\Config\Writer\PhpArray;
 use Zend\Json\Json;
+use PDO;
+use Zend\Db\Sql\Sql;
+use Zend\Db\Adapter\Adapter as DbAdapter;
 class InstallerController extends AbstractActionController
 {
     
@@ -894,11 +897,75 @@ class InstallerController extends AbstractActionController
 		$deployDiscoveryService->processing();
 	}
 	
+	private function getDbDeployItems()
+	{
+		$container = new Container('melisinstaller');
+		$db 	   = $container['database'];
+		
+		if($db) {
+			$dbAdapter = new DbAdapter(array(
+				'driver' =>  'Pdo',
+				'dsn'   =>   'mysql:dbname='.$db['database'].';host='.$db['hostname'],
+				'username' => $db['username'],
+				'password' => $db['password'],
+				'driver_options' => array(
+					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+				),
+			));
+			
+			$sql = new Sql($dbAdapter);
+			$select = $sql->select();
+
+			$select->from('changelog');
+			$statement = $sql->prepareStatementForSqlObject($select);
+			$result = $statement->execute();
+			$totalDbDeployData = $result->count();
+			
+			return (int) $totalDbDeployData;
+		
+		}
+		
+		return null;
+
+	}
+	
+	private function dbDeployHasMatchedItems()
+	{
+		set_time_limit(0);
+		ini_set('memory_limit', -1);
+		// recursively checks if dbdeploy data and the dbdeploy matches the same items
+		$this->reprocessDbDeploy();
+		$dbdeployPath = $_SERVER['DOCUMENT_ROOT'] . '/../dbdeploy/data';
+		if(file_exists($dbdeployPath)) {
+			$items = (int) count(array_diff(scandir($dbdeployPath), array('.', '..')));
+			
+			if($items == $this->getDbDeployItems()) {
+				return true;
+			}
+			else {
+				$this->dbDeployHasMatchedItems();
+			}
+		}
+		
+		return false;
+		
+	}
+	
 	public function reprocessDbDeployAction()
 	{
-		$this->reprocessDbDeploy();
+
 		header('Content-Type: application/json');
-		die(Json::encode(array('success' => 1)));
+		set_time_limit(0);
+		ini_set('memory_limit', -1);
+		
+		if($this->dbDeployHasMatchedItems()) {
+			$this->reprocessDbDeploy();
+			die(Json::encode(array('success' => 1)));
+		}
+		else {
+			die(Json::encode(array('success' => 0, 'message' => 'Unable to process dbDeploy, please refresh the page and try again.')));
+		}
+
 	}
 
     public function checkSiteModuleAction()
