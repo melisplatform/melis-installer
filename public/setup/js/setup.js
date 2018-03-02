@@ -612,9 +612,9 @@ $(window).load(function() {
                                             getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function(rebuildAutoloaderResp) {
                                                 setTimeout(function() {
                                                     getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
-                                                        $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
+                                                        $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i><br/>');
 														
-                                                        updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
+														updateCmdText('<br/>'+response+'<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
                                                         getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
 															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
 															enableNextButton();
@@ -638,14 +638,14 @@ $(window).load(function() {
                                                 getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                     $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
 													
-                                                        updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.tr_melis_installer_common_finalize + '<br/>');
-                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
-															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-															enableNextButton();
-														}, false, function() {
-															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-															enableNextButton();
-														});
+													updateCmdText('<br/>'+response+'<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
+													getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
+														$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+														enableNextButton();
+													}, false, function() {
+														$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+														enableNextButton();
+													});
                                                     
                                                 });
 
