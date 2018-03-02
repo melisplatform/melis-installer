@@ -609,7 +609,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         ini_set('memory_limit', '-1');
 
         $packages       = [];
-        $requestJsonUrl = 'http://marketplace.melisplatform.com/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/1/group';
+        $requestJsonUrl = 'http://marketplace.melisplatform.com/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/2/group';
 
         $config           = $this->getServiceLocator()->get('MelisInstallerConfig');
         $moduleExceptions = $config->getItem('melis_installer/datas/module_exceptions');
