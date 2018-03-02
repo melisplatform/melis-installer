@@ -614,12 +614,12 @@ $(window).load(function() {
                                                     getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                         $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
 														
-                                                        updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.tr_melis_installer_common_finalize + '<br/>');
+                                                        updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
                                                         getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
-															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
 															enableNextButton();
 														}, false, function() {
-															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
 															enableNextButton();
 														});
                                                         
@@ -640,10 +640,10 @@ $(window).load(function() {
 													
                                                         updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.tr_melis_installer_common_finalize + '<br/>');
                                                         getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
-															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
 															enableNextButton();
 														}, false, function() {
-															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
 															enableNextButton();
 														});
                                                     
