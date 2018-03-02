@@ -279,8 +279,12 @@ $(window).load(function() {
         }
         else if(currentPage === 9) {
             lazyNextButton();
-			getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {}, false);
-            getModuleConfiguration();
+			getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
+				getModuleConfiguration();
+			}, false, function() {
+				getModuleConfiguration();
+			});
+            
         }
         else if(currentPage === 10) {
             // Adding check mark on Step 3 nav after step 3.3
@@ -450,7 +454,7 @@ $(window).load(function() {
         });
     }
 
-    function getRequest(url, type, callBack, logError) {
+    function getRequest(url, type, callBack, logError, errorCallBack) {
         $.ajax({
             type: 'GET',
             url : url,
@@ -464,6 +468,8 @@ $(window).load(function() {
 				if(logError === true) {
 					updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_cmd_ko);
 				}
+				
+				errorCallBack();
             }
         });
     }
@@ -607,9 +613,16 @@ $(window).load(function() {
                                                 setTimeout(function() {
                                                     getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                         $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
-                                                        updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {}, false);
-                                                        enableNextButton();
+														
+                                                        updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.tr_melis_installer_common_finalize + '<br/>');
+                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															enableNextButton();
+														}, false, function() {
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															enableNextButton();
+														});
+                                                        
                                                     });
 
                                                 }, 800);
@@ -624,9 +637,16 @@ $(window).load(function() {
                                             setTimeout(function() {
                                                 getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function(response) {
                                                     $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
-                                                    updateCmdText(response + '<br/><i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                    getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {}, false);
-                                                    enableNextButton();
+													
+                                                        updateCmdText('<span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.tr_melis_installer_common_finalize + '<br/>');
+                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function(reprocessDbDeployResp) {
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															enableNextButton();
+														}, false, function() {
+															$("#cmd-finalize").html('<i class="fa fa-info-circle"></i>');
+															enableNextButton();
+														});
+                                                    
                                                 });
 
                                             }, 800);

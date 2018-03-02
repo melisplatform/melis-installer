@@ -203,6 +203,7 @@ return array(
     'tr_melis_installer_common_finish_error' => 'There was a problem while doing the final step, if you want to redo everything, just refresh the page and try again',
     'tr_melis_installer_common_installing' => 'Installing . . .',
     'tr_melis_installer_common_finalizing' => 'Finalizing setup . . .',
+    'tr_melis_installer_common_finalize' => 'Finalizing...',
 
     'melis_installer_common_selection' => 'Selection',
     'melis_installer_common_download' => 'Download',
