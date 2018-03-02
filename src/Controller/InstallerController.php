@@ -1013,8 +1013,8 @@ class InstallerController extends AbstractActionController
         if($request->isXmlHttpRequest()) {
 
             $container = new Container('melisinstaller');
-            $site      = isset($container['site_module']['site']) ?
-                $container['site_module']['site'] : null;
+            $site      = isset($container['site_module']['website_module']) ?
+                $container['site_module']['website_module'] : null;
 
             if($site && !in_array($site, $this->getNoneDemoSiteSelection())) {
 
