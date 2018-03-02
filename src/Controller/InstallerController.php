@@ -1354,12 +1354,11 @@ class InstallerController extends AbstractActionController
             $docPath        = $_SERVER['DOCUMENT_ROOT'] . '/../';
             $moduleLoadFile = $docPath.'config/melis.module.load.php';
             if(file_exists($moduleLoadFile)) {
+				$siteModule = getenv('MELIS_MODULE');
                 $content = file_get_contents($moduleLoadFile);
-                $content = str_replace(array("'MelisInstaller',\n",), '', $content);
+                $content = str_replace(array("'MelisInstaller',\n"), '', $content);
 
-                $site      = isset($container['site_module']['site']) ?
-                    $container['site_module']['site'] : null;
-
+                $site    = getenv('MELIS_MODULE');
 
                 if($site && !in_array($site, array('NewSite', 'None'))) {
                     $content = str_replace(array("'$site',\n",), '', $content);
