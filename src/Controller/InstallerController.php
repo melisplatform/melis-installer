@@ -896,37 +896,17 @@ class InstallerController extends AbstractActionController
 		$deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
 		$deployDiscoveryService->processing();
 	}
-	
+
 	private function getDbDeployItems()
 	{
-		$container = new Container('melisinstaller');
-		$db 	   = $container['database'];
-		
-		if($db) {
-			$dbAdapter = new DbAdapter(array(
-				'driver' =>  'Pdo',
-				'dsn'   =>   'mysql:dbname='.$db['database'].';host='.$db['hostname'],
-				'username' => $db['username'],
-				'password' => $db['password'],
-				'driver_options' => array(
-					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
-				),
-			));
-			
-			$sql = new Sql($dbAdapter);
-			$select = $sql->select();
+        $count     = 0;
+        $changelog = $this->getServiceLocator()->has('ChangelogTable');
+        if($changelog) {
+            $changelog = $this->getServiceLocator()->get('ChangelogTable');
+            $count     = (int) $data = $changelog->fetchAll()->count();
+        }
 
-			$select->from('changelog');
-			$statement = $sql->prepareStatementForSqlObject($select);
-			$result = $statement->execute();
-			$totalDbDeployData = $result->count();
-
-			return (int) $totalDbDeployData;
-		
-		}
-		
-		return null;
-
+        return $count;
 	}
 	
 	private function dbDeployHasMatchedItems()
