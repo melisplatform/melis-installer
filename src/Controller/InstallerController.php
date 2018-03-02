@@ -920,7 +920,7 @@ class InstallerController extends AbstractActionController
 			$statement = $sql->prepareStatementForSqlObject($select);
 			$result = $statement->execute();
 			$totalDbDeployData = $result->count();
-			
+
 			return (int) $totalDbDeployData;
 		
 		}
