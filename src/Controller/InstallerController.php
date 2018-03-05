@@ -917,7 +917,7 @@ class InstallerController extends AbstractActionController
 		$this->reprocessDbDeploy();
 		$dbdeployPath = $_SERVER['DOCUMENT_ROOT'] . '/../dbdeploy/data';
 		if(file_exists($dbdeployPath)) {
-			$items = (int) count(array_diff(scandir($dbdeployPath), array('.', '..')));
+			$items = (int) count(array_diff(scandir($dbdeployPath), array('.', '..', '.gitignore')));
 			
 			if($items == $this->getDbDeployItems()) {
 				return true;
