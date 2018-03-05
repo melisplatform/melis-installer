@@ -1603,6 +1603,8 @@ class InstallerController extends AbstractActionController
         array_push($configDir, 'module/MelisModuleConfig/languages');
         array_push($configDir, 'module/MelisModuleConfig/config');
         array_push($configDir, 'module/MelisSites/');
+        array_push($configDir, 'dbdeploy/');
+        array_push($configDir, 'dbdeploy/data');
         array_push($configDir, 'public/');
         array_push($configDir, 'cache/');
         array_push($configDir, 'test/');
