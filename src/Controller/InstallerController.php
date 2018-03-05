@@ -838,11 +838,11 @@ class InstallerController extends AbstractActionController
                     $fileName = $installHelper->getMelisPlatform().'.php';
                     $configValue = array(
                         'db' => array(
-                            'dsn'      => sprintf('mysql:dbname=%s;host=%s',$database['database'],$database['hostname']),
+                            'dsn'      => sprintf('mysql:dbname=%s;host=%s;charset=utf8',$database['database'],$database['hostname']),
                             'username' => $database['username'],
                             'password' => $database['password'],
                             'driver_options' => array(
-                                'PDO::MYSQL_ATTR_INIT_COMMAND' => 'SET NAMES "UTF8"'
+                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                             ),
                         ),
                     );
