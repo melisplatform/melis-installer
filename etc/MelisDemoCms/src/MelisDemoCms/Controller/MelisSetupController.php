@@ -132,7 +132,7 @@ class MelisSetupController extends AbstractActionController
 
                     // $setupSrv->setupSite($siteData);
                     $setupSrv->setup(getenv('MELIS_PLATFORM'));
-                    $setupSrv->setupSiteDomain($scheme, $domain);
+                    //$setupSrv->setupSiteDomain($scheme, $domain);
 
                     $success = 1;
                     $message = 'tr_install_setup_message_ok';
