@@ -893,8 +893,8 @@ class InstallerController extends AbstractActionController
 	
 	public function reprocessDbDeploy()
 	{
-		$deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
-		$deployDiscoveryService->processing();
+        $deployService = $this->getServiceLocator()->get('MelisDbDeployDeployService');
+        $deployService->applyDeltaPath(realpath('dbdeploy' . DIRECTORY_SEPARATOR . $deployService::CACHE_DELTAS_PATH));
 	}
 
 	private function getDbDeployItems()
