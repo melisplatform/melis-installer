@@ -890,46 +890,42 @@ class InstallerController extends AbstractActionController
 
         return $view;
     }
+
+
+    private function getTotalDataFile()
+    {
+        $dbDeployPath = $_SERVER['DOCUMENT_ROOT'] . '/../dbdeploy/data/';
+
+        if(!file_exists($dbDeployPath))
+            return 0;
+
+        $files = glob($dbDeployPath.'*.sql');
+
+        return count($files);
+
+    }
 	
 	public function reprocessDbDeploy()
 	{
-        $deployService = $this->getServiceLocator()->get('MelisDbDeployDeployService');
-        $deployService->applyDeltaPath(realpath('dbdeploy' . DIRECTORY_SEPARATOR . $deployService::CACHE_DELTAS_PATH));
-	}
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
+        $service = new \MelisDbDeploy\Service\MelisDbDeployDeployService();
 
-	private function getDbDeployItems()
-	{
-        $count     = 0;
-        $changelog = $this->getServiceLocator()->has('ChangelogTable');
-        if($changelog) {
-            $changelog = $this->getServiceLocator()->get('ChangelogTable');
-            $count     = (int) $data = $changelog->fetchAll()->count();
+        if(false === $service->isInstalled())
+            $service->install();
+
+        $service->applyDeltaPath(realpath('dbdeploy' . DIRECTORY_SEPARATOR . 'data/'));
+
+        if($service->changeLogCount() === $this->getTotalDataFile()) {
+            return true;
+        }
+        else {
+            return $this->reprocessDbDeploy();
         }
 
-        return $count;
+        return false;
 	}
-	
-	private function dbDeployHasMatchedItems()
-	{
-		set_time_limit(0);
-		ini_set('memory_limit', -1);
-		// recursively checks if dbdeploy data and the dbdeploy matches the same items
-		$this->reprocessDbDeploy();
-		$dbdeployPath = $_SERVER['DOCUMENT_ROOT'] . '/../dbdeploy/data';
-		if(file_exists($dbdeployPath)) {
-			$items = (int) count(glob($dbdeployPath.'/*.sql'));
-			
-			if($items == $this->getDbDeployItems()) {
-				return true;
-			}
-			else {
-				$this->dbDeployHasMatchedItems();
-			}
-		}
-		
-		return false;
-		
-	}
+
 	
 	public function reprocessDbDeployAction()
 	{
@@ -938,8 +934,7 @@ class InstallerController extends AbstractActionController
 		set_time_limit(0);
 		ini_set('memory_limit', -1);
 		
-		if($this->dbDeployHasMatchedItems()) {
-			$this->reprocessDbDeploy();
+		if($this->reprocessDbDeploy()) {
 			die(Json::encode(array('success' => 1)));
 		}
 		else {
