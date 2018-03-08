@@ -869,7 +869,6 @@ class InstallerController extends AbstractActionController
 
 
                         if($modulePath && $dir) {
-                            echo "DB Deploy Execute $module<br/>\n";
                             $deployDiscoveryService->processing($module);
                         }
                         else
