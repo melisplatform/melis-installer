@@ -662,6 +662,11 @@ class InstallerController extends AbstractActionController
         $request = $this->getRequest();
 
         if($request->isXmlHttpRequest()) {
+            
+            // check if composer.json is readable
+            $composer = $_SERVER['DOCUMENT_ROOT'] .'/../composer.json';
+            if(!is_readable($composer) || !is_writable($composer))
+                chmod($composer, 0777);
 
             $config = $this->getServiceLocator()->get('MelisInstallerConfig');
 
