@@ -1,42 +1,42 @@
 <?php if (!empty($this->latestNews)){?>
     <div class="latest-news-owl owl-carousel w-bg" id="<?= $this->pluginId; ?>">
-    	<?php 
-    	   foreach ($this->latestNews As $key => $val)
-    	   {
-    	?>
-        	<div class="single-blog">
-               	<div class="blog-img pos-rltv product-overlay">
-               		<?php 
-               		   if (!empty($val['cnews_image1']))
-               		   {
-               		?>
-                   		<a href="<?= $val['newsLink']; ?>"><img src="<?= $val['cnews_image1']; ?>" alt=""></a>
-                   	<?php
-               		   }
-                   	?>
-               	</div>
-               	<div class="blog-content">
-                   	<div class="blog-title">
-                       	<h5 class="uppercase font-bold"><a href="<?= $val['newsLink']; ?>"><?= $val['cnews_title']; ?></a></h5>
-                       	<div class="like-comments-date">
-                           	<ul>
-                           		<li></li>
-                               	<li class="blog-date text-danger"><i class="zmdi zmdi-calendar-alt"></i> <?= $val['newsDateFormated']; ?></li>
-                           	</ul>
-                       	</div>
-                       	<div class="blog-text">
-                           	<p><?= $val['cnews_paragraph1']; ?></p>
-                       	</div>
-                       	<a class="read-more montserrat" href="<?= $val['newsLink']; ?>">Read More</a>
-                   	</div>
-               	</div>
-           	</div> 
-       	<?php
-    	   }
-       	?>
+      <?php 
+         foreach ($this->latestNews as $key => $val)
+         {
+      ?>
+          <div class="single-blog">
+                <div class="blog-img pos-rltv product-overlay">
+                  <?php 
+                     if (!empty($val['cnews_image1']))
+                     {
+                  ?>
+                      <a href="<?= $val['newsLink']; ?>"><img src="<?= $val['cnews_image1']; ?>" alt=""></a>
+                    <?php
+                     }
+                    ?>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-title">
+                        <h5 class="uppercase font-bold"><a href="<?= $val['newsLink']; ?>"><?= $val['cnews_title']; ?></a></h5>
+                        <div class="like-comments-date">
+                            <ul>
+                              <li></li>
+                                <li class="blog-date text-danger"><i class="zmdi zmdi-calendar-alt"></i> <?= $val['newsDateFormated']; ?></li>
+                            </ul>
+                        </div>
+                        <div class="blog-text">
+                            <p><?= $val['cnews_paragraph1']; ?></p>
+                        </div>
+                        <a class="read-more montserrat" href="<?= $val['newsLink']; ?>">Read More</a>
+                    </div>
+                </div>
+            </div> 
+        <?php
+         }
+        ?>
     </div>
 <?php }else{?>
-	<div class="alert alert-warning" role="alert">
-    	No result
+  <div class="alert alert-warning" role="alert">
+      No result
     </div>
 <?php }?>
