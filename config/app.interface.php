@@ -15,6 +15,7 @@ return array(
                     'None' => 'tr_melis_installer_web_config_option_none',
                     'NewSite' => 'tr_melis_installer_web_config_option_new_site',
                 ),
+				'marketplace_url' => 'http://marketplace.melisplatform.com',
                 'module_exceptions' => array(
                     // modules that will not be displayed when selecting a module to be installed
                     'MelisCore',

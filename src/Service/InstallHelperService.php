@@ -22,6 +22,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     CONST CONN_BAD_GATEWAY = 502;
     CONST CONN_SERVICE_UNAVAILABLE = 503;
     const CHMOD_775 = 0775;
+	
+	const MODULES_ONLY = 2;
+    const SITE_ONLY    = 1;
+
 
 
     public $serviceLocator;
@@ -603,24 +607,28 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         @file_put_contents($outputFileName, $file);
     }
 
-    public function getPackagistMelisModules()
+    public function getPackages($type)
     {
-        set_time_limit(0);
         ini_set('memory_limit', '-1');
+        set_time_limit(0);
 
-        $packages       = [];
-        $requestJsonUrl = 'http://marketplace.melisplatform.com/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/2/group';
+        $config             = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $marketplace        = $config->getItem('melis_installer/datas')['marketplace_url'];
 
-        $config           = $this->getServiceLocator()->get('MelisInstallerConfig');
-        $moduleExceptions = $config->getItem('melis_installer/datas/module_exceptions');
-        $serverPackages   = null;
+        $packages           = [];
+        $requestJsonUrl     = $marketplace.'/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/2/group//siteonly/'.$type;
+
+        $config             = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $moduleExceptions   = $config->getItem('melis_installer/datas/module_exceptions');
+        $serverPackages     = null;
         try {
 
             $serverPackages = @file_get_contents($requestJsonUrl);
             $serverPackages = Json::decode($serverPackages, Json::TYPE_ARRAY);
 
         }catch(\Exception $e) {
-            $serverPackages   = array();
+            echo $e->getMessage();
+            $serverPackages = array();
         }
 
 
@@ -629,25 +637,27 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                 return strtolower(trim($a));
             }, $moduleExceptions);
 
-            if(isset($serverPackages['packages']) && $serverPackages['packages']) {
-                foreach($serverPackages['packages'] as $package) {
-                    if(!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions)) {
+            if(isset($serverPackages['packages']) && $serverPackages['packages'])
+                foreach($serverPackages['packages'] as $package)
+                    if(!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions))
                         $packages[] = $package;
-                    }
-                }
-            }
+
         }
 
 
-        
         return array(
             'packages'  => $packages,
         );
-
     }
 
-    
-    
+    public function getPackagistMelisModules()
+    {
+        return $this->getPackages(self::MODULES_ONLY);
+    }
 
-    
+    public function getPackagistMelisSites()
+    {
+        return $this->getPackages(self::SITE_ONLY);
+    }
+
 }
