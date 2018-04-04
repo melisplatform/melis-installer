@@ -26,10 +26,12 @@ class InstallerController extends AbstractActionController
     
     public function indexAction() 
     {
+		$resources	   = $this->getServiceLocator()->get('MelisAssetManagerWebPack')->getAssets();
         $installHelper = $this->getServiceLocator()->get('InstallerHelper');
         
-        $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
-        $resources = $melisConfig->getItem('melis_installer/ressources');
+        // $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
+        // $resources = $melisConfig->getItem('melis_installer/ressources');
+
 
         $locales      = $this->getTranslationsLocale();
 
