@@ -1,42 +1,41 @@
-<?php
-if (!empty($this->news)){?>
+<?php if (!empty($this->news)){?>
     <div class="blog-img pos-rltv product-overlay" style="cursor: default">
         <?php if (!empty($this->news->cnews_image1)){?>
-            <img src="<?php echo $this->news->cnews_image1; ?>" alt="">
+            <img src="<?= $this->news->cnews_image1; ?>" alt="">
         <?php } ?>
     </div>
     <div class="blog-title">
-        <h5 class="uppercase font-bold"><?php echo $this->news['cnews_title']; ?></h5>
+        <h5 class="uppercase font-bold"><?= $this->news->cnews_title; ?></h5>
         <div class="like-comments-date">
             <ul>
                 <li></li>
                 <li class="blog-date text-danger">
-                    <i class="zmdi zmdi-calendar-alt"></i>
-                    <?= (!empty($this->news['cnews_publish_date']))? date('d M Y', strtotime($this->news['cnews_publish_date'])) : $this->news['cnews_creation_date']; ?>
+                    <i class="zmdi zmdi-calendar-alt"></i> 
+                    <?=  (!empty($this->news->cnews_publish_date)) ? date('d M Y',strtotime(($this->news->cnews_publish_date) : $this->news->cnews_creation_date)); ?>
                 </li>
             </ul>
         </div>
         <div class="blog-text">
-            <p><?php echo $this->news['cnews_paragraph1']; ?></p>
+            <p><?= $this->news->cnews_paragraph1; ?></p>
         </div>
     </div>
-    <?php if (!empty($this->news['cnews_paragraph2'])){?>
+    <?php if (!empty($this->news->cnews_paragraph2)){?>
         <div class="blockqot mtb-30">
             <blockquote>
-                <p><?php echo $this->news['cnews_paragraph2']; ?></p>
+                <p><?= $this->news->cnews_paragraph2; ?></p>
             </blockquote>
         </div>
     <?php } ?>
 
-    <?php if (!empty($this->news['cnews_paragraph3'])){?>
+    <?php if (!empty($this->news->cnews_paragraph3)){?>
         <div class="blog-text">
-            <p><?php echo $this->news['cnews_paragraph3']; ?></p>
+            <p><?= $this->news->cnews_paragraph3; ?></p>
         </div>
     <?php } ?>
 
-    <?php if (!empty($this->news['cnews_paragraph4'])){?>
+    <?php if (!empty($this->news->cnews_paragraph4)){?>
         <div class="blog-text">
-            <p><?php echo $this->news['cnews_paragraph4']; ?></p>
+            <p><?= $this->news->cnews_paragraph4; ?></p>
         </div>
     <?php } ?>
 <?php }else{?>
