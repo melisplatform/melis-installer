@@ -1,4 +1,5 @@
 <?php
+$this->news = (array) $this->news;
 if (!empty($this->news)):?>
     <div class="blog-img pos-rltv product-overlay" style="cursor: default">
         <?php if (!empty($this->news['cnews_image1'])): ?>
@@ -11,7 +12,7 @@ if (!empty($this->news)):?>
             <ul>
                 <li></li>
                 <li class="blog-date text-danger">
-                    <i class="zmdi zmdi-calendar-alt"></i> 
+                    <i class="zmdi zmdi-calendar-alt"></i>
                     <?=  (!empty($this->news['cnews_publish_date'])) ? date('d M Y',strtotime(($this->news['cnews_publish_date']))) : $this->news['cnews_creation_date']; ?>
                 </li>
             </ul>
