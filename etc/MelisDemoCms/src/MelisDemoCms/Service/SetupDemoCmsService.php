@@ -287,7 +287,6 @@ class SetupDemoCmsService extends MelisCoreGeneralService
         $txtIndex = 0;
         foreach ($news as $val)
         {
-//            $val['cnews_creation_date'] = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
             $val['cnews_publish_date']  = date('Y-m-d H:i:s', strtotime(' - '.$monthCtr.' month'));
             $val['cnews_site_id']       = $this->siteId;
             $newId = $newsTbl->save($val);

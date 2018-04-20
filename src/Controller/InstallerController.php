@@ -1081,12 +1081,6 @@ class InstallerController extends AbstractActionController
         die($content);
 
     }
-	
-	public function getFormTestAction()
-	{
-		$form = $this->getModuleConfigurationForm('MelisEngine');
-		die($form);
-	}
 
     public function getModuleConfigurationForm($module)
     {
@@ -1160,15 +1154,7 @@ class InstallerController extends AbstractActionController
             return null;
         }
 	}
-	
-	public function checkDataAction()
-	{
-		$container  = new Container('melis_modules_configuration_status');
-		print_r($container->getArrayCopy());
-		
-		die;
-	}
-	
+
 	public function validateModuleConfigurationFormAction()
 	{
 		$mm         = $this->getServiceLocator()->get('ModuleManager');
@@ -1268,13 +1254,6 @@ class InstallerController extends AbstractActionController
 
     }
 
-    public function testViewSessionAction()
-    {
-        $data = new Container('melis_modules_configuration_status');
-        print_r($data->getArrayCopy());
-        die;
-    }
-    
     function createNewUserAction()
     {
         $success = 0;
@@ -1880,32 +1859,4 @@ class InstallerController extends AbstractActionController
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $string));
     }
 
-    public function checkSessionAction()
-    {
-        $container = new Container('melisinstaller');
-        //unset($container->platforms);
-        print '<pre>';
-        print_r($container->getArrayCopy());
-        print '</pre>';
-        die;
-    }
-    
-    public function clearSessionAction()
-    {
-        $container = new Container('melisinstaller');
-        $container->getManager()->destroy();
-    
-        die;
-    }
-
-    public function testAction()
-    {
-
-        var_dump($this->isUsingCoreOnly());
-
-        die;
-    }
-
-
-    
 }

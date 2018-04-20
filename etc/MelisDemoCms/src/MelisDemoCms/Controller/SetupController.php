@@ -67,7 +67,6 @@ class SetupController extends BaseController
         $view = new ViewModel();
 
         $view->formSetupDemoCms = $formSetupDemoCms;
-        //$this->layout('MelisDemoCms/setup');
         $view->setTerminal(true);
 
         return $view;
