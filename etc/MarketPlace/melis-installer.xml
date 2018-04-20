@@ -1,0 +1,13 @@
+<melis-installer>
+	<package_info>
+		<mp_title>Melis Installer</mp_title>
+		<mp_subtitle>The module that is used to install Melis Platform.</mp_subtitle>
+		<mp_description>
+			This module is the setup that is run when installing the platform.<br />
+			It will help installing the platform and the demo website, a new project, or an empty platform.<br />
+			During install, the DB will be set up, as long as all selected modules from Melis Platform Community Edition.
+		</mp_description>
+		<mp_maintainers>melisplatform</mp_maintainers>
+		<mp_group>Melis Core</mp_group>
+	</package_info>
+</melis-installer>
