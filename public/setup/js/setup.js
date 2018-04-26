@@ -850,6 +850,26 @@ $(window).load(function() {
             $owl.trigger('to.owl.carousel', [5, 500]);
         }
     });
+    //if demo cms option is checked
+    function showModuleSelect()
+    {
+        var webOpt = $("#web-option-selected").val();
+        if(webOpt !='MelisCoreOnly'){
+
+            if(webOpt == 'None'){
+                $("#weboption-none").trigger('click');
+            }
+            else if(webOpt == 'NewSite'){
+                $("#weboption-newsite").trigger('click');
+                $(".setup3-webform").show();
+            }
+            else if (webOpt == 'MelisDemoCms'){
+                $("#weboption-democms").trigger('click');
+            }
+        }
+
+    }
+    showModuleSelect();
 
 
 })(jQuery);

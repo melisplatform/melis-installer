@@ -96,6 +96,7 @@ function toModuleName($modules) {
                             </div>
                         </li>
                         <li class="list-group-item">
+                            <input type="hidden" value="<?=$webOption?>" id="web-option-selected" />
                             <div class="font-awesome-radio-container radio-content">
                                 <input id="weboption-democms" type="radio" class="font-awesome-radio weboption-radio" name="weboption" value="MelisDemoCms" <?= ($webOption == 'MelisDemoCms' || empty($webOption)) ? 'checked' : ''?> data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects">
                                 <label for="weboption-democms"></label>
