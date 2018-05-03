@@ -1,6 +1,57 @@
 <?php 
 return array(
     'plugins' => array(
+		'meliscore' => [
+			'ressources' => [
+                'css' => array(
+					'/MelisInstaller/setup/css/OpenSans.css',
+					'/MelisInstaller/setup/css/Roboto.css',
+					'/MelisInstaller/setup/css/Monseratt.css',
+                    '/MelisInstaller/setup/css/fontawesome/f-assets/f-css/font-awesome.min.css',
+                    '/MelisInstaller/setup/css/module.admin.page.index.min.css',
+                    '/MelisInstaller/setup/css/bootstrap.min.css',
+                    '/MelisInstaller/setup/css/owl-carousel/owl.carousel.min.css',
+                    '/MelisInstaller/setup/css/owl-carousel/owl.theme.default.min.css',
+                    '/MelisInstaller/setup/css/bootstrap-switch.css',
+                    '/MelisInstaller/setup/core/css/styles.css',
+                    '/MelisInstaller/setup/css/setup.css',
+                ),	
+                'js' => array(
+                    '/melis/MelisInstaller/Translation/getTranslation',
+                    '/MelisInstaller/setup/js/jquery.min.js',
+                    '/MelisInstaller/setup/js/jquery.validate.js',
+                    '/MelisInstaller/setup/js/bootstrap.min.js',
+                    '/MelisInstaller/setup/js/owl.carousel.min.js',
+                    '/MelisInstaller/setup/js/bootstrap-switch.js',
+                    '/MelisInstaller/setup/js/bootstrap-switch.init.js',
+                    '/MelisInstaller/setup/js/setup.js',
+                    '/MelisInstaller/setup/core/js/melisHelper.js',
+                    '/MelisInstaller/setup/core/js/melisCoreTool.js',
+                ),		
+                /**
+                 * the "build" configuration compiles all assets into one file to make
+                 * lesser requests
+                 */
+                'build' => [
+                    // set to "true" if you want to use the build assets
+                    'use_build_assets' => true,
+
+                    // path to where the build CSS and JS are located
+                    'css_build_path' => 'public/assets/css/',
+                    'js_build_path'  => 'public/assets/js/',
+
+                    // lists of assets that will be loaded in the layout
+                    'css' => [
+                        '/MelisInstaller/bundle/css/bundle.css',
+
+                    ],
+                    'js' => [
+						'/melis/MelisInstaller/Translation/getTranslation',
+						'/MelisInstaller/bundle/js/bundle.js',
+                    ]
+                ]
+			]
+		],
         'melis_installer' => array(
             'conf' => array(
                 
@@ -37,28 +88,7 @@ return array(
                 )
             ),
             'ressources' => array(
-                'js' => array(
-                    '/melis/MelisInstaller/Translation/getTranslation',
-                    '/MelisInstaller/setup/js/jquery.min.js',
-                    '/MelisInstaller/setup/js/jquery.validate.js',
-                    '/MelisInstaller/setup/js/bootstrap.min.js',
-                    '/MelisInstaller/setup/js/owl.carousel.min.js',
-                    '/MelisInstaller/setup/js/bootstrap-switch.js',
-                    '/MelisInstaller/setup/js/bootstrap-switch.init.js',
-                    '/MelisInstaller/setup/js/setup.js',
-                    '/MelisInstaller/setup/core/js/melisHelper.js',
-                    '/MelisInstaller/setup/core/js/melisCoreTool.js',
-                ),
-                'css' => array(
-                    '/MelisInstaller/setup/css/fontawesome/f-assets/f-css/font-awesome.min.css',
-                    '/MelisInstaller/setup/css/module.admin.page.index.min.css',
-                    '/MelisInstaller/setup/css/bootstrap.min.css',
-                    '/MelisInstaller/setup/css/owl-carousel/owl.carousel.min.css',
-                    '/MelisInstaller/setup/css/owl-carousel/owl.theme.default.min.css',
-                    '/MelisInstaller/setup/css/bootstrap-switch.css',
-                    '/MelisInstaller/setup/core/css/styles.css',
-                    '/MelisInstaller/setup/css/setup.css',
-                ),
+
             ),
         ),
     ),
