@@ -1,5 +1,5 @@
 <?php if (!empty($this->latestNews)){?>
-    <div class="latest-news-owl owl-carousel w-bg" id="<?= $this->pluginId; ?>">
+    <div class="latest-news-owl owl-carousel w-bg <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>" id="<?= $this->pluginId; ?>">
         <?php
         foreach ($this->latestNews as $key => $val)
         {

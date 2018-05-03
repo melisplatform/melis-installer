@@ -1,6 +1,7 @@
 <?php
 $this->news = (array) $this->news;
 if (!empty($this->news)):?>
+<div class="<?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
     <div class="blog-img pos-rltv product-overlay" style="cursor: default">
         <?php if (!empty($this->news['cnews_image1'])): ?>
             <img src="<?= $this->news['cnews_image1']; ?>" alt="">
@@ -40,7 +41,7 @@ if (!empty($this->news)):?>
             <p><?= $this->news['cnews_paragraph4']; ?></p>
         </div>
     <?php endif; ?>
-
+</div>
 <?php else: ?>
     <div class="alert alert-warning" role="alert">
         No result

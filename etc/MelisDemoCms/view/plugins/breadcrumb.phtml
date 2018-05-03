@@ -1,5 +1,5 @@
 <?php if ($this->breadcrumb) {?>
-<ol class="breadcrumb">
+<ol class="breadcrumb <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
     <?php foreach ($this->breadcrumb As $key => $val){?>
     	<?php if ($val['isActive']){?>
     		<li class="active"><?php echo $val['label']?></li>

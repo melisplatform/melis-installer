@@ -1,5 +1,5 @@
 <?php if (!empty($this->listofpages)):?>
-    <div class="total-testimonial-owl pagi-03 owl-carousel" id="testimonial-<?= $this->pluginId; ?>">
+    <div class="total-testimonial-owl pagi-03 owl-carousel <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>" id="testimonial-<?= $this->pluginId; ?>">
     	<?php 
     	    // Testimonials handler
     	    $testimonials = array();

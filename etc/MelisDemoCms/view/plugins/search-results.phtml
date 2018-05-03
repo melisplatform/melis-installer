@@ -1,3 +1,4 @@
+<div class="<?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
 <?php if ($this->siteDirExist){?>
     <?php if (!$this->indexerOk){?>
     	<?php if ($this->moduleDirWritable){?>
@@ -65,3 +66,4 @@
 		</div>
 	</div>
 <?php }?>
+</div>

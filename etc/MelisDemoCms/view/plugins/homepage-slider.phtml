@@ -1,5 +1,5 @@
 <?php if(!empty($this->showSlider)){?>
-    <div class="owl-carousel dot-line homepage-slider-owl" id="<?= $this->pluginId; ?>">
+    <div class="owl-carousel dot-line homepage-slider-owl <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>" id="<?= $this->pluginId; ?>">
     	<?php foreach ($this->showSlider As $key => $val){?>
         	<div class="single-slider pos-rltv">
                 <div class="slider-img"><img src="<?php echo $val->mcsdetail_img?>" alt=""></div>

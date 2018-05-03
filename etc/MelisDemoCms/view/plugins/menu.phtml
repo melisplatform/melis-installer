@@ -1,6 +1,6 @@
 <?php if(!empty($this->menu)){?>
     <!-- <div class="col-md-8 col-sm-10 hidden-xs"> -->
-    <nav id="primary-menu" class="hidden-xs">
+    <nav id="primary-menu <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>" class="hidden-xs">
         <ul class="main-menu">
             <?php
         	    foreach ($this->menu As $key => $val)

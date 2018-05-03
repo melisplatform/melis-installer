@@ -20,7 +20,7 @@
 	    echo '</div>';
 	}
 ?>
-    <div class="row">
+    <div class="row <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
         <div class="col-xs-12">
             <div class="input-box">
                 <button value="Submit" class="sbumit-btn pull-right" id="submit-contactus-form-btn" data-siteid="<?php echo $this->layout()->siteDatas['news_menu_page_id']?>">submit</button>

@@ -15,7 +15,7 @@
     }
 ?>
 <?php if ($this->pageCount): ?>
-     <div class="pagination-btn text-right">
+     <div class="pagination-btn text-right <?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
         <ul class="page-numbers">
         	
         	<!-- Previous page link -->
