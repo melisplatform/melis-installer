@@ -1,4 +1,4 @@
-<div id="<?php echo $this->pluginId?>">
+<div id="<?= $this->pluginId; ?>" class="<?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
     <div class="filter-top" id="news-list-plugin">
         <div class="row">
             <form action="" method="get">
@@ -6,7 +6,7 @@
                     <!--single search start-->
                     <div class="single-aside search-aside search-box">
                         <div class="input-box">
-                            <input class="single-input" name="search" placeholder="Search News...." type="text" value="<?php echo $this->searchKey?>">
+                            <input class="single-input" name="search" placeholder="Search News...." type="text" value="<?= $this->searchKey; ?>">
                             <button class="src-btn sb-2"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
@@ -17,14 +17,14 @@
                         <div class="col-md-3">
                             <div class="single-aside search-aside search-box">
                                 <div class="input-box">
-                                    <input class="single-input" name="date_min" id="date-min" placeholder="Date from" value="<?php echo $this->dateMin?>" readonly>
+                                    <input class="single-input" name="date_min" id="date-min" placeholder="Date from" value="<?= $this->dateMin; ?>" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="single-aside search-aside search-box">
                                 <div class="input-box">
-                                    <input class="single-input" name="date_max" id="date-max"  placeholder="Date to" value="<?php echo $this->dateMax?>" readonly>
+                                    <input class="single-input" name="date_max" id="date-max"  placeholder="Date to" value="<?= $this->dateMax; ?>" readonly>
                                 </div>
                             </div>
                         </div>
@@ -42,27 +42,16 @@
     </div>
     <div class="filter-top"></div>
     <div class="row">
-        <?php
-        if ($this->listNews->count())
-        {
-            ?>
+        <?php if ($this->listNews->count()): ?>
             <div class="total-blog">
-                <?php
-                foreach ($this->listNews As $key => $val)
-                {
-                    ?>
+                <?php foreach ($this->listNews as $key => $val): ?>
                     <div class="col-md-4">
                         <div class="single-blog">
-                            <?php
-                            if (!empty($val['cnews_image1']))
-                            {
-                                ?>
+                            <?php if (!empty($val['cnews_image1'])): ?>
                                 <div class="blog-img pos-rltv product-overlay">
                                     <a href="<?= $val['newsLink']; ?>"><img src="<?= $val['cnews_image1']; ?>"></a>
                                 </div>
-                                <?php
-                            }
-                            ?>
+                            <?php endif; ?>
                             <div class="blog-content">
                                 <div class="blog-title">
                                     <h5 class="uppercase font-bold">
@@ -84,33 +73,27 @@
                             </div>
                         </div>
                     </div>
-                    <?php
-                }
-                ?>
+                <?php endforeach; ?>
             </div>
-            <?php
-        }
-        else
-        {
-            ?>
+        <?php else: ?>
             <div class="col-xs-12">
                 <h4 class="search-results-title">No Result</h4>
             </div>
-            <?php
-        }
-        ?>
+        <?php endif; ?>
     </div>
 
     <!-- Pagination -->
     <?php
-    // Generating Pagination Control using partial view
-    echo $this->paginationControl($this->listNews,
-        'Sliding',
-        'MelisDemoCms/plugin/list-paginator',
-        array(
-            'searchKey' => $this->searchKey,
-            'nbPageBeforeAfter' => $this->nbPageBeforeAfter
-        )
-    );
+        // Generating Pagination Control using partial view
+        echo $this->paginationControl($this->listNews,
+            'Sliding',
+            'MelisDemoCms/plugin/list-paginator',
+            array(
+                'searchKey' => $this->searchKey,
+                'dateMin' => $this->dateMin,
+                'dateMax' => $this->dateMax,
+                'nbPageBeforeAfter' => $this->nbPageBeforeAfter
+            )
+        );
     ?>
 </div>
