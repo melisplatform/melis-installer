@@ -2,7 +2,7 @@
 $this->news = (array) $this->news;
 if (!empty($this->news)):?>
 <div class="<?= implode(' ', [$this->widthDesktop, $this->widthTablet, $this->widthMobile]) ?>">
-    <div class="blog-img pos-rltv product-overlay" style="cursor: default">
+    <div class="blog-img-details pos-rltv product-overlay" style="cursor: default">
         <?php if (!empty($this->news['cnews_image1'])): ?>
             <img src="<?= $this->news['cnews_image1']; ?>" alt="">
         <?php endif; ?>
