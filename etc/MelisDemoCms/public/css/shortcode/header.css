@@ -32,7 +32,7 @@ Version: 1.0
   transition: all 0.3s ease 0s;
 }
 .main-menu > li:hover > a,.main-menu > li a.active {
-	color: #cc3333;
+  color: #cc3333;
 } 
 .main-menu li ul > li:hover > a {
   color: #cc3333;
@@ -64,8 +64,8 @@ Version: 1.0
 }
 
 .main-menu li:hover .dropdown{
-	transform: scale(1);
-	visibility: visible;
+  transform: scale(1);
+  visibility: visible;
 }
 /*Mega menu style*/
 /*#primary-menu {
@@ -116,17 +116,17 @@ Version: 1.0
   display: block;
 }
 .single-mega-item li:last-child{
-	border-bottom: 0px solid #000;
+  border-bottom: 0px solid #000;
 } 
 .main-menu li:hover .mega-menu-area{
-	transform: scale(1);
-	visibility: visible;
+  transform: scale(1);
+  visibility: visible;
 }
 .header-middle-area .container .row [class*="col-"] {
-	position: static;
+  position: static;
  }
  .header-middle-area .full-width-mega-dropdown{
- 	position: relative;
+  position: relative;
  }
 
 .single-mega-item li.menu-title {
@@ -150,17 +150,17 @@ Version: 1.0
 
  /*Header Transprent */
  .transparent-header{
- 	position: absolute;
- 	width: 100%;
- 	margin: auto;
- 	background: rgba(255,255,255,0.3);
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  background: rgba(255,255,255,0.3);
  }
  .transparent-header .main-menu > li > a{
   color: #fff;
  }
  .transparent-header.sticky{
- 	background: rgba(255,255,255,0.9);
- 	box-shadow: 0 1px 3px rgba(50, 50, 50, 0.4)
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 1px 3px rgba(50, 50, 50, 0.4)
  }
  /*Sticky Menu*/
 .sticky {
@@ -171,7 +171,7 @@ Version: 1.0
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 2;
+  z-index: 100;
 }
 .sticky .search-box {
   height: 75px;
@@ -180,13 +180,13 @@ Version: 1.0
   padding: 20px 17px;
 }
 .logo {
-	transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
 }
 .logo img{
-	transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
 }
 .sticky .logo img {
-	transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
 }
 .sticky .cart-icon {
   line-height: 90px;
@@ -284,7 +284,7 @@ Version: 1.0
 .header-cart:hover .cart-content-wraper {
     opacity: 1;
     top: 100%;
-	visibility:visible
+  visibility:visible
 }
 .cart-img {
     float: left;
@@ -317,7 +317,7 @@ Version: 1.0
     text-align: center;
     top: 25px;
     width: 15px;
-	transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
 }
 .remove > a {
     color: #fff;

@@ -91,20 +91,12 @@ return array(
             'meliscore_toolstree',
             'meliscore_footer',
         ),
-        'meliscore_toolstree' => array(
+        'meliscore_toolstree_section' => array(
             'meliscore_tool_admin_module' => array(
                 'meliscore_tool_user_module_management'
             ),
             'meliscore_tool_admin_section' => array(
                 'meliscore_tool_user',
-            ),
-            'meliscms_tools_section' => array(
-                'meliscms_tool_site',
-                'meliscms_tool_templates',
-                'meliscms_tool_platform_ids'
-            ),
-            'melisprospects_tools_section' => array(
-                'melistoolprospects_tool_prospects',
             ),
         ),
         'meliscore_center_dashboard' => array(

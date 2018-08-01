@@ -40,6 +40,7 @@ class HomeController extends BaseController
 	    $latestNewsPluginView = $this->MelisCmsNewsLatestNewsPlugin();
 	    $latestNewsParameters = array(
 	        'template_path' => 'MelisDemoCms/plugin/latest-news',
+            'pageIdNews' => 3,
 	        'filter' => array(
 	            'column' => 'cnews_publish_date',
 	            'order' => 'DESC',
