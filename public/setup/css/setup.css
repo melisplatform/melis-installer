@@ -733,3 +733,13 @@ input[type="text"] {
 .melis-svg.melis-cms .light-color {
     fill: #85c556;
 }
+/*
+ * Addeby: Junry
+ * Responsive
+ */
+@media (max-width: 991px) {
+    #environment-form .add-environment {
+        margin: 2em 0;
+        text-align: left !important;
+    }
+}
