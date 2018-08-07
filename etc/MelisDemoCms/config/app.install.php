@@ -71,7 +71,7 @@ return array(
                                     'name'    => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'empty brad',
+                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_scheme_error_empty',
                                         ),
                                     ),
                                 ),
