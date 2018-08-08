@@ -91,19 +91,23 @@ return array(
             'meliscore_toolstree',
             'meliscore_footer',
         ),
-        'meliscore_toolstree_section' => array(
+        'meliscore_toolstree' => array(
             'meliscore_tool_admin_module' => array(
                 'meliscore_tool_user_module_management'
             ),
             'meliscore_tool_admin_section' => array(
                 'meliscore_tool_user',
             ),
+            'meliscms_tools_section' => array(
+                'meliscms_tool_site',
+                'meliscms_tool_templates',
+                'meliscms_tool_platform_ids'
+            ),
         ),
         'meliscore_center_dashboard' => array(
             'meliscore_dashboard_recent_activity',
             'meliscms_dashboard_pages_indicators',
             'melistoolprospects_dashboard_statistics',
-            'melissb_dashboard_workflow',
             'meliscore_dashboard_calendar',
         ),
         'meliscore_dashboard_recent_activity' => array(
@@ -112,6 +116,5 @@ return array(
         ),
     ),
     'interface_disable' => array(
-
     )
 );
