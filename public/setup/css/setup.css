@@ -34,14 +34,14 @@ body{
     display: block;
 }
 .btn-primary {
-    background: #932E2A;
-    border-color: #932E2A;
+    background: #e61c23;
+    border-color: #e61c23;
     color: #fff;
 }
 .btn-primary:hover{
     background: none;
-    color: #932E2A;
-    border-color: #932E2A;
+    color: #e61c23;
+    border-color: #e61c23;
 }
 .btn-success{
     background: #72af46;
@@ -91,7 +91,7 @@ input[type="text"] {
 
 ::-webkit-scrollbar-thumb {
     min-height: 48px;
-    background: #932E2A;
+    background: #e61c23;
     background-clip: padding-box;
     border: 3px solid #fff;
     border-radius: 5px;
@@ -140,7 +140,7 @@ input[type="text"] {
     background: #373737;
 }
 .sidebar.sidebar-inverse > .sidebarMenuWrapper > ul li.active.hasSubmenu > a{
-    background-color: #932E2A !important;
+    background-color: #e61c23 !important;
 }
 .sidebar.sidebar-inverse>.sidebarMenuWrapper>ul li a.sub{
     padding-left: 40px;
@@ -187,7 +187,7 @@ input[type="text"] {
     background: #fff;
 }
 .navbar.main.navbar-primary .nav>li>a:hover i{
-    color: #932E2A;
+    color: #e61c23;
 }
 .navbar.main li.language-dropdown{
 
@@ -297,7 +297,7 @@ input[type="text"] {
 .steps-container .steps .line{
     height: 2px;
     width: 60%;
-    background: #932E2A;
+    background: #e61c23;
     position: absolute;
     top: 50px;
     left: 50%;
@@ -313,7 +313,7 @@ input[type="text"] {
     font-size: 40px;
     height: 90px;
     width: 90px;
-    background: #932E2A;
+    background: #e61c23;
     border-radius: 100%;
     display: inline-block;
     color: #fff;
@@ -543,7 +543,7 @@ input[type="text"] {
 }
 
 .form-group .tooltip.left .tooltip-arrow, .checkbox .tooltip.left .tooltip-arrow {
-    border-left-color: #932e2a;
+    border-left-color: #e61c23;
 }
 
 .form-group i.fa-info-circle + .tooltip .tooltip-inner {
@@ -638,12 +638,12 @@ input[type="text"] {
     float: none;
 }
 .nav.nav-block.nav-tabs>li>a:hover, .nav.nav-block.nav-tabs>li>a:focus {
-    background-color: #932e2a;
+    background-color: #e61c23;
     color: #fff;
 }
 
 .nav.nav-block.nav-tabs>li.active>a, .nav.nav-block.nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
-    background-color: #932e2a;
+    background-color: #e61c23;
     color: #fff;
     border-color: transparent;
     border-radius: 3px;
