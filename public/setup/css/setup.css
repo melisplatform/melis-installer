@@ -748,3 +748,16 @@ input[type="text"] {
         width: auto;
     }
 }
+/* placeholder */
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #9c9c9c !important;
+    opacity: 1; /* Firefox */
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #9c9c9c  !important;
+}
+
+input::-ms-input-placeholder { /* Microsoft Edge */
+    color: #9c9c9c  !important;
+}

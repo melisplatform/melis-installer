@@ -251,4 +251,9 @@ return array(
 
     'tr_melis_installer_option_melis_core_only' => '<strong> Core Platform only (MelisCore)</strong><br/>This option will install MelisCore only: a back-office interface with users\' management and default tools of the platform.<br/><i>A development environment ready to use for specific projects that do not need a CMS.</i>',
     'tr_melis_installer_layout_introduction_welcome_network_error' => 'Unable to proceed on installation, please check your <strong> internet connection</strong>',
-);
+    # Site label
+    'tr_melis_installer_tool_site_site_label'         => 'Label',
+    'tr_melis_installer_tool_site_site_label tooltip' => 'Label of your site',
+    'tr_melis_installer_tool_site_site_label_error_long'  => 'Site name too long, maximum characters accepted is 100 characters',
+    'tr_melis_installer_tool_site_site_label_error_empty' => 'Please enter the site label',
+    );

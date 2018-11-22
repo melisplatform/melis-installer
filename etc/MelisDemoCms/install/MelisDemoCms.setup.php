@@ -2,6 +2,7 @@
 return array(
     'melis_site' => array(
         'site_name' => 'MelisDemoCms',
+        'site_label' => 'Melis Demo Cms Site'
     ),
     'melis_templates' => array(
         array(

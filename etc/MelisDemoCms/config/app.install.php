@@ -52,6 +52,23 @@ return array(
                                 ),
                             ),
                         ),
+                        array(
+                            'spec' => array(
+                                'name' => 'site_label',
+                                'type' => 'text',
+                                'options' => array(
+                                    'label' => 'tr_melis_installer_tool_site_site_label',
+                                    'tooltip' => 'tr_melis_installer_tool_site_site_label tooltip',
+                                ),
+                                'attributes' => array(
+                                    'id' => 'site_label',
+                                    'value' => '',
+                                    'required' => 'required',
+                                    'class' => 'form-control',
+                                    'text-required' => '*',
+                                ),
+                            ),
+                        ),
                     ), // end elements
                     'input_filter' => array(
                         'sdom_scheme' => array(
@@ -98,6 +115,34 @@ return array(
                                     'options' => array(
                                         'messages' => array(
                                             \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_tool_site_domain_error_empty',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'filters'  => array(
+                                array('name' => 'StripTags'),
+                                array('name' => 'StringTrim'),
+                            ),
+                        ),
+                        'site_label' => array(
+                            'name'     => 'site_label',
+                            'required' => true,
+                            'validators' => array(
+                                array(
+                                    'name'    => 'StringLength',
+                                    'options' => array(
+                                        'encoding' => 'UTF-8',
+                                        'max'      => 100,
+                                        'messages' => array(
+                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_tool_site_site_label_error_long',
+                                        ),
+                                    ),
+                                ),
+                                array(
+                                    'name' => 'NotEmpty',
+                                    'options' => array(
+                                        'messages' => array(
+                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_tool_site_site_label_error_empty',
                                         ),
                                     ),
                                 ),
