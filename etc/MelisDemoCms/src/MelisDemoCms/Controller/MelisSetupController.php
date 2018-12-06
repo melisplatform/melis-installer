@@ -30,6 +30,8 @@ class MelisSetupController extends AbstractActionController
         if($formData)
             $form->setData($formData);
 
+        # Set site label
+        $form->get('site_label')->setValue('Melis Demo Cms Site');
         $view = new ViewModel();
         $view->setVariable('siteDemoCmsForm', $form);
 
@@ -117,6 +119,7 @@ class MelisSetupController extends AbstractActionController
                 //siteDemoCms installation start
                 $scheme  = $siteDemoCmsForm->get('sdom_scheme')->getValue();
                 $domain  = $siteDemoCmsForm->get('sdom_domain')->getValue();
+                $siteLabel  = $siteDemoCmsForm->get('site_label')->getValue();
 
 
                 //Save siteDemoCms config
@@ -131,7 +134,7 @@ class MelisSetupController extends AbstractActionController
                     $setupSrv = $this->getServiceLocator()->get('SetupDemoCmsService');
 
                     // $setupSrv->setupSite($siteData);
-                    $setupSrv->setup(getenv('MELIS_PLATFORM'));
+                    $setupSrv->setup(getenv('MELIS_PLATFORM'),$siteLabel);
                     //$setupSrv->setupSiteDomain($scheme, $domain);
 
                     $success = 1;

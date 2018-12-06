@@ -22,7 +22,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     private $tplIds = array();
     private $config;
     
-    public function setup($environmentName = 'development')
+    public function setup($environmentName = 'development',$sitelabel = null)
     {
         $tablePlatform = $this->getServiceLocator()->get('MelisPlatformTable');
         $platform = $tablePlatform->getEntryByField('plf_name', $environmentName)->current();
@@ -45,6 +45,9 @@ class SetupDemoCmsService extends MelisCoreGeneralService
                 switch ($key)
                 {
                     case 'melis_site' :
+                        # For site label
+                        if (!empty($sitelabel))
+                            $val['site_label'] = $sitelabel;
                         $this->setupSite($val);
                         break;
                     case 'melis_templates' :

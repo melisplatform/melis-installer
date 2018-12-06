@@ -295,6 +295,7 @@ var melisHelper = (function(){
         }
         else{
             var leftOffset = $navTabs.position().left;
+
             if( leftOffset === -1 ) {}
             else if( leftOffset !== 0 ){
                 $("#melis-id-nav-bar-tabs").animate({
@@ -320,11 +321,11 @@ var melisHelper = (function(){
     }
 
     // TAB OPEN =====================================================================================================================
-    function tabOpen(title, icon, zoneId, melisKey, parameters, navTabsGroup, callback){
+    function tabOpen(title, icon, zoneId, melisKey, parameters, navTabsGroup, callback) {
         //check if the tab is already open and added to the main nav
         var alreadyOpen = $("body #melis-id-nav-bar-tabs li a.tab-element[data-id='"+ zoneId +"']");
 
-        if(alreadyOpen.length < 1){
+        if( alreadyOpen.length < 1 ){
             var li = "<li data-tool-name='"+ title +"' data-tool-icon='"+ icon +"' data-tool-id='"+ zoneId +"' data-tool-meliskey='"+melisKey+"'>";
             li += "<a data-toggle='tab' class='dropdown-toggle menu-icon tab-element' href='#"+ zoneId + "' data-id='" + zoneId + "' title='"+ title +"'>";
             li += "<i class='fa "+ icon +" fa-2x'></i><span class='navtab-pagename'>";
