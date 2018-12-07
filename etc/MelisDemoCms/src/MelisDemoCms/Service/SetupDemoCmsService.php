@@ -102,7 +102,7 @@ class SetupDemoCmsService extends MelisCoreGeneralService
     public function setupSite($site, $siteId = null)
     {
         $siteTbl = $this->getServiceLocator()->get('MelisEngineTableSite');
-        $siteTableCols = $siteTbl->getTableColumns()->toArray();
+        $siteTableCols = $siteTbl->getTableColumns();
         if (!in_array('site_label',$siteTableCols)) {
             if (!empty($site['site_label'])) {
                 unset($site['site_label']);
