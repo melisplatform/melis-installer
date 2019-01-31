@@ -84,16 +84,16 @@
 
     <!-- Pagination -->
     <?php
-        // Generating Pagination Control using partial view
-        echo $this->paginationControl($this->listNews,
-            'Sliding',
-            'MelisDemoCms/plugin/list-paginator',
-            array(
-                'searchKey' => $this->searchKey,
-                'dateMin' => $this->dateMin,
-                'dateMax' => $this->dateMax,
-                'nbPageBeforeAfter' => $this->nbPageBeforeAfter
-            )
-        );
+    // Generating Pagination Control using partial view
+    echo $this->paginationControl($this->listNews,
+        'Sliding',
+        'MelisDemoCms/plugin/list-paginator',
+        [
+            'searchKey' => $this->searchKey,
+            'dateMin' => $this->dateMin,
+            'dateMax' => $this->dateMax,
+            'nbPageBeforeAfter' => $this->nbPageBeforeAfter
+        ]
+    );
     ?>
 </div>
