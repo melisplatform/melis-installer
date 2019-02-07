@@ -179,9 +179,9 @@ return array(
     'tr_melis_installer_web_form_lang' => 'Language',
     
     // Website Form
-    'tr_melis_installer_web_form_name' => 'Website name',
-    'tr_melis_installer_web_form_name_long' => 'Website name too long',
-    'tr_melis_installer_web_form_name_empty' => 'Please enter the name of the website',
+    'tr_melis_installer_web_form_name' => 'Name of the site',
+    'tr_melis_installer_web_form_name_long' => 'Site name too long',
+    'tr_melis_installer_web_form_name_empty' => 'Please enter the site label',
     'tr_melis_installer_web_form_name_invalid' => 'Invalid site name, alphanumeric and underscore are the only valid characters allowed',
     
     'tr_melis_installer_web_form_module' => 'Module name (environnement variable MELIS_MODULE)',

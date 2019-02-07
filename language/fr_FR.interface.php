@@ -183,7 +183,7 @@ return array(
     'tr_melis_installer_web_form_lang' => 'Langage',
     
     // Website Form
-    'tr_melis_installer_web_form_name' => 'Nom du site Internet',
+    'tr_melis_installer_web_form_name' => 'Nom du site',
     'tr_melis_installer_web_form_name_long' => 'Nom du Site Internet trop long',
     'tr_melis_installer_web_form_name_empty' => 'Veuillez saisir le nom du site Internet',
     'tr_melis_installer_web_form_name_invalid' => 'Nom de site invalide, alphanumerique et underscore sont les seul caractères autorisés',
