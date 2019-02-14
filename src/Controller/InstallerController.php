@@ -1086,7 +1086,7 @@ class InstallerController extends AbstractActionController
         if (class_exists($namespace) && method_exists($namespace, $action . 'Action')) {
 
             $class = $module . '\\Controller\\' . $controller;
-            $result = $this->forward()->dispatch($class, array_merge(['action' => $action], $params));
+            $result = $this->forward()->dispatch($class, array_merge(['action' => $action, 'post' => $params]));
 
             if ($result instanceof JsonModel) {
                 return $result->getVariables();
@@ -1107,7 +1107,7 @@ class InstallerController extends AbstractActionController
         if (class_exists($namespace) && method_exists($namespace, $action . 'Action')) {
 
             $class = $module . '\\Controller\\' . $controller;
-            $result = $this->forward()->dispatch($class, array_merge(['action' => $action], $params));
+            $result = $this->forward()->dispatch($class, array_merge(['action' => $action, 'post' => $params]));
 
             if ($result instanceof JsonModel) {
                 return $result->getVariables();
