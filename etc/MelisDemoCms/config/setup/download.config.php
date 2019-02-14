@@ -171,7 +171,7 @@ return [
                             ],
                         ],
                     ],
-                    Site::Data => []
+                    Site::DATA => []
                 ],
             ],
         ],
