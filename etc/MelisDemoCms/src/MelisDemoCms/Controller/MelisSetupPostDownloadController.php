@@ -153,7 +153,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
         $message = 'tr_install_setup_message_ko';
         $errors = [];
 
-        $data = $this->getTool()->sanitizeRecursive($this->params()->fromQuery('post'));
+        $data = $this->getTool()->sanitizeRecursive($this->params()->fromRoute('post'));
 
         // Getting the DemoSite config
         $config = $this->getServiceLocator()->get('config');
