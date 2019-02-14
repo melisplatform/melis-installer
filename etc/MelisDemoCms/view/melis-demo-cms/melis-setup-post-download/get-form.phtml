@@ -1,0 +1,45 @@
+<?php
+
+$siteDemoCmsForm = $this->siteDemoCmsForm;
+$formId          = $siteDemoCmsForm->getAttributes()['id'];
+
+echo "<h3>MelisDemoCms Setup</h3>";
+echo $this->form()->openTag($siteDemoCmsForm);
+echo "<fieldset id='$formId'>";
+foreach($siteDemoCmsForm->getElements() as $element => $attributes)  {
+    $el =  $siteDemoCmsForm->get((string) $element);
+    $label=$el->getLabel();
+    $toolTip = $this->translate($el->getOptions()['tooltip']);
+    $requiredSign = isset($el->getAttributes()['text-required']) ? $el->getAttributes()['text-required'] : null;
+
+    $placeHolder  = isset($el->getAttributes()['placeholder']) ? $el->getAttributes()['placeholder'] : null;
+
+    echo '<div class="form-group">';
+    echo '<label for="'.$el->getAttributes()['name'].'">'.$this->translate($label) . " " .$requiredSign;
+    echo   "<i class='fa fa-info-circle fa-lg pull-right' data-toggle='tooltip' data-placement='left' title='$toolTip' ></i>";
+    echo '</label> ';
+
+
+
+    if($el->getAttributes()['type'] == 'Text' || $el->getAttributes()['type'] == 'text')
+    {
+
+        echo '<input type="' .$el->getAttributes()['type'].'" name="'.$el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" placeholder="'. $placeHolder .'" value="'.$el->getValue().'">';
+    }
+    else if($el->getAttributes()['type'] == 'Select' || $el->getAttributes()['type'] == 'select')
+    {
+
+        echo '<select name="'. $el->getAttributes()['name'].'" class="'. $el->getAttributes()['class'] .'" >';
+        foreach($el->getOptions()['value_options'] as $name => $value) {
+            echo '<option value=' .  $name . '>' . $value . '</option>';
+        }
+        echo '</select>';
+    }
+
+    echo '</div>'.PHP_EOL;
+
+
+}
+echo "</fieldset>";
+echo $this->form()->closeTag();
+?>
