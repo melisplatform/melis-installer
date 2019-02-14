@@ -8,7 +8,7 @@ use MelisMarketPlace\Support\MelisMarketPlaceSiteInstall as Site;
 
 return [
     'plugins' => [
-        __NAMESPACE__ => [
+        'MelisDemoCms' => [
             'setup' => [
                 Site::DOWNLOAD => [
                     Site::CONFIG => [
