@@ -17,10 +17,14 @@ use Zend\Validator\File\IsImage;
 use Zend\Validator\File\Upload;
 use Zend\File\Transfer\Adapter\Http;
 use Zend\Session\Container;
+use MelisCore\MelisSetupInterface;
 
-class MelisSetupController extends AbstractActionController
+class MelisSetupPostDownloadController extends AbstractActionController implements MelisSetupInterface
 {
-    public function setupFormAction()
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function getFormAction()
     {
 
         $form 		= $this->getFormSiteDemo();
@@ -41,7 +45,10 @@ class MelisSetupController extends AbstractActionController
 
     }
 
-    public function setupValidateDataAction()
+    /**
+     * @return \Zend\View\Model\JsonModel
+     */
+    public function validateFormAction()
     {
         $success = 0;
         $message = 'tr_install_setup_message_ko';
@@ -72,7 +79,10 @@ class MelisSetupController extends AbstractActionController
         return new JsonModel($response);
     }
 
-    public function setupResultAction()
+    /**
+     * @return \Zend\View\Model\JsonModel
+     */
+    public function submitAction()
     {
         $success = 0;
         $message = 'tr_install_setup_message_ko';
