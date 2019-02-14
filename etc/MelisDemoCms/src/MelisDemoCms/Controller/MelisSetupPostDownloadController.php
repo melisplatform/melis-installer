@@ -53,7 +53,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
     private function getFormSiteDemo()
     {
         $melisMelisCoreConfig = $this->serviceLocator->get('MelisCoreConfig');
-        $appConfigForm = $melisMelisCoreConfig->getItem('MelisDemoCms/download/form/melis_demo_cms_setup/forms/melis_demo_cms_setup_download_form');
+        $appConfigForm = $melisMelisCoreConfig->getItem('MelisDemoCms/setup/download/form/melis_demo_cms_setup/forms/melis_demo_cms_setup_download_form');
 
 
         $factory = new \Zend\Form\Factory();
@@ -127,7 +127,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
 
         $melisMelisCoreConfig = $this->serviceLocator->get('MelisCoreConfig');
 
-        $appConfigForm = $melisMelisCoreConfig->getItem('MelisDemoCms/download/form/melis_demo_cms_setup/forms/melis_demo_cms_setup_download_form');
+        $appConfigForm = $melisMelisCoreConfig->getItem('MelisDemoCms/setup/download/form/melis_demo_cms_setup/forms/melis_demo_cms_setup_download_form');
 
         $appConfigForm = $appConfigForm['elements'];
 
