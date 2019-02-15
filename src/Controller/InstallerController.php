@@ -998,7 +998,9 @@ class InstallerController extends AbstractActionController
         $mm = $this->getServiceLocator()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
         $modules = array_diff($modules, $this->getInstallerModules());
-
+        $modulesExclusions = [
+            'MelisEngine'
+        ];
         $content = '';
         $tabs = '';
         $tabContent = '';
@@ -1007,26 +1009,27 @@ class InstallerController extends AbstractActionController
 
         foreach ($modules as $module) {
 
-            $moduleFormContent = $this->getModuleConfigurationForm($module);
+            if (!in_array($module,$modulesExclusions)) {
+                $moduleFormContent = $this->getModuleConfigurationForm($module);
 
-            if ($moduleFormContent) {
+                if ($moduleFormContent) {
 
-                $active = '';
-                $id = 'id' . $module;
+                    $active = '';
+                    $id = 'id' . $module;
 
-                if ($flag === 0) {
-                    $active = 'active';
+                    if ($flag === 0) {
+                        $active = 'active';
+                    }
+
+                    $tabs .= '<li class="' . $active . '"><a href="#' . $id . '" data-toggle="tab">' . $module . '</a></li>';
+
+                    $tabContent .= '<div class="tab-pane ' . $active . '" id="' . $id . '">' . PHP_EOL;
+                    $tabContent .= $moduleFormContent;
+                    $tabContent .= '</div>' . PHP_EOL;
+
+                    $flag++;
                 }
-
-                $tabs .= '<li class="' . $active . '"><a href="#' . $id . '" data-toggle="tab">' . $module . '</a></li>';
-
-                $tabContent .= '<div class="tab-pane ' . $active . '" id="' . $id . '">' . PHP_EOL;
-                $tabContent .= $moduleFormContent;
-                $tabContent .= '</div>' . PHP_EOL;
-
-                $flag++;
             }
-
         }
 
         $translator = $this->getServiceLocator()->get('translator');
