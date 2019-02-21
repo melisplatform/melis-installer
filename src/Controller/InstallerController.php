@@ -105,7 +105,10 @@ class InstallerController extends AbstractActionController
 
         $currentSite = isset($container['site_module']['site']) ? $container['site_module']['site'] : 'MelisCoreOnly';
         $webConfigOption->get('weboption')->setValue($currentSite);
-        $packagist = $installHelper->getPackagistMelisModules();
+        $modules = $installHelper->getPackagistMelisModules();
+        $sites = $installHelper->getPackagistMelisSites();
+//        dd($sites['packages'], $modules['packages']);
+
         $view = new ViewModel();
         // pre-loaded stuffs 
         $view->currentLocale = $currentLocale;
@@ -130,7 +133,8 @@ class InstallerController extends AbstractActionController
         $view->setup3_3_selected = $selectedModules;
         $view->setup3_3_requiredModules = $requiredModules;
 
-        $view->packagistMelisModules = $packagist['packages'];
+        $view->packagistMelisModules = $modules['packages'];
+        $view->packagistSiteModules = $sites['packages'];
 
 
         return $view;
