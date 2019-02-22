@@ -1172,7 +1172,10 @@ class InstallerController extends AbstractActionController
      */
     public function isSiteIsInDefaultSelection()
     {
-        if (in_array($this->selectedSite(), array_merge(['MelisCoreOnly', $this->getNoneDemoSiteSelection()]))) {
+        $modules = $this->getNoneDemoSiteSelection();
+        $modules[] = 'MelisCoreOnly';
+
+        if (in_array($this->selectedSite(), $modules)) {
             return true;
         }
 
@@ -1902,7 +1905,7 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        dd($this->selectedSite());
+        dd($this->isSiteIsInDefaultSelection());
         dd('done');
     }
 }
