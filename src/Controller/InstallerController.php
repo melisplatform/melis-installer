@@ -870,7 +870,7 @@ class InstallerController extends AbstractActionController
                 $container['download_modules'] = $downloadModules;
             }
 
-            $container['site_module'] = array_merge(['site' => $post['site']], $siteLang, $siteData);
+            $container['site_module'] = array_merge(['site' => ($post['site'] ?? $this->selectedSite())], $siteLang, $siteData);
 
             if ($this->isUsingCoreOnly()) {
                 $container['download_modules'] = [];
