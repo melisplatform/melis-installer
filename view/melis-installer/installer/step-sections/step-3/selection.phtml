@@ -128,8 +128,11 @@ function toModuleName($modules) {
                             <ul class="list-group">
                             <?php
                                 $ctr = 0;
+                                $dependencies = '';
                                 foreach ($this->packagistSiteModules as $site):
-                                $dependencies = toModuleName(implode('|', $module['packageDependency']));
+                                    if (isset($module['packageDependency'])) {
+                                        $dependencies = toModuleName(implode('|', $module['packageDependency']));
+                                    }
                             ?>
                                 <li class="list-group-item" style="border:none">
                                     <input type="hidden" value="<?= $site['packageName'] ?>" id="<?= $site['packageName'] ?>">

@@ -1683,7 +1683,9 @@ class InstallerController extends AbstractActionController
             $this->unplugSite();
 
             file_put_contents($docPath . 'config/melis.install', '1');
-
+            if (isset($_SESSION['melis_php_warnings'])) {
+                unset($_SESSION['melis_php_warnings']);
+            }
 
             // clear melis installer session
 //            $container->getManager()->destroy();
