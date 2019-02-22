@@ -1021,9 +1021,9 @@ class InstallerController extends AbstractActionController
                 $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
                 array_push($modules, 'MelisEngine', 'MelisFront');
 
-                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
-                    array_push($modules, getenv('MELIS_MODULE'));
-                }
+//                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
+//                    array_push($modules, getenv('MELIS_MODULE'));
+//                }
             }
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, ['MelisInstaller']), $defaultModules);
@@ -1230,7 +1230,12 @@ class InstallerController extends AbstractActionController
             if (in_array($site, $this->getNoneDemoSiteSelection())) {
 
                 $siteModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . $site;
-                $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
+                if ($this->selectedSite() != 'None') {
+                    $messge = 'Installed CMS with nos site';
+                } else {
+                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
+                }
+
                 $success = 1;
             }
         }
@@ -1897,7 +1902,7 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        dd($this->isSiteIsInDefaultSelection());
+        dd($this->selectedSite());
         dd('done');
     }
 }
