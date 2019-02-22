@@ -107,7 +107,6 @@ class InstallerController extends AbstractActionController
         $webConfigOption->get('weboption')->setValue($currentSite);
         $modules = $installHelper->getPackagistMelisModules();
         $sites = $installHelper->getPackagistMelisSites();
-//        dd($sites['packages'], $modules['packages']);
 
         $view = new ViewModel();
         // pre-loaded stuffs 
@@ -129,13 +128,11 @@ class InstallerController extends AbstractActionController
         $view->setup3_webForm = $webForm;
         $view->setup3_createUserForm = $createUserForm;
 
-
         $view->setup3_3_selected = $selectedModules;
         $view->setup3_3_requiredModules = $requiredModules;
 
         $view->packagistMelisModules = $modules['packages'];
         $view->packagistSiteModules = $sites['packages'];
-
 
         return $view;
     }
@@ -1223,7 +1220,7 @@ class InstallerController extends AbstractActionController
         $success = 0;
         $message = $translator->translate('tr_melis_installer_no_site_install');
         $request = $this->getRequest();
-        dd($request->getPost());
+
         if ($request->isXmlHttpRequest()) {
 
             $container = new Container('melisinstaller');
@@ -1688,7 +1685,7 @@ class InstallerController extends AbstractActionController
         return new JsonModel([
             'success' => $success,
             'errors' => $errors,
-            'logs' => $logs
+            'logs' => $logs,
         ]);
     }
 
@@ -1841,7 +1838,7 @@ class InstallerController extends AbstractActionController
         $container = new Container('melisinstaller');
         $siteModule = $container['site_module']['site'] ?? null;
 
-        return  $siteModule;
+        return $siteModule;
     }
 
     /**
