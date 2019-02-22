@@ -54,10 +54,45 @@ class Module
                 $installed = (bool) trim(file_get_contents($melisInstallCheckPath));
             }
 
-            // force to use the installer's application.config
             if (! $installed) {
                 if (file_exists($appLoader)) {
+                    // force to use the installer's application.config
                     copy($appLoader, $docRoot . '/config/application.config.php');
+                }
+
+                $routeMatch = $e->getRouteMatch();
+                $matchedRouteName = $routeMatch->getMatchedRouteName();
+
+                $excludedRoutes = [
+                    'melis-backoffice/application-MelisInstaller',
+                    'melis-backoffice/application-MelisInstaller/default',
+                    'melis-backoffice/setup',
+                    'melis-backoffice/translations',
+                    'melis-backoffice/application-MelisEngine/default'
+                ];
+
+                if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {
+                    header("location: $setupRoute");
+                    die;
+                } else {
+                    // reset module load
+                    $testMode = true;
+
+                    if (!$testMode) {
+
+                        if (file_exists($platformFile)) {
+                            unlink($platformFile);
+                        }
+
+                        $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
+                        $moduleSvc->createModuleLoader('config/', [
+                            'MelisAssetManager',
+                            'MelisDbDeploy',
+                            'MelisComposerDeploy',
+                            'MelisInstaller',
+                            'MelisModuleConfig',
+                        ], [], []);
+                    }
                 }
             } else {
                 $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
@@ -68,42 +103,6 @@ class Module
                 $moduleSvc->unloadModule('MelisInstaller');
                 header("location: /melis/login");
                 die;
-            }
-
-
-            $routeMatch = $e->getRouteMatch();
-            $matchedRouteName = $routeMatch->getMatchedRouteName();
-
-            $excludedRoutes = [
-                'melis-backoffice/application-MelisInstaller',
-                'melis-backoffice/application-MelisInstaller/default',
-                'melis-backoffice/setup',
-                'melis-backoffice/translations',
-                'melis-backoffice/application-MelisEngine/default'
-            ];
-
-            if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {
-                header("location: $setupRoute");
-                die;
-            } else {
-                // reset module load
-                $testMode = true;
-
-                if (!$testMode) {
-
-                    if (file_exists($platformFile)) {
-                        unlink($platformFile);
-                    }
-
-                    $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
-                    $moduleSvc->createModuleLoader('config/', [
-                        'MelisAssetManager',
-                        'MelisDbDeploy',
-                        'MelisComposerDeploy',
-                        'MelisInstaller',
-                        'MelisModuleConfig',
-                    ], [], []);
-                }
             }
 
         }, 10000);
