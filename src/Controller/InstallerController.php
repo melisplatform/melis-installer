@@ -1172,7 +1172,10 @@ class InstallerController extends AbstractActionController
      */
     public function isSiteIsInDefaultSelection()
     {
-        if (in_array($this->selectedSite(), array_merge(['MelisCoreOnly', $this->getNoneDemoSiteSelection()]))) {
+        $modules = $this->getNoneDemoSiteSelection();
+        $modules[] = 'MelisCoreOnly';
+
+        if (in_array($this->selectedSite(), $modules)) {
             return true;
         }
 
@@ -1224,14 +1227,13 @@ class InstallerController extends AbstractActionController
         if ($request->isXmlHttpRequest()) {
 
             $container = new Container('melisinstaller');
-            $site = isset($container['site_module']['website_module']) ?
-                $container['site_module']['website_module'] : null;
+            $site = $this->selectedSite();
 
             if (in_array($site, $this->getNoneDemoSiteSelection())) {
 
                 $siteModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . $site;
-                if ($this->selectedSite() != 'None') {
-                    $messge = 'Installed CMS with nos site';
+                if ($site == 'None') {
+                    $message = 'Installed CMS with no site';
                 } else {
                     $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
                 }
@@ -1902,7 +1904,7 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        dd($this->selectedSite());
+        dd($this->isSiteIsInDefaultSelection());
         dd('done');
     }
 }
