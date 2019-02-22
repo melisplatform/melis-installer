@@ -999,7 +999,7 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+            $config = $this->getServiceLocator()->get('MelisConfig');
 
             $autoInstallModules = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
             $defaultModules = $config->getItem('melis_installer/datas/module_default');
@@ -1020,15 +1020,14 @@ class InstallerController extends AbstractActionController
             }
 
             // load site module in installer
-
             if (!$this->isUsingCoreOnly()) {
                 $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
                 array_push($modules, 'MelisEngine', 'MelisFront');
-                if (!in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
+
+                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
                     array_push($modules, getenv('MELIS_MODULE'));
                 }
             }
-
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, ['MelisInstaller']), $defaultModules);
             array_push($modules, 'MelisCore');
@@ -1171,6 +1170,18 @@ class InstallerController extends AbstractActionController
 
     }
 
+    /**
+     * @return bool
+     */
+    public function isSiteIsInDefaultSelection()
+    {
+        if (in_array($this->selectedSite(), $this->getNoneDemoSiteSelection())) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function checkSiteModuleAction()
     {
         $success = 1;
@@ -1184,6 +1195,10 @@ class InstallerController extends AbstractActionController
             if (in_array($siteConfiguration['site'], $this->getNoneDemoSiteSelection())) {
                 $hasSite = true;
                 $siteName = $siteConfiguration['site'];
+            } else {
+                if (isset($container['site']['website_module'])) {
+                    $container['site']['website_module'] = $siteConfiguration['site'];
+                }
             }
         }
 
@@ -1208,6 +1223,7 @@ class InstallerController extends AbstractActionController
         $success = 0;
         $message = $translator->translate('tr_melis_installer_no_site_install');
         $request = $this->getRequest();
+        dd($request->getPost());
         if ($request->isXmlHttpRequest()) {
 
             $container = new Container('melisinstaller');
@@ -1523,6 +1539,18 @@ class InstallerController extends AbstractActionController
             }
         }
 
+        if ($success) {
+            // Install the site
+            if (!$this->isSiteIsInDefaultSelection()) {
+                set_time_limit(0);
+                ini_set('memory_limit', '-1');
+                $requests = $this->getRequest()->getQuery()->toArray();
+                $parameters = new \Zend\Stdlib\Parameters(array_merge($requests, ['module' => $this->selectedSite(), 'action' => $this->marketplace()::ACTION_DOWNLOAD]));
+                $this->getRequest()->setPost($parameters);
+                $this->marketplaceSite()->installSite($this->getRequest())->invokeSetup();
+            }
+        }
+
         $data = [
             'success' => $success,
             'errors' => $errors,
@@ -1602,19 +1630,20 @@ class InstallerController extends AbstractActionController
         $success = 0;
         $errors = [];
         $container = new Container('melisinstaller');
-
+        $logs = [];
 
         if ($this->getRequest()->isXmlHttpRequest()) {
-
-            $docPath = $_SERVER['DOCUMENT_ROOT'] . '/../';
 
             // re-write the module that is being loaded
             $docPath = $_SERVER['DOCUMENT_ROOT'] . '/../';
             $moduleLoadFile = $docPath . 'config/melis.module.load.php';
+
             if (file_exists($moduleLoadFile)) {
+                $logs[] = 'Module Load file exists';
                 $siteModule = getenv('MELIS_MODULE');
                 $content = file_get_contents($moduleLoadFile);
                 $content = str_replace(["'MelisInstaller',\n"], '', $content);
+                $logs[] = 'Removed MelisInstaller in Module Load';
 
                 $site = getenv('MELIS_MODULE');
 
@@ -1622,7 +1651,10 @@ class InstallerController extends AbstractActionController
                     $content = str_replace(["'$site',\n",], '', $content);
                 }
 
+                $content = str_replace(["\t", '    '], '  ', $content);
+
                 file_put_contents($moduleLoadFile, $content);
+                $logs[] = 'Module Load Rebuild';
 
             }
 
@@ -1638,17 +1670,22 @@ class InstallerController extends AbstractActionController
             if (file_exists($appLoader)) {
                 unlink($docPath . '/config/application.config.php');
                 copy($appLoader, $docPath . '/config/application.config.php');
+                $logs[] = 'Replaced application.config.php';
             }
 
             $success = 1;
+            $this->marketplace()->unplugModule('MelisInstaller');
+            $this->unplugSite();
+
 
             // clear melis installer session
-            //$container->getManager()->destroy();
+            $container->getManager()->destroy();
         }
 
         return new JsonModel([
             'success' => $success,
             'errors' => $errors,
+            'logs' => $logs
         ]);
     }
 
@@ -1793,6 +1830,51 @@ class InstallerController extends AbstractActionController
         return $result;
     }
 
+    /**
+     * @return null|string
+     */
+    protected function selectedSite()
+    {
+        $container = new Container('melisinstaller');
+        $siteModule = $container['site_module']['site'] ?? null;
+
+        return  $siteModule;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function unplugSite()
+    {
+        if ($site = $this->selectedSite()) {
+            return $this->marketplace()->unplugModule($site);
+        }
+
+        return false;
+    }
+
+    /**
+     * @return \MelisMarketPlace\Service\MelisMarketPlaceService
+     */
+    protected function marketplace()
+    {
+        /** @var \MelisMarketPlace\Service\MelisMarketPlaceService $marketplace */
+        $marketplace = $this->getServiceLocator()->get('MelisMarketPlaceService');
+
+        return $marketplace;
+    }
+
+    /**
+     * @return \MelisMarketPlace\Service\MelisMarketPlaceSiteService
+     */
+    protected function marketplaceSite()
+    {
+        /** @var \MelisMarketPlace\Service\MelisMarketPlaceSiteService $marketplaceSite */
+        $marketplaceSite = $this->getServiceLocator()->get('MelisMarketPlaceSiteService');
+
+        return $marketplaceSite;
+    }
+
 
     public function checkSessionAction()
     {
@@ -1802,5 +1884,23 @@ class InstallerController extends AbstractActionController
         print_r($container->getArrayCopy());
         print '</pre>';
         die;
+    }
+
+
+    public function clearSessionAction()
+    {
+        $container = new Container('melisinstaller');
+        $container->getManager()->destroy();
+
+        dd('Session cleared!');
+    }
+
+    public function testAction()
+    {
+        $requests = $this->getRequest()->getQuery()->toArray();
+        $parameters = new \Zend\Stdlib\Parameters(array_merge($requests, ['module' => $this->selectedSite(), 'action' => $this->marketplace()::ACTION_DOWNLOAD]));
+        $this->getRequest()->setPost($parameters);
+        dd($this->getRequest());
+        dd('done');
     }
 }

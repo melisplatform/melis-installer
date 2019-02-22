@@ -77,14 +77,14 @@ return [
                     'MelisMarketPlace',
                 ],
                 'module_auto_install' => [
-                    // this configuration consists of the required modules that is need to run Melis Platform
-                    'MelisMarketPlace' => 'melisplatform/melis-marketplace',
+                    // this configuration consists of the required modules that is needed to run Melis Platform
                 ],
                 'module_default' => [
                     'MelisAssetManager',
                     'MelisDbDeploy',
                     'MelisComposerDeploy',
                     'MelisCore',
+                    'MelisMarketPlace',
                 ],
             ],
             'ressources' => [

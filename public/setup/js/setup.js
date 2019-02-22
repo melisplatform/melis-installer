@@ -106,6 +106,10 @@ $(window).load(function () {
         }
     });
 
+    $('input.site-selection-radio').change(function () {
+        dependencyChecker($(this))
+    });
+
     // Site to install radio button
     $("body").on("click", "input[name='weboption']", function () {
         // reset checkbox
@@ -836,7 +840,7 @@ $(window).load(function () {
 
                     setTimeout(function () {
                         location.href = "/melis";
-                    }, 3000);
+                    }, 1000);
 
                 }
                 else {
