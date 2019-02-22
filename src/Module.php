@@ -61,7 +61,8 @@ class Module
                 'melis-backoffice/application-MelisInstaller/default',
                 'melis-backoffice/setup',
                 'melis-backoffice/translations',
-                'melis-backoffice/application-MelisEngine/default'
+                'melis-backoffice/application-MelisEngine/default',
+                'melis-backoffice/webpack_builder'
             );
 
             if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {
@@ -102,7 +103,6 @@ class Module
             $controller = $e->getTarget();
             
             $matchedRouteName = $routeMatch->getMatchedRouteName();
-            
             $excludedRoutes = array(
                 'melis-backoffice/get-translations',
             );

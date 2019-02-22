@@ -1793,4 +1793,14 @@ class InstallerController extends AbstractActionController
         return $result;
     }
 
+
+    public function checkSessionAction()
+    {
+        $container = new Container('melisinstaller');
+        //unset($container->platforms);
+        print '<pre>';
+        print_r($container->getArrayCopy());
+        print '</pre>';
+        die;
+    }
 }
