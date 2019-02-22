@@ -1175,7 +1175,7 @@ class InstallerController extends AbstractActionController
      */
     public function isSiteIsInDefaultSelection()
     {
-        if (in_array($this->selectedSite(), $this->getNoneDemoSiteSelection())) {
+        if (in_array($this->selectedSite(), array_merge(['MelisCoreOnly', $this->getNoneDemoSiteSelection()]))) {
             return true;
         }
 
@@ -1643,6 +1643,7 @@ class InstallerController extends AbstractActionController
                 $siteModule = getenv('MELIS_MODULE');
                 $content = file_get_contents($moduleLoadFile);
                 $content = str_replace(["'MelisInstaller',\n"], '', $content);
+                $logs[] = $content;
                 $logs[] = 'Removed MelisInstaller in Module Load';
 
                 $site = getenv('MELIS_MODULE');
@@ -1663,7 +1664,7 @@ class InstallerController extends AbstractActionController
             $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
 
             // replace the application.config
-            $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+            $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
             $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
             $appLoader = $melisInstallPath . '/etc/application.config.php';
 
@@ -1677,9 +1678,11 @@ class InstallerController extends AbstractActionController
             $this->marketplace()->unplugModule('MelisInstaller');
             $this->unplugSite();
 
+            file_put_contents($docPath . 'config/melis.install', '1');
+
 
             // clear melis installer session
-            $container->getManager()->destroy();
+//            $container->getManager()->destroy();
         }
 
         return new JsonModel([
@@ -1897,10 +1900,7 @@ class InstallerController extends AbstractActionController
 
     public function testAction()
     {
-        $requests = $this->getRequest()->getQuery()->toArray();
-        $parameters = new \Zend\Stdlib\Parameters(array_merge($requests, ['module' => $this->selectedSite(), 'action' => $this->marketplace()::ACTION_DOWNLOAD]));
-        $this->getRequest()->setPost($parameters);
-        dd($this->getRequest());
+        dd($this->isSiteIsInDefaultSelection());
         dd('done');
     }
 }

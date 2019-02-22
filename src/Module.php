@@ -35,6 +35,7 @@ class Module
 
         $eventManager->attach(MvcEvent::EVENT_DISPATCH, function ($e) {
 
+            $sm = $e->getTarget()->getServiceManager();
             $uri = $_SERVER['REQUEST_URI'];
 
             // check if the platform configuration file is available
@@ -43,15 +44,32 @@ class Module
             $setupRoute = '/melis/setup';
             $platformFile = $docRoot . 'config/autoload/platforms/' . $env . '.php';
 
-            $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
-
-            // force  to use the installer's application.config
+            /** @var \MelisAssetManager\Service\MelisModulesService $moduleSvc */
+            $moduleSvc = $sm->get('MelisAssetManagerModulesService');
             $installerPath = $moduleSvc->getModulePath('MelisInstaller');
             $appLoader = $installerPath . '/etc/installer.application.config.php';
 
-            if (file_exists($appLoader)) {
-                copy($appLoader, $docRoot . '/config/application.config.php');
+            $installed = false;
+            if (file_exists($melisInstallCheckPath = $docRoot . 'config/melis.install')) {
+                $installed = (bool) trim(file_get_contents($melisInstallCheckPath));
             }
+
+            // force to use the installer's application.config
+            if (! $installed) {
+                if (file_exists($appLoader)) {
+                    copy($appLoader, $docRoot . '/config/application.config.php');
+                }
+            } else {
+                $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
+
+                unlink($melisInstallCheckPath);
+                unlink($appLoader);
+                copy($appLoader, $docRoot . '/config/application.config.php');
+                $moduleSvc->unloadModule('MelisInstaller');
+                header("location: /melis/login");
+                die;
+            }
+
 
             $routeMatch = $e->getRouteMatch();
             $matchedRouteName = $routeMatch->getMatchedRouteName();

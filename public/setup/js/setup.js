@@ -839,7 +839,7 @@ $(window).load(function () {
                     $(".testing-db-text").hide();
 
                     setTimeout(function () {
-                        location.href = "/melis";
+                        location.href = "/melis/login";
                     }, 1000);
 
                 }
