@@ -14,15 +14,14 @@ function toModuleName($modules) {
 
     return implode('|', $newModuleNames);
 }
+
 ?>
 <div class="item">
     <div class="setup-content-container">
         <div class="setup-heading">
             <h2><?= $this->translate('tr_melis_installer_module_selection_heading') ?></h2>
             <p><?= $this->translate('tr_melis_installer_module_selection_sub_heading') ?></p>
-
         </div>
-
 
         <div class="setup-content setup-p3 mt-25" id="setup-step3">
 
@@ -41,15 +40,7 @@ function toModuleName($modules) {
                             </div>
                             <div class="list-group-descrip">
                                 <div class="melis-svg melis-core">
-                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
-                                        <g>
-                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
-                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
-                                        </g>
-                                        <g>
-                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
-                                        </g>
-                                    </svg>
+                                    <?= $this->melisCoreIcon() ?>
                                 </div>
                                 <?= $this->translate('tr_melis_installer_option_melis_core_only'); ?>
                             </div>
@@ -61,15 +52,7 @@ function toModuleName($modules) {
                             </div>
                             <div class="list-group-descrip">
                                 <div class="melis-svg melis-cms">
-                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
-                                        <g>
-                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
-                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
-                                        </g>
-                                        <g>
-                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
-                                        </g>
-                                    </svg>
+                                    <?= $this->melisCmsIcon() ?>
                                 </div>
                                 <?= $this->translate('tr_melis_installer_option_none'); ?>
                             </div>
@@ -81,15 +64,7 @@ function toModuleName($modules) {
                             </div>
                             <div class="list-group-descrip">
                                 <div class="melis-svg melis-cms">
-                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
-                                        <g>
-                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
-                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
-                                        </g>
-                                        <g>
-                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
-                                        </g>
-                                    </svg>
+                                    <?= $this->melisCmsIcon() ?>
                                 </div>
 
                                 <?= $this->translate('tr_melis_installer_option_new_website'); ?>
@@ -103,15 +78,7 @@ function toModuleName($modules) {
                             </div>
                             <div class="list-group-descrip">
                                 <div class="melis-svg melis-cms">
-                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
-                                        <g>
-                                            <rect class="bg-color" y="0.1" fill="#C52127" width="29.9" height="29.9"></rect>
-                                            <rect class="light-color" x="14.6" y="2.7" fill="#E71E26" width="12.7" height="24.6"></rect>
-                                        </g>
-                                        <g>
-                                            <path fill="#FFFFFF" d="M7.4,21.1V9.5H22v11.7h-2.9v-8.8h-2.9v8.8h-2.9v-8.8h-2.9v8.8H7.4z"></path>
-                                        </g>
-                                    </svg>
+                                    <?= $this->melisCmsIcon() ?>
                                 </div>
                                  <?= $this->translate('tr_melis_installer_option_use_demo_cms'); ?>
                             </div>
@@ -154,6 +121,35 @@ function toModuleName($modules) {
 
         <div class="setup-content setup-p3 mt-25">
             <div class="row" id="module-selection">
+                <div class="col-xs-12 col-md-12" id="site-install-container">
+                    <h2> <?= $this->translate('Site to Install'); ?></h2>
+                    <form role="form" id="frm-select-sites" class="form-group">
+                        <div class="row">
+                            <ul class="list-group">
+                            <?php
+                                $ctr = 0;
+                                foreach ($this->packagistSiteModules as $site):
+                                $dependencies = toModuleName(implode('|', $module['packageDependency']));
+                            ?>
+                                <li class="list-group-item" style="border:none">
+                                    <input type="hidden" value="<?= $site['packageName'] ?>" id="<?= $site['packageName'] ?>">
+                                    <div class="font-awesome-radio-container radio-content">
+                                        <input id="<?= "$site[packageId]_$site[packageModuleName]" ?>" type="radio"
+                                               data-module="<?= $site['packageModuleName'] ?>"
+                                               class="font-awesome-radio site-selection-radio" name="site" value="<?= $site['packageName'] ?>"
+                                               data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects" <?= $ctr === 0 ? 'checked="checked"' : 'checked' ?>>
+                                        <label for="<?= "$site[packageId]_$site[packageModuleName]" ?>"></label>
+                                    </div>
+                                    <div class="list-group-descrip" style="padding-left: 0;">
+                                        <strong><?= $site['packageTitle'] ?></strong><br>
+                                        <?= $site['packageDescription'] ?>
+                                    </div>
+                                </li>
+                            <?php $ctr++; endforeach; ?>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
                 <div class="col-xs-12 col-md-12">
                     <h2><?= $this->translate('melis_installer_selection_heading')?></h2>
                     <form role="form" id="frmSelModules" class="form-group form-modules">

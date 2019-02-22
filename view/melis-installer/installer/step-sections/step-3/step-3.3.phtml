@@ -1,66 +1,69 @@
 <!-- STEP 3.3 -->
 <div class="item">
-	<div class="setup-content-container">
-		<div class="setup-heading">
-			<h2><?= $this->translate('tr_melis_installer_melis_modules'); ?></h2> 
-			<p><?= $this->translate('tr_melis_installer_melis_modules_subtext'); ?></p>	
-		</div>
-    	<div class="setup-content setup-p3">
-			<div class="row">
-				<div class="col-xs-12 col-md-6">
-    				<h2> <?= $this->translate('tr_melis_installer_melis_modules_available'); ?></h2>
-    				<form role="form" id="frmSelModules" class="form-group">
-    				  	<?php foreach($this->setup3_3_modules as $modules):?>
-        					<?php if(in_array($modules, $this->setup3_3_selected) || in_array($modules, $this->setup3_3_requiredModules)) :?>
-        						<?php $requredModule = (in_array($modules, $this->setup3_3_requiredModules)) ? 'requried-module' : ''?>
+    <div class="setup-content-container">
+        <div class="setup-heading">
+            <h2><?= $this->translate('tr_melis_installer_melis_modules'); ?></h2>
+            <p><?= $this->translate('tr_melis_installer_melis_modules_subtext'); ?></p>
+        </div>
+        <div class="setup-content setup-p3">
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <h2> <?= $this->translate('tr_melis_installer_melis_modules_available'); ?></h2>
+                    <form role="form" id="frmSelModules" class="form-group">
+                        <?php foreach ($this->setup3_3_modules as $modules): ?>
+                            <?php if (in_array($modules, $this->setup3_3_selected) || in_array($modules, $this->setup3_3_requiredModules)) : ?>
+                                <?php $requiredModules = (in_array($modules, $this->setup3_3_requiredModules)) ? 'requried-module' : '' ?>
                                 <div class="checkbox">
-                                  	<div class="checkbox cb-cont" style="position:relative">
-                                       <label class="remember-me-cont">
+                                    <div class="checkbox cb-cont" style="position:relative">
+                                        <label class="remember-me-cont">
                                             <span class="cbmask-outer clearfix">
-                                            	<span  class="cbmask-inner"></span>
+                                            	<span class="cbmask-inner"></span>
                                            	</span>
-                                            <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $modules; ?>" value="<?= $modules; ?>" checked>
-                                       </label>
-                                       <span class="module-name"><?= $modules; ?></span>
-                                       <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $this->translate('tr_melis_installer_melis_modules_'.$modules)?>"></i>
+                                            <input type="checkbox" class="<?= $requiredModules ?>" name="chk<?= $modules; ?>" value="<?= $modules; ?>" checked>
+                                        </label>
+                                        <span class="module-name"><?= $modules; ?></span>
+                                        <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $this->translate('tr_melis_installer_melis_modules_' . $modules) ?>"></i>
                                     </div>
                                 </div>
                             <?php else: ?>
                                 <div class="checkbox">
-                                  	 <div class="checkbox cb-cont" style="position:relative">
-                                       <label class="remember-me-cont">
+                                    <div class="checkbox cb-cont" style="position:relative">
+                                        <label class="remember-me-cont">
                                             <span class="cbmask-outer clearfix">
-                                            	<span  class="cbmask-inner"></span>
+                                            	<span class="cbmask-inner"></span>
                                            	</span>
-                                            <input type="checkbox" value="<?= $modules; ?>" name="chk<?= $modules; ?>" >
-                                       </label>
-                                       <span class="module-name"><?= $modules; ?></span>
-                                       <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $this->translate('tr_melis_installer_melis_modules_'.$modules)?>"></i>
+                                            <input type="checkbox" value="<?= $modules; ?>" name="chk<?= $modules; ?>">
+                                        </label>
+                                        <span class="module-name"><?= $modules; ?></span>
+                                        <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $this->translate('tr_melis_installer_melis_modules_' . $modules) ?>"></i>
                                     </div>
                                 </div>
-                      		<?php endif; ?>
-                      	<?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </form>
                     <br/>
-    				<form role="form" id="frmSelector">
-    					<div class="checkbox">
-                          	 <div class="checkbox cb-cont" style="position:relative">
-                               <label class="remember-me-cont">
+                    <form role="form" id="frmSelector">
+                        <div class="checkbox">
+                            <div class="checkbox cb-cont" style="position:relative">
+                                <label class="remember-me-cont">
                                     <span class="cbmask-outer clearfix">
-                                    	<?php $allSelected = (count($this->setup3_3_modules) == count($this->setup3_3_selected)) ? 'cb-active' : '';?>
-                                    	<span class="cbmask-inner <?= $allSelected?>"></span>
+                                    	<?php $allSelected = (count($this->setup3_3_modules) == count($this->setup3_3_selected)) ? 'cb-active' : ''; ?>
+                                        <span class="cbmask-inner <?= $allSelected ?>"></span>
                                    	</span>
                                     <input type="checkbox" id="chkSelectAllModules">
-                               </label>
-                               <span class="module-name"><?= $this->translate('tr_melis_installer_melis_modules_select_all'); ?></span>
+                                </label>
+                                <span class="module-name"><?= $this->translate('tr_melis_installer_melis_modules_select_all'); ?></span>
                             </div>
                         </div>
-    				</form>
-	    		</div>
-			</div>
-     		<div class="setup-button-cont">
-     			<a id="dbNext" class="setup-pass-page btn btn-success"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
-     		</div>
-    	</div>
-	</div>
+                    </form>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <h2> <?= $this->translate('Site to Install'); ?></h2>
+                </div>
+            </div>
+            <div class="setup-button-cont">
+                <a id="dbNext" class="setup-pass-page btn btn-success"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+            </div>
+        </div>
+    </div>
 </div>

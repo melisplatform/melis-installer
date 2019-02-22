@@ -11,7 +11,7 @@ use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Sql\Ddl;
 class InstallHelperService implements ServiceLocatorAwareInterface
 {
-    
+
     const CONN_OK = 200;
     const CONN_MOVED_PERMANENTLY = 301;
     const CONN_TEMP_REDIRECT = 307;
@@ -22,8 +22,8 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     CONST CONN_BAD_GATEWAY = 502;
     CONST CONN_SERVICE_UNAVAILABLE = 503;
     const CHMOD_775 = 0775;
-	
-	const MODULES_ONLY = 2;
+
+    const MODULES_ONLY = 2;
     const SITE_ONLY    = 1;
 
 
@@ -33,27 +33,27 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     protected $odbAdapter;
     protected $importStatus = array();
     protected $importTableName = array();
-    
+
     public function setServiceLocator(ServiceLocatorInterface $sl)
     {
         $this->serviceLocator = $sl;
         return $this;
     }
-    
+
     public function getServiceLocator()
     {
         return $this->serviceLocator;
     }
-    
+
     /**
      * Sets what extensions should be required when checking pre-installe extensions
      * @param array $ext
      */
-    public function setRequiredExtensions(array $ext) 
+    public function setRequiredExtensions(array $ext)
     {
         $this->extensions = $ext;
     }
-    
+
     /**
      * Returns the required extensions
      * @return array
@@ -62,7 +62,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     {
         return (array) $this->extensions;
     }
-    
+
     /**
      * Returns all loaded PHP Extensions
      */
@@ -70,51 +70,51 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     {
         return get_loaded_extensions();
     }
-    
+
     /**
      * Check if the desired extension is loaded
      * @param array $ext
      * @return array
      */
-    public function isExtensionsExists($ext) 
+    public function isExtensionsExists($ext)
     {
-       $status = 0;
-       if(!empty($ext)) {
-           if(extension_loaded($ext)) {
-               $status = 1;
-           }
-       }
-       
-       return $status;
+        $status = 0;
+        if(!empty($ext)) {
+            if(extension_loaded($ext)) {
+                $status = 1;
+            }
+        }
+
+        return $status;
     }
-    
+
     /**
      * Checks if the URL exists
      * @param String $domain
      * @return boolean
      */
-    public function isDomainExists($domain) 
+    public function isDomainExists($domain)
     {
         $host = gethostbyname($domain);
-        
+
         if($host != $domain) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Returns the current URL of the page
      * @return string
      */
-    public function getDomain() 
+    public function getDomain()
     {
         $uri = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRequest()->getUri();
         return sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
     }
-    
-    
+
+
     /**
      * Checks if your MySql is working and if your database is existing
      * @param string $host
@@ -130,10 +130,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         $isDatabaseExists               = 0;
         $isDatabaseCollationNameValid   = 0;
         $isPassCorrect                  = 1;
-        
+
         if($this->isDomainExists($host)) {
             $isConnected = 1;
-            
+
             try {
                 $dbAdapter = new DbAdapter(array(
                     'driver' =>  'Pdo',
@@ -144,20 +144,20 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
                     ),
                 ));
-                
+
                 $sql = new Sql($dbAdapter);
                 $select = $sql->select();
                 $select->from('SCHEMATA');
                 $select->where(array('SCHEMA_NAME' => $db));
-                
+
                 $statement = $sql->prepareStatementForSqlObject($select);
                 $result = $statement->execute();
-                
+
                 $schema = $result->current();
                 if(!empty($schema)) {
-                    
+
                     $isDatabaseExists = 1;
-                    
+
                     if (!empty($schema['DEFAULT_COLLATION_NAME']) && $schema['DEFAULT_COLLATION_NAME'] === 'utf8_general_ci') {
                         $isDatabaseCollationNameValid = 1;
                     }
@@ -174,15 +174,15 @@ class InstallHelperService implements ServiceLocatorAwareInterface
             'isDatabaseCollationNameValid' => $isDatabaseCollationNameValid,
         );
 
-        
+
         return $results;
     }
-    
+
     /**
      * Set's the DB Adapter
      * @param String $config
      */
-    public function setDbAdapter($config) 
+    public function setDbAdapter($config)
     {
         if(is_array($config)) {
             $this->odbAdapter = new DbAdapter(array_merge(array(
@@ -191,27 +191,27 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
                 )
             ), $config));
-            
+
             $config = new \Zend\Config\Config($config, true);
             $writer = new \Zend\Config\Writer\PhpArray();
             $conf = $writer->toString($config);
         }
     }
-    
+
     /**
      * Returns the set DB Adapter
      */
-    protected function getDbAdapter() 
+    protected function getDbAdapter()
     {
         return $this->odbAdapter;
     }
-    
+
     /**
      * Executes a raw SQL query
      * @param String $query
      * @return NULL|\Zend\Db\Adapter\Driver\StatementInterface|\Zend\Db\ResultSet\Zend\Db\ResultSet
      */
-    public function executeRawQuery($query) 
+    public function executeRawQuery($query)
     {
         $resultSet = null;
         if($this->odbAdapter) {
@@ -221,52 +221,52 @@ class InstallHelperService implements ServiceLocatorAwareInterface
             }
         }
 
-        
+
         return $resultSet;
     }
-    
+
     /**
      * Checks if the table exists or not
      * @param String $tableName
      * @return boolean
      */
-    public function isDbTableExists($tableName) 
+    public function isDbTableExists($tableName)
     {
         $status = false;
         $resultSet = array();
-        
+
         $query = $this->executeRawQuery("SHOW TABLES LIKE '".trim($tableName)."';");
         if($resultSet)
             $resultSet = $query->toArray();
-        
-        
-            
+
+
+
         if(!empty($resultSet)) {
             $status = true;
-            
+
         }
 
         return $status;
     }
-    
+
     /**
      * Drop Table
      * @param unknown $tableName
      */
-    public function dropDbTable($tableName) 
+    public function dropDbTable($tableName)
     {
         $drop = new Ddl\DropTable(trim($tableName));
         $sql  = new Sql($this->getDbAdapter());
         $this->getDbAdapter()->query($sql->getSqlStringForSqlObject($drop), DbAdapter::QUERY_MODE_EXECUTE);
     }
-    
+
     /**
      * Imports the specified file in the MySql server
      * @param String $path
      * @param array $files (optional)
      * @return boolean
      */
-    public function importSql($path, $files = array('setup_structure.sql')) 
+    public function importSql($path, $files = array('setup_structure.sql'))
     {
         $status = false;
         $fImport = null;
@@ -279,16 +279,16 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                 }
             }
         }
-        
+
         return $status;
     }
-    
+
     /**
      * Returns all the table names that will be imported
      * @param String $path
      * @return array
      */
-    public function getSqlFileTables($path) 
+    public function getSqlFileTables($path)
     {
         $tables = array();
 
@@ -304,7 +304,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                     $found[] = $output;
                 }
             }
-            
+
             foreach($found as $table) {
                 $startPos = strpos($table, '`');
                 $lastPos = strrpos($table, '`');
@@ -313,19 +313,19 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                 $tables[] = trim(str_replace('`', '', $tableName));
             }
         }
-        
+
         return $tables;
     }
-    
+
     public function getImportedTables()
     {
         return (array) $this->importTableName;
     }
-    
+
     public function evalSqlImportStatus()
-    {   
+    {
         if(!empty($this->importTableName)) {
-            
+
             foreach($this->importTableName as $tableName) {
                 if($this->isDbTableExists($tableName)) {
                     $this->importStatus = array_merge_recursive($this->importStatus, array('installed' => $tableName));
@@ -334,19 +334,19 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                     $this->importStatus = array_merge_recursive($this->importStatus, array('failed' => $tableName));
                 }
             }
-            
+
         }
-       
+
     }
-    
+
     /**
      * Returns all the imported table status
      */
-    public function getSqlImportStatus() 
+    public function getSqlImportStatus()
     {
         return (array) $this->importStatus;
     }
-    
+
     /**
      * REturns memory limit, execution time, and maximum upload size variables
      * @return array
@@ -357,14 +357,14 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         $iniSettings = array(
             'memory_limit', 'max_execution_time', 'upload_max_filesize'
         );
-        
+
         foreach($iniSettings as $setting) {
             $settingsValues[$setting] = ini_get($setting);
         }
-        
+
         return $settingsValues;
     }
-    
+
     /**
      * Returns the current platform
      * @return Json
@@ -373,25 +373,25 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     {
         return getenv('MELIS_PLATFORM');
     }
-    
+
     /**
      * Returns the HTTP/1.1 status of the path/url
      * @param unknown $path
      * @return Json
      */
-    public function getUrlStatus($path, $domain = '') 
+    public function getUrlStatus($path, $domain = '')
     {
-        
+
         $status = null;
         $url    = null;
         $uri    = empty($domain) ? $this->getDomain() : '';
-        
+
         $hasSlash = strpos($path, '/');
         // add forward slash
         if($hasSlash === false) {
             $path = '/' . $path;
         }
-        
+
         $url = $uri . $path;
         if($url) {
             stream_context_set_default(
@@ -401,7 +401,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                     )
                 )
             );
-            
+
             $url    = get_headers($url, 1);
             $status = @explode(' ',$url[0]);
 
@@ -411,10 +411,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
 
         return array(
-           'status' => $status
+            'status' => $status
         );
     }
-    
+
     /**
      * Changes the file permission
      * @param String $path
@@ -422,35 +422,35 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      * @return Json
      */
     public function filePermission($path, $mode = self::CHMOD_775)
-    { 
+    {
         $results = array();
         $success = 0;
         if(file_exists($path)) {
             if(!is_writable($path))
                 chmod($path, $mode);
-            
+
             if(!is_readable($path))
                 chmod($path, $mode);
-            
+
             if(is_readable($path) && is_writable($path))
                 $status = 1;
         }
-        
+
         $results = array(
             'path' => $path,
             'mode' => $mode,
             'success' => $success
         );
-        
+
         return Json::encode($results);
     }
-    
+
     /**
      * Returns the status of the provided directories
      * @param String $dir
      * @return array0
      */
-    public function isDirWritable($dir) 
+    public function isDirWritable($dir)
     {
         $dirStatus = 0;
 
@@ -460,14 +460,14 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
         return $dirStatus;
     }
-    
+
     /**
      * Returns all the sub-folders in the provided path
      * @param String $dir
      * @param array $excludeSubFolders
      * @return array
      */
-    public function getDir($dir, $excludeSubFolders = array()) 
+    public function getDir($dir, $excludeSubFolders = array())
     {
         $directories = array();
         if(file_exists($dir)) {
@@ -481,10 +481,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
             }
 
         }
-        
+
         return $directories;
     }
-    
+
     /**
      * Copy a file, or recursively copy a folder and its contents
      * @author      Aidan Lister <aidan@php.net>
@@ -503,17 +503,17 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         if (is_link($source)) {
             return symlink(readlink($source), $dest);
         }
-    
+
         // Simple copy for a file
         if (is_file($source)) {
             return copy($source, $dest);
         }
-    
+
         // Make destination directory
         if (!is_dir($dest)) {
             mkdir($dest, $permissions);
         }
-    
+
         // Loop through the folder
         $dir = dir($source);
         while (false !== $entry = $dir->read()) {
@@ -521,11 +521,11 @@ class InstallHelperService implements ServiceLocatorAwareInterface
             if ($entry == '.' || $entry == '..') {
                 continue;
             }
-    
+
             // Deep copy directories
             $this->xcopy("$source/$entry", "$dest/$entry", $permissions);
         }
-    
+
         // Clean up
         $dir->close();
         return true;
@@ -553,53 +553,53 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
         return rmdir($dir);
     }
-    
+
     /**
      * Replaces the old file from the specified path
      * @param string $old
      * @param string $new
      * @param Array  $content (vsprintf content)
      */
-    public function replaceFile($old, $new, array $content) 
+    public function replaceFile($old, $new, array $content)
     {
         $oldFileContent = file_get_contents($old);
         file_put_contents($new, vsprintf($oldFileContent, $content));
         unlink($old);
     }
-    
+
     public function getAvailableModules()
     {
         $moduleExceptions = array('MelisFront', 'MelisEngine', 'MelisCore', 'MelisSites', 'MelisModuleConfig', 'MelisInstaller', 'MelisCms', 'MelisAssetManager');
         $modules = $this->getModuleSvc()->getAllModules();
-        
+
         $finalListModules = array();
         foreach ($modules as $module)
         {
             if (!in_array($module, $moduleExceptions))
                 $finalListModules[] = $module;
         }
-        
+
         return $finalListModules;
     }
-    
+
     public function getRequiredModules()
     {
         return array('MelisEngine', 'MelisCore');
     }
-    
-    public function isModuleExists($module) 
+
+    public function isModuleExists($module)
     {
         $status = false;
         $modulesSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
         $pathModule = $modulesSvc->getModulePath($module);
-        
+
         if(file_exists($pathModule)) {
             $status = true;
         }
-        
+
         return $status;
     }
-    
+
     public function replaceFileTextContent($fileName, $outputFileName, $lookupText, $replaceText)
     {
         $file = @file_get_contents($fileName);

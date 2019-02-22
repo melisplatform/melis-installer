@@ -9,20 +9,20 @@
 
 namespace MelisInstaller;
 
+use MelisInstaller\Listener\MelisInstallerNewPlatformListener;
+use MelisInstaller\Listener\MelisInstallModuleConfigListener;
+use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\ModuleManager\ModuleManager;
-use Zend\Stdlib\ArrayUtils;
 use Zend\Session\Container;
-use MelisInstaller\Listener\MelisInstallModuleConfigListener;
-use MelisInstaller\Listener\MelisInstallerNewPlatformListener;
 use Zend\Session\SessionManager;
+use Zend\Stdlib\ArrayUtils;
 
 class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $sm = $e->getApplication()->getServiceManager();
@@ -33,87 +33,123 @@ class Module
         $eventManager->attach(new MelisInstallerNewPlatformListener());
 
 
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, function($e) {
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH, function ($e) {
 
-            $uri          = $_SERVER['REQUEST_URI'];
+            $sm = $e->getTarget()->getServiceManager();
+            $uri = $_SERVER['REQUEST_URI'];
 
             // check if the platform configuration file is available
-            $env          = getenv('MELIS_PLATFORM');
-            $docRoot      = $_SERVER['DOCUMENT_ROOT'] . '/../';
-            $setupRoute   = '/melis/setup';
-            $platformFile = $docRoot . 'config/autoload/platforms/'.$env.'.php';
+            $env = getenv('MELIS_PLATFORM');
+            $docRoot = $_SERVER['DOCUMENT_ROOT'] . '/../';
+            $setupRoute = '/melis/setup';
+            $platformFile = $docRoot . 'config/autoload/platforms/' . $env . '.php';
 
-            $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
-
-            // force  to use the installer's application.config
+            /** @var \MelisAssetManager\Service\MelisModulesService $moduleSvc */
+            $moduleSvc = $sm->get('MelisAssetManagerModulesService');
             $installerPath = $moduleSvc->getModulePath('MelisInstaller');
-            $appLoader     = $installerPath . '/etc/installer.application.config.php';
+            $appLoader = $installerPath . '/etc/installer.application.config.php';
 
-            if(file_exists($appLoader)) {
-                copy($appLoader, $docRoot.'/config/application.config.php');
+            $installed = false;
+            if (file_exists($melisInstallCheckPath = $docRoot . 'config/melis.install')) {
+                $installed = (bool) trim(file_get_contents($melisInstallCheckPath));
             }
 
-            $routeMatch       = $e->getRouteMatch();
+            // force to use the installer's application.config
+            if (! $installed) {
+                if (file_exists($appLoader)) {
+                    copy($appLoader, $docRoot . '/config/application.config.php');
+                }
+            } else {
+                $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
+
+                unlink($melisInstallCheckPath);
+                unlink($appLoader);
+                copy($appLoader, $docRoot . '/config/application.config.php');
+                $moduleSvc->unloadModule('MelisInstaller');
+                header("location: /melis/login");
+                die;
+            }
+
+
+            $routeMatch = $e->getRouteMatch();
             $matchedRouteName = $routeMatch->getMatchedRouteName();
 
-            $excludedRoutes = array(
+            $excludedRoutes = [
                 'melis-backoffice/application-MelisInstaller',
                 'melis-backoffice/application-MelisInstaller/default',
                 'melis-backoffice/setup',
                 'melis-backoffice/translations',
                 'melis-backoffice/application-MelisEngine/default'
-            );
+            ];
 
             if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {
                 header("location: $setupRoute");
                 die;
-            }
-            else {
+            } else {
                 // reset module load
                 $testMode = true;
 
-                if(!$testMode) {
+                if (!$testMode) {
 
-                    if(file_exists($platformFile))
+                    if (file_exists($platformFile)) {
                         unlink($platformFile);
+                    }
 
                     $moduleSvc = $e->getTarget()->getServiceManager()->get('MelisInstallerModulesService');
-                    $moduleSvc->createModuleLoader('config/', array('MelisAssetManager',
+                    $moduleSvc->createModuleLoader('config/', [
+                        'MelisAssetManager',
                         'MelisDbDeploy',
                         'MelisComposerDeploy',
                         'MelisInstaller',
-                        'MelisModuleConfig'), array(), array());
+                        'MelisModuleConfig',
+                    ], [], []);
                 }
             }
 
         }, 10000);
     }
 
-    public function init(ModuleManager $mm)
+    public function createTranslations($e)
     {
-        $mm->getEventManager()->getSharedManager()->attach('MelisCore', MvcEvent::EVENT_DISPATCH, function($e) {
-            $routeMatch  = $e->getRouteMatch();
-            $routeParams = $routeMatch->getParams();
-            
-            $controller = '';
-            $action = '';
-            
-            // force route user when MelisInstaller module is loaded and active
-            $controller = $e->getTarget();
-            
-            $matchedRouteName = $routeMatch->getMatchedRouteName();
-            
-            $excludedRoutes = array(
-                'melis-backoffice/get-translations',
-            );
-            
-            if (!in_array($matchedRouteName, $excludedRoutes)){
-                $controller->plugin('redirect')->toUrl('/melis/setup');
+        $sm = $e->getApplication()->getServiceManager();
+        $translator = $sm->get('translator');
+
+        $container = new Container('meliscore');
+
+
+        $locale = isset($container['melis-lang-locale']) ? $container['melis-lang-locale'] : 'en_EN';
+
+        if (!empty($locale)) {
+            $translationType = [
+                'interface',
+            ];
+
+            $translationList = [];
+            if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/../module/MelisModuleConfig/config/translation.list.php')) {
+                $translationList = include 'module/MelisModuleConfig/config/translation.list.php';
             }
-            
-        }, 100);
+
+            foreach ($translationType as $type) {
+
+                $transPath = '';
+                $moduleTrans = __NAMESPACE__ . "/$locale.$type.php";
+
+                if (in_array($moduleTrans, $translationList)) {
+                    $transPath = "module/MelisModuleConfig/languages/" . $moduleTrans;
+                }
+
+                if (empty($transPath)) {
+
+                    // if translation is not found, use melis default translations
+                    $defaultLocale = (file_exists(__DIR__ . "/../language/$locale.$type.php")) ? $locale : "en_EN";
+                    $transPath = __DIR__ . "/../language/$defaultLocale.$type.php";
+                }
+
+                $translator->addTranslationFile('phparray', $transPath);
+            }
+        }
     }
-    
+
     /**
      * Create module's session container
      */
@@ -123,76 +159,58 @@ class Module
         $sessionManager->start();
         Container::setDefaultManager($sessionManager);
         $container = new Container('melisinstaller');
-    
+
     }
 
+    public function init(ModuleManager $mm)
+    {
+        $mm->getEventManager()->getSharedManager()->attach('MelisCore', MvcEvent::EVENT_DISPATCH, function ($e) {
+            $routeMatch = $e->getRouteMatch();
+            $routeParams = $routeMatch->getParams();
+
+            $controller = '';
+            $action = '';
+
+            // force route user when MelisInstaller module is loaded and active
+            $controller = $e->getTarget();
+
+            $matchedRouteName = $routeMatch->getMatchedRouteName();
+            $excludedRoutes = [
+                'melis-backoffice/get-translations',
+            ];
+
+            if (!in_array($matchedRouteName, $excludedRoutes)) {
+                $controller->plugin('redirect')->toUrl('/melis/setup');
+            }
+
+        }, 100);
+    }
 
     public function getConfig()
     {
-    	$config = array();
-    	$configFiles = array(
-			include __DIR__ . '/../config/module.config.php',
-	        include __DIR__ . '/../config/app.interface.php',
-    	    include __DIR__ . '/../config/app.forms.php',
-    	);
-    	
-    	foreach ($configFiles as $file) {
-    		$config = ArrayUtils::merge($config, $file);
-    	} 
-    	
-    	return $config;
+        $config = [];
+        $configFiles = [
+            include __DIR__ . '/../config/module.config.php',
+            include __DIR__ . '/../config/app.interface.php',
+            include __DIR__ . '/../config/app.forms.php',
+        ];
+
+        foreach ($configFiles as $file) {
+            $config = ArrayUtils::merge($config, $file);
+        }
+
+        return $config;
     }
 
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
-    
-    public function createTranslations($e)
-    {
-        $sm = $e->getApplication()->getServiceManager();
-        $translator = $sm->get('translator');
-    
-        $container = new Container('meliscore');
-		
-		
-        $locale = isset($container['melis-lang-locale']) ? $container['melis-lang-locale'] : 'en_EN';
-        
-        if (!empty($locale)){
-            $translationType = array(
-                'interface',
-            );
-            
-            $translationList = array();
-            if(file_exists($_SERVER['DOCUMENT_ROOT'].'/../module/MelisModuleConfig/config/translation.list.php')){
-                $translationList = include 'module/MelisModuleConfig/config/translation.list.php';
-            }
 
-            foreach($translationType as $type){
-                
-                $transPath = '';
-                $moduleTrans = __NAMESPACE__."/$locale.$type.php";
-                
-                if(in_array($moduleTrans, $translationList)){
-                    $transPath = "module/MelisModuleConfig/languages/".$moduleTrans;
-                }
-
-                if(empty($transPath)){
-                    
-                    // if translation is not found, use melis default translations
-                    $defaultLocale = (file_exists(__DIR__ . "/../language/$locale.$type.php"))? $locale : "en_EN";
-                    $transPath = __DIR__ . "/../language/$defaultLocale.$type.php";
-                }
-                
-                $translator->addTranslationFile('phparray', $transPath);
-            }
-        }
-    }
- 
 }

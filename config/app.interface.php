@@ -1,12 +1,12 @@
-<?php 
-return array(
-    'plugins' => array(
-		'meliscore' => [
-			'ressources' => [
-                'css' => array(
-					'/MelisInstaller/setup/css/OpenSans.css',
-					'/MelisInstaller/setup/css/Roboto.css',
-					'/MelisInstaller/setup/css/Monseratt.css',
+<?php
+return [
+    'plugins' => [
+        'meliscore' => [
+            'ressources' => [
+                'css' => [
+                    '/MelisInstaller/setup/css/OpenSans.css',
+                    '/MelisInstaller/setup/css/Roboto.css',
+                    '/MelisInstaller/setup/css/Monseratt.css',
                     '/MelisInstaller/setup/css/fontawesome/f-assets/f-css/font-awesome.min.css',
                     '/MelisInstaller/setup/css/module.admin.page.index.min.css',
                     '/MelisInstaller/setup/css/bootstrap.min.css',
@@ -15,8 +15,8 @@ return array(
                     '/MelisInstaller/setup/css/bootstrap-switch.css',
                     '/MelisInstaller/setup/core/css/styles.css',
                     '/MelisInstaller/setup/css/setup.css',
-                ),	
-                'js' => array(
+                ],
+                'js' => [
                     '/melis/MelisInstaller/Translation/getTranslation',
                     '/MelisInstaller/setup/js/jquery.min.js',
                     '/MelisInstaller/setup/js/jquery.validate.js',
@@ -27,7 +27,7 @@ return array(
                     '/MelisInstaller/setup/js/setup.js',
                     '/MelisInstaller/setup/core/js/melisHelper.js',
                     '/MelisInstaller/setup/core/js/melisCoreTool.js',
-                ),		
+                ],
                 /**
                  * the "build" configuration compiles all assets into one file to make
                  * lesser requests
@@ -38,7 +38,7 @@ return array(
 
                     // path to where the build CSS and JS are located
                     'css_build_path' => 'public/assets/css/',
-                    'js_build_path'  => 'public/assets/js/',
+                    'js_build_path' => 'public/assets/js/',
 
                     // lists of assets that will be loaded in the layout
                     'css' => [
@@ -46,28 +46,28 @@ return array(
 
                     ],
                     'js' => [
-						'/melis/MelisInstaller/Translation/getTranslation',
-						'/MelisInstaller/bundle/js/bundle.js',
-                    ]
-                ]
-			]
-		],
-        'melis_installer' => array(
-            'conf' => array(
-                
-            ),
-            'datas' => array(
+                        '/melis/MelisInstaller/Translation/getTranslation',
+                        '/MelisInstaller/bundle/js/bundle.js',
+                    ],
+                ],
+            ],
+        ],
+        'melis_installer' => [
+            'conf' => [
+
+            ],
+            'datas' => [
                 /**
                  * Melis Installer Step 3 : Wesite Configuration Option default options
-                 * NOTE* : if key "None" and "NewSite" modify, 
+                 * NOTE* : if key "None" and "NewSite" modify,
                  * the intaller contoller, js, factory etc. should also modify
                  */
-                'default_website_config_options' => array(
+                'default_website_config_options' => [
                     'None' => 'tr_melis_installer_web_config_option_none',
                     'NewSite' => 'tr_melis_installer_web_config_option_new_site',
-                ),
-				'marketplace_url' => 'http://marketplace.melisplatform.com',
-                'module_exceptions' => array(
+                ],
+                'marketplace_url' => 'http://marketplace.melisplatform.com',
+                'module_exceptions' => [
                     // modules that will not be displayed when selecting a module to be installed
                     'MelisCore',
                     'MelisInstaller',
@@ -75,21 +75,21 @@ return array(
                     'MelisDbDeploy',
                     'MelisComposerDeploy',
                     'MelisMarketPlace',
-                ),
-                'module_auto_install' => array(
-                    // this configuration consists of the required modules that is need to run Melis Platform
-                    'MelisMarketPlace' => 'melisplatform/melis-marketplace',
-                ),
-                'module_default' => array(
+                ],
+                'module_auto_install' => [
+                    // this configuration consists of the required modules that is needed to run Melis Platform
+                ],
+                'module_default' => [
                     'MelisAssetManager',
                     'MelisDbDeploy',
                     'MelisComposerDeploy',
                     'MelisCore',
-                )
-            ),
-            'ressources' => array(
+                    'MelisMarketPlace',
+                ],
+            ],
+            'ressources' => [
 
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];
