@@ -432,11 +432,15 @@ $(window).load(function () {
 
     // Website Option action event
     $body.on("change", ".weboption-radio", function () {
-        // $(".setup3-webform").addClass("hidden");
+        $("#site-install-container").addClass('hidden');
         $(".setup3-webform").slideUp();
+
         if ($(this).val() == "NewSite") {
-            // $(".setup3-webform").removeClass("hidden");
             $(".setup3-webform").slideDown();
+        }
+
+        if ($(this).val() == "MelisDemoCms") {
+            $("#site-install-container").removeClass('hidden');
         }
 
     });
@@ -517,12 +521,16 @@ $(window).load(function () {
         });
 
         var site = $('input[name=site]:checked');
-        packages[packages.length] = site.val();
-        modules[modules.length] = site.data().module;
+        var siteModule = "";
+        if (site.length) {
+            packages[packages.length] = site.val();
+            modules[modules.length] = siteModule = site.data().module;
+        }
+
 
         // add the selected site
 
-        var selectedSite = $("input[name='weboption']:checked").val();
+        var selectedSite = $("input[name='weboption']:checked").val() == "MelisDemoCms" ? siteModule : $("input[name='weboption']:checked").val();
         var formWebLang = $("form#idfrmweblang").serialize();
         var formWebData = $("form#idfrmwebform").serialize();
         var data = {
@@ -534,7 +542,7 @@ $(window).load(function () {
         };
 
         console.log(data);
-        throw new Error(data);
+        return;
 
 
         disableNextButton();
@@ -850,8 +858,9 @@ $(window).load(function () {
     //if demo cms option is checked
     function showModuleSelect() {
         var webOpt = $("#web-option-selected").val();
-        if (webOpt != 'MelisCoreOnly') {
 
+        $("#site-install-container").addClass('hidden');
+        if (webOpt != 'MelisCoreOnly') {
             if (webOpt == 'None') {
                 $("#weboption-none").trigger('click');
             }
@@ -861,13 +870,13 @@ $(window).load(function () {
             }
             else if (webOpt == 'MelisDemoCms') {
                 $("#weboption-democms").trigger('click');
+                $("#site-install-container").removeClass('hidden');
             }
         }
 
     }
 
     showModuleSelect();
-
 
 })(jQuery);
 

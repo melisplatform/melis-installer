@@ -1181,17 +1181,9 @@ class InstallerController extends AbstractActionController
         if ($request->isXmlHttpRequest()) {
             $container = new Container('melisinstaller');
             $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
-            if (!in_array($siteConfiguration['site'], $this->getNoneDemoSiteSelection())) {
-
+            if (in_array($siteConfiguration['site'], $this->getNoneDemoSiteSelection())) {
                 $hasSite = true;
                 $siteName = $siteConfiguration['site'];
-            } else {
-                if ($siteConfiguration['site'] == 'NewSite') {
-                    $hasSite = true;
-                    $siteName = $siteConfiguration['site'];
-                } else {
-                    $siteName = 'None';
-                }
             }
         }
 
@@ -1207,7 +1199,7 @@ class InstallerController extends AbstractActionController
 
     protected function getNoneDemoSiteSelection()
     {
-        return ['MelisCoreOnly', 'None', 'NewSite'];
+        return ['None', 'NewSite'];
     }
 
     public function installSiteModuleAction()
@@ -1222,24 +1214,12 @@ class InstallerController extends AbstractActionController
             $site = isset($container['site_module']['website_module']) ?
                 $container['site_module']['website_module'] : null;
 
-            if ($site && !in_array($site, $this->getNoneDemoSiteSelection())) {
+            if (in_array($site, $this->getNoneDemoSiteSelection())) {
 
                 $siteModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . $site;
-
-                // if site does not exists
-                if (!file_exists($siteModule)) {
-                    set_time_limit(0);
-                    ini_set('memory_limit', -1);
-                    $this->installDemoSite();
-                    sleep(3);
-                    $success = 1;
-                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
-                } else {
-                    $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
-                    $success = 1;
-                }
+                $message = sprintf($translator->translate('melis_installer_site_installed'), $site);
+                $success = 1;
             }
-
         }
 
         $response = [
