@@ -517,6 +517,7 @@ $(window).load(function () {
         var modules = [];
 
         var checkboxes = $("span.cb-modules-mask[class*='cb-active']");
+        var selectedSite = $("input[name='weboption']:checked").val() == "MelisDemoCms" ? siteModule : $("input[name='weboption']:checked").val();
 
         // populate packages
         $.each(checkboxes, function (i, v) {
@@ -526,15 +527,13 @@ $(window).load(function () {
 
         var site = $('input[name=site]:checked');
         var siteModule = "";
-        if (site.length) {
+        if (site.length && selectedSite === "MelisDemoCms") {
             packages[packages.length] = site.val();
             modules[modules.length] = siteModule = site.data().module;
         }
 
 
         // add the selected site
-
-        var selectedSite = $("input[name='weboption']:checked").val() == "MelisDemoCms" ? siteModule : $("input[name='weboption']:checked").val();
         var formWebLang = $("form#idfrmweblang").serialize();
         var formWebData = $("form#idfrmwebform").serialize();
         var data = {
