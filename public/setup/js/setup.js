@@ -512,10 +512,15 @@ $(window).load(function () {
 
         // populate packages
         $.each(checkboxes, function (i, v) {
-
             packages[i] = $(this).parents("span.cbmask-outer").next("input").data().package;
             modules[i] = $(this).parents("span.cbmask-outer").next("input").val();
         });
+
+        var site = $('input[name=site]:checked');
+        packages[packages.length] = site.val();
+        modules[modules.length] = site.data().module;
+
+        // add the selected site
 
         var selectedSite = $("input[name='weboption']:checked").val();
         var formWebLang = $("form#idfrmweblang").serialize();
@@ -527,6 +532,9 @@ $(window).load(function () {
             siteLang: formWebLang,
             siteData: formWebData
         };
+
+        console.log(data);
+        throw new Error(data);
 
 
         disableNextButton();

@@ -156,6 +156,32 @@ function toModuleName($modules) {
         <div class="setup-content setup-p3 mt-25">
             <div class="row" id="module-selection">
                 <div class="col-xs-12 col-md-12">
+                    <h2> <?= $this->translate('Site to Install'); ?></h2>
+                    <form role="form" id="frm-select-sites" class="form-group">
+                        <div class="row">
+                            <ul class="list-group">
+                            <?php foreach ($this->packagistSiteModules as $site):
+                                $dependencies = toModuleName(implode('|', $module['packageDependency']));
+                            ?>
+                                <li class="list-group-item" style="border:none">
+                                    <input type="hidden" value="<?= $site['packageName'] ?>" id="<?= $site['packageName'] ?>">
+                                    <div class="font-awesome-radio-container radio-content">
+                                        <input id="<?= "$site[packageId]_$site[packageModuleName]" ?>" type="radio"
+                                               data-module="<?= $site['packageModuleName'] ?>"
+                                               class="font-awesome-radio site-selection-radio" name="site" value="<?= $site['packageName'] ?>" data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects">
+                                        <label for="<?= "$site[packageId]_$site[packageModuleName]" ?>"></label>
+                                    </div>
+                                    <div class="list-group-descrip" style="padding-left: 0;">
+                                        <strong><?= $site['packageTitle'] ?></strong><br>
+                                        <?= $site['packageDescription'] ?>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xs-12 col-md-12">
                     <h2><?= $this->translate('melis_installer_selection_heading')?></h2>
                     <form role="form" id="frmSelModules" class="form-group form-modules">
                         <div class="row">
@@ -222,22 +248,6 @@ function toModuleName($modules) {
                         </div>
                     </form>
                     <br/> <br/>
-                </div>
-                <div class="col-xs-12 col-md-12">
-                    <h2> <?= $this->translate('Site to Install'); ?></h2>
-                    <form role="form" id="frm-select-sites" class="form-group form-modules">
-                        <div class="row">
-                            <?php foreach ($this->packagistSiteModules as $site): ?>
-                                <div class="font-awesome-radio-container radio-content">
-                                    <input id="<?= $site['packageName'] ?>" type="radio" class="font-awesome-radio select-site-radio" name="site" value="<?= $site['packageName'] ?>">
-                                    <p>
-                                        <?= $site['packageTitle'] . ' (' . $site['packageVersion'] . ')' ?>
-                                    </p>
-                                    <label for="<?= $site['packageName'] ?>"></label>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
