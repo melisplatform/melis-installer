@@ -840,7 +840,7 @@ $(window).load(function () {
 
                     setTimeout(function () {
                         location.href = "/melis/login";
-                    }, 1000);
+                    }, 10000);
 
                 }
                 else {
