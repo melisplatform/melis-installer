@@ -59,12 +59,14 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                         $currentEnvConf = str_replace([
                             '[:sdom_env]',
                             '[:sdom_domain]',
+                            '[:sdom_scheme]',
                             '[:send_email]',
                             '[:error_reporting]',
                             '[:display_error]',
                         ], [
                             $currentEnv['wildcard']['sdom_env'],
                             $currentEnv['data']['sdom_domain'],
+                            $_SERVER['REQUEST_SCHEME'],
                             $currentEnv['app_interface_conf']['send_email'],
                             $currentEnv['app_interface_conf']['error_reporting'],
                             $displayError
@@ -82,12 +84,14 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                             $newEnvironmentsConf .= str_replace([
                                 '[:sdom_env]',
                                 '[:sdom_domain]',
+                                '[:sdom_scheme]',
                                 '[:send_email]',
                                 '[:error_reporting]',
                                 '[:display_error]',
                             ], [
                                 $env,
                                 $data[0]['sdom_domain'],
+                                $_SERVER['REQUEST_SCHEME'],
                                 $data[0]['app_interface_conf']['send_email'],
                                 $data[0]['app_interface_conf']['error_reporting'],
                                 $displayError,
