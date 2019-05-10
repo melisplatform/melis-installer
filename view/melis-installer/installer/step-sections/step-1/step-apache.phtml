@@ -1,0 +1,41 @@
+<?php
+    $setup1_apache  = $this->setup1_apache;
+    $success  = $setup1_apache['success'];
+    $errors   = $setup1_apache['errors'];
+    $modules   = $setup1_apache['result'];
+    
+    $markupSuccess = '<li><i class="fa fa-check fa-color-green"></i> <span>%s</span></li>';
+    $markupError   = '<li><i class="fa fa-warning fa-color-red"></i> <span>%s</span></li>';
+    $disabled = $success === 1 ? 'setup-pass-page  btn btn-success' : 'setup-pass-page  btn btn-success';
+?>
+<!-- STEP 1.1 -->
+<div class="item">
+	<div class="setup-content-container">
+		<div class="setup-heading">
+			<h2><?= $this->translate('tr_melis_installer_layout_apache'); ?></h2>
+			<p><?= $this->translate('tr_melis_installer_layout_apache_subtext'); ?></p>
+		</div>
+    	
+    	<div class="setup-content setup-p1-apache">
+    		<ul class="list-unstyled setup-check-list">
+				<?php
+                    foreach ($modules as $moduleName => $moduleStatus){
+                        if($moduleStatus) {
+                            echo sprintf($markupSuccess, $moduleName);
+                        } else {
+                            echo sprintf($markupError, $moduleName);
+                        }
+                    }
+				?>
+  			</ul>
+  			<?php if (!empty($errors)){?>
+                    <div class="alert alert-warning">
+                        <?= $this->translate('tr_melis_installer_apache_module_error'); ?>
+                    </div>
+  			<?php }?>
+	    	<div class="setup-button-cont">
+     			<a class="<?= $disabled; ?>"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
+     		</div>
+    	</div>
+	</div>
+</div>
