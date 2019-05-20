@@ -2,9 +2,10 @@
 
 return array(
     'MELIS Platform V2.0 Setup' => 'MELIS Platform V2.0 Setup',
-    
+
     'tr_melis_installer_navigation_introduction' => 'Introduction',
     'tr_melis_installer_navigation_sysconf' => 'System configuration',
+    'tr_melis_installer_navgitation_apache' => 'Apache',
     'tr_melis_installer_navgitation_vhost' => 'Vhost',
     'tr_melis_installer_navigation_fs' => 'File system rights',
     'tr_melis_installer_navigation_environments' => 'Environments',
@@ -14,11 +15,11 @@ return array(
     'tr_melis_installer_navigation_melis_config' => 'Admin account configuration',
     'tr_melis_installer_navigation_modules' => 'Setup type',
     'tr_melis_installer_navigation_final' => 'Installation',
-    
+
     'tr_melis_installer_common_close' => 'Close',
-    
+
     'tr_melis_installer_layout_introduction_welcome' => 'Welcome to Melis Platform setup guide',
-    
+
     'tr_melis_installer_layout_introduction_welcome_subtext' => 'This setup will guide you through the steps to install melis.',
     'tr_melis_installer_layout_introduction_welcome_sysconfig' => 'SYSTEM CONFIGURATION',
     'tr_melis_installer_layout_introduction_welcome_dbcon' => 'DATABASE CONNECTION',
@@ -31,14 +32,17 @@ return array(
     'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommended PHP 7.1',
     'tr_melis_installer_layout_sys_req_check_php_ext' => 'Checking required PHP extensions',
     'tr_melis_installer_layout_sys_req_check_php_env' => 'Checking PHP environment variables',
-    
-    'tr_melis_installer_layout_vhost' => 'Step 1.1: Vhost setup',
+
+    'tr_melis_installer_layout_apache' => 'Step 1.1: Apache setup',
+    'tr_melis_installer_layout_apache_subtext' => 'Testing your apache setup.',
+
+    'tr_melis_installer_layout_vhost' => 'Step 1.2: Vhost setup',
     'tr_melis_installer_layout_vhost_subtext' => 'Testing your virtual host setup.',
 
-    'tr_melis_installer_layout_fsrights' => 'Step 1.2: File system rights',
+    'tr_melis_installer_layout_fsrights' => 'Step 1.3: File system rights',
     'tr_melis_installer_layout_fsrights_subtext' => 'Checking the directory rights.',
-    
-    'tr_melis_installer_layout_env' => 'Step 1.3: Environments',
+
+    'tr_melis_installer_layout_env' => 'Step 1.4: Environments',
     'tr_melis_installer_layout_env_subtext' => 'On top of your current environment add here other environments if you wish so.',
     'tr_melis_installer_layout_env_default_env' => 'Default environment',
     'tr_melis_installer_Layout_env_env_name' => 'Environment name',
@@ -56,7 +60,7 @@ return array(
     'tr_melis_installer_layout_env_error_reporting_all' => 'Report all errors (E_ALL)',
     'tr_melis_installer_layout_env_error_reporting_off' => 'Disable the display of errors ',
 
-    
+
     'tr_melis_installer_layout_dbcon' => 'Step 2: Database connection',
     'tr_melis_installer_layout_dbcon_subtext' => 'Configuration of the database access information.',
     'tr_melis_installer_layout_dbcon_db_details' => 'Database details',
@@ -78,12 +82,14 @@ return array(
     'tr_melis_installer_dbcon_form_db_empty' => 'Please enter the database name where you want to install melis',
     'tr_melis_installer_dbcon_form_db_fail' => 'Database connection test failed: the system was unable to reach the database you entered',
     'tr_melis_installer_dbcon_form_user_fail' => 'Please make sure your database username is correct',
-    'tr_melis_installer_dbcon_form_pass_fail' => 'Please make sure your database password is correct', 
+    'tr_melis_installer_dbcon_form_pass_fail' => 'Please make sure your database password is correct',
     'tr_melis_installer_dbcon_form_user_empty' => 'Please type in the username of your database (ex: root)',
-    
+
     'tr_melis_installer_step_1_0_extension_not_loaded' => 'Extension "%s" is not loaded',
     'tr_melis_installer_step_1_0_php_variable_not_set' => 'PHP variable "%s" is not set',
     'tr_melis_installer_step_1_0_php_requied_variables_empty' => 'PHP required variables is not set',
+    'tr_melis_installer_apache_module_disabled' => '%s apache module is disabled',
+    'tr_melis_installer_apache_module_error' => 'Please enable all of the Apache modules displayed above for a better performance.',
     'tr_melis_installer_step_1_1_platform' => 'Environment platform',
     'tr_melis_installer_step_1_1_module' => 'Site module',
     'tr_melis_installer_step_1_1_no_paltform_declared' => 'You must declare in you vhost an environment variable MELIS_PLATFORM',
@@ -93,11 +99,11 @@ return array(
     'tr_melis_installer_step_1_1_alias_match_success' => 'Virtual host AliasMatch is working on "%s"',
     'tr_melis_installer_step_1_2_dir_not_writable' => '"%s" is not writable',
     'tr_melis_installer_step_1_2_dir_writable' => '"%s" is writable',
-    
+
     // STEP 3: Platform Initialization
     'tr_melis_installer_platform_modal_title' => 'Melis Platform initialization',
     'tr_melis_installer_platform_modal_content' => 'Please check details below: ',
-    
+
     // WEBSITE CONFIGURATION
     'tr_melis_installer_web_config' => 'Step 3.1: Website configuration',
     'tr_melis_installer_web_config_subtext' => 'Creation of the first site.',
@@ -120,13 +126,13 @@ return array(
     'tr_melis_installer_melis_config' => 'Step 3.2 Admin account configuration',
     'tr_melis_installer_melis_config_subtext' => 'Administrator account creation.',
     'tr_melis_installer_melis_config_create_admin' => 'Create admin user',
-    
+
     // MELIS MODULES
     'tr_melis_installer_melis_modules' => 'Step 3.3: Modules',
     'tr_melis_installer_melis_modules_subtext' => 'Selection of the additional modules to install and enable. <br>If you have chosen to activate the demo site some modules cannot be disabled as they are necessary to the proper functioning of the demo site.',
     'tr_melis_installer_melis_modules_available' => 'Available modules',
     'tr_melis_installer_melis_modules_select_all' => 'Select all',
-    
+
     'tr_melis_installer_melis_modules_MelisCalendar' => 'Create and manage events',
     'tr_melis_installer_melis_modules_MelisCmsNews' => 'Create and manage news for your sites',
     'tr_melis_installer_melis_modules_MelisCmsPageHistoric' => 'Visualize the historic of the modifications of your pages',
@@ -139,8 +145,8 @@ return array(
     'tr_melis_installer_melis_modules_MelisCmsPageAnalytics' => 'Manage the analytics of your sites',
     'tr_melis_installer_melis_modules_MelisMessenger' => 'Exchange messages with other users',
     'tr_melis_installer_melis_modules_MelisMarketPlace' => 'Manage the modules of the platform',
-    
-    
+
+
     // NEW USER FORM
     'tr_melis_installer_new_user_login' => 'Login',
     'tr_melis_installer_new_user_login_info' => 'Username to connect to Melis Platform',
@@ -154,52 +160,52 @@ return array(
     'tr_melis_installer_new_user_first_name_info' => 'First name of the user',
     'tr_melis_installer_new_user_last_name' => 'Last name',
     'tr_melis_installer_new_user_last_name_info' => 'Last name of the user',
-    
+
     'tr_melis_installer_new_user_login_empty' => 'Please enter your login',
     'tr_melis_installer_new_user_login_invalid' => 'Invalid login provided',
     'tr_melis_installer_new_user_login_max'   => 'Login value too long',
     'tr_melis_installer_new_user_email_empty' => 'Please enter your email',
     'tr_melis_installer_new_user_email_invalid' => 'Invalid email address',
-    
+
     'tr_melis_installer_new_user_pass_empty' => 'Please enter your password',
     'tr_melis_installer_new_user_pass_max' => 'Password too long',
     'tr_melis_installer_new_user_pass_short' => 'Password too low, it should be more than 8 characters',
     'tr_melis_installer_new_user_pass_invalid' => 'Password should have 8 characters with at least 1 letter and 1 number',
     'tr_melis_installer_new_user_pass_no_match' => 'Password does not match',
-    
+
     'tr_melis_installer_new_user_first_name_empty' => 'Please enter your first name',
     'tr_melis_installer_new_user_first_name_long' => 'First name too long',
     'tr_melis_installer_new_user_first_name_invalid' => 'Invalid first name provided',
-    
+
     'tr_melis_installer_new_user_last_name_empty' => 'Please enter your last name',
     'tr_melis_installer_new_user_last_name_long' => 'Last name too long',
     'tr_melis_installer_new_user_last_name_invalid' => 'Invalid last name provided',
-    
+
     // Website Language Form
     'tr_melis_installer_web_form_lang' => 'Language',
-    
+
     // Website Form
     'tr_melis_installer_web_form_name' => 'Name of the site',
     'tr_melis_installer_web_form_name_long' => 'Site name too long',
     'tr_melis_installer_web_form_name_empty' => 'Please enter the site label',
     'tr_melis_installer_web_form_name_invalid' => 'Invalid site name, alphanumeric and underscore are the only valid characters allowed',
-    
+
     'tr_melis_installer_web_form_module' => 'Module name (environnement variable MELIS_MODULE)',
     'tr_melis_installer_web_form_module_label' => 'Module name',
     'tr_melis_installer_web_form_module_long' => 'Website module name too long',
     'tr_melis_installer_web_form_module_empty' => 'Please enter the module name',
     'tr_melis_installer_web_form_module_exists' => 'Module "%s" already exists, please delete the existing module inside MelisSite module',
-    
+
     'tr_melis_installer_failed_table_install' => 'Failed to install table "%s", please check the query and try again',
-    
+
     'tr_melis_installer_creation_result' => 'Installation',
     'tr_melis_installer_creation_result_subtext' => 'Validate and finish the setup of Melis Platform with configuration provided.',
-    
+
     'tr_melis_installer_common_next' => 'Next',
     'tr_melis_installer_common_finish' => 'Install',
     'tr_melis_installer_common_choose' => 'Choose',
     'tr_melis_installer_common_status' => 'Status',
-    
+
     'tr_melis_installer_common_finish_error' => 'There was a problem while doing the final step, if you want to redo everything, just refresh the page and try again',
     'tr_melis_installer_common_installing' => 'Installing . . .',
     'tr_melis_installer_common_finalizing' => 'Finalizing setup . . .',
@@ -234,8 +240,8 @@ return array(
     'melis_installer_site_checking' => 'Checking site to install...',
     'melis_installer_site_installing' => 'Installing site...',
     'melis_installer_site_installed' => '<p style="color:#02de02"><i class="fa fa-check-circle"></i> Site %s has been installed.</p>',
-    
-    
+
+
     //Step 3.1 text
     'tr_melis_installer_module_selection_heading' => '3.1 Setup type and modules',
     'tr_melis_installer_module_selection_sub_heading' => 'Choose the setup type to do',

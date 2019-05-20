@@ -236,6 +236,17 @@ $(window).load(function () {
             });
         }
         else if (currentPage === 3) {
+            // apache rechecking
+            lazyNextButton();
+            $.get('/melis/MelisInstaller/Installer/checkApacheSetup', function (data) {
+                if (data.success == 1) {
+                    $owl.trigger('to.owl.carousel', [currentPage, 500]);
+                }
+                enableNextButton();
+            });
+
+        }
+        else if (currentPage === 4) {
             // vhost rechecking
             lazyNextButton();
             $.get('/melis/MelisInstaller/Installer/checkVhostSetup', function (data) {
@@ -245,7 +256,7 @@ $(window).load(function () {
                 enableNextButton();
             });
         }
-        else if (currentPage === 4) {
+        else if (currentPage === 5) {
             // File System Rights Rechecking
             lazyNextButton();
             $.get('/melis/MelisInstaller/Installer/checkFileSystemRights', function (data) {
@@ -255,10 +266,10 @@ $(window).load(function () {
                 enableNextButton();
             });
         }
-        else if (currentPage === 5) {
+        else if (currentPage === 6) {
             addEnvironments();
         }
-        else if (currentPage === 6) {
+        else if (currentPage === 7) {
             $(".dbNext").removeClass("setup-pass-page");
 
             // Highlighting the Step 3 nav
@@ -274,14 +285,14 @@ $(window).load(function () {
 
             $owl.trigger('to.owl.carousel', [nextPage, 500]);
         }
-        else if (currentPage === 7) {
+        else if (currentPage === 8) {
             // Escape and proceed to slide 8
         }
-        else if (currentPage === 8) {
+        else if (currentPage === 9) {
             // Website validation
             setDownloadableModules(currentPage);
         }
-        else if (currentPage === 9) {
+        else if (currentPage === 10) {
             lazyNextButton();
             getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
                 getModuleConfiguration();
@@ -290,7 +301,7 @@ $(window).load(function () {
             });
 
         }
-        else if (currentPage === 10) {
+        else if (currentPage === 11) {
             // Adding check mark on Step 3 nav after step 3.3
             submitModuleConfiguration();
         }
