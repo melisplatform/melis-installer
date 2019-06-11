@@ -809,7 +809,7 @@ $(window).load(function () {
         });
     }
 
-    function submitModuleConfiguration() {
+    function submitModuleConfiguration(currentPage) {
         lazyNextButton();
         $('.hasSubmenu:eq( 2 )').find("i").removeClass("fa-circle-o").css("color", "").addClass("fa fa-check fa-color-green");
         var forms = $("#melis-installer-configuration-forms form").serialize();
