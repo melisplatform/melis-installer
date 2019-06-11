@@ -114,6 +114,7 @@ class InstallerController extends AbstractActionController
         $view->setupLocales = $locales;
         $view->setup1_0 = $this->systemConfigurationChecker();
         $view->setup1_0_phpversion = phpversion();
+        $view->setup1_apache = $this->apacheSetupChecker();
         $view->setup1_1 = $this->vHostSetupChecker();
         $view->setup1_2 = $this->checkDirectoryRights();
         $view->setup1_3 = $this->getEnvironments();
@@ -311,6 +312,47 @@ class InstallerController extends AbstractActionController
     }
 
     /**
+     * Checks if the Vhost platform and module variable are set
+     * @return Array
+     */
+    protected function apacheSetupChecker()
+    {
+        $success = 0;
+        $errors = [];
+        $results = [];
+        $translator = $this->getServiceLocator()->get('translator');
+        $requiredModules = array('mod_headers','mod_alias','mod_deflate');
+
+        if (function_exists('apache_get_modules')) {
+            $modules = apache_get_modules();
+            foreach($requiredModules as $requiredModule){
+                $results[$requiredModule] = in_array($requiredModule, $modules) ? true : false ;
+            }
+
+        } else {
+            foreach($requiredModules as $requiredModule){
+                $results[$requiredModule] = getenv($requiredModule)=='On' ? true : false ;
+            }
+        }
+
+        foreach($results as $key => $result){
+            if($result === false){
+                $errors[$key] =  sprintf($translator->translate('tr_melis_installer_apache_module_disabled'),$key);
+            }
+        }
+
+        $success = count($errors) > 0 ? 0 : 1;
+
+        $response = [
+            'success' => $success,
+            'errors' => $errors,
+            'result' => $results,
+        ];
+
+        return $response;
+    }
+
+    /**
      * Check the directory rights if it is writable or not
      * @return Array
      */
@@ -484,7 +526,51 @@ class InstallerController extends AbstractActionController
     }
 
     /**
-     * This step rechecks the Step 1.1 which is the Vhost Setup just to check
+     * This step rechecks the Step 1.1 which is the apache Setup just to check
+     * that everything fine.
+     * @return \Zend\View\Model\JsonModel
+     */
+    public function checkApacheSetupAction()
+    {
+        $success = 0;
+        $errors = [];
+        $results = [];
+        $translator = $this->getServiceLocator()->get('translator');
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $requiredModules = array('mod_headers','mod_alias','mod_deflate');
+
+            if (function_exists('apache_get_modules')) {
+                $modules = apache_get_modules();
+                foreach($requiredModules as $requiredModule){
+                    $results[$requiredModule] = in_array($requiredModule, $modules) ? true : false ;
+                }
+
+            } else {
+                foreach($requiredModules as $requiredModule){
+                    $results[$requiredModule] = getenv($requiredModule)=='On' ? true : false ;
+                }
+            }
+
+            foreach($results as $key => $result){
+                if($result === false){
+                    $errors[$key] =  sprintf($translator->translate('tr_melis_installer_apache_module_disabled'),$key);
+                }
+            }
+
+            $success = count($errors) > 0 ? 1 : 1;
+        }
+
+        return new JsonModel([
+            'success' => $success,
+            'errors' => $errors,
+            'result' => $results,
+        ]);
+    }
+
+
+
+    /**
+     * This step rechecks the Step 1.2 which is the Vhost Setup just to check
      * that everything fine.
      * @return \Zend\View\Model\JsonModel
      */
@@ -510,7 +596,7 @@ class InstallerController extends AbstractActionController
     }
 
     /**
-     * Rechecks Step 1.2 File System Rights
+     * Rechecks Step 1.4File System Rights
      * @return \Zend\View\Model\JsonModel
      */
     public function checkFileSystemRightsAction()

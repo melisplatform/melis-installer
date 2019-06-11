@@ -1,5 +1,6 @@
                 '[:sdom_env]' => array(
                     'host' => '[:sdom_domain]',
+                    'scheme' => '[:sdom_scheme]',
                     'emails' => array(
                         'active' => [:send_email],
                     ),

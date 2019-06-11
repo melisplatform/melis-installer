@@ -77,6 +77,12 @@ function isConnected()
 				     </span>
 				</a>
 			</li>
+            <li>
+                <a href="#" class="sub">
+                    <i class="fa fa-circle-o"></i>
+                    <span><?= $this->translate('tr_melis_installer_navgitation_apache'); ?></span>
+                </a>
+            </li>
 			<li>
 				<a href="#" class="sub">
 					<i class="fa fa-circle-o"></i>
@@ -201,7 +207,8 @@ function isConnected()
 		<?php
     		// CONTENT SECTIONS
     		$sectionFiles = array(
-    		    'step-1/step-1', 
+    		    'step-1/step-1',
+                'step-1/step-apache',
     		    'step-1/step-1.1',
     		    'step-1/step-1.2',
     		    'step-1/step-1.3',

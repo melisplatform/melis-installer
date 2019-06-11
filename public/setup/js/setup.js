@@ -236,6 +236,17 @@ $(window).load(function () {
             });
         }
         else if (currentPage === 3) {
+            // apache rechecking
+            lazyNextButton();
+            $.get('/melis/MelisInstaller/Installer/checkApacheSetup', function (data) {
+                if (data.success == 1) {
+                    $owl.trigger('to.owl.carousel', [currentPage, 500]);
+                }
+                enableNextButton();
+            });
+
+        }
+        else if (currentPage === 4) {
             // vhost rechecking
             lazyNextButton();
             $.get('/melis/MelisInstaller/Installer/checkVhostSetup', function (data) {
@@ -245,7 +256,7 @@ $(window).load(function () {
                 enableNextButton();
             });
         }
-        else if (currentPage === 4) {
+        else if (currentPage === 5) {
             // File System Rights Rechecking
             lazyNextButton();
             $.get('/melis/MelisInstaller/Installer/checkFileSystemRights', function (data) {
@@ -255,10 +266,10 @@ $(window).load(function () {
                 enableNextButton();
             });
         }
-        else if (currentPage === 5) {
-            addEnvironments();
-        }
         else if (currentPage === 6) {
+            addEnvironments(currentPage);
+        }
+        else if (currentPage === 7) {
             $(".dbNext").removeClass("setup-pass-page");
 
             // Highlighting the Step 3 nav
@@ -274,25 +285,25 @@ $(window).load(function () {
 
             $owl.trigger('to.owl.carousel', [nextPage, 500]);
         }
-        else if (currentPage === 7) {
+        else if (currentPage === 8) {
             // Escape and proceed to slide 8
         }
-        else if (currentPage === 8) {
+        else if (currentPage === 9) {
             // Website validation
             setDownloadableModules(currentPage);
         }
-        else if (currentPage === 9) {
+        else if (currentPage === 10) {
             lazyNextButton();
             getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
-                getModuleConfiguration();
+                getModuleConfiguration(currentPage);
             }, false, function () {
-                getModuleConfiguration();
+                getModuleConfiguration(currentPage);
             });
 
         }
-        else if (currentPage === 10) {
+        else if (currentPage === 11) {
             // Adding check mark on Step 3 nav after step 3.3
-            submitModuleConfiguration();
+            submitModuleConfiguration(currentPage);
         }
         else {
             $owl.trigger('to.owl.carousel', [currentPage, 500]);
@@ -483,12 +494,12 @@ $(window).load(function () {
     }
 
 
-    function addEnvironments() {
+    function addEnvironments(currentPage) {
         lazyNextButton();
         var dataString = $("#environment-form").serialize();
         ajaxRequest('/melis/MelisInstaller/Installer/newEnvironment', dataString, function (data) {
             if (data.success) {
-                $owl.trigger('to.owl.carousel', [5, 500]);
+                $owl.trigger('to.owl.carousel', [currentPage, 500]);
             }
             else {
                 alert("please review your entry");
@@ -512,7 +523,7 @@ $(window).load(function () {
         });
     }
 
-    function setDownloadableModules(nxtPage) {
+    function setDownloadableModules(currentPage) {
         var packages = [];
         var modules = [];
 
@@ -550,7 +561,7 @@ $(window).load(function () {
         ajaxRequest('/melis/MelisInstaller/Installer/setDownloadableModules', data, function (response) {
 
             disableNextButton();
-            $owl.trigger('to.owl.carousel', [8, 500]);
+            $owl.trigger('to.owl.carousel', [currentPage, 500]);
 
             $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
             setTimeout(function () {
@@ -789,12 +800,12 @@ $(window).load(function () {
 
     }
 
-    function getModuleConfiguration() {
+    function getModuleConfiguration(currentPage) {
 
         getRequest('/melis/MelisInstaller/Installer/getModuleConfigurationForms', 'html', function (data) {
             $("#melis-installer-configuration-forms").html(data);
             $("i[data-toggle='tooltip']").tooltip();
-            $owl.trigger('to.owl.carousel', [9, 500]);
+            $owl.trigger('to.owl.carousel', [currentPage, 500]);
         });
     }
 
@@ -807,7 +818,7 @@ $(window).load(function () {
                 getRequest('/melis/MelisInstaller/Installer/submitModuleConfigurationForm?' + forms, 'json', function (resp) {
                     if (resp.success == '1') {
                         enableNextButton(translators.tr_melis_installer_common_finish);
-                        $owl.trigger('to.owl.carousel', [10, 500]);
+                        $owl.trigger('to.owl.carousel', [currentPage, 500]);
                     }
                     else {
                         melisInstallerFormHelper.melisMultiKoNotification(response.errors);
