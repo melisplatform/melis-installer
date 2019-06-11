@@ -22,6 +22,7 @@ class InstallerController extends AbstractActionController
 {
 
     protected $steps = ['sysconfig', 'vhost', 'fsrights', 'environments', 'dbconn', 'selmod', 'pf_init'];
+    protected $includedModules = ['MelisEngine', 'MelisFront'];
 
     public function indexAction()
     {
@@ -106,6 +107,7 @@ class InstallerController extends AbstractActionController
         $currentSite = isset($container['site_module']['site']) ? $container['site_module']['site'] : 'MelisCoreOnly';
         $webConfigOption->get('weboption')->setValue($currentSite);
         $modules = $installHelper->getPackagistMelisModules();
+        $this->parseModulesList($modules);
         $sites = $installHelper->getPackagistMelisSites();
 
         $view = new ViewModel();
@@ -1994,5 +1996,21 @@ class InstallerController extends AbstractActionController
     {
         dd($this->isSiteIsInDefaultSelection());
         dd('done');
+    }
+
+    /**
+     * Parses the modules list. removes inactive modules unless listed on the $includedModules
+     * @param $modules
+     */
+    public function parseModulesList(&$modules) {
+        if (!empty($modules['packages'])) {
+            foreach ($modules['packages'] as $key => $module) {
+                if ($module['packageIsActive'] <= 0) {
+                    if (!in_array($module['packageModuleName'], $this->includedModules)) {
+                        unset($modules['packages'][$key]);
+                    }
+                }
+            }
+        }
     }
 }
