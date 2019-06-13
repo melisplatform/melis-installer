@@ -850,9 +850,8 @@ $(window).load(function () {
                     $(".testing-db-text").hide();
 
                     setTimeout(function () {
-                        location.href = "/melis/login";
-                    }, 10000);
-
+                        window.location.replace("/melis");
+                    }, 5000);
                 }
                 else {
                     alert(translators.tr_melis_installer_common_finish_error);
