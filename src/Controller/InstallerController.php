@@ -1107,7 +1107,11 @@ class InstallerController extends AbstractActionController
             // load site module in installer
             if (!$this->isUsingCoreOnly()) {
                 $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
-                array_push($modules, 'MelisEngine', 'MelisFront');
+
+                if (!in_array('MelisEngine', $modules))
+                    array_push($modules, 'MelisEngine');
+                if (!in_array('MelisFront', $modules))
+                    array_push($modules,'MelisFront');
 
 //                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
 //                    array_push($modules, getenv('MELIS_MODULE'));
