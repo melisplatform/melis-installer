@@ -2003,18 +2003,45 @@ class InstallerController extends AbstractActionController
     }
 
     /**
-     * Parses the modules list. removes inactive modules unless listed on the $includedModules
+     * Parses the modules list.
      * @param $modules
      */
     public function parseModulesList(&$modules) {
         if (!empty($modules['packages'])) {
             foreach ($modules['packages'] as $key => $module) {
-                if ($module['packageIsActive'] <= 0) {
-                    if (!in_array($module['packageModuleName'], $this->includedModules)) {
-                        unset($modules['packages'][$key]);
-                    }
-                }
+                $this->removeInactiveModules($modules, $module, $key);
+                $this->removePrivateModule($modules, $module, $key);
             }
+        }
+    }
+
+    /**
+     * Removes inactive modules in the "Modules to install" list
+     * @param $modules
+     * @param $module
+     * @param $key
+     */
+    public function removeInactiveModules(&$modules, $module, $key)
+    {
+        if (isset($module['packageIsActive'])) {
+            if ($module['packageIsActive'] <= 0) {
+                if (! in_array($module['packageModuleName'], $this->includedModules))
+                    unset($modules['packages'][$key]);
+            }
+        }
+    }
+
+    /**
+     * Removes private modules in the "Modules to install" list
+     * @param $modules
+     * @param $module
+     * @param $key
+     */
+    public function removePrivateModule(&$modules, $module, $key)
+    {
+        if (isset($module['packageIsPrivate'])) {
+            if ($module['packageIsPrivate'] == 1)
+                unset($modules['packages'][$key]);
         }
     }
 }
