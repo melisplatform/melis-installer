@@ -223,7 +223,54 @@ function toModuleName($modules) {
                 </div>
             </div>
         </div>
-
+        <!-- Setup for installing other Frameworks -->
+        <div class="setup-content setup-p3 mt-25" id="setup-other-framework">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2> <?= $this->translate('Install Other Framework'); ?></h2>
+                    <p>You can use other framework to integrate with melis platform.</p>
+                    <div>
+                        <label>Enable multi-framework coding:</label>
+                        <div class="row">
+                            <div class="enable_fw_container">
+                                <div class="col-md-6">
+                                    <div class="enable_multi_fw_yes">
+                                        <input id="id_enable_multi_fw_yes" type="radio" class="font-awesome-radio weboption-radio" name="enable_multi_fw" value="true" />
+                                        <label for="id_enable_multi_fw_yes"><span>Yes</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="enable_multi_fw_no">
+                                        <input id="id_enable_multi_fw_no" type="radio" class="font-awesome-radio weboption-radio" name="enable_multi_fw" value="false" checked />
+                                        <label for="id_enable_multi_fw_no"><span>No</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="other_framework_form_container">
+                        <?php
+                        $form = $this->setup3_3_otherFrameworkForm;
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        foreach ($form->getElements() As $key => $val)
+                        {
+                            echo '<div class="form-group">';
+                            if ($val->getLabel()) {
+                                echo $this->formLabel()->openTag($val);
+                                echo $val->getLabel();
+                                echo $this->formLabel()->closeTag();
+                            }
+                            echo $this->formElement($val);
+                            echo '</div>';
+                        }
+                        echo $this->form()->closeTag();
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end -->
         <div class="setup-button-cont">
             <a class="btn btn-success setup-pass-page"><?= $this->translate('tr_melis_installer_common_next'); ?></a>
         </div>

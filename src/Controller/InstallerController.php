@@ -48,6 +48,7 @@ class InstallerController extends AbstractActionController
         $webConfigOption = $this->getForm('melis_installer/forms/melis_installer_webconfig_option');
         $webLangForm = $this->getForm('melis_installer/forms/melis_installer_web_lang');
         $webForm = $this->getForm('melis_installer/forms/melis_installer_webform');
+        $otherFrameworkForm = $this->getForm('melis_installer/forms/melis_installer_other_frameworks');
 
         $showWebForm = false;
         // WebConfigOption preload values from Session/Container
@@ -133,6 +134,8 @@ class InstallerController extends AbstractActionController
 
         $view->setup3_3_selected = $selectedModules;
         $view->setup3_3_requiredModules = $requiredModules;
+
+        $view->setup3_3_otherFrameworkForm = $otherFrameworkForm;
 
         $view->packagistMelisModules = $modules['packages'];
         $view->packagistSiteModules = $sites['packages'];
@@ -919,11 +922,16 @@ class InstallerController extends AbstractActionController
         ]);
     }
 
+    /**
+     * @return JsonModel
+     */
     public function setDownloadableModulesAction()
     {
 
         $request = $this->getRequest();
         $packages = [];
+        $status = true;
+        $message = '';
 
         if ($request->isPost()) {
 
@@ -935,6 +943,7 @@ class InstallerController extends AbstractActionController
             $modules = isset($post['modules']) ? $post['modules'] : null;
             $siteLang = isset($post['siteLang']) ? $post['siteLang'] : [];
             $siteData = isset($post['siteData']) ? $post['siteData'] : [];
+            $otherFWData = isset($post['otherFWData']) ? $post['otherFWData'] : [];
 
             if ($siteLang) {
                 parse_str($siteLang, $siteLang);
@@ -965,10 +974,122 @@ class InstallerController extends AbstractActionController
                 $container['install_modules'] = [];
             }
 
+            /**
+             * Checking installation for other framework
+             */
+            $fwStatus = $this->installOtherFramework($otherFWData);
+            if(!$fwStatus['success']){
+                $status = false;
+                $message = $fwStatus['message'];
+            }
         }
 
-        return new JsonModel(['success' => 1, 'packages' => $packages]);
+        return new JsonModel(['success' => $status, 'packages' => $packages, 'message' => $message]);
 
+    }
+
+    /**
+     * @param $otherFWData
+     */
+    protected function installOtherFramework($otherFWData)
+    {
+        $result = [
+            'success' => true,
+            'message' => ''
+        ];
+
+        if(!empty($otherFWData)){
+            $container = new Container('melisinstaller');
+
+            parse_str($otherFWData, $otherFWData);
+
+            $isEnableMultiFw = (!empty($otherFWData['enable_multi_fw'])) ? (boolean) $otherFWData['enable_multi_fw'] : false;
+            $includeDemoTool = (!empty($otherFWData['include_demo_tool'])) ? (boolean) $otherFWData['include_demo_tool'] : false;
+            $includeDemoSite = (!empty($otherFWData['include_demo_site'])) ? (boolean) $otherFWData['include_demo_site'] : false;
+
+            $container['is_multi_fw'] = $isEnableMultiFw;
+
+            if($isEnableMultiFw){
+                $thirdPartyFolder = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'thirdparty'.DIRECTORY_SEPARATOR;
+                if(is_writable($thirdPartyFolder)) {
+                    //get market place url
+                    $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+                    $marketplace = $config->getItem('melis_installer/datas')['marketplace_url'];
+
+                    /**
+                     * Get framework zip skeleton on marketplace
+                     */
+                    $zipFil = $marketplace . '/frameworks/symfony-4-skeleton-melis.zip';
+                    //check if curl is available
+                    if (function_exists('curl_version')) {
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $zipFil);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        $fwSkeleton = curl_exec($ch);
+                        curl_close($ch);
+                    } else {
+                        $fwSkeleton = file_get_contents($zipFil);
+                    }
+
+                    /**
+                     * Create temporary file to store
+                     * the framework skeleton
+                     */
+                    $tempZipFile = $thirdPartyFolder . "temp_file.zip";
+                    $file = fopen($tempZipFile, "w+");
+                    fputs($file, $fwSkeleton);
+                    fclose($file);
+
+                    /**
+                     * Process the extraction
+                     */
+                    if (file_exists($tempZipFile)) {
+                        chmod($tempZipFile, 0777);
+
+                        $zip = new \ZipArchive();
+                        $res = $zip->open($tempZipFile);
+                        if ($res === true) {
+                            // extract it to thirdparty folder
+                            if(!$zip->extractTo($thirdPartyFolder)){
+                                //cannot extract zip file
+                            }
+                            $zip->close();
+                        }else{
+                            //cannot open temporary zip file to extract
+                        }
+                        //remove the temporary zip file
+                        $this->getServiceLocator()->get('InstallerHelper')->deleteDirectory($tempZipFile);
+                    }
+                }else{
+                    //thirdpary folder not writable
+                    $result['success'] = false;
+                    $result['message'] = 'Thirdparty folder is not writable.';
+                }
+
+                if($result['success']) {
+                    //Include MelisPlatformFrameworks module
+                    $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks'];
+                    //check if we include demo tool
+                    //store demo tool to container
+                    $container['install_fw_demo_tool'] = [];
+                    if ($includeDemoTool) {
+                        array_push($container['install_modules'], 'MelisPlatformFrameworks');
+                        $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
+
+                        array_push($container['install_modules'], 'MelisPlatformFrameworkSymfonyDemoTool');
+                        $container['download_modules'] = array_merge($container['download_modules'], ['MelisPlatformFrameworkSymfonyDemoTool' => 'melisplatform/melis-platform-framework-symfony-demo-tool']);
+
+                        $container['install_fw_demo_tool'] = array_merge($container['install_fw_demo_tool'], ['MelisPlatformFrameworkSymfonyDemoTool' => 'melisplatform/melis-platform-framework-symfony-demo-tool']);
+                    }
+                    //check if we include demo site
+                    if ($includeDemoSite) {
+
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
     protected function isUsingCoreOnly()
@@ -992,6 +1113,15 @@ class InstallerController extends AbstractActionController
         return $siteName;
     }
 
+    /**
+     * @return mixed
+     */
+    protected function isMultiFramework()
+    {
+        $container = new Container('melisinstaller');
+        return $container['is_multi_fw'];
+    }
+
     public function addModulesToComposerAction()
     {
 
@@ -1010,6 +1140,21 @@ class InstallerController extends AbstractActionController
             $autoInstallModules = $config->getItem('melis_installer/datas/module_auto_install');
             $container = new Container('melisinstaller');
             $downloadableModules = isset($container['download_modules']) ? $container['download_modules'] : [];
+
+            /**
+             * Check if we are going to install
+             * the demo tool/site of the framework
+             */
+            if($this->isMultiFramework()) {
+                if($this->isUsingCoreOnly()) {
+                    if (!empty($container['install_fw_demo_tool'])) {
+                        $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_tool']);
+                    }
+                    if (!empty($container['install_fw_demo_site'])) {
+                        $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_site']);
+                    }
+                }
+            }
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
             $downloadableModules = implode(' ', $downloadableModules);

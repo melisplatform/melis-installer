@@ -475,6 +475,100 @@ return array(
                         ),
                     ),
                 ),
+                'melis_installer_other_frameworks' => array(
+                    'attributes' => array(
+                        'name' => 'otherframework_form',
+                        'id'   => 'id_otherframework_form',
+                        'method' => 'POST',
+                        'action' => '',
+                    ),
+                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'elements'  => array(
+                        array(
+                            'spec' => array(
+                                'type' => 'hidden',
+                                'name' => 'enable_multi_fw',
+                                'attributes' => array(
+                                    'id' => 'id_enable_multi_fw',
+                                ),
+                            )
+                        ),
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Radio',
+                                'name' => 'framework_name',
+                                'options' => array(
+                                    'label' => 'Choose the framework to install:',
+                                    'tooltip' => '',
+                                    'label_options' => array(
+                                        'disable_html_escape' => true,
+                                    ),
+                                    'label_attributes' => array(
+                                        'class' => 'melis-radio-box',
+                                    ),
+                                    'value_options' => array(
+                                        'laravel' => 'Laravel',
+                                        'symfony' => 'Symfony',
+                                        'lumen' => 'Lumen',
+                                        'silex' => 'Silex',
+                                    ),
+                                ),
+                                'attributes' => array(
+                                    'required' => 'required',
+                                ),
+                            )
+                        ),
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Radio',
+                                'name' => 'include_demo_tool',
+                                'options' => array(
+                                    'label' => 'Do you want a demo tool made with this framework installed?',
+                                    'tooltip' => '',
+                                    'label_options' => array(
+                                        'disable_html_escape' => true,
+                                    ),
+                                    'label_attributes' => array(
+                                        'class' => 'melis-radio-box',
+                                    ),
+                                    'value_options' => array(
+                                        'true' => 'Yes',
+                                        'false' => 'No',
+                                    ),
+                                ),
+                                'attributes' => array(
+                                    'required' => 'required',
+                                ),
+                            )
+                        ),
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Radio',
+                                'name' => 'include_demo_site',
+                                'options' => array(
+                                    'label' => 'Do you want a demo site made with this framework installed?',
+                                    'tooltip' => '',
+                                    'label_options' => array(
+                                        'disable_html_escape' => true,
+                                    ),
+                                    'label_attributes' => array(
+                                        'class' => 'melis-radio-box',
+                                    ),
+                                    'value_options' => array(
+                                        'true' => 'Yes',
+                                        'false' => 'No',
+                                    ),
+                                ),
+                                'attributes' => array(
+                                    'required' => 'required',
+                                ),
+                            )
+                        ),
+                    ),
+                    'input_filter' => array(
+
+                    ),
+                ),
             ),
         ),
     ),

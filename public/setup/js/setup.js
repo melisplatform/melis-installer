@@ -432,6 +432,18 @@ $(window).load(function () {
         });
     });
 
+    /* JS for Installing Other Framework */
+    $body.on("click", ".enable_fw_container input[name='enable_multi_fw']", function(){
+        if($(this).val() === "true"){
+            $(".other_framework_form_container").slideDown();
+        }else{
+            $(".other_framework_form_container").slideUp();
+        }
+
+        $("#id_otherframework_form").find("#id_enable_multi_fw").val($(this).val());
+    });
+    /* end */
+
     // ---=[ FINISH PAGE - GATHER ALL DATA ]=---
     // test database connection
     $body.on("click", ".setup-creation .setup-pass-page.finish", function () {
@@ -548,12 +560,15 @@ $(window).load(function () {
         var formWebLang = $("form#idfrmweblang").serialize();
         var selectedSite = $("input[name='weboption']:checked").val() == "MelisDemoCms" ? siteModule : $("input[name='weboption']:checked").val();
         var formWebData = $("form#idfrmwebform").serialize();
+        //add other framework form data
+        var otherFWFOrmData = $("form#id_otherframework_form").serialize();
         var data = {
             packages: packages,
             modules: modules,
             site: selectedSite,
             siteLang: formWebLang,
-            siteData: formWebData
+            siteData: formWebData,
+            otherFWData: otherFWFOrmData
         };
 
         disableNextButton();
