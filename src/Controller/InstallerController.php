@@ -989,10 +989,14 @@ class InstallerController extends AbstractActionController
     }
 
     /**
+     * Function to install other frameworks
+     *
      * @param $otherFWData
+     * @return array
      */
     protected function installOtherFramework($otherFWData)
     {
+        $tempZipFile = '';
         $result = [
             'success' => true,
             'message' => ''
@@ -1003,13 +1007,18 @@ class InstallerController extends AbstractActionController
 
             parse_str($otherFWData, $otherFWData);
 
-            $isEnableMultiFw = (!empty($otherFWData['enable_multi_fw'])) ? (boolean) $otherFWData['enable_multi_fw'] : false;
-            $includeDemoTool = (!empty($otherFWData['include_demo_tool'])) ? (boolean) $otherFWData['include_demo_tool'] : false;
-            $includeDemoSite = (!empty($otherFWData['include_demo_site'])) ? (boolean) $otherFWData['include_demo_site'] : false;
+            $isEnableMultiFw = (!empty($otherFWData['enable_multi_fw']) && $otherFWData['enable_multi_fw'] == 'true') ? true : false;
+            $includeDemoTool = (!empty($otherFWData['include_demo_tool']) && $otherFWData['include_demo_tool'] == 'true') ? true : false;
+            $includeDemoSite = (!empty($otherFWData['include_demo_site']) && $otherFWData['include_demo_site'] == 'true') ? true : false;
+            $frameworkName = (!empty($otherFWData['framework_name'])) ? $otherFWData['framework_name'] : '';
 
             $container['is_multi_fw'] = $isEnableMultiFw;
 
+            /**
+             * Check if multi framework coding is enabled
+             */
             if($isEnableMultiFw){
+                //third party file
                 $thirdPartyFolder = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'thirdparty'.DIRECTORY_SEPARATOR;
                 if(is_writable($thirdPartyFolder)) {
                     //get market place url
@@ -1019,26 +1028,53 @@ class InstallerController extends AbstractActionController
                     /**
                      * Get framework zip skeleton on marketplace
                      */
-                    $zipFil = $marketplace . '/frameworks/symfony-4-skeleton-melis.zip';
-                    //check if curl is available
-                    if (function_exists('curl_version')) {
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $zipFil);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        $fwSkeleton = curl_exec($ch);
-                        curl_close($ch);
-                    } else {
-                        $fwSkeleton = file_get_contents($zipFil);
-                    }
+                    try {
+                        $zipFil = $marketplace . '/frameworks/'.$frameworkName.'-4-skeleton-melis.zip';
+                        //check if curl is available
+                        if (function_exists('curl_version')) {
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $zipFil);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                            $fwSkeleton = curl_exec($ch);
+                            $retCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                            /**
+                             * check if zip file exist
+                             */
+                            if($retCode != '200'){
+                                //cannot find zip file
+                                $result['success'] = false;
+                                $result['message'] = 'Error on downloading framework zip file.';
+                            }
+                            curl_close($ch);
+                        } else {
+                            $fwSkeleton = file_get_contents($zipFil);
+                            $fileHeaders = @get_headers($zipFil);
 
-                    /**
-                     * Create temporary file to store
-                     * the framework skeleton
-                     */
-                    $tempZipFile = $thirdPartyFolder . "temp_file.zip";
-                    $file = fopen($tempZipFile, "w+");
-                    fputs($file, $fwSkeleton);
-                    fclose($file);
+                            /**
+                             * check if zip file exist
+                             */
+                            if(!strpos($fileHeaders[0], '200')){
+                                //cannot find zip file
+                                $result['success'] = false;
+                                $result['message'] = 'Error on downloading framework zip file.';
+                            }
+                        }
+
+                        /**
+                         * Create temporary file to store
+                         * the framework skeleton
+                         */
+                        if($result['success']) {
+                            $tempZipFile = $thirdPartyFolder . "temp_file.zip";
+                            $file = fopen($tempZipFile, "w+");
+                            fputs($file, $fwSkeleton);
+                            fclose($file);
+                        }
+
+                    }catch (\Exception $ex){
+                        $result['success'] = false;
+                        $result['message'] = $ex->getMessage();
+                    }
 
                     /**
                      * Process the extraction
@@ -1052,10 +1088,14 @@ class InstallerController extends AbstractActionController
                             // extract it to thirdparty folder
                             if(!$zip->extractTo($thirdPartyFolder)){
                                 //cannot extract zip file
+                                $result['success'] = false;
+                                $result['message'] = 'Cannot extract zip file inside thirdparty folder.';
                             }
                             $zip->close();
                         }else{
                             //cannot open temporary zip file to extract
+                            $result['success'] = false;
+                            $result['message'] = 'Cannot open zip file on thirdparty folder.';
                         }
                         //remove the temporary zip file
                         $this->getServiceLocator()->get('InstallerHelper')->deleteDirectory($tempZipFile);
@@ -1069,17 +1109,36 @@ class InstallerController extends AbstractActionController
                 if($result['success']) {
                     //Include MelisPlatformFrameworks module
                     $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks'];
-                    //check if we include demo tool
+                    array_push($container['install_modules'], 'MelisPlatformFrameworks');
+                    $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
+
+                    //prepare demo tool module path and name
+                    $ucFirstFrameworkName = ucfirst($frameworkName);
+                    $demoModuleName = 'MelisPlatformFramework'.$ucFirstFrameworkName.'DemoTool';
+                    $demoModulePath = 'melisplatform/melis-platform-framework-'.$frameworkName.'-demo-tool';
+                    //prepare demo site module path and name
+                    $siteModuleName = 'MelisPlatformFramework'.$ucFirstFrameworkName.'DemoSite';
+                    $siteModulePath = 'melisplatform/melis-platform-framework-'.$frameworkName.'-demo-site';
+
+
+                    /**
+                     * Check if we include demo tool
+                     * or demo site
+                     */
                     //store demo tool to container
                     $container['install_fw_demo_tool'] = [];
+                    //store demo site on container
+                    $container['install_fw_demo_site'] = [];
+
                     if ($includeDemoTool) {
-                        array_push($container['install_modules'], 'MelisPlatformFrameworks');
-                        $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
+                        /**
+                         * Include demo tool to the list of module
+                         * to download
+                         */
+                        array_push($container['install_modules'], $demoModuleName);
+                        $container['download_modules'] = array_merge($container['download_modules'], [$demoModuleName => $demoModulePath]);
 
-                        array_push($container['install_modules'], 'MelisPlatformFrameworkSymfonyDemoTool');
-                        $container['download_modules'] = array_merge($container['download_modules'], ['MelisPlatformFrameworkSymfonyDemoTool' => 'melisplatform/melis-platform-framework-symfony-demo-tool']);
-
-                        $container['install_fw_demo_tool'] = array_merge($container['install_fw_demo_tool'], ['MelisPlatformFrameworkSymfonyDemoTool' => 'melisplatform/melis-platform-framework-symfony-demo-tool']);
+                        $container['install_fw_demo_tool'] = array_merge($container['install_fw_demo_tool'], [$demoModuleName => $demoModulePath]);
                     }
                     //check if we include demo site
                     if ($includeDemoSite) {
@@ -1119,12 +1178,15 @@ class InstallerController extends AbstractActionController
     protected function isMultiFramework()
     {
         $container = new Container('melisinstaller');
-        return $container['is_multi_fw'];
+        if(isset($container['is_multi_fw']))
+            return $container['is_multi_fw'];
+
+        return false;
     }
 
     public function addModulesToComposerAction()
     {
-
+exit;
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
