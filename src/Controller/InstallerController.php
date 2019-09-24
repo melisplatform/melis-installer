@@ -1260,17 +1260,28 @@ class InstallerController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Download thirdparty framework
+     *
+     * @return ViewModel
+     */
     public function downloadFrameworkSkeletonAction()
     {
         $container = new Container('melisinstaller');
         $fwName = $container['framework_name'];
 
         //download framework skeleton
-        $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
-        $result = $result->first();
+        try {
+            $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
+            $result = $result->first();
 
-        $color = ($result['success']) ? '#02de02' : '#ff190d';
-        $message = $result['message'];
+            $color = ($result['success']) ? '#02de02' : '#ff190d';
+            $message = $result['message'];
+
+        }catch (\Exception $ex){
+            $message = $ex->getMessage();
+            $color = '#ff190d';
+        }
 
         $view = new ViewModel();
         $view->setTerminal(true);
