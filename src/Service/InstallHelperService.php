@@ -632,15 +632,19 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         }
 
 
-        if($serverPackages) {
-            $moduleExceptions = array_map(function($a) {
+        if ($serverPackages) {
+            $moduleExceptions = array_map(function ($a) {
                 return strtolower(trim($a));
             }, $moduleExceptions);
 
-            if(isset($serverPackages['packages']) && $serverPackages['packages'])
-                foreach($serverPackages['packages'] as $package)
-                    if(!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions))
-                        $packages[] = $package;
+            if (isset($serverPackages['packages']) && $serverPackages['packages']) {
+                foreach ($serverPackages['packages'] as $package) {
+                    if ($package['packageIsActive']) {
+                        if (!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions))
+                            $packages[] = $package;
+                    }
+                }
+            }
 
         }
 
