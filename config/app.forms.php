@@ -549,37 +549,37 @@ return array(
                                 ),
                             )
                         ),
-                        array(
-                            'spec' => array(
-                                'type' => 'Zend\Form\Element\Radio',
-                                'name' => 'include_demo_site',
-                                'options' => array(
-                                    'label' => 'Do you want a demo site made with this framework installed?',
-                                    'tooltip' => '',
-                                    'label_options' => array(
-                                        'disable_html_escape' => true,
-                                    ),
-                                    'label_attributes' => array(
-                                        'class' => 'melis-radio-box',
-                                    ),
-                                    'value_options' => array(
-                                        array(
-                                            'value' => 'true',
-                                            'label' => 'Yes',
-                                            'selected' => true,
-                                        ),
-                                        array(
-                                            'value' => 'false',
-                                            'label' => 'No',
-                                            'selected' => false,
-                                        )
-                                    ),
-                                ),
-                                'attributes' => array(
-                                    'required' => 'required',
-                                ),
-                            )
-                        ),
+//                        array(
+//                            'spec' => array(
+//                                'type' => 'Zend\Form\Element\Radio',
+//                                'name' => 'include_demo_site',
+//                                'options' => array(
+//                                    'label' => 'Do you want a demo site made with this framework installed?',
+//                                    'tooltip' => '',
+//                                    'label_options' => array(
+//                                        'disable_html_escape' => true,
+//                                    ),
+//                                    'label_attributes' => array(
+//                                        'class' => 'melis-radio-box',
+//                                    ),
+//                                    'value_options' => array(
+//                                        array(
+//                                            'value' => 'true',
+//                                            'label' => 'Yes',
+//                                            'selected' => true,
+//                                        ),
+//                                        array(
+//                                            'value' => 'false',
+//                                            'label' => 'No',
+//                                            'selected' => false,
+//                                        )
+//                                    ),
+//                                ),
+//                                'attributes' => array(
+//                                    'required' => 'required',
+//                                ),
+//                            )
+//                        ),
                     ),
                     'input_filter' => array(
 

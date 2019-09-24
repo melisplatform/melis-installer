@@ -1009,7 +1009,7 @@ class InstallerController extends AbstractActionController
 
             $isEnableMultiFw = (!empty($otherFWData['enable_multi_fw']) && $otherFWData['enable_multi_fw'] == 'true') ? true : false;
             $includeDemoTool = (!empty($otherFWData['include_demo_tool']) && $otherFWData['include_demo_tool'] == 'true') ? true : false;
-            $includeDemoSite = (!empty($otherFWData['include_demo_site']) && $otherFWData['include_demo_site'] == 'true') ? true : false;
+//            $includeDemoSite = (!empty($otherFWData['include_demo_site']) && $otherFWData['include_demo_site'] == 'true') ? true : false;
             $frameworkName = (!empty($otherFWData['framework_name'])) ? $otherFWData['framework_name'] : '';
 
             $container['is_multi_fw'] = $isEnableMultiFw;
@@ -1034,8 +1034,8 @@ class InstallerController extends AbstractActionController
                     $demoModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoTool';
                     $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool';
                     //prepare demo site module path and name
-                    $siteModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoSite';
-                    $siteModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-site';
+//                    $siteModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoSite';
+//                    $siteModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-site';
 
 
                     /**
@@ -1045,7 +1045,7 @@ class InstallerController extends AbstractActionController
                     //store demo tool to container
                     $container['install_fw_demo_tool'] = [];
                     //store demo site on container
-                    $container['install_fw_demo_site'] = [];
+//                    $container['install_fw_demo_site'] = [];
 
                     if ($includeDemoTool) {
                         /**
@@ -1058,9 +1058,9 @@ class InstallerController extends AbstractActionController
                         $container['install_fw_demo_tool'] = [$demoModuleName => $demoModulePath];
                     }
                     //check if we include demo site
-                    if ($includeDemoSite) {
-
-                    }
+//                    if ($includeDemoSite) {
+//
+//                    }
                 }else{
                     $result['success'] = false;
                     $result['message'] = 'Please choose a framework to install.';
@@ -1136,9 +1136,9 @@ class InstallerController extends AbstractActionController
                     if (!empty($container['install_fw_demo_tool'])) {
                         $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_tool']);
                     }
-                    if (!empty($container['install_fw_demo_site'])) {
-                        $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_site']);
-                    }
+//                    if (!empty($container['install_fw_demo_site'])) {
+//                        $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_site']);
+//                    }
                 }
             }
 
