@@ -258,5 +258,8 @@ return array(
     'tr_melis_installer_tool_site_site_label' => 'Label',
     'tr_melis_installer_tool_site_site_label tooltip' => 'Label du site',
     'tr_melis_installer_tool_site_site_label_error_long'  => 'Nom du étiquette trop long, nombre de caractères maximum 100',
-    'tr_melis_installer_tool_site_site_label_error_empty' => 'Veuillez saisir l\'étiquette du site'
+    'tr_melis_installer_tool_site_site_label_error_empty' => 'Veuillez saisir l\'étiquette du site',
+
+    #Thirdparty Framework Installation
+    'melis_installer_download_thirdparty_fw_notice' => 'Downloading thirdparty framework...',
 );

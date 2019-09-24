@@ -532,8 +532,16 @@ return array(
                                         'class' => 'melis-radio-box',
                                     ),
                                     'value_options' => array(
-                                        'true' => 'Yes',
-                                        'false' => 'No',
+                                        array(
+                                            'value' => 'true',
+                                            'label' => 'Yes',
+                                            'selected' => true,
+                                        ),
+                                        array(
+                                            'value' => 'false',
+                                            'label' => 'No',
+                                            'selected' => false,
+                                        )
                                     ),
                                 ),
                                 'attributes' => array(
@@ -555,8 +563,16 @@ return array(
                                         'class' => 'melis-radio-box',
                                     ),
                                     'value_options' => array(
-                                        'true' => 'Yes',
-                                        'false' => 'No',
+                                        array(
+                                            'value' => 'true',
+                                            'label' => 'Yes',
+                                            'selected' => true,
+                                        ),
+                                        array(
+                                            'value' => 'false',
+                                            'label' => 'No',
+                                            'selected' => false,
+                                        )
                                     ),
                                 ),
                                 'attributes' => array(

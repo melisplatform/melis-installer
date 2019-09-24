@@ -391,6 +391,7 @@ class InstallerController extends AbstractActionController
         array_push($configDir, 'public/');
         array_push($configDir, 'cache/');
         array_push($configDir, 'test/');
+        array_push($configDir, 'thirdparty/');
 
         for ($x = 0; $x < count($module); $x++) {
             $module[$x] = $this->getModuleSvc()->getModulePath($module[$x], false) . '/config';
@@ -996,7 +997,6 @@ class InstallerController extends AbstractActionController
      */
     protected function installOtherFramework($otherFWData)
     {
-        $tempZipFile = '';
         $result = [
             'success' => true,
             'message' => ''
@@ -1018,107 +1018,24 @@ class InstallerController extends AbstractActionController
              * Check if multi framework coding is enabled
              */
             if($isEnableMultiFw){
-                //third party file
-                $thirdPartyFolder = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'thirdparty'.DIRECTORY_SEPARATOR;
-                if(is_writable($thirdPartyFolder)) {
-                    //get market place url
-                    $config = $this->getServiceLocator()->get('MelisInstallerConfig');
-                    $marketplace = $config->getItem('melis_installer/datas')['marketplace_url'];
+                //check if framework name is not empty
+                if(!empty($frameworkName)) {
+                    //add framework name to container
+                    $container['framework_name'] = $frameworkName;
 
-                    /**
-                     * Get framework zip skeleton on marketplace
-                     */
-                    try {
-                        $zipFil = $marketplace . '/frameworks/'.$frameworkName.'-4-skeleton-melis.zip';
-                        //check if curl is available
-                        if (function_exists('curl_version')) {
-                            $ch = curl_init();
-                            curl_setopt($ch, CURLOPT_URL, $zipFil);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                            $fwSkeleton = curl_exec($ch);
-                            $retCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                            /**
-                             * check if zip file exist
-                             */
-                            if($retCode != '200'){
-                                //cannot find zip file
-                                $result['success'] = false;
-                                $result['message'] = 'Error on downloading framework zip file.';
-                            }
-                            curl_close($ch);
-                        } else {
-                            $fwSkeleton = file_get_contents($zipFil);
-                            $fileHeaders = @get_headers($zipFil);
-
-                            /**
-                             * check if zip file exist
-                             */
-                            if(!strpos($fileHeaders[0], '200')){
-                                //cannot find zip file
-                                $result['success'] = false;
-                                $result['message'] = 'Error on downloading framework zip file.';
-                            }
-                        }
-
-                        /**
-                         * Create temporary file to store
-                         * the framework skeleton
-                         */
-                        if($result['success']) {
-                            $tempZipFile = $thirdPartyFolder . "temp_file.zip";
-                            $file = fopen($tempZipFile, "w+");
-                            fputs($file, $fwSkeleton);
-                            fclose($file);
-                        }
-
-                    }catch (\Exception $ex){
-                        $result['success'] = false;
-                        $result['message'] = $ex->getMessage();
-                    }
-
-                    /**
-                     * Process the extraction
-                     */
-                    if (file_exists($tempZipFile)) {
-                        chmod($tempZipFile, 0777);
-
-                        $zip = new \ZipArchive();
-                        $res = $zip->open($tempZipFile);
-                        if ($res === true) {
-                            // extract it to thirdparty folder
-                            if(!$zip->extractTo($thirdPartyFolder)){
-                                //cannot extract zip file
-                                $result['success'] = false;
-                                $result['message'] = 'Cannot extract zip file inside thirdparty folder.';
-                            }
-                            $zip->close();
-                        }else{
-                            //cannot open temporary zip file to extract
-                            $result['success'] = false;
-                            $result['message'] = 'Cannot open zip file on thirdparty folder.';
-                        }
-                        //remove the temporary zip file
-                        $this->getServiceLocator()->get('InstallerHelper')->deleteDirectory($tempZipFile);
-                    }
-                }else{
-                    //thirdpary folder not writable
-                    $result['success'] = false;
-                    $result['message'] = 'Thirdparty folder is not writable.';
-                }
-
-                if($result['success']) {
                     //Include MelisPlatformFrameworks module
-                    $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks'];
+                    $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks:dev-feature/scripts'];
                     array_push($container['install_modules'], 'MelisPlatformFrameworks');
                     $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
+                    $container['install_platform_frameworks'] = $mpFwModule;
 
                     //prepare demo tool module path and name
                     $ucFirstFrameworkName = ucfirst($frameworkName);
-                    $demoModuleName = 'MelisPlatformFramework'.$ucFirstFrameworkName.'DemoTool';
-                    $demoModulePath = 'melisplatform/melis-platform-framework-'.$frameworkName.'-demo-tool';
+                    $demoModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoTool';
+                    $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool';
                     //prepare demo site module path and name
-                    $siteModuleName = 'MelisPlatformFramework'.$ucFirstFrameworkName.'DemoSite';
-                    $siteModulePath = 'melisplatform/melis-platform-framework-'.$frameworkName.'-demo-site';
+                    $siteModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoSite';
+                    $siteModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-site';
 
 
                     /**
@@ -1138,12 +1055,15 @@ class InstallerController extends AbstractActionController
                         array_push($container['install_modules'], $demoModuleName);
                         $container['download_modules'] = array_merge($container['download_modules'], [$demoModuleName => $demoModulePath]);
 
-                        $container['install_fw_demo_tool'] = array_merge($container['install_fw_demo_tool'], [$demoModuleName => $demoModulePath]);
+                        $container['install_fw_demo_tool'] = [$demoModuleName => $demoModulePath];
                     }
                     //check if we include demo site
                     if ($includeDemoSite) {
 
                     }
+                }else{
+                    $result['success'] = false;
+                    $result['message'] = 'Please choose a framework to install.';
                 }
             }
         }
@@ -1186,7 +1106,6 @@ class InstallerController extends AbstractActionController
 
     public function addModulesToComposerAction()
     {
-exit;
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
@@ -1203,12 +1122,17 @@ exit;
             $container = new Container('melisinstaller');
             $downloadableModules = isset($container['download_modules']) ? $container['download_modules'] : [];
 
+
             /**
-             * Check if we are going to install
-             * the demo tool/site of the framework
+             * Install needed modules for
+             * thirdparty framework
              */
             if($this->isMultiFramework()) {
                 if($this->isUsingCoreOnly()) {
+
+                    if(!empty($container['install_platform_frameworks']))
+                        $autoInstallModules = array_merge($autoInstallModules, $container['install_platform_frameworks']);
+
                     if (!empty($container['install_fw_demo_tool'])) {
                         $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_tool']);
                     }
@@ -1332,6 +1256,26 @@ exit;
         $view = new ViewModel();
         $view->setTerminal(true);
         $view->modules = $modules;
+
+        return $view;
+    }
+
+    public function downloadFrameworkSkeletonAction()
+    {
+        $container = new Container('melisinstaller');
+        $fwName = $container['framework_name'];
+
+        //download framework skeleton
+        $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
+        $result = $result->first();
+
+        $color = ($result['success']) ? '#02de02' : '#ff190d';
+        $message = $result['message'];
+
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        $view->message = $message;
+        $view->messageColor = $color;
 
         return $view;
     }
@@ -1505,6 +1449,7 @@ exit;
             'success' => $success,
             'hasSite' => $hasSite,
             'siteName' => $siteName,
+            'isMultiFramework' => $this->isMultiFramework(),
         ];
 
         return new JsonModel($response);

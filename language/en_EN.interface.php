@@ -262,4 +262,7 @@ return array(
     'tr_melis_installer_tool_site_site_label tooltip' => 'Label of your site',
     'tr_melis_installer_tool_site_site_label_error_long'  => 'Site name too long, maximum characters accepted is 100 characters',
     'tr_melis_installer_tool_site_site_label_error_empty' => 'Please enter the site label',
+
+    #Thirdparty Framework Installation
+    'melis_installer_download_thirdparty_fw_notice' => 'Downloading thirdparty framework...',
     );
