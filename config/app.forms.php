@@ -504,13 +504,25 @@ return array(
                                         'disable_html_escape' => true,
                                     ),
                                     'label_attributes' => array(
-                                        'class' => 'melis-radio-box',
+                                        'class' => 'setup-fw-radio',
                                     ),
                                     'value_options' => array(
-                                        'laravel' => 'Laravel',
-                                        'symfony' => 'Symfony',
-                                        'lumen' => 'Lumen',
-                                        'silex' => 'Silex',
+                                        array(
+                                            'value' => 'laravel',
+                                            'label' => '<label for="id_framework_name_laravel"><span>Laravel</span></label>',
+                                        ),
+                                        array(
+                                            'value' => 'symfony',
+                                            'label' => '<label for="id_framework_name_symfony"><span>Symfony</span></label>',
+                                        ),
+                                        array(
+                                            'value' => 'lumen',
+                                            'label' => '<label for="id_framework_name_lumen"><span>Lumen</span></label>',
+                                        ),
+                                        array(
+                                            'value' => 'silex',
+                                            'label' => '<label for="id_framework_name_silex"><span>Silex</span></label>',
+                                        ),
                                     ),
                                 ),
                                 'attributes' => array(
@@ -529,17 +541,17 @@ return array(
                                         'disable_html_escape' => true,
                                     ),
                                     'label_attributes' => array(
-                                        'class' => 'melis-radio-box',
+                                        'class' => 'setup-fw-radio',
                                     ),
                                     'value_options' => array(
                                         array(
-                                            'value' => 'true',
-                                            'label' => 'Yes',
+                                            'value' => 'yes',
+                                            'label' => '<label for="id_include_demo_tool_yes"><span>Yes</span></label>',
                                             'selected' => true,
                                         ),
                                         array(
-                                            'value' => 'false',
-                                            'label' => 'No',
+                                            'value' => 'no',
+                                            'label' => '<label for="id_include_demo_tool_no"><span>No</span></label>',
                                             'selected' => false,
                                         )
                                     ),
