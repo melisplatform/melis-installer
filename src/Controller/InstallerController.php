@@ -1008,7 +1008,7 @@ class InstallerController extends AbstractActionController
             parse_str($otherFWData, $otherFWData);
 
             $isEnableMultiFw = (!empty($otherFWData['enable_multi_fw']) && $otherFWData['enable_multi_fw'] == 'true') ? true : false;
-            $includeDemoTool = (!empty($otherFWData['include_demo_tool']) && $otherFWData['include_demo_tool'] == 'true') ? true : false;
+            $includeDemoTool = (!empty($otherFWData['include_demo_tool']) && $otherFWData['include_demo_tool'] == 'yes') ? true : false;
 //            $includeDemoSite = (!empty($otherFWData['include_demo_site']) && $otherFWData['include_demo_site'] == 'true') ? true : false;
             $frameworkName = (!empty($otherFWData['framework_name'])) ? $otherFWData['framework_name'] : '';
 

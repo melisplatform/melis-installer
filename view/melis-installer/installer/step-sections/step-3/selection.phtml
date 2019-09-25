@@ -261,7 +261,28 @@ function toModuleName($modules) {
                                 echo $val->getLabel();
                                 echo $this->formLabel()->closeTag();
                             }
-                            echo $this->formElement($val);
+                            if($val->getAttributes()['type'] == 'radio'){
+                                $radioAttr = $val->getAttributes();
+                                $radioValueOptions = $val->getValueOptions();
+                                echo '<div class="row">';
+                                foreach($radioValueOptions as $valueOpt){
+                                    $checked = '';
+                                    if(!empty($valueOpt['selected']))
+                                        if($valueOpt['selected'])
+                                            $checked = 'checked';
+
+
+                                    echo '<div class="col-md-2">';
+                                    echo '<div class="'.$key.'_'.$valueOpt['value'].'">';
+                                    echo '<input id="id_'.$key.'_'.$valueOpt['value'].'" type="radio" name="'.$radioAttr['name'].'" class="font-awesome-radio weboption-radio" value="'.$valueOpt['value'].'" '.$checked.'>';
+                                    echo $valueOpt['label'];
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                                echo '</div>';
+                            }else {
+                                echo $this->formElement($val);
+                            }
                             echo '</div>';
                         }
                         echo $this->form()->closeTag();
