@@ -226,7 +226,6 @@ $(window).load(function () {
 
         // proceed to next slide
         if (currentPage === 2) {
-            // setDownloadableModules(currentPage);
             // System Configuration
             lazyNextButton();
             $.get('/melis/MelisInstaller/Installer/checkSysConfig', function (data) {
