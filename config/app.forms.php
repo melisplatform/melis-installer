@@ -498,7 +498,7 @@ return array(
                                 'type' => 'Zend\Form\Element\Radio',
                                 'name' => 'framework_name',
                                 'options' => array(
-                                    'label' => 'Choose the framework to install:',
+                                    'label' => 'tr_melis_installer_download_thirdparty_fw_choose_fw_to_install',
                                     'tooltip' => '',
                                     'label_options' => array(
                                         'disable_html_escape' => true,
@@ -535,7 +535,7 @@ return array(
                                 'type' => 'Zend\Form\Element\Radio',
                                 'name' => 'include_demo_tool',
                                 'options' => array(
-                                    'label' => 'Do you want a demo tool made with this framework installed?',
+                                    'label' => 'tr_melis_installer_download_thirdparty_fw_include_demo_tool',
                                     'tooltip' => '',
                                     'label_options' => array(
                                         'disable_html_escape' => true,
