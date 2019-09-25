@@ -715,7 +715,7 @@ $(window).load(function () {
     {
         if(isMultiFramework === true){
             //download third party framework
-            updateCmdText('<br/>' + response + '<br/><span id="cmd-download-fm"><i class="fa fa-spinner fa-spin"></i></span> '+ translators.melis_installer_download_thirdparty_fw_notice +'<br/>');
+            updateCmdText('<br/>' + response + '<br/><span id="cmd-download-fm"><i class="fa fa-spinner fa-spin"></i></span> '+ translators.tr_melis_installer_download_thirdparty_fw_notice +'<br/>');
             getRequest('/melis/MelisInstaller/Installer/downloadFrameworkSkeleton', 'html', function(response){
                 $("#cmd-download-fm").html('<i class="fa fa-info-circle"></i>');
 
