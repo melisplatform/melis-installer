@@ -1024,7 +1024,7 @@ class InstallerController extends AbstractActionController
                     $container['framework_name'] = $frameworkName;
 
                     //Include MelisPlatformFrameworks module
-                    $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks:dev-feature/scripts'];
+                    $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks'];
                     array_push($container['install_modules'], 'MelisPlatformFrameworks');
                     $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
                     $container['install_platform_frameworks'] = $mpFwModule;
