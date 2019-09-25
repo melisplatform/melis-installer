@@ -639,7 +639,16 @@ class InstallHelperService implements ServiceLocatorAwareInterface
 
             if (isset($serverPackages['packages']) && $serverPackages['packages']) {
                 foreach ($serverPackages['packages'] as $package) {
-                    if ($package['packageIsActive']) {
+                    /**
+                     * If type is 1 (for site)
+                     * we must check if the site is active
+                     */
+                    if($type == 1){
+                        if ($package['packageIsActive']) {
+                            if (!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions))
+                                $packages[] = $package;
+                        }
+                    }else{
                         if (!in_array(strtolower(trim($package['packageModuleName'])), $moduleExceptions))
                             $packages[] = $package;
                     }
