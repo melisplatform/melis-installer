@@ -264,10 +264,10 @@ return array(
     'tr_melis_installer_tool_site_site_label_error_empty' => 'Please enter the site label',
 
     #Thirdparty Framework Installation
-    'tr_melis_installer_download_thirdparty_fw_notice' => 'Downloading thirdparty framework...',
-    'tr_melis_installer_download_thirdparty_fw_form_title' => 'Install Other Framework',
-    'tr_melis_installer_download_thirdparty_fw_form_subtitle' => 'You can use other framework to integrate with melis platform.',
-    'tr_melis_installer_download_thirdparty_fw_enable_multi_coding' => 'Enable multi-framework coding:',
-    'tr_melis_installer_download_thirdparty_fw_choose_fw_to_install' => 'Choose the framework to install:',
-    'tr_melis_installer_download_thirdparty_fw_include_demo_tool' => 'Do you want a demo tool made with this framework installed?',
+    'tr_melis_installer_download_thirdparty_fw_notice' => 'Downloading framework',
+    'tr_melis_installer_download_thirdparty_fw_form_title' => 'Install an additional Framework',
+    'tr_melis_installer_download_thirdparty_fw_form_subtitle' => 'You can integrate here an additionnal framework to Melis Platform.',
+    'tr_melis_installer_download_thirdparty_fw_enable_multi_coding' => 'Enable multi-framework coding?',
+    'tr_melis_installer_download_thirdparty_fw_choose_fw_to_install' => 'Select the framework to install',
+    'tr_melis_installer_download_thirdparty_fw_include_demo_tool' => 'Do you want to include a demo tool made from this framework?',
     );
