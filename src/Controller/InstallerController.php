@@ -1273,12 +1273,6 @@ class InstallerController extends AbstractActionController
         //download framework skeleton
         try {
             $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
-            /**
-             * Let's try to download again if the result is empty
-             */
-            if($result->isEmpty() || empty($result)){
-                $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
-            }
             $result = $result->first();
 
             $color = ($result['success']) ? '#02de02' : '#ff190d';

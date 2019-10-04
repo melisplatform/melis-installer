@@ -716,18 +716,20 @@ $(window).load(function () {
         if(isMultiFramework === true){
             //download third party framework
             updateCmdText('<br/>' + response + '<br/><span id="cmd-download-fm"><i class="fa fa-spinner fa-spin"></i></span> '+ translators.tr_melis_installer_download_thirdparty_fw_notice +'<br/>');
-            getRequest('/melis/MelisInstaller/Installer/downloadFrameworkSkeleton', 'html', function(response){
-                $("#cmd-download-fm").html('<i class="fa fa-info-circle"></i>');
+            setTimeout(function(){
+                getRequest('/melis/MelisInstaller/Installer/downloadFrameworkSkeleton', 'html', function(response){
+                    $("#cmd-download-fm").html('<i class="fa fa-info-circle"></i>');
 
-                updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
-                getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
-                    $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                    enableNextButton();
-                }, false, function () {
-                    $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                    enableNextButton();
+                    updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
+                    getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
+                        $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                        enableNextButton();
+                    }, false, function () {
+                        $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                        enableNextButton();
+                    });
                 });
-            });
+            }, 500);
         }else{
             updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
             getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
