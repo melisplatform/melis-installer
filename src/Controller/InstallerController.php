@@ -1247,17 +1247,18 @@ class InstallerController extends AbstractActionController
 //                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
 //                    array_push($modules, getenv('MELIS_MODULE'));
 //                }
-                /**
-                 * check if multi framework
-                 */
-                if($this->isMultiFramework()) {
-                    //add MelisPlatformFrameworks module to activate
-                    if(!in_array('MelisPlatformFrameworks', $modules))
-                        array_push($modules,'MelisPlatformFrameworks');
-                    //remove MelisPlatformFramework+FrameworkName since this is not a zend module
-                    if (in_array('MelisPlatformFramework' . ucfirst($container['framework_name']), $modules))
-                        unset($modules['MelisPlatformFramework' . ucfirst($container['framework_name'])]);
-                }
+            }
+
+            /**
+             * check if multi framework
+             */
+            if($this->isMultiFramework()) {
+                //add MelisPlatformFrameworks module to activate
+                if(!in_array('MelisPlatformFrameworks', $modules))
+                    array_push($modules,'MelisPlatformFrameworks');
+                //remove MelisPlatformFramework+FrameworkName since this is not a zend module
+                if (in_array('MelisPlatformFramework' . ucfirst($container['framework_name']), $modules))
+                    $modules = array_diff($modules, ['MelisPlatformFramework' . ucfirst($container['framework_name'])]);
             }
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, ['MelisInstaller']), $defaultModules);
