@@ -1022,15 +1022,15 @@ class InstallerController extends AbstractActionController
                 if(!empty($frameworkName)) {
                     //add framework name to container
                     $container['framework_name'] = $frameworkName;
+                    $ucFirstFrameworkName = ucfirst($frameworkName);
 
                     //Include MelisPlatformFrameworks module
-                    $mpFwModule = ['MelisPlatformFrameworks' => 'melisplatform/melis-platform-frameworks:"dev-develop as 3.1"'];
-                    array_push($container['install_modules'], 'MelisPlatformFrameworks');
+                    $mpFwModule = ['MelisPlatformFramework'.$ucFirstFrameworkName => 'melisplatform/melis-platform-framework-'.$frameworkName.':"dev-develop as 3.1"'];
+//                    array_push($container['install_modules'], 'MelisPlatformFrameworks');
                     $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
-                    $container['install_platform_frameworks'] = $mpFwModule;
+                    $container['install_platform_framework'] = $mpFwModule;
 
                     //prepare demo tool module path and name
-                    $ucFirstFrameworkName = ucfirst($frameworkName);
                     $demoModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoTool';
                     $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool';
                     //prepare demo site module path and name
@@ -1130,8 +1130,8 @@ class InstallerController extends AbstractActionController
             if($this->isMultiFramework()) {
                 if($this->isUsingCoreOnly()) {
 
-                    if(!empty($container['install_platform_frameworks']))
-                        $autoInstallModules = array_merge($autoInstallModules, $container['install_platform_frameworks']);
+                    if(!empty($container['install_platform_framework']))
+                        $autoInstallModules = array_merge($autoInstallModules, $container['install_platform_framework']);
 
                     if (!empty($container['install_fw_demo_tool'])) {
                         $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_tool']);
@@ -1247,6 +1247,17 @@ class InstallerController extends AbstractActionController
 //                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
 //                    array_push($modules, getenv('MELIS_MODULE'));
 //                }
+                /**
+                 * check if multi framework
+                 */
+                if($this->isMultiFramework()) {
+                    //add MelisPlatformFrameworks module to activate
+                    if(!in_array('MelisPlatformFrameworks', $modules))
+                        array_push($modules,'MelisPlatformFrameworks');
+                    //remove MelisPlatformFramework+FrameworkName since this is not a zend module
+                    if (in_array('MelisPlatformFramework' . ucfirst($container['framework_name']), $modules))
+                        unset($modules['MelisPlatformFramework' . ucfirst($container['framework_name'])]);
+                }
             }
 
             $moduleSvc->createModuleLoader('config/', array_merge($modules, ['MelisInstaller']), $defaultModules);
@@ -1269,17 +1280,28 @@ class InstallerController extends AbstractActionController
     {
         $container = new Container('melisinstaller');
         $fwName = $container['framework_name'];
-
         //download framework skeleton
         try {
 //            $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
 //            $result = $result->first();
 
-            $result = $this->downloadFramework($fwName);
+            $success = false;
+            $message = '';
 
-            $color = ($result['success']) ? '#02de02' : '#ff190d';
-            $message = $result['message'];
-
+            \MelisCore\ModuleComposerScript::setNoPrint();
+            $result = \MelisCore\ModuleComposerScript::executeScripts();
+            if(!empty($result)){
+                foreach($result as $key => $val){
+                    if($key == 'MelisPlatformFramework'.ucfirst($fwName)){
+                        foreach($val as $res){
+                            $message = $res['message'];
+                            $success = $res['success'];
+                            break;
+                        }
+                    }
+                }
+            }
+            $color = ($success) ? '#02de02' : '#ff190d';
         }catch (\Exception $ex){
             $message = $ex->getMessage();
             $color = '#ff190d';
@@ -1291,126 +1313,6 @@ class InstallerController extends AbstractActionController
         $view->messageColor = $color;
 
         return $view;
-    }
-
-    /**
-     * @param $frameworkName
-     * @return array
-     */
-    private function downloadFramework($frameworkName)
-    {
-        $tempZipFile = '';
-
-        $result = [
-            'success' => true,
-            'message' => ucfirst($frameworkName).' skeleton downloaded successfully'
-        ];
-
-        $isCliReqs = php_sapi_name() == 'cli' ? true : false;
-
-        //third party file
-        $thirdPartyFolder = !$isCliReqs ? $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'thirdparty' : 'thirdparty';
-        //create thirdparty folder if not exist
-        if(!file_exists($thirdPartyFolder)) {
-            mkdir($thirdPartyFolder);
-            chmod($thirdPartyFolder, 0777);
-        }
-        $thirdPartyFolder .= DIRECTORY_SEPARATOR;
-
-        if(is_writable($thirdPartyFolder)) {
-            /**
-             * Get Framework skeletons url from config
-             */
-            $config             = $this->getServiceLocator()->get('MelisInstallerConfig');
-            $marketplace        = $config->getItem('melis_installer/datas')['marketplace_url'];
-            $frameworkSkeletons = $config->getItem('melis_installer/datas')['third-party-framework-skeleton'];
-
-            if(!empty($frameworkSkeletons)) {
-                /**
-                 * Get framework zip skeleton on marketplace
-                 */
-                try {
-                    //get framework zip file path
-                    $zipFil = $marketplace . $frameworkSkeletons[strtolower($frameworkName)];
-                    //check if curl is available
-                    if (function_exists('curl_version')) {
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $zipFil);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        $fwSkeleton = curl_exec($ch);
-                        $retCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                        /**
-                         * check if zip file exist
-                         */
-                        if ($retCode != '200') {
-                            //cannot find zip file
-                            $result['success'] = false;
-                            $result['message'] = 'Error on downloading framework zip file.';
-                        }
-                        curl_close($ch);
-                    } else {
-                        $fwSkeleton = file_get_contents($zipFil);
-                        $fileHeaders = @get_headers($zipFil);
-
-                        /**
-                         * check if zip file exist
-                         */
-                        if (!strpos($fileHeaders[0], '200')) {
-                            //cannot find zip file
-                            $result['success'] = false;
-                            $result['message'] = 'Error on downloading framework zip file.';
-                        }
-                    }
-
-                    /**
-                     * Create temporary file to store
-                     * the framework skeleton
-                     */
-                    $tempZipFile = $thirdPartyFolder . "temp_file.zip";
-                    $file = fopen($tempZipFile, "w+");
-                    fputs($file, $fwSkeleton);
-                    fclose($file);
-
-                } catch (\Exception $ex) {
-                    $result['success'] = false;
-                    $result['message'] = $ex->getMessage();
-                }
-
-                /**
-                 * Process the extraction
-                 */
-                if (file_exists($tempZipFile)) {
-                    chmod($tempZipFile, 0777);
-
-                    $zip = new \ZipArchive();
-                    $res = $zip->open($tempZipFile);
-                    if ($res === true) {
-                        // extract it to thirdparty folder
-                        if (!$zip->extractTo($thirdPartyFolder)) {
-                            //cannot extract zip file
-                            $result['success'] = false;
-                            $result['message'] = 'Cannot extract zip file inside thirdparty folder.';
-                        }
-                        $zip->close();
-                    } else {
-                        //cannot open temporary zip file to extract
-                        $result['success'] = false;
-                        $result['message'] = 'Cannot open zip file on thirdparty folder.';
-                    }
-                    //remove the temporary zip file
-                    unlink($tempZipFile);
-                }
-            }else{
-                $result['success'] = false;
-                $result['message'] = 'Cannot find framework skeleton url in the config';
-            }
-        }else{
-            //thirdpary folder not writable
-            $result['success'] = false;
-            $result['message'] = 'Thirdparty folder is not writable.';
-        }
-
-        return $result;
     }
 
     public function execDbDeployAction()
