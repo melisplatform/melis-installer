@@ -86,6 +86,12 @@ return [
                     'MelisCore',
                     'MelisMarketPlace',
                 ],
+                'third-party-framework-skeleton' => [
+                    'laravel' => '/frameworks/laravel-6-skeleton-melis.zip',
+                    'symfony' => '/frameworks/symfony-4-skeleton-melis.zip',
+                    'lumen' => '/frameworks/lumen-5.8.12-skeleton-melis.zip',
+                    'silex' => '/frameworks/silex-2-skeleton-melis.zip',
+                ],
             ],
             'ressources' => [
 

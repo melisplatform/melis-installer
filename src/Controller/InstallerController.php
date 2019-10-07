@@ -1319,14 +1319,13 @@ class InstallerController extends AbstractActionController
 
         if(is_writable($thirdPartyFolder)) {
             /**
-             * Get Framework skeletons from config of MelisPlatformFrameworks module
+             * Get Framework skeletons url from config
              */
-            $config = $this->getServiceLocator()->get('config');
-            $frameworkSkeletons = $config['third-party-framework-skeleton'];
-            if(!empty($frameworkSkeletons)) {
-                //get market place url
-                $marketplace = $config['melis-marketplace-url'];
+            $config = $this->getServiceLocator()->get('MelisConfig');
+            $frameworkSkeletons = $config->getItem('melis_installer/datas/third-party-framework-skeleton');
+            $marketplace = $config->getItem('melis_installer/datas/marketplace_url');
 
+            if(!empty($frameworkSkeletons)) {
                 /**
                  * Get framework zip skeleton on marketplace
                  */
