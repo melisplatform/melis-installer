@@ -1032,7 +1032,7 @@ class InstallerController extends AbstractActionController
 
                     //prepare demo tool module path and name
                     $demoModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoTool';
-                    $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool';
+                    $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool:"dev-develop as 3.1"';
                     //prepare demo site module path and name
 //                    $siteModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoSite';
 //                    $siteModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-site';
