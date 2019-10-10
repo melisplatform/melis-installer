@@ -849,9 +849,11 @@ $(window).load(function () {
                     $(".finish-text").show();
                     $(".testing-db-text").hide();
 
-                    setTimeout(function () {
-                        window.location.replace("/melis");
-                    }, 5000);
+                    $.get('/melis', function () {
+                        setTimeout(function () {
+                            window.location.replace("/melis");
+                        }, 5000);
+                    });
                 }
                 else {
                     alert(translators.tr_melis_installer_common_finish_error);
