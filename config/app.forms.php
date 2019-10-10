@@ -475,6 +475,128 @@ return array(
                         ),
                     ),
                 ),
+                'melis_installer_other_frameworks' => array(
+                    'attributes' => array(
+                        'name' => 'otherframework_form',
+                        'id'   => 'id_otherframework_form',
+                        'method' => 'POST',
+                        'action' => '',
+                    ),
+                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'elements'  => array(
+                        array(
+                            'spec' => array(
+                                'type' => 'hidden',
+                                'name' => 'enable_multi_fw',
+                                'attributes' => array(
+                                    'id' => 'id_enable_multi_fw',
+                                ),
+                            )
+                        ),
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Radio',
+                                'name' => 'framework_name',
+                                'options' => array(
+                                    'label' => 'tr_melis_installer_download_thirdparty_fw_choose_fw_to_install',
+                                    'tooltip' => '',
+                                    'label_options' => array(
+                                        'disable_html_escape' => true,
+                                    ),
+                                    'label_attributes' => array(
+                                        'class' => 'setup-fw-radio',
+                                    ),
+                                    'value_options' => array(
+                                        array(
+                                            'value' => 'laravel',
+                                            'label' => '<label for="id_framework_name_laravel"><span>Laravel</span></label>',
+                                        ),
+                                        array(
+                                            'value' => 'symfony',
+                                            'label' => '<label for="id_framework_name_symfony"><span>Symfony</span></label>',
+                                        ),
+                                        array(
+                                            'value' => 'lumen',
+                                            'label' => '<label for="id_framework_name_lumen"><span>Lumen</span></label>',
+                                        ),
+                                        array(
+                                            'value' => 'silex',
+                                            'label' => '<label for="id_framework_name_silex"><span>Silex</span></label>',
+                                        ),
+                                    ),
+                                ),
+                                'attributes' => array(
+                                    'required' => 'required',
+                                ),
+                            )
+                        ),
+                        array(
+                            'spec' => array(
+                                'type' => 'Zend\Form\Element\Radio',
+                                'name' => 'include_demo_tool',
+                                'options' => array(
+                                    'label' => 'tr_melis_installer_download_thirdparty_fw_include_demo_tool',
+                                    'tooltip' => '',
+                                    'label_options' => array(
+                                        'disable_html_escape' => true,
+                                    ),
+                                    'label_attributes' => array(
+                                        'class' => 'setup-fw-radio',
+                                    ),
+                                    'value_options' => array(
+                                        array(
+                                            'value' => 'yes',
+                                            'label' => '<label for="id_include_demo_tool_yes"><span>Yes</span></label>',
+                                            'selected' => true,
+                                        ),
+                                        array(
+                                            'value' => 'no',
+                                            'label' => '<label for="id_include_demo_tool_no"><span>No</span></label>',
+                                            'selected' => false,
+                                        )
+                                    ),
+                                ),
+                                'attributes' => array(
+                                    'required' => 'required',
+                                ),
+                            )
+                        ),
+//                        array(
+//                            'spec' => array(
+//                                'type' => 'Zend\Form\Element\Radio',
+//                                'name' => 'include_demo_site',
+//                                'options' => array(
+//                                    'label' => 'Do you want a demo site made with this framework installed?',
+//                                    'tooltip' => '',
+//                                    'label_options' => array(
+//                                        'disable_html_escape' => true,
+//                                    ),
+//                                    'label_attributes' => array(
+//                                        'class' => 'melis-radio-box',
+//                                    ),
+//                                    'value_options' => array(
+//                                        array(
+//                                            'value' => 'true',
+//                                            'label' => 'Yes',
+//                                            'selected' => true,
+//                                        ),
+//                                        array(
+//                                            'value' => 'false',
+//                                            'label' => 'No',
+//                                            'selected' => false,
+//                                        )
+//                                    ),
+//                                ),
+//                                'attributes' => array(
+//                                    'required' => 'required',
+//                                ),
+//                            )
+//                        ),
+                    ),
+                    'input_filter' => array(
+
+                    ),
+                ),
             ),
         ),
     ),
