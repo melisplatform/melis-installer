@@ -849,7 +849,7 @@ $(window).load(function () {
                     $(".finish-text").show();
                     $(".testing-db-text").hide();
 
-                    $.get('/melis', function () {
+                    $.get('/melis', function () { // this will try to access /melis route after setup
                         setTimeout(function () {
                             window.location.replace("/melis");
                         }, 5000);
