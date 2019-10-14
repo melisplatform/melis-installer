@@ -12,10 +12,10 @@
   },
   "authors": [
 	{
-		"name": "Melis Technology",
-		"email": "contact@melistechnology.com",
-		"homepage": "https://www.melistechnology.com",
-		"role": "Developer"
+      "name": "Melis Technology",
+      "email": "contact@melistechnology.com",
+      "homepage": "https://www.melistechnology.com",
+      "role": "Developer"
 	}
   ],
   "keywords": [
