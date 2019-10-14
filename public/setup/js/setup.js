@@ -432,6 +432,18 @@ $(window).load(function () {
         });
     });
 
+    /* JS for Installing Other Framework */
+    $body.on("click", ".enable_fw_container input[name='enable_multi_fw']", function(){
+        if($(this).val() === "true"){
+            $(".other_framework_form_container").slideDown();
+        }else{
+            $(".other_framework_form_container").slideUp();
+        }
+
+        $("#id_otherframework_form").find("#id_enable_multi_fw").val($(this).val());
+    });
+    /* end */
+
     // ---=[ FINISH PAGE - GATHER ALL DATA ]=---
     // test database connection
     $body.on("click", ".setup-creation .setup-pass-page.finish", function () {
@@ -548,90 +560,121 @@ $(window).load(function () {
         var formWebLang = $("form#idfrmweblang").serialize();
         var selectedSite = $("input[name='weboption']:checked").val() == "MelisDemoCms" ? siteModule : $("input[name='weboption']:checked").val();
         var formWebData = $("form#idfrmwebform").serialize();
+        //add other framework form data
+        var otherFWFOrmData = $("form#id_otherframework_form").serialize();
         var data = {
             packages: packages,
             modules: modules,
             site: selectedSite,
             siteLang: formWebLang,
-            siteData: formWebData
+            siteData: formWebData,
+            otherFWData: otherFWFOrmData
         };
 
         disableNextButton();
 
         ajaxRequest('/melis/MelisInstaller/Installer/setDownloadableModules', data, function (response) {
-
-            disableNextButton();
-            $owl.trigger('to.owl.carousel', [currentPage, 500]);
-
-            $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
-            setTimeout(function () {
-                var vConsole = $("body").find("#melis-installer-event-do-response");
-                var vConsoleText = vConsole.html();
-                var lastResponseLen = false;
-
+            /**
+             * Check for errors
+             */
+            if(!response['success']) {
+                melisHelper.melisKoNotification("Installing other framework", response['message'], []);
+                enableNextButton();
+            }else{
                 disableNextButton();
-                $.ajax(
-                    {
-                        type: 'GET',
-                        url: '/melis/MelisInstaller/Installer/addModulesToComposer',
-                        dataType: "html",
-                        xhrFields: {
-                            onprogress: function (e) {
+                $owl.trigger('to.owl.carousel', [currentPage, 500]);
+
+                $("body").find("#melis-installer-event-do-response").html('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
+                setTimeout(function () {
+                    var vConsole = $("body").find("#melis-installer-event-do-response");
+                    var vConsoleText = vConsole.html();
+                    var lastResponseLen = false;
+                    var isMultiFramework = false;
+
+                    disableNextButton();
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: '/melis/MelisInstaller/Installer/addModulesToComposer',
+                            dataType: "html",
+                            xhrFields: {
+                                onprogress: function (e) {
+                                    $("#preloading-cont").remove();
+                                    var vConsole = $("body").find("#melis-installer-event-do-response");
+                                    vConsole.html("");
+                                    var vConsoleText = vConsole.html();
+
+                                    var curResponse, response = e.currentTarget.response;
+                                    if (lastResponseLen === false) {
+                                        curResponse = response;
+                                        lastResponseLen = response.length;
+                                    }
+                                    else {
+                                        curResponse = response.substring(lastResponseLen);
+                                        lastResponseLen = response.length;
+                                    }
+                                    vConsoleText += curResponse + "\n";
+                                    if (typeof vConsoleText !== "undefined") {
+
+                                        vConsole.html(vConsoleText);
+
+                                        // always scroll to bottom
+                                        vConsole.animate({
+                                            scrollTop: vConsole.prop("scrollHeight")
+                                        }, 1115);
+                                    }
+
+                                }
+                            },
+                            success: function (data) {
+
+                                // add downloader spinner
                                 $("#preloading-cont").remove();
-                                var vConsole = $("body").find("#melis-installer-event-do-response");
-                                vConsole.html("");
-                                var vConsoleText = vConsole.html();
+                                updateCmdText('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
 
-                                var curResponse, response = e.currentTarget.response;
-                                if (lastResponseLen === false) {
-                                    curResponse = response;
-                                    lastResponseLen = response.length;
-                                }
-                                else {
-                                    curResponse = response.substring(lastResponseLen);
-                                    lastResponseLen = response.length;
-                                }
-                                vConsoleText += curResponse + "\n";
-                                if (typeof vConsoleText !== "undefined") {
-
-                                    vConsole.html(vConsoleText);
-
-                                    // always scroll to bottom
+                                getRequest('/melis/MelisInstaller/Installer/downloadModules', 'html', function (response) {
+                                    $("#preloading-cont").remove();
+                                    vConsoleText = "" + vConsole.html() + "<br/>" + response;
+                                    vConsole.html(vConsoleText + '<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_module_import_tables + '<br/>');
                                     vConsole.animate({
                                         scrollTop: vConsole.prop("scrollHeight")
                                     }, 1115);
-                                }
 
-                            }
-                        },
-                        success: function (data) {
+                                    // dbdeploy
+                                    getRequest('/melis/MelisInstaller/Installer/execDbDeploy', 'html', function (response) {
+                                        $("#cmd-imp-tbl").html('<i class="fa fa-info-circle"></i>');
+                                        updateCmdText('<br/>' + response);
 
-                            // add downloader spinner
-                            $("#preloading-cont").remove();
-                            updateCmdText('<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' + translators.melis_installer_common_downloading + '</span>');
+                                        // check for site installation
+                                        getRequest('/melis/MelisInstaller/Installer/checkSiteModule', 'json', function (response) {
 
-                            getRequest('/melis/MelisInstaller/Installer/downloadModules', 'html', function (response) {
-                                $("#preloading-cont").remove();
-                                vConsoleText = "" + vConsole.html() + "<br/>" + response;
-                                vConsole.html(vConsoleText + '<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_module_import_tables + '<br/>');
-                                vConsole.animate({
-                                    scrollTop: vConsole.prop("scrollHeight")
-                                }, 1115);
+                                            //check if multi framework
+                                            isMultiFramework = response.isMultiFramework;
 
-                                // dbdeploy
-                                getRequest('/melis/MelisInstaller/Installer/execDbDeploy', 'html', function (response) {
-                                    $("#cmd-imp-tbl").html('<i class="fa fa-info-circle"></i>');
-                                    updateCmdText('<br/>' + response);
+                                            if (response.hasSite) {
+                                                updateCmdText('<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_installing + '<br/>');
+                                                // install site
+                                                getRequest('/melis/MelisInstaller/Installer/installSiteModule', 'json', function (response) {
+                                                    $("#cmd-site-install").html('<i class="fa fa-info-circle"></i>');
+                                                    updateCmdText(response.message + '<br/>');
 
-                                    // check for site installation
-                                    getRequest('/melis/MelisInstaller/Installer/checkSiteModule', 'json', function (response) {
-                                        if (response.hasSite) {
-                                            updateCmdText('<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_site_installing + '<br/>');
-                                            // install site
-                                            getRequest('/melis/MelisInstaller/Installer/installSiteModule', 'json', function (response) {
-                                                $("#cmd-site-install").html('<i class="fa fa-info-circle"></i>');
-                                                updateCmdText(response.message + '<br/>');
+                                                    // activate module
+                                                    updateCmdText('<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_activate_modules_notice + '<br/>');
+                                                    getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function (rebuildAutoloaderResp) {
+                                                        setTimeout(function () {
+                                                            getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function (response) {
+                                                                $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
 
+                                                                executeOtherProcess(isMultiFramework, response);
+
+                                                            });
+
+                                                        }, 800);
+
+                                                    });
+                                                });
+                                            }
+                                            else {
                                                 // activate module
                                                 updateCmdText('<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_activate_modules_notice + '<br/>');
                                                 getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function (rebuildAutoloaderResp) {
@@ -639,64 +682,64 @@ $(window).load(function () {
                                                         getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function (response) {
                                                             $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
 
-                                                            updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
-                                                            getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
-                                                                $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                                enableNextButton();
-                                                            }, false, function () {
-                                                                $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                                enableNextButton();
-                                                            });
-
+                                                            executeOtherProcess(isMultiFramework, response);
                                                         });
 
                                                     }, 800);
 
                                                 });
-                                            });
-                                        }
-                                        else {
-                                            // activate module
-                                            updateCmdText('<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' + translators.melis_installer_activate_modules_notice + '<br/>');
-                                            getRequest('/melis/MelisInstaller/Installer/rebuildAutoloader', 'html', function (rebuildAutoloaderResp) {
-                                                setTimeout(function () {
-                                                    getRequest('/melis/MelisInstaller/Installer/activateModules', 'html', function (response) {
-                                                        $("#cmd-act-mod").html('<i class="fa fa-info-circle"></i>');
+                                            }
 
-                                                        updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
-                                                        getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
-                                                            $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                            enableNextButton();
-                                                        }, false, function () {
-                                                            $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
-                                                            enableNextButton();
-                                                        });
 
-                                                    });
-
-                                                }, 800);
-
-                                            });
-                                        }
+                                        });
 
 
                                     });
-
-
                                 });
-                            });
 
 
-                        },
-                        error: function (request, status, error) {
-                            updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_download_ko);
-                        }
-                    });
+                            },
+                            error: function (request, status, error) {
+                                updateCmdText('<i class="fa fa-warning"></i> ' + translators.tr_melis_installer_download_ko);
+                            }
+                        });
 
-            }, 800);
+                }, 800);
+            }
 
         });
 
+    }
+
+    function executeOtherProcess(isMultiFramework, response)
+    {
+        if(isMultiFramework === true){
+            //download third party framework
+            updateCmdText('<br/>' + response + '<br/><span id="cmd-download-fm"><i class="fa fa-spinner fa-spin"></i></span> '+ translators.tr_melis_installer_download_thirdparty_fw_notice +'<br/>');
+            setTimeout(function(){
+                getRequest('/melis/MelisInstaller/Installer/downloadFrameworkSkeleton', 'html', function(response){
+                    $("#cmd-download-fm").html('<i class="fa fa-info-circle"></i>');
+
+                    updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
+                    getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
+                        $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                        enableNextButton();
+                    }, false, function () {
+                        $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                        enableNextButton();
+                    });
+                });
+            }, 500);
+        }else{
+            updateCmdText('<br/>' + response + '<br/><span id="cmd-finalize"><i class="fa fa-spinner fa-spin"></i> ' + translators.tr_melis_installer_common_finalize + '</span><br/>');
+            getRequest('/melis/MelisInstaller/Installer/reprocessDbDeploy', 'json', function (reprocessDbDeployResp) {
+                $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                enableNextButton();
+            }, false, function () {
+                $("#cmd-finalize").html('<i class="fa fa-info-circle"></i> ' + translators.melis_installer_common_done);
+                enableNextButton();
+            });
+        }
     }
 
     function updateCmdText(text) {
@@ -849,9 +892,11 @@ $(window).load(function () {
                     $(".finish-text").show();
                     $(".testing-db-text").hide();
 
-                    setTimeout(function () {
-                        window.location.replace("/melis");
-                    }, 5000);
+                    $.get('/melis', function () { // this will try to access /melis route after setup
+                        setTimeout(function () {
+                            window.location.replace("/melis");
+                        }, 5000);
+                    });
                 }
                 else {
                     alert(translators.tr_melis_installer_common_finish_error);

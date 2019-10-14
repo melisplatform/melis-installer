@@ -258,5 +258,13 @@ return array(
     'tr_melis_installer_tool_site_site_label' => 'Label',
     'tr_melis_installer_tool_site_site_label tooltip' => 'Label du site',
     'tr_melis_installer_tool_site_site_label_error_long'  => 'Nom du étiquette trop long, nombre de caractères maximum 100',
-    'tr_melis_installer_tool_site_site_label_error_empty' => 'Veuillez saisir l\'étiquette du site'
+    'tr_melis_installer_tool_site_site_label_error_empty' => 'Veuillez saisir l\'étiquette du site',
+
+    #Thirdparty Framework Installation
+    'tr_melis_installer_download_thirdparty_fw_notice' => 'Téléchargement du framework',
+    'tr_melis_installer_download_thirdparty_fw_form_title' => 'Installer un framework additionnel',
+    'tr_melis_installer_download_thirdparty_fw_form_subtitle' => 'Vous pouvez intégrer ici un framework additionnel à Melis Platform.',
+    'tr_melis_installer_download_thirdparty_fw_enable_multi_coding' => 'Activer le codage multi-framework ?',
+    'tr_melis_installer_download_thirdparty_fw_choose_fw_to_install' => 'Sélectionnez le framework à installer',
+    'tr_melis_installer_download_thirdparty_fw_include_demo_tool' => 'Souhaitez-vous inclure un outil de démo fait à partir de ce framework ?',
 );
