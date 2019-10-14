@@ -75,6 +75,11 @@ return [
                     'MelisDbDeploy',
                     'MelisComposerDeploy',
                     'MelisMarketPlace',
+                    'MelisPlatformFrameworks',
+                    'MelisPlatformFrameworkSymfonyDemoTool',
+                    'MelisPlatformFrameworkLaravelDemoTool',
+                    'MelisPlatformFrameworkLumenDemoTool',
+                    'MelisPlatformFrameworkSilexDemoTool',
                 ],
                 'module_auto_install' => [
                     // this configuration consists of the required modules that is needed to run Melis Platform
