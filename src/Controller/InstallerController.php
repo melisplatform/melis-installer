@@ -216,6 +216,7 @@ class InstallerController extends AbstractActionController
             'json',
             'pdo_mysql',
             'intl',
+            'zip'
         ]);
 
 
