@@ -2136,7 +2136,8 @@ class InstallerController extends AbstractActionController
      */
     protected function unplugSite()
     {
-        if ($site = $this->selectedSite()) {
+        $site = $this->selectedSite();
+        if ($site && !in_array($site, ['NewSite', 'None'])) {
             return $this->marketplace()->unplugModule($site);
         }
 
