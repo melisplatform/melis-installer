@@ -140,7 +140,7 @@ function toModuleName($modules) {
                                         <input id="<?= "$site[packageId]_$site[packageModuleName]" ?>" type="radio"
                                                data-module="<?= $site['packageModuleName'] ?>"
                                                class="font-awesome-radio site-selection-radio" name="site" value="<?= $site['packageName'] ?>"
-                                               data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects" <?= $ctr === 0 ? 'checked="checked"' : 'checked' ?>>
+                                               data-dependency="MelisEngine|MelisFront|MelisCms|MelisCmsNews|MelisCmsSlider|MelisCmsProspects" <?= $ctr === 0 ? 'checked="checked"' : '' ?>>
                                         <label for="<?= "$site[packageId]_$site[packageModuleName]" ?>"></label>
                                     </div>
                                     <div class="list-group-descrip" style="padding-left: 0;">
