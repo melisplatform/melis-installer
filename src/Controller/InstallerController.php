@@ -57,7 +57,7 @@ class InstallerController extends AbstractActionController
             // Getting the default values for Website confguration options from app.interface.php datas
             $config = $this->getServiceLocator()->get('config');
             $defaultWebConfigOptions = $config['plugins']['melis_installer']['datas']['default_website_config_options'];
-            if (array_key_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None') {
+            if (property_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None') {
                 $showWebForm = true;
             }
 
@@ -634,7 +634,7 @@ class InstallerController extends AbstractActionController
         $request = [];
         // add listeners here for MelisCms and MelisCore to listen
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $currentPlatformDomain = $data['domain'];
             $domainEnv = [];
 
@@ -689,7 +689,7 @@ class InstallerController extends AbstractActionController
     {
         $success = 0;
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $response = $this->getEventManager()->trigger('melis_install_delete_environment_start', $this, $data);
 
             if (!empty($response)) {
@@ -710,8 +710,11 @@ class InstallerController extends AbstractActionController
         $errors = [];
         $translator = $this->getServiceLocator()->get('translator');
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            // $data = $this->getRequest()->getPost()->toArray();
+            $data = $this->getRequest()->getPost()->toArray();
             $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+
+            // print_r($this->getRequest()->getPost()->toArray());
 
 
             if (!empty($data['hostname'])) {
@@ -779,7 +782,7 @@ class InstallerController extends AbstractActionController
         $container['steps'][$this->steps[6]] = ['page' => 6, 'success' => 1];
         $container['install_modules'] = [];
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
 
             // remove pre-set data
             unset($data['_default']);
@@ -819,7 +822,7 @@ class InstallerController extends AbstractActionController
                 $config = $this->getServiceLocator()->get('config');
                 $defaultWebConfigOptions = $config['plugins']['melis_installer']['datas']['default_website_config_options'];
                 // Checking if the Website option
-                if (array_key_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None') {
+                if (property_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None') {
 
                     $webForm = $this->getForm('melis_installer/forms/melis_installer_webform');
                     $webForm->setData($postValues);
@@ -1877,7 +1880,7 @@ class InstallerController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
 
             $createUserForm = $this->getForm('melis_installer/forms/melis_installer_user_data');
-            $postValues = get_object_vars($this->getRequest()->getPost());
+            $postValues = $this->getRequest()->getPost()->toArray();
             $createUserForm->setData($postValues);
 
             if ($createUserForm->isValid()) {
