@@ -84,6 +84,14 @@ return [
                     'MelisPlatformFrameworkLaravel',
                     'MelisPlatformFrameworkSymfony',
                     'MelisPlatformFrameworkLumen',
+                    'MelisToolCreatorLaravel',
+                    'MelisPlatformFrameworkLaravelToolCreator',
+                    'MelisToolCreatorSymfony',
+                    'MelisPlatformFrameworkSymfonyToolCreator',
+                    'MelisToolCreatorLumen',
+                    'MelisPlatformFrameworkLumenToolCreator',
+                    'MelisToolCreatorSilex',
+                    'MelisPlatformFrameworkSilexToolCreator',
                 ],
                 'module_auto_install' => [
                     // this configuration consists of the required modules that is needed to run Melis Platform
