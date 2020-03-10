@@ -616,7 +616,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         $marketplace        = $config->getItem('melis_installer/datas')['marketplace_url'];
 
         $packages           = [];
-        $requestJsonUrl     = $marketplace.'/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/2/group//siteonly/'.$type;
+        $requestJsonUrl     = $marketplace.'/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/2/group//siteonly/'.$type.'/bundle/';
 
         $config             = $this->getServiceLocator()->get('MelisInstallerConfig');
         $moduleExceptions   = $config->getItem('melis_installer/datas/module_exceptions');
