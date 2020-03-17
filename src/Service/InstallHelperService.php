@@ -2,13 +2,13 @@
 
 namespace MelisInstaller\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Json\Json;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Json\Json;
 use PDO;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Adapter\Adapter as DbAdapter;
-use Zend\Db\Sql\Ddl;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Adapter\Adapter as DbAdapter;
+use Laminas\Db\Sql\Ddl;
 class InstallHelperService implements ServiceLocatorAwareInterface
 {
 
@@ -192,8 +192,8 @@ class InstallHelperService implements ServiceLocatorAwareInterface
                 )
             ), $config));
 
-            $config = new \Zend\Config\Config($config, true);
-            $writer = new \Zend\Config\Writer\PhpArray();
+            $config = new \Laminas\Config\Config($config, true);
+            $writer = new \Laminas\Config\Writer\PhpArray();
             $conf = $writer->toString($config);
         }
     }
@@ -209,7 +209,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     /**
      * Executes a raw SQL query
      * @param String $query
-     * @return NULL|\Zend\Db\Adapter\Driver\StatementInterface|\Zend\Db\ResultSet\Zend\Db\ResultSet
+     * @return NULL|\Laminas\Db\Adapter\Driver\StatementInterface|\Laminas\Db\ResultSet\Zend\Db\ResultSet
      */
     public function executeRawQuery($query)
     {

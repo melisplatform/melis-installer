@@ -9,11 +9,11 @@
 
 namespace MelisDemoCms; 
 
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Mvc\ModuleRouteListener;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\ArrayUtils;
 
-use Zend\Session\Container;
+use Laminas\Session\Container;
 use MelisDemoCms\Listener\SiteMenuCustomizationListener;
 use MelisDemoCms\Listener\SetupDemoCmsListener;
 
@@ -61,7 +61,7 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\StandardAutoloader' => array(
+            'Laminas\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),

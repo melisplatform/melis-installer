@@ -2,9 +2,9 @@
 
 namespace MelisInstaller\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Stdlib\ArrayUtils;
 
 class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 {

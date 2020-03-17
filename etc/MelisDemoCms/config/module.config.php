@@ -80,8 +80,8 @@ return [
     ],
     'service_manager' => [
         'abstract_factories' => [
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
+            'Laminas\Cache\Service\StorageCacheAbstractServiceFactory',
+            'Laminas\Log\LoggerAbstractServiceFactory',
         ],
         'aliases' => [
             'translator' => 'MvcTranslator',

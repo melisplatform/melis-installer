@@ -10,15 +10,15 @@
 namespace MelisDemoCms\Controller;
 
 use MelisCore\MelisSetupInterface;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Session\Container;
-use Zend\View\Model\JsonModel;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Session\Container;
+use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ViewModel;
 
 class MelisSetupPostDownloadController extends AbstractActionController implements MelisSetupInterface
 {
     /**
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function getFormAction()
     {
@@ -48,7 +48,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
      *
      * @param $formConfig
      *
-     * @return \Zend\Form\ElementInterface
+     * @return \Laminas\Form\ElementInterface
      */
     private function getFormSiteDemo()
     {
@@ -56,7 +56,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
         $appConfigForm = $melisMelisCoreConfig->getItem('MelisDemoCms/setup/download/form/melis_demo_cms_setup/forms/melis_demo_cms_setup_download_form');
 
 
-        $factory = new \Zend\Form\Factory();
+        $factory = new \Laminas\Form\Factory();
         $formElements = $this->getServiceLocator()->get('FormElementManager');
         $factory->setFormElementManager($formElements);
         $form = $factory->createForm($appConfigForm);
@@ -77,7 +77,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
     }
 
     /**
-     * @return \Zend\View\Model\JsonModel
+     * @return \Laminas\View\Model\JsonModel
      */
     public function validateFormAction()
     {
@@ -145,7 +145,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
     }
 
     /**
-     * @return \Zend\View\Model\JsonModel
+     * @return \Laminas\View\Model\JsonModel
      */
     public function submitAction()
     {
@@ -170,7 +170,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
         //Services
         // $tablePlatformIds = $this->getServiceLocator()->get('MelisEngineTablePlatformIds');
 
-        $container = new \Zend\Session\Container('melis_modules_configuration_status');
+        $container = new \Laminas\Session\Container('melis_modules_configuration_status');
         $hasErrors = false;
 
 
@@ -183,7 +183,7 @@ class MelisSetupPostDownloadController extends AbstractActionController implemen
                     }
                 }
 
-                $container = new \Zend\Session\Container('melismodules');
+                $container = new \Laminas\Session\Container('melismodules');
                 $installerModuleConfigurationSuccess = isset($container['module_configuration']['success']) ?
                     (bool) $container['module_configuration']['success'] : false;
 

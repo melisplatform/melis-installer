@@ -10,13 +10,13 @@
 namespace MelisInstaller\Controller;
 
 use PDO;
-use Zend\Config\Config;
-use Zend\Config\Writer\PhpArray;
-use Zend\Json\Json;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Session\Container;
-use Zend\View\Model\JsonModel;
-use Zend\View\Model\ViewModel;
+use Laminas\Config\Config;
+use Laminas\Config\Writer\PhpArray;
+use Laminas\Json\Json;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Session\Container;
+use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ViewModel;
 
 class InstallerController extends AbstractActionController
 {
@@ -185,7 +185,7 @@ class InstallerController extends AbstractActionController
         $formConfig = $melisConfig->getItem($configPath);
 
         if ($formConfig) {
-            $factory = new \Zend\Form\Factory();
+            $factory = new \Laminas\Form\Factory();
             $formElements = $this->getServiceLocator()->get('FormElementManager');
             $factory->setFormElementManager($formElements);
             $form = $factory->createForm($formConfig);
@@ -509,7 +509,7 @@ class InstallerController extends AbstractActionController
 
     /**
      * This function is used for rechecking the status the desired step
-     * @return \Zend\View\Model\JsonModel
+     * @return \Laminas\View\Model\JsonModel
      */
     public function checkSysConfigAction()
     {
@@ -535,7 +535,7 @@ class InstallerController extends AbstractActionController
     /**
      * This step rechecks the Step 1.1 which is the apache Setup just to check
      * that everything fine.
-     * @return \Zend\View\Model\JsonModel
+     * @return \Laminas\View\Model\JsonModel
      */
     public function checkApacheSetupAction()
     {
@@ -579,7 +579,7 @@ class InstallerController extends AbstractActionController
     /**
      * This step rechecks the Step 1.2 which is the Vhost Setup just to check
      * that everything fine.
-     * @return \Zend\View\Model\JsonModel
+     * @return \Laminas\View\Model\JsonModel
      */
     public function checkVhostSetupAction()
     {
@@ -604,7 +604,7 @@ class InstallerController extends AbstractActionController
 
     /**
      * Rechecks Step 1.4File System Rights
-     * @return \Zend\View\Model\JsonModel
+     * @return \Laminas\View\Model\JsonModel
      */
     public function checkFileSystemRightsAction()
     {
@@ -1704,8 +1704,8 @@ class InstallerController extends AbstractActionController
 
                 $viewModel = $this->forward()->dispatch($module . '\\Controller\\' . $controller, ['action' => $action]);
 
-                $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\RendererInterface');
-                $html = new \Zend\Mime\Part($renderer->render($viewModel));
+                $renderer = $this->getServiceLocator()->get('Laminas\View\Renderer\RendererInterface');
+                $html = new \Laminas\Mime\Part($renderer->render($viewModel));
 
                 $content = (string) $html->getContent();
 
@@ -1830,7 +1830,7 @@ class InstallerController extends AbstractActionController
                 set_time_limit(0);
                 ini_set('memory_limit', '-1');
                 $requests = $this->getRequest()->getQuery()->toArray();
-                $parameters = new \Zend\Stdlib\Parameters(array_merge($requests, ['module' => $this->selectedSite(), 'action' => $this->marketplace()::ACTION_DOWNLOAD]));
+                $parameters = new \Laminas\Stdlib\Parameters(array_merge($requests, ['module' => $this->selectedSite(), 'action' => $this->marketplace()::ACTION_DOWNLOAD]));
                 $this->getRequest()->setPost($parameters);
                 $this->marketplaceSite()->installSite($this->getRequest())->invokeSetup();
             }

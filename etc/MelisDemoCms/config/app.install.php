@@ -10,12 +10,12 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Stdlib\Hydrator\ArraySerializable',
                     'elements'  => array(
                         array(
                             'spec' => array(
                                 'name' => 'sdom_scheme',
-                                'type' => 'Zend\Form\Element\Select',
+                                'type' => 'Laminas\Form\Element\Select',
                                 'options' => array(
                                     'label' => 'tr_melis_installer_tool_site_scheme',
                                     'tooltip' => 'tr_melis_installer_tool_site_scheme tooltip',
@@ -80,7 +80,7 @@ return array(
                                     'options' => array(
                                         'haystack' => array('http', 'https'),
                                         'messages' => array(
-                                            \Zend\Validator\InArray::NOT_IN_ARRAY => 'tr_melis_installer_tool_site_scheme_invalid_selection',
+                                            \Laminas\Validator\InArray::NOT_IN_ARRAY => 'tr_melis_installer_tool_site_scheme_invalid_selection',
                                         ),
                                     )
                                 ),
@@ -88,7 +88,7 @@ return array(
                                     'name'    => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_scheme_error_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_scheme_error_empty',
                                         ),
                                     ),
                                 ),
@@ -106,7 +106,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 50,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_tool_site_domain_error_long',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_tool_site_domain_error_long',
                                         ),
                                     ),
                                 ),
@@ -114,7 +114,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_tool_site_domain_error_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_tool_site_domain_error_empty',
                                         ),
                                     ),
                                 ),
@@ -134,7 +134,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 100,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_meliscms_tool_site_site_label_error_long',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_meliscms_tool_site_site_label_error_long',
                                         ),
                                     ),
                                 ),
@@ -142,7 +142,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_site_label_error_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_meliscms_tool_site_site_label_error_empty',
                                         ),
                                     ),
                                 ),

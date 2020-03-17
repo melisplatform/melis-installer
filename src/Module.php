@@ -11,12 +11,12 @@ namespace MelisInstaller;
 
 use MelisInstaller\Listener\MelisInstallerNewPlatformListener;
 use MelisInstaller\Listener\MelisInstallModuleConfigListener;
-use Zend\ModuleManager\ModuleManager;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-use Zend\Session\Container;
-use Zend\Session\SessionManager;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\ModuleManager\ModuleManager;
+use Laminas\Mvc\ModuleRouteListener;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Session\Container;
+use Laminas\Session\SessionManager;
+use Laminas\Stdlib\ArrayUtils;
 
 class Module
 {
@@ -204,7 +204,7 @@ class Module
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\StandardAutoloader' => [
+            'Laminas\Loader\StandardAutoloader' => [
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ],

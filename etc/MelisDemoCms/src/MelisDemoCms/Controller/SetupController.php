@@ -10,8 +10,8 @@
 namespace MelisDemoCms\Controller;
 
 use MelisDemoCms\Controller\BaseController;
-use Zend\View\Helper\ViewModel;
-use Zend\View\Model\JsonModel;
+use Laminas\View\Helper\ViewModel;
+use Laminas\View\Model\JsonModel;
 
 class SetupController extends BaseController
 {

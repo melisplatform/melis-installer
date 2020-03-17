@@ -9,7 +9,7 @@
 
 namespace MelisInstaller\Form\Factory;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use MelisInstaller\Form\Factory\MelisSelectFactory;
 
 class MelisInstallerWebOptionSelectFactory extends MelisSelectFactory

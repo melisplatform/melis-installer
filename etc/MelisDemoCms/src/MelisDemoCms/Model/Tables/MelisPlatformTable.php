@@ -9,7 +9,7 @@
 
 namespace MelisDemoCms\Model\Tables;
 
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\TableGateway\TableGateway;
 use MelisEngine\Model\Tables\MelisGenericTable;
 
 class MelisPlatformTable extends MelisGenericTable

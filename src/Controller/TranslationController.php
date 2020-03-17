@@ -9,12 +9,12 @@
 
 namespace MelisInstaller\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
-use Zend\Session\Container;
-use Zend\Config\Config;
-use Zend\Config\Writer\PhpArray;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\Model\JsonModel;
+use Laminas\Session\Container;
+use Laminas\Config\Config;
+use Laminas\Config\Writer\PhpArray;
 
 class TranslationController  extends AbstractActionController
 {

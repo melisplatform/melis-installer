@@ -10,7 +10,7 @@
 namespace MelisDemoCms\Controller;
 
 use MelisDemoCms\Controller\BaseController;
-use Zend\View\Model\JsonModel;
+use Laminas\View\Model\JsonModel;
 
 class ContactController extends BaseController
 {

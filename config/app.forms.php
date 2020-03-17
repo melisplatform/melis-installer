@@ -10,7 +10,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Stdlib\Hydrator\ArraySerializable',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -116,7 +116,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 255,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_login_max',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_login_max',
                                         ),
                                     ),
                                 ),
@@ -124,7 +124,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_login_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_login_empty',
                                         ),
                                     ),
                                 ),
@@ -132,7 +132,7 @@ return array(
                                     'name' => 'regex', false,
                                     'options' => array(
                                         'pattern' => '/^[A-Za-z][A-Za-z0-9]*$/',
-                                        'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'tr_melis_installer_new_user_login_invalid'),
+                                        'messages' => array(\Laminas\Validator\Regex::NOT_MATCH => 'tr_melis_installer_new_user_login_invalid'),
                                         'encoding' => 'UTF-8',
                                     ),
                                 ),
@@ -160,7 +160,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_email_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_email_empty',
                                         ),
                                     ),
                                 ),
@@ -191,7 +191,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 255,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_pass_max',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_pass_max',
                                         ),
                                     ),
                                 ),
@@ -199,7 +199,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_pass_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_pass_empty',
                                         ),
                                     ),
                                 ),
@@ -230,7 +230,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 255,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_pass_max',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_pass_max',
                                         ),
                                     ),
                                 ),
@@ -238,7 +238,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_pass_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_pass_empty',
                                         ),
                                     ),
                                 ),
@@ -247,7 +247,7 @@ return array(
                                     'options' => array(
                                         'token' => 'password', 
                                         'messages' => array(
-                                            \Zend\Validator\Identical::NOT_SAME => 'tr_melis_installer_new_user_pass_no_match',  
+                                            \Laminas\Validator\Identical::NOT_SAME => 'tr_melis_installer_new_user_pass_no_match',  
                                         ),
                                     ),
                                 )
@@ -268,7 +268,7 @@ return array(
                                         //'min'      => 1,
                                         'max'      => 255,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_first_name_long',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_first_name_long',
                                         ),
                                     ),
                                 ),
@@ -276,7 +276,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_first_name_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_first_name_empty',
                                         ),
                                     ),
                                 ),
@@ -297,7 +297,7 @@ return array(
                                         //'min'      => 1,
                                         'max'      => 255,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_last_name_long',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_new_user_last_name_long',
                                         ),
                                     ),
                                 ),
@@ -305,7 +305,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_last_name_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_new_user_last_name_empty',
                                         ),
                                     ),
                                 ),
@@ -324,7 +324,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Stdlib\Hydrator\ArraySerializable',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -347,7 +347,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Stdlib\Hydrator\ArraySerializable',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -365,7 +365,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_config_option_use_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_config_option_use_empty',
                                         ),
                                     ),
                                 ),
@@ -384,7 +384,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Stdlib\Hydrator\ArraySerializable',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -427,7 +427,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 45,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_web_form_name_long',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_web_form_name_long',
                                         ),
                                     ),
                                 ),
@@ -435,7 +435,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_form_name_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_form_name_empty',
                                         ),
                                     ),
                                 ),
@@ -455,7 +455,7 @@ return array(
                                         'encoding' => 'UTF-8',
                                         'max'      => 255,
                                         'messages' => array(
-                                            \Zend\Validator\StringLength::TOO_LONG => 'tr_melis_installer_web_form_module_long',
+                                            \Laminas\Validator\StringLength::TOO_LONG => 'tr_melis_installer_web_form_module_long',
                                         ),
                                     ),
                                 ),
@@ -463,7 +463,7 @@ return array(
                                     'name' => 'NotEmpty',
                                     'options' => array(
                                         'messages' => array(
-                                            \Zend\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_form_module_empty',
+                                            \Laminas\Validator\NotEmpty::IS_EMPTY => 'tr_melis_installer_web_form_module_empty',
                                         ),
                                     ),
                                 ),
@@ -482,7 +482,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Stdlib\Hydrator\ArraySerializable',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -495,7 +495,7 @@ return array(
                         ),
                         array(
                             'spec' => array(
-                                'type' => 'Zend\Form\Element\Radio',
+                                'type' => 'Laminas\Form\Element\Radio',
                                 'name' => 'framework_name',
                                 'options' => array(
                                     'label' => 'tr_melis_installer_download_thirdparty_fw_choose_fw_to_install',
@@ -532,7 +532,7 @@ return array(
                         ),
                         array(
                             'spec' => array(
-                                'type' => 'Zend\Form\Element\Radio',
+                                'type' => 'Laminas\Form\Element\Radio',
                                 'name' => 'include_demo_tool',
                                 'options' => array(
                                     'label' => 'tr_melis_installer_download_thirdparty_fw_include_demo_tool',
@@ -563,7 +563,7 @@ return array(
                         ),
 //                        array(
 //                            'spec' => array(
-//                                'type' => 'Zend\Form\Element\Radio',
+//                                'type' => 'Laminas\Form\Element\Radio',
 //                                'name' => 'include_demo_site',
 //                                'options' => array(
 //                                    'label' => 'Do you want a demo site made with this framework installed?',

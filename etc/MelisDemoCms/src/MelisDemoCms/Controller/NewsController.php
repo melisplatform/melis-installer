@@ -16,7 +16,7 @@ class NewsController extends BaseController
     /**
      * This method will render the list of news
      * 
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function listAction()
     {
@@ -55,7 +55,7 @@ class NewsController extends BaseController
     /**
      * This methos will render the Details of a single News
      * 
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function detailsAction()
     {

@@ -6,10 +6,10 @@
  *
  */
 namespace MelisInstaller\Listener;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
 use MelisInstaller\Listener\MelisInstallerGeneralListener;
-use Zend\Session\Container;
+use Laminas\Session\Container;
 class MelisInstallerNewPlatformListener extends MelisInstallerGeneralListener implements ListenerAggregateInterface
 {
 

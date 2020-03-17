@@ -10,10 +10,10 @@ use Composer\Composer;
 use Composer\Factory;
 use Composer\IO\NullIO;
 use Composer\Package\CompletePackage;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Config\Config;
-use Zend\Config\Writer\PhpArray;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Config\Config;
+use Laminas\Config\Writer\PhpArray;
 class MelisInstallerModulesService implements ServiceLocatorAwareInterface
 {
     public $serviceLocator;
@@ -90,7 +90,7 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
         $tmpModules = array();
         $repos      = $this->getComposer()->getRepositoryManager()->getLocalRepository();
         $composerFile = $_SERVER['DOCUMENT_ROOT'] . '/../vendor/composer/installed.json';
-        $composer     = (array) \Zend\Json\Json::decode(file_get_contents($composerFile));
+        $composer     = (array) \Laminas\Json\Json::decode(file_get_contents($composerFile));
         foreach($composer as $package) {
             $packageModuleName = isset($package->extra) ? (array) $package->extra : null;
             $module            = null;

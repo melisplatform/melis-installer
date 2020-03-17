@@ -9,9 +9,9 @@
 
 namespace MelisDemoCms\Listener;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\View\Model\ViewModel;
 
 class SiteMenuCustomizationListener implements ListenerAggregateInterface
 {
