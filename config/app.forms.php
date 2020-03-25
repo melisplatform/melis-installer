@@ -177,7 +177,7 @@ return array(
                                 array(
                                     'name' => '\MelisInstaller\Validator\MelisPasswordValidator',
                                     'options' => array(
-                                        'min' => 8,
+                                        'min' => 12,
                                         'messages' => array(
                                             \MelisInstaller\Validator\MelisPasswordValidator::TOO_SHORT => 'tr_melis_installer_new_user_pass_short',
                                             \MelisInstaller\Validator\MelisPasswordValidator::NO_DIGIT => 'tr_melis_installer_new_user_pass_invalid',
@@ -216,7 +216,7 @@ return array(
                                 array(
                                     'name' => '\MelisInstaller\Validator\MelisPasswordValidator',
                                     'options' => array(
-                                        'min' => 8,
+                                        'min' => 12,
                                         'messages' => array(
                                             \MelisInstaller\Validator\MelisPasswordValidator::TOO_SHORT => 'tr_melis_installer_new_user_pass_short',
                                             \MelisInstaller\Validator\MelisPasswordValidator::NO_DIGIT => 'tr_melis_installer_new_user_pass_invalid',
