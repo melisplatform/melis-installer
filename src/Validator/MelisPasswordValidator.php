@@ -25,7 +25,7 @@ class MelisPasswordValidator extends AbstractValidator
     );
     
     protected $options = array(
-        'min'      => 8,       // Default/Minimum length
+        'min'      => 12,       // Default/Minimum length
     );
     
 
@@ -71,7 +71,7 @@ class MelisPasswordValidator extends AbstractValidator
         
         $isValid = true;
         
-        if (strlen($value) < 8) {
+        if (strlen($value) < 12) {
             $this->error(self::TOO_SHORT);
             $isValid = false;
         }

@@ -157,7 +157,7 @@ return array(
     'tr_melis_installer_new_user_email' => 'Email',
     'tr_melis_installer_new_user_email_info' => 'Adresse email de l&#39;utilisateur',
     'tr_melis_installer_new_user_password' => 'Mot de passe',
-    'tr_melis_installer_new_user_password_info' => 'Mot de passe utilisateur (doit être de 8 caractères minimum et contenir au moins une lettre et un chiffre)',
+    'tr_melis_installer_new_user_password_info' => 'Mot de passe utilisateur (doit être de 12 caractères minimum et contenir au moins une lettre et un chiffre)',
     'tr_Melis_installer_new_user_confirm_password' => 'Mot de passe (2)',
     'tr_Melis_installer_new_user_confirm_password_info' => 'Confirmation du mot de passe de l&#39;utilisateur',
     'tr_melis_installer_new_user_first_name' => 'Prénom',

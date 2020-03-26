@@ -153,7 +153,7 @@ return array(
     'tr_melis_installer_new_user_email' => 'Email',
     'tr_melis_installer_new_user_email_info' => 'Email address of the user',
     'tr_melis_installer_new_user_password' => 'Password',
-    'tr_melis_installer_new_user_password_info' => 'User password (must be of 8 characters minimum and contain at least a letter and a number)',
+    'tr_melis_installer_new_user_password_info' => 'User password (must be of 12 characters minimum and contain at least a letter and a number)',
     'tr_Melis_installer_new_user_confirm_password' => 'Confirm password',
     'tr_Melis_installer_new_user_confirm_password_info' => 'Password confirmation of the user',
     'tr_melis_installer_new_user_first_name' => 'First name',
