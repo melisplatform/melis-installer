@@ -1,6 +1,7 @@
 <?php
 namespace MelisInstaller\Service\Factory;
-use Interop\Container\ContainerInterface;
+
+use psr\Container\ContainerInterface;
 
 class AbstractFactory
 {

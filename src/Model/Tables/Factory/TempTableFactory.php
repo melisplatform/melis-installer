@@ -9,7 +9,7 @@
 
 namespace MelisInstaller\Model\Tables\Factory;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Db\ResultSet\HydratingResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 //use Laminas\Stdlib\Hydrator\ObjectProperty;
