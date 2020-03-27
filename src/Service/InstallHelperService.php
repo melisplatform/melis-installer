@@ -2,16 +2,14 @@
 
 namespace MelisInstaller\Service;
 
-use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Json\Json;
 use PDO;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Adapter\Adapter as DbAdapter;
 use Laminas\Db\Sql\Ddl;
-class InstallHelperService implements ServiceLocatorAwareInterface
-{
 
+class InstallHelperService extends AbstractService
+{
     const CONN_OK = 200;
     const CONN_MOVED_PERMANENTLY = 301;
     const CONN_TEMP_REDIRECT = 307;
@@ -26,24 +24,10 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     const MODULES_ONLY = 2;
     const SITE_ONLY    = 1;
 
-
-
-    public $serviceLocator;
     protected $extensions;
     protected $odbAdapter;
     protected $importStatus = array();
     protected $importTableName = array();
-
-    public function setServiceLocator(ServiceLocatorInterface $sl)
-    {
-        $this->serviceLocator = $sl;
-        return $this;
-    }
-
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
 
     /**
      * Sets what extensions should be required when checking pre-installe extensions
@@ -110,7 +94,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
      */
     public function getDomain()
     {
-        $uri = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRequest()->getUri();
+        $uri = $this->getServiceManager()->get('Application')->getMvcEvent()->getRequest()->getUri();
         return sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
     }
 
@@ -590,7 +574,7 @@ class InstallHelperService implements ServiceLocatorAwareInterface
     public function isModuleExists($module)
     {
         $status = false;
-        $modulesSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+        $modulesSvc = $this->getServiceManager()->get('MelisInstallerModulesService');
         $pathModule = $modulesSvc->getModulePath($module);
 
         if(file_exists($pathModule)) {
@@ -612,13 +596,13 @@ class InstallHelperService implements ServiceLocatorAwareInterface
         ini_set('memory_limit', '-1');
         set_time_limit(0);
 
-        $config             = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $config             = $this->getServiceManager()->get('MelisInstallerConfig');
         $marketplace        = $config->getItem('melis_installer/datas')['marketplace_url'];
 
         $packages           = [];
         $requestJsonUrl     = $marketplace.'/melis-packagist/get-packages/page/1/search//item_per_page/0/order/asc/order_by//status/2/group//siteonly/'.$type.'/bundle/';
 
-        $config             = $this->getServiceLocator()->get('MelisInstallerConfig');
+        $config             = $this->getServiceManager()->get('MelisInstallerConfig');
         $moduleExceptions   = $config->getItem('melis_installer/datas/module_exceptions');
         $serverPackages     = null;
         try {

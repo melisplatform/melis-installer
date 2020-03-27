@@ -2,25 +2,12 @@
 
 namespace MelisInstaller\Service;
 
-use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\I18n\Translator\Translator;
 use Laminas\Stdlib\ArrayUtils;
 
-class MelisInstallerConfigService implements ServiceLocatorAwareInterface
+class MelisInstallerConfigService extends AbstractService
 {
-    public $serviceLocator;
     public $appConfig;
-
-    public function setServiceLocator(ServiceLocatorInterface $sl)
-    {
-        $this->serviceLocator = $sl;
-        return $this;
-    }
-
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
 
     private function getItemRec($pathTab, $position, $configTab)
     {
@@ -46,7 +33,7 @@ class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 
     public function getItem($pathString = '', $prefix = '')
     {
-        $config = $this->serviceLocator->get('config');
+        $config = $this->getServiceManager()->get('config');
         if (!empty($config['plugins']))
             $this->appConfig = $config['plugins'];
         else
@@ -77,7 +64,7 @@ class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 
         if (empty($array))
         {
-            $config = $this->getServiceLocator()->get('config');
+            $config = $this->getServiceManager()->get('config');
             if (!empty($config['plugins']))
                 $array = $config['plugins'];
             else
@@ -153,7 +140,7 @@ class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 
     public function translateAppConfig($array)
     {
-        $translator = $this->serviceLocator->get('translator');
+        $translator = new Translator();
 
         $final = array();
         foreach($array as $key => $value)
@@ -389,7 +376,7 @@ class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 
     public function getOrderInterfaceConfig($keyInterface)
     {
-        $config = $this->getServiceLocator()->get('config');
+        $config = $this->getServiceManager()->get('config');
         if (!empty($config['interface_ordering']))
             $array = $config['interface_ordering'];
         else
@@ -403,7 +390,7 @@ class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 
     public function getOrderFormsConfig($keyForm)
     {
-        $config = $this->getServiceLocator()->get('config');
+        $config = $this->getServiceManager()->get('config');
         if (!empty($config['forms_ordering']))
             $array = $config['forms_ordering'];
         else
@@ -417,7 +404,7 @@ class MelisInstallerConfigService implements ServiceLocatorAwareInterface
 
     public function isInterfaceDisabled($keyInterface)
     {
-        $config = $this->getServiceLocator()->get('config');
+        $config = $this->getServiceManager()->get('config');
         if (!empty($config['interface_disable']))
             $array = $config['interface_disable'];
         else

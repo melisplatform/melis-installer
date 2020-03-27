@@ -1,1 +1,0 @@
-Please make sure /luceneIndex directory is writable to anable to Index the Site

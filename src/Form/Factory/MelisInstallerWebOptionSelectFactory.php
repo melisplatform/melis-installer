@@ -9,14 +9,13 @@
 
 namespace MelisInstaller\Form\Factory;
 
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceManager;
 use MelisInstaller\Form\Factory\MelisSelectFactory;
 
 class MelisInstallerWebOptionSelectFactory extends MelisSelectFactory
 {
-	protected function loadValueOptions(ServiceLocatorInterface $formElementManager)
+	protected function loadValueOptions(ServiceManager $serviceManager)
 	{
-		$serviceManager = $formElementManager->getServiceLocator();
 		$translator   = $serviceManager->get('translator');
 		
 		// Getting the default values for Website confguration options from app.interface.php datas

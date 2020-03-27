@@ -8,37 +8,32 @@
 
 namespace MelisInstaller\Service;
 
-use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\I18n\Translator\Translator;
+use Laminas\ServiceManager\ServiceManager;
+
 /**
  * Translation Service for retrieveing all the translation messages 
  *
  */
-class MelisInstallerTranslationService extends Translator implements ServiceLocatorAwareInterface, MelisInstallerTranslationServiceInterface 
+class MelisInstallerTranslationService extends Translator implements  MelisInstallerTranslationServiceInterface
 {
-    /**
-     *
-     * @var $serviceLocator ServiceLocatorInterface
-     */
-    public $serviceLocator;
-    
     /**
      *
      * @var $fmContainer Container
      */
     protected $fmContainer;
-    
-    
-    public function setServiceLocator(ServiceLocatorInterface $sl)
+
+
+    protected $serviceManager;
+
+    public function setServiceManager(ServiceManager $service)
     {
-        $this->serviceLocator = $sl;
-        return $this;
+        $this->serviceManager = $service;
     }
-    
-    public function getServiceLocator()
+
+    public function getServiceManager()
     {
-        return $this->serviceLocator;
+        return $this->serviceManager;
     }
     
     /**
@@ -52,7 +47,7 @@ class MelisInstallerTranslationService extends Translator implements ServiceLoca
     public function getTranslationMessages($locale, $textDomain = 'default')
     {
         // Get the translation service, so we would be able to fetch the current configs
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = $this->getServiceManager()->get('translator');
         $translation = $translator->getTranslator();
         
         // process to access the private properties of translation service

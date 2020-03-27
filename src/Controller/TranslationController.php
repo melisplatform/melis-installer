@@ -9,6 +9,7 @@
 
 namespace MelisInstaller\Controller;
 
+use Laminas\I18n\Translator\Translator;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\Model\JsonModel;
@@ -18,11 +19,16 @@ use Laminas\Config\Writer\PhpArray;
 
 class TranslationController  extends AbstractActionController
 {
+    public $serviceManager;
 
     public function getTranslationAction()
     {
-        $translator = $this->getServiceLocator()->get('translator');
+        $this->serviceManager = $this->getEvent()->getApplication()->getServiceManager();
+
+        $translator = $this->serviceManager->get('translator');
+
         $translations = (array) $translator->getAllMessages();
+
         $jsTranslations = null;
 
         $container  = new Container('meliscore');

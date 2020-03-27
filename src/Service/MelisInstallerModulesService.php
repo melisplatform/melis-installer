@@ -10,26 +10,16 @@ use Composer\Composer;
 use Composer\Factory;
 use Composer\IO\NullIO;
 use Composer\Package\CompletePackage;
-use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Config\Config;
 use Laminas\Config\Writer\PhpArray;
-class MelisInstallerModulesService implements ServiceLocatorAwareInterface
+
+class MelisInstallerModulesService extends AbstractService
 {
-    public $serviceLocator;
     /**
      * @var Composer
      */
     protected $composer;
-    public function setServiceLocator(ServiceLocatorInterface $sl)
-    {
-        $this->serviceLocator = $sl;
-        return $this;
-    }
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
+
     /**
      * @param Composer $composer
      * @return $this
@@ -326,7 +316,7 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
      */
     public function getActiveModules($exclude = array())
     {
-        $mm = $this->getServiceLocator()->get('ModuleManager');
+        $mm = $this->getServiceManager()->get('ModuleManager');
         $loadedModules = array_keys($mm->getLoadedModules());
         $pluginModules = $this->getModulePlugins();
         $modules = array();
@@ -374,7 +364,7 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
             }
             if($convertPackageNameToNamespace) {
                 $tmpDependencies = array();
-                $toolSvc         = $this->getServiceLocator()->get('MelisCoreTool');
+                $toolSvc         = $this->getServiceManager()->get('MelisCoreTool');
                 foreach($dependencies as $dependency) {
                     $tmpDependencies[] = ucfirst($toolSvc->convertToNormalFunction($dependency));
                 }

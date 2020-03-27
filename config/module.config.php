@@ -1,151 +1,159 @@
 <?php
 
 /**
- * Melis Technology (http://www.melistechnology.com)
+ * Melis Technology (http://www.melistechnology.com]
  *
- * @copyright Copyright (c) 2015 Melis Technology (http://www.melistechnology.com)
+ * @copyright Copyright (c] 2015 Melis Technology (http://www.melistechnology.com]
  *
  */
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'MelisInstaller-home' => array(
+use MelisInstaller\Service\Factory\AbstractFactory;
+use MelisInstaller\Service\{InstallHelperService, MelisInstallerConfigService, MelisInstallerModulesService, MelisInstallerTranslationService};
+
+return [
+    'router' => [
+        'routes' => [
+            'MelisInstaller-home' => [
                 'type' => 'Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'MelisInstaller\Controller\Installer',
                         'action' => 'index',
-                    ),
-                ),
-            ),
-        	'melis-backoffice' => array(
+                    ],
+                ],
+            ],
+            'melis-backoffice' => [
                 'type' => 'Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/melis[/]',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'MelisInstaller\Controller\Index',
                         'action' => 'index',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes' => array(
-                    'application-MelisInstaller' => array(
+                'child_routes' => [
+                    'application-MelisInstaller' => [
                         'type'    => 'Literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => 'MelisInstaller',
-                            'defaults' => array(
+                            'defaults' => [
                                 '__NAMESPACE__' => 'MelisInstaller\Controller',
                                 'controller'    => 'Installer',
                                 'action'        => 'index',
-                            ),
-                        ),
+                            ],
+                        ],
                         'may_terminate' => true,
-                        'child_routes' => array(
-                            'default' => array(
+                        'child_routes' => [
+                            'default' => [
                                 'type'    => 'Segment',
-                                'options' => array(
+                                'options' => [
                                     'route'    => '/[:controller[/:action]]',
-                                    'constraints' => array(
+                                    'constraints' => [
                                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    ),
-                                    'defaults' => array(
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                    'setup' => array(
+                                    ],
+                                    'defaults' => [
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'setup' => [
                         'type'    => 'Literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => 'setup',
-                            'defaults' => array(
+                            'defaults' => [
                                 '__NAMESPACE__' => 'MelisInstaller\Controller',
                                 'controller'    => 'Installer',
                                 'action'        => 'index',
-                            ),
-                        ),
+                            ],
+                        ],
                         'may_terminate' => true,
-                    ),
-                    'translations' => array(
+                    ],
+                    'translations' => [
                         'type'    => 'Literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => 'get-translations',
-                            'defaults' => array(
+                            'defaults' => [
                                 '__NAMESPACE__' => 'MelisInstaller\Controller',
                                 'controller'    => 'Translation',
                                 'action'        => 'getTranslation',
-                            ),
-                        ),
-                    )
-                ),
-            ),
+                            ],
+                        ],
+                    ]
+                ],
+            ],
 
-        ),
-    ),
-    'translator' => array(
-    	'locale' => 'en_EN',
-	),
-    'service_manager' => array(
-		'invokables' => array(
-		),
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
-        ),
-        'factories' => array(
-            'InstallerHelper'              => 'MelisInstaller\Service\Factory\InstallHelperServiceFactory',
-            'MelisInstallerConfig'         => 'MelisInstaller\Service\Factory\MelisInstallerConfigServiceFactory',
-            'MelisInstallerModulesService' => 'MelisInstaller\Service\Factory\MelisInstallerModulesServiceFactory',
-            'MelisInstallerTranslation'    => 'MelisInstaller\Service\Factory\MelisInstallerTranslationServiceFactory',
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
+        ],
+    ],
+    'translator' => [
+        'locale' => 'en_EN',
+    ],
+    'service_manager' => [
+        'invokables' => [
+        ],
+        'factories' => [
+            InstallHelperService::class             => AbstractFactory::class,
+            MelisInstallerConfigService::class      => AbstractFactory::class,
+            MelisInstallerModulesService::class     => AbstractFactory::class,
+            MelisInstallerTranslationService::class => AbstractFactory::class,
+
+            \MelisInstaller\Model\Tables\TempTable::class => \MelisInstaller\Model\Tables\Factory\TempTableFactory::class
+        ],
+        'aliases' => [
+            'translator'                   => 'MvcTranslator',
+            'InstallerHelper'              => InstallHelperService::class,
+            'MelisInstallerConfig'         => MelisInstallerConfigService::class,
+            'MelisInstallerModulesService' => MelisInstallerModulesService::class,
+            'MelisInstallerTranslation'    => MelisInstallerTranslationService::class,
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
             'MelisInstaller\Controller\Installer' => 'MelisInstaller\Controller\InstallerController',
             'MelisInstaller\Controller\Translation' => 'MelisInstaller\Controller\TranslationController',
-        ),
-    ),
-    
-    'form_elements' => array(
-        'factories' => array(
-            'MelisSelect' => 'MelisInstaller\Form\Factory\MelisSelectFactory',
+        ],
+    ],
+    'form_elements' => [
+        'factories' => [
+//            'MelisSelect' => \MelisInstaller\Form\Factory\MelisSelectFactory::class,
             'MelisText' => 'MelisInstaller\Form\Factory\MelisTextFactory',
             'MelisInstallerLanguageSelect' => 'MelisInstaller\Form\Factory\MelisInstallerLanguageSelectFactory',
             'MelisInstallerWebOptionSelect' => 'MelisInstaller\Form\Factory\MelisInstallerWebOptionSelectFactory',
-        ),
-    ),
-    
-    'view_helpers' => array(
-        'invokables' => array(
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
             'MelisFieldCollection' => 'MelisInstaller\Form\View\Helper\MelisFieldCollection',
             'MelisFieldRow' => 'MelisInstaller\Form\View\Helper\MelisFieldRow',
-        ),
-    ),
-    
-    'validators' => array(
-        'invokables' => array(
+        ],
+        'aliases' => [
+            'melisFieldCollection' => 'MelisFieldCollection'
+        ],
+    ],
+    'validators' => [
+        'invokables' => [
             'MelisPasswordValidator' => 'MelisInstaller\Validator\MelisPasswordValidator',
-        ),
-    ),
-    
-    'view_manager' => array(
+        ],
+    ],
+    'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
-        'template_map' => array(
+        'template_map' => [
             'layout/layout'          => __DIR__ . '/../view/layout/layout.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
+        ],
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-	    'strategies' => array(
-	        'ViewJsonStrategy'
-	    )
-    ),
-);
+        ],
+        'strategies' => [
+            'ViewJsonStrategy'
+        ]
+    ],
+];

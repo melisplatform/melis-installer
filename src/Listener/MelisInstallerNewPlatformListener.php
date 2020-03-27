@@ -13,17 +13,16 @@ use Laminas\Session\Container;
 class MelisInstallerNewPlatformListener extends MelisInstallerGeneralListener implements ListenerAggregateInterface
 {
 
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $sharedEvents      = $events->getSharedManager();
 
         $callBackHandler = $sharedEvents->attach(
             'MelisInstaller',
-            array(
-                'melis_install_new_platform_start'
-            ),
+            'melis_install_new_platform_start',
             function($e){
-                $sm = $e->getTarget()->getServiceLocator();
+
+                $sm = $e->getTarget()->getEvent()->getApplication()->getServiceManager();
                 $params = $e->getParams();
 
                 $currentPlatform = $params['currentPlatform'];

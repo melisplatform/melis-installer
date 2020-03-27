@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Melis Technology (http://www.melistechnology.com)
+ *
+ * @copyright Copyright (c) 2015 Melis Technology (http://www.melistechnology.com)b
+ *
+ */
+
+return [
+    'db' => [
+        'driver'   => 'Mysqli',
+        'dsn' => 'mysql:dbname=%s;host=%s;charset=utf8',
+        'hostname' => '%s',
+        'database' => '%s',
+        'username' => '%s',
+        'password' => '%s',
+        'port' => '3306',
+        'charset' => 'utf8',
+        'driver_options' => [
+            %d => 'SET NAMES \'UTF8\'',
+        ],
+    ],
+];

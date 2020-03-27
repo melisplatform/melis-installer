@@ -13,21 +13,20 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
 use MelisInstaller\Listener\MelisInstallerGeneralListener;
 use Laminas\Session\Container;
+
 class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener implements ListenerAggregateInterface
 {
 
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $sharedEvents      = $events->getSharedManager();
 
         $callBackHandler = $sharedEvents->attach(
             'MelisInstaller',
-            array(
-                'melis_installer_last_process_start'
-            ),
+            'melis_installer_last_process_start',
             function($e){
                 set_time_limit(0);
-                $sm = $e->getTarget()->getServiceLocator();
+                $sm = $e->getTarget()->getEvent()->getApplication()->getServiceManager();
                 $moduleSvc = $sm->get('MelisInstallerModulesService');
                 $installHelperSvc = $sm->get('InstallerHelper');
                 $params = $e->getParams();
@@ -73,7 +72,7 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                         ], $currentEnvConf) . PHP_EOL;
 
 
-                        
+
                     }
 
                     if(!empty($newEnv)) {

@@ -9,6 +9,7 @@
 
 namespace MelisInstaller\Listener;
 
+use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 
 /**
@@ -16,13 +17,18 @@ use Laminas\EventManager\EventManagerInterface;
  * so that other listener can extends this class and not
  * redefine those
  */
-class MelisInstallerGeneralListener 
+abstract class MelisInstallerGeneralListener extends AbstractListenerAggregate
 {
     /**
-     * @var \Laminas\Stdlib\CallbackHandler[]
+     * Attach a listener to an event emitted by components with specific identifiers.
+     *
+     * @param  string $identifier Identifier for event emitting component
+     * @param  string $eventName
+     * @param  callable $listener Listener that will handle the event.
+     * @param  int $priority Priority at which listener should execute
      */
-    protected $listeners = array();
-    
+    abstract function attach(EventManagerInterface $events, $priority = 1);
+
 	protected function getControllerAction($e)
 	{
 		$routeMatch = $e->getRouteMatch();
@@ -38,13 +44,4 @@ class MelisInstallerGeneralListener
 		
 		return array($controller, $action);
 	}
-
-    public function detach(EventManagerInterface $events)
-    {
-        foreach ($this->listeners as $index => $listener) {
-            if ($events->detach($listener)) {
-                unset($this->listeners[$index]);
-            }
-        }
-    }
 }

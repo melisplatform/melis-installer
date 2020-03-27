@@ -9,11 +9,12 @@
 
 namespace MelisInstaller\Controller;
 
+use Laminas\I18n\Translator\Translator;
+use MelisInstaller\Model\Tables\TempTable;
 use PDO;
 use Laminas\Config\Config;
 use Laminas\Config\Writer\PhpArray;
 use Laminas\Json\Json;
-use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
@@ -24,15 +25,28 @@ class InstallerController extends AbstractActionController
     protected $steps = ['sysconfig', 'vhost', 'fsrights', 'environments', 'dbconn', 'selmod', 'pf_init'];
     protected $includedModules = ['MelisEngine', 'MelisFront'];
 
+
     public function indexAction()
     {
-        $resources = $this->getServiceLocator()->get('MelisAssetManagerWebPack')->getAssets();
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
 
+//        var_dump(getenv('MELIS_PLATFORM'));
+//        exit;
+//        $test = $this->getServiceManager()->get('MelisCoreTableUser');
+////
+//        print_r($test->fetchAll());
+////
+//////        $this->getServiceManager()->get(\Laminas\Db\Adapter\Adapter::class);
+////
+//        die;
+
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
+
+
+        $resources = $this->getServiceManager()->get('MelisAssetManagerWebPack')->getAssets();
         $locales = $this->getTranslationsLocale();
 
 
-        $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent();
+        $routeMatch = $this->getServiceManager()->get('Application')->getMvcEvent();
 
         $route = $routeMatch->getRouteMatch()->getMatchedRouteName();
 
@@ -55,7 +69,7 @@ class InstallerController extends AbstractActionController
         if (isset($container['cms_data']['weboption'])) {
 
             // Getting the default values for Website confguration options from app.interface.php datas
-            $config = $this->getServiceLocator()->get('config');
+            $config = $this->getServiceManager()->get('config');
             $defaultWebConfigOptions = $config['plugins']['melis_installer']['datas']['default_website_config_options'];
             if (array_key_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None') {
                 $showWebForm = true;
@@ -145,7 +159,7 @@ class InstallerController extends AbstractActionController
 
     public function getTranslationsLocale()
     {
-        $modulesSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $modulesSvc = $this->getServiceManager()->get('MelisAssetManagerModulesService');
         $modules = $modulesSvc->getAllModules();
         $modulePath = $modulesSvc->getModulePath('MelisInstaller');
         $path = $modulePath . '/language/';
@@ -181,12 +195,11 @@ class InstallerController extends AbstractActionController
     protected function getForm($configPath)
     {
         $form = null;
-        $melisConfig = $this->serviceLocator->get('MelisInstallerConfig');
+        $melisConfig = $this->getServiceManager()->get('MelisInstallerConfig');
         $formConfig = $melisConfig->getItem($configPath);
-
         if ($formConfig) {
             $factory = new \Laminas\Form\Factory();
-            $formElements = $this->getServiceLocator()->get('FormElementManager');
+            $formElements = $this->getServiceManager()->get('FormElementManager');
             $factory->setFormElementManager($formElements);
             $form = $factory->createForm($formConfig);
         }
@@ -208,8 +221,8 @@ class InstallerController extends AbstractActionController
         $checkDataExt = 0;
         $success = 0;
 
-        $translator = $this->getServiceLocator()->get('translator');
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+        $translator = new Translator();
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
         $installHelper->setRequiredExtensions([
             'openssl',
@@ -280,7 +293,7 @@ class InstallerController extends AbstractActionController
      */
     protected function vHostSetupChecker()
     {
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = new Translator();
 
         $success = 0;
         $error = [];
@@ -326,7 +339,7 @@ class InstallerController extends AbstractActionController
         $success = 0;
         $errors = [];
         $results = [];
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = new Translator();
         $requiredModules = array('mod_headers','mod_alias','mod_deflate');
 
         if (function_exists('apache_get_modules')) {
@@ -364,8 +377,8 @@ class InstallerController extends AbstractActionController
      */
     protected function checkDirectoryRights()
     {
-        $translator = $this->getServiceLocator()->get('translator');
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+        $translator = new Translator();
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
         $configDir = $installHelper->getDir('config');
         $module = $this->getModuleSvc()->getAllModules();
@@ -428,7 +441,7 @@ class InstallerController extends AbstractActionController
 
     public function getModuleSvc()
     {
-        $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $moduleSvc = $this->getServiceManager()->get('MelisAssetManagerModulesService');
 
         return $moduleSvc;
     }
@@ -542,7 +555,7 @@ class InstallerController extends AbstractActionController
         $success = 0;
         $errors = [];
         $results = [];
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = new Translator();
         if ($this->getRequest()->isXmlHttpRequest()) {
             $requiredModules = array('mod_headers','mod_alias','mod_deflate');
 
@@ -708,10 +721,10 @@ class InstallerController extends AbstractActionController
     {
         $success = 0;
         $errors = [];
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = new Translator();
         if ($this->getRequest()->isPost()) {
             $data = get_object_vars($this->getRequest()->getPost());
-            $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+            $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
 
             if (!empty($data['hostname'])) {
@@ -799,9 +812,9 @@ class InstallerController extends AbstractActionController
         $appConfigForm = [];
         $requiredModules = [];
 
-        $translator = $this->getServiceLocator()->get('translator');
-        $melisMelisInstallerConfig = $this->getServiceLocator()->get('MelisInstallerConfig');
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+        $translator = new Translator();
+        $melisMelisInstallerConfig = $this->getServiceManager()->get('MelisInstallerConfig');
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -816,7 +829,7 @@ class InstallerController extends AbstractActionController
                 $container['cms_data'] = $data;
 
                 // Getting the default values for Website confguration options from app.interface.php datas
-                $config = $this->getServiceLocator()->get('config');
+                $config = $this->getServiceManager()->get('config');
                 $defaultWebConfigOptions = $config['plugins']['melis_installer']['datas']['default_website_config_options'];
                 // Checking if the Website option
                 if (array_key_exists($container['cms_data']['weboption'], $defaultWebConfigOptions) && $container['cms_data']['weboption'] != 'None') {
@@ -1117,7 +1130,7 @@ class InstallerController extends AbstractActionController
                 chmod($composer, 0777);
             }
 
-            $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+            $config = $this->getServiceManager()->get('MelisInstallerConfig');
 
             $autoInstallModules = $config->getItem('melis_installer/datas/module_auto_install');
             $container = new Container('melisinstaller');
@@ -1146,7 +1159,7 @@ class InstallerController extends AbstractActionController
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
             $downloadableModules = implode(' ', $downloadableModules);
 
-            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc = $this->getServiceManager()->get('MelisComposerService');
 
             set_time_limit(0);
             ini_set('memory_limit', -1);
@@ -1175,7 +1188,7 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc = $this->getServiceManager()->get('MelisComposerService');
             $composerSvc->update();
 
         }
@@ -1196,7 +1209,7 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $composerSvc = $this->getServiceLocator()->get('MelisComposerService');
+            $composerSvc = $this->getServiceManager()->get('MelisComposerService');
             $composerSvc->dumpAutoload();
 
             $success = 1;
@@ -1216,13 +1229,13 @@ class InstallerController extends AbstractActionController
             set_time_limit(0);
             ini_set('memory_limit', -1);
 
-            $config = $this->getServiceLocator()->get('MelisConfig');
+            $config = $this->getServiceManager()->get('MelisConfig');
 
             $autoInstallModules = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
             $defaultModules = $config->getItem('melis_installer/datas/module_default');
             $container = new Container('melisinstaller');
             $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
-            $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+            $moduleSvc = $this->getServiceManager()->get('MelisInstallerModulesService');
 
             // check if the module exists before activating
             $modules = array_merge($autoInstallModules, $downloadableModules);
@@ -1329,19 +1342,31 @@ class InstallerController extends AbstractActionController
 
             if ($database) {
 
-                $installHelper = $this->getServiceLocator()->get('InstallerHelper');
-                $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+                $installHelper = $this->getServiceManager()->get('InstallerHelper');
+                $config = $this->getServiceManager()->get('MelisInstallerConfig');
                 $autoInstallModules = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
 
                 $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
                 $modules = array_merge(['MelisCore'], $autoInstallModules, $downloadableModules);
-                $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
+                $moduleSvc = $this->getServiceManager()->get('MelisInstallerModulesService');
 
                 if ($modules && is_array($modules)) {
 
                     // -> Create Database data SQL file configured from what was filled in forms
                     $fileName = $installHelper->getMelisPlatform() . '.php';
-                    $configValue = [
+
+                    // Database connection configuration
+                    $dbConnFile = file_get_contents(__DIR__ . '/../../etc/DatabaseConnection');
+                    $dbConn = sprintf($dbConnFile,
+                        $database['database'],
+                        $database['hostname'],
+                        $database['hostname'],
+                        $database['database'],
+                        $database['username'],
+                        $database['password'],
+                        PDO::MYSQL_ATTR_INIT_COMMAND
+                    );
+                    /*$configValue = [
                         'db' => [
                             'dsn' => sprintf('mysql:dbname=%s;host=%s;charset=utf8', $database['database'], $database['hostname']),
                             'username' => $database['username'],
@@ -1354,12 +1379,13 @@ class InstallerController extends AbstractActionController
 
                     $config = new Config($configValue, true);
                     $writer = new PhpArray();
-                    $conf = $writer->toString($config);
+                    $conf = $writer->toString($config);*/
+
                     if (is_writable('config/autoload/platforms/')) {
-                        file_put_contents('config/autoload/platforms/' . $fileName, $conf);
+                        file_put_contents('config/autoload/platforms/' . $fileName, $dbConn);
                     }
 
-                    $deployDiscoveryService = $this->getServiceLocator()->get('MelisDbDeployDiscoveryService');
+                    $deployDiscoveryService = $this->getServiceManager()->get('MelisDbDeployDiscoveryService');
 
                     $ctr = 0;
                     set_time_limit(0);
@@ -1500,7 +1526,7 @@ class InstallerController extends AbstractActionController
 
     public function installSiteModuleAction()
     {
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = new Translator();
         $success = 0;
         $message = $translator->translate('tr_melis_installer_no_site_install');
         $request = $this->getRequest();
@@ -1535,7 +1561,7 @@ class InstallerController extends AbstractActionController
     private function installDemoSite()
     {
         $container = new Container('melisinstaller');
-        $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $moduleSvc = $this->getServiceManager()->get('MelisAssetManagerModulesService');
         $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
 
         if ($this->isUsingDemoCms()) {
@@ -1545,7 +1571,7 @@ class InstallerController extends AbstractActionController
 
             $siteModule = $siteConfiguration['website_module'];
 
-            $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+            $installHelper = $this->getServiceManager()->get('InstallerHelper');
             $melisSitePathModule = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites/' . '/' . $siteModule;
 
             if (file_exists($melisSitePathModule)) {
@@ -1574,7 +1600,7 @@ class InstallerController extends AbstractActionController
 
     private function mapDirectoryDemo($dir, $targetModuleName, $newModuleName)
     {
-        $installSvc = $this->getServiceLocator()->get('InstallerHelper');
+        $installSvc = $this->getServiceManager()->get('InstallerHelper');
         $result = [];
 
         $cdir = scandir($dir);
@@ -1623,7 +1649,7 @@ class InstallerController extends AbstractActionController
         set_time_limit(0);
         ini_set('memory_limit', -1);
 
-        $mm = $this->getServiceLocator()->get('ModuleManager');
+        $mm = $this->getServiceManager()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
         $modules = array_diff($modules, $this->getInstallerModules());
         $modulesExclusions = [
@@ -1660,7 +1686,7 @@ class InstallerController extends AbstractActionController
             }
         }
 
-        $translator = $this->getServiceLocator()->get('translator');
+        $translator = $this->getServiceManager()->get('translator');
 
         $content .= '<div class="col-xs-12 col-md-4">';
         $content .= '    <ul class="nav nav-tabs nav-block">';
@@ -1704,7 +1730,7 @@ class InstallerController extends AbstractActionController
 
                 $viewModel = $this->forward()->dispatch($module . '\\Controller\\' . $controller, ['action' => $action]);
 
-                $renderer = $this->getServiceLocator()->get('Laminas\View\Renderer\RendererInterface');
+                $renderer = $this->getServiceManager()->get('Laminas\View\Renderer\RendererInterface');
                 $html = new \Laminas\Mime\Part($renderer->render($viewModel));
 
                 $content = (string) $html->getContent();
@@ -1721,7 +1747,7 @@ class InstallerController extends AbstractActionController
 
     public function validateModuleConfigurationFormAction()
     {
-        $mm = $this->getServiceLocator()->get('ModuleManager');
+        $mm = $this->getServiceManager()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
 
         $params = $this->params()->fromQuery();
@@ -1790,7 +1816,7 @@ class InstallerController extends AbstractActionController
     public function submitModuleConfigurationFormAction()
     {
 
-        $mm = $this->getServiceLocator()->get('ModuleManager');
+        $mm = $this->getServiceManager()->get('ModuleManager');
         $modules = array_keys($mm->getLoadedModules());
 
         $params = $this->params()->fromQuery();
@@ -1889,7 +1915,7 @@ class InstallerController extends AbstractActionController
                 $errors = $createUserForm->getMessages();
             }
 
-            $melisMelisInstallerConfig = $this->getServiceLocator()->get('MelisInstallerConfig');
+            $melisMelisInstallerConfig = $this->getServiceManager()->get('MelisInstallerConfig');
             $appConfigForm = $melisMelisInstallerConfig->getItem('melis_installer/forms/melis_installer_user_data');
             $appConfigForm = $appConfigForm['elements'];
 
@@ -1949,7 +1975,7 @@ class InstallerController extends AbstractActionController
             $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
 
             // replace the application.config
-            $moduleSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+            $moduleSvc = $this->getServiceManager()->get('MelisAssetManagerModulesService');
             $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
             $appLoader = $melisInstallPath . '/etc/application.config.php';
 
@@ -1982,7 +2008,7 @@ class InstallerController extends AbstractActionController
     public function getDatabaseInstallStatusAction()
     {
 
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
         $tables = $installHelper->getImportedTables();
         $status = [];
 
@@ -2007,7 +2033,7 @@ class InstallerController extends AbstractActionController
 
         $success = 0;
         $errors = [];
-        $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
         $container = new Container('melisinstaller');
 
         if (!empty($container->getArrayCopy()) && in_array(array_keys($container['steps']), [$this->steps])) {
@@ -2086,7 +2112,7 @@ class InstallerController extends AbstractActionController
      */
     protected function hasMelisCmsModule()
     {
-        $modulesSvc = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+        $modulesSvc = $this->getServiceManager()->get('MelisAssetManagerModulesService');
         $modules = $modulesSvc->getAllModules();
         $path = $modulesSvc->getModulePath('MelisCms');
         $isExists = 0;
@@ -2100,7 +2126,7 @@ class InstallerController extends AbstractActionController
 
     private function mapDirectory($dir, $moduleName)
     {
-        $installSvc = $this->getServiceLocator()->get('InstallerHelper');
+        $installSvc = $this->getServiceManager()->get('InstallerHelper');
         $result = [];
 
         $cdir = scandir($dir);
@@ -2150,7 +2176,7 @@ class InstallerController extends AbstractActionController
     protected function marketplace()
     {
         /** @var \MelisMarketPlace\Service\MelisMarketPlaceService $marketplace */
-        $marketplace = $this->getServiceLocator()->get('MelisMarketPlaceService');
+        $marketplace = $this->getServiceManager()->get('MelisMarketPlaceService');
 
         return $marketplace;
     }
@@ -2161,7 +2187,7 @@ class InstallerController extends AbstractActionController
     protected function marketplaceSite()
     {
         /** @var \MelisMarketPlace\Service\MelisMarketPlaceSiteService $marketplaceSite */
-        $marketplaceSite = $this->getServiceLocator()->get('MelisMarketPlaceSiteService');
+        $marketplaceSite = $this->getServiceManager()->get('MelisMarketPlaceSiteService');
 
         return $marketplaceSite;
     }

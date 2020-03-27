@@ -9,6 +9,7 @@
 
 namespace MelisInstaller;
 
+use Laminas\I18n\Translator\Translator;
 use MelisInstaller\Listener\MelisInstallerNewPlatformListener;
 use MelisInstaller\Listener\MelisInstallModuleConfigListener;
 use Laminas\ModuleManager\ModuleManager;
@@ -25,13 +26,13 @@ class Module
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
         $sm = $e->getApplication()->getServiceManager();
         $this->createTranslations($e);
         $this->initSession();
 
-        $eventManager->attach(new MelisInstallModuleConfigListener());
-        $eventManager->attach(new MelisInstallerNewPlatformListener());
-
+        (new MelisInstallModuleConfigListener())->attach($eventManager);
+        (new MelisInstallerNewPlatformListener())->attach($eventManager);
 
         $eventManager->attach(MvcEvent::EVENT_DISPATCH, function ($e) {
 
@@ -115,7 +116,6 @@ class Module
 
         $container = new Container('meliscore');
 
-
         $locale = isset($container['melis-lang-locale']) ? $container['melis-lang-locale'] : 'en_EN';
 
         if (!empty($locale)) {
@@ -158,7 +158,6 @@ class Module
         $sessionManager->start();
         Container::setDefaultManager($sessionManager);
         $container = new Container('melisinstaller');
-
     }
 
     public function init(ModuleManager $mm)
@@ -174,8 +173,10 @@ class Module
             $controller = $e->getTarget();
 
             $matchedRouteName = $routeMatch->getMatchedRouteName();
+
             $excludedRoutes = [
                 'melis-backoffice/get-translations',
+                'melis-backoffice/application-MelisInstaller/default'
             ];
 
             if (!in_array($matchedRouteName, $excludedRoutes)) {
@@ -194,9 +195,8 @@ class Module
             include __DIR__ . '/../config/app.forms.php',
         ];
 
-        foreach ($configFiles as $file) {
+        foreach ($configFiles as $file)
             $config = ArrayUtils::merge($config, $file);
-        }
 
         return $config;
     }
@@ -211,5 +211,4 @@ class Module
             ],
         ];
     }
-
 }
