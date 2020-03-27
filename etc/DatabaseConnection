@@ -20,5 +20,8 @@ return [
         'driver_options' => [
             %d => 'SET NAMES \'UTF8\'',
         ],
+        'options' => [
+            'buffer_results' => true
+        ]
     ],
 ];

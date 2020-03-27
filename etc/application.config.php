@@ -16,7 +16,7 @@ return [
             'Laminas\Form',
             'Laminas\Validator',
             'Laminas\Db',
-            'Application',
+            'Laminas\InputFilter',
         ],
         MelisCore\MelisModuleManager::getModules()
     ),
@@ -33,7 +33,7 @@ return [
         ),
 
         // use composer autoloader instead of laminas-loader
-//        'use_laminas_loader' => false,
+        'use_laminas_loader' => true,
 
         // An array of paths from which to glob configuration files after
         // modules are loaded. These effectively override configuration
@@ -60,7 +60,7 @@ return [
         'module_map_cache_key' => 'application.module.cache',
 
         // The path in which to cache merged configuration.
-        'cache_dir' => 'data/cache/',
+        'cache_dir' => 'data/config/',
 
         // Whether or not to enable modules dependency checking.
         // Enabled by default, prevents usage of modules that depend on other modules

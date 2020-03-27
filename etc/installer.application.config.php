@@ -16,7 +16,7 @@ return [
             'Laminas\Form',
             'Laminas\Validator',
             'Laminas\Db',
-            'Application',
+            'Laminas\InputFilter',
         ],
         MelisInstaller\MelisModuleManager::getModules()
     ),
@@ -60,7 +60,7 @@ return [
         'module_map_cache_key' => 'application.module.cache',
 
         // The path in which to cache merged configuration.
-        'cache_dir' => 'data/cache/',
+        'cache_dir' => 'cache/config/',
 
         // Whether or not to enable modules dependency checking.
         // Enabled by default, prevents usage of modules that depend on other modules
