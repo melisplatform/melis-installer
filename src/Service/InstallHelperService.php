@@ -178,6 +178,7 @@ class InstallHelperService extends AbstractService
 
             $config = new \Laminas\Config\Config($config, true);
             $writer = new \Laminas\Config\Writer\PhpArray();
+            $writer->setUseBracketArraySyntax(true);
             $conf = $writer->toString($config);
         }
     }
