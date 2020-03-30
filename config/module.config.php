@@ -9,6 +9,8 @@
 
 use MelisInstaller\Service\Factory\AbstractFactory;
 use MelisInstaller\Service\{InstallHelperService, MelisInstallerConfigService, MelisInstallerModulesService, MelisInstallerTranslationService};
+use MelisInstaller\Model\Tables\TempTable;
+use MelisInstaller\Model\Tables\Factory\TempTableFactory;
 
 return [
     'router' => [
@@ -95,12 +97,11 @@ return [
         'invokables' => [
         ],
         'factories' => [
-            InstallHelperService::class             => AbstractFactory::class,
-            MelisInstallerConfigService::class      => AbstractFactory::class,
-            MelisInstallerModulesService::class     => AbstractFactory::class,
-            MelisInstallerTranslationService::class => AbstractFactory::class,
-
-            \MelisInstaller\Model\Tables\TempTable::class => \MelisInstaller\Model\Tables\Factory\TempTableFactory::class
+            InstallHelperService::class                     => AbstractFactory::class,
+            MelisInstallerConfigService::class              => AbstractFactory::class,
+            MelisInstallerModulesService::class             => AbstractFactory::class,
+            MelisInstallerTranslationService::class         => AbstractFactory::class,
+            TempTable::class                                => TempTableFactory::class
         ],
         'aliases' => [
             'translator'                   => 'MvcTranslator',
@@ -112,25 +113,25 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'MelisInstaller\Controller\Installer' => 'MelisInstaller\Controller\InstallerController',
+            'MelisInstaller\Controller\Installer'   => 'MelisInstaller\Controller\InstallerController',
             'MelisInstaller\Controller\Translation' => 'MelisInstaller\Controller\TranslationController',
         ],
     ],
     'form_elements' => [
         'factories' => [
-//            'MelisSelect' => \MelisInstaller\Form\Factory\MelisSelectFactory::class,
-            'MelisText' => 'MelisInstaller\Form\Factory\MelisTextFactory',
-            'MelisInstallerLanguageSelect' => 'MelisInstaller\Form\Factory\MelisInstallerLanguageSelectFactory',
-            'MelisInstallerWebOptionSelect' => 'MelisInstaller\Form\Factory\MelisInstallerWebOptionSelectFactory',
+            'MelisSelect'                   => \MelisInstaller\Form\Factory\MelisSelectFactory::class,
+            'MelisText'                     => \MelisInstaller\Form\Factory\MelisTextFactory::class,
+            'MelisInstallerLanguageSelect'  => \MelisInstaller\Form\Factory\MelisInstallerLanguageSelectFactory::class,
+            'MelisInstallerWebOptionSelect' => \MelisInstaller\Form\Factory\MelisInstallerWebOptionSelectFactory::class,
         ],
     ],
     'view_helpers' => [
         'invokables' => [
-            'MelisFieldCollection' => 'MelisInstaller\Form\View\Helper\MelisFieldCollection',
-            'MelisFieldRow' => 'MelisInstaller\Form\View\Helper\MelisFieldRow',
+            'MelisFieldCollection'  => \MelisInstaller\Form\View\Helper\MelisFieldCollection::class,
+            'MelisFieldRow'         => \MelisInstaller\Form\View\Helper\MelisFieldRow::class,
         ],
         'aliases' => [
-            'melisFieldCollection' => 'MelisFieldCollection'
+            'melisFieldCollection'  => 'MelisFieldCollection'
         ],
     ],
     'validators' => [
@@ -139,15 +140,13 @@ return [
         ],
     ],
     'view_manager' => [
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'doctype'                   => 'HTML5',
+        'not_found_template'        => 'error/404',
+        'exception_template'        => 'error/index',
         'template_map' => [
-            'layout/layout'          => __DIR__ . '/../view/layout/layout.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'layout/layout'         => __DIR__ . '/../view/layout/layout.phtml',
+            'error/404'             => __DIR__ . '/../view/error/404.phtml',
+            'error/index'           => __DIR__ . '/../view/error/index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
