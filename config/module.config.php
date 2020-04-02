@@ -113,8 +113,8 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'MelisInstaller\Controller\Installer'   => 'MelisInstaller\Controller\InstallerController',
-            'MelisInstaller\Controller\Translation' => 'MelisInstaller\Controller\TranslationController',
+            'MelisInstaller\Controller\Installer'   => \MelisInstaller\Controller\InstallerController::class,
+            'MelisInstaller\Controller\Translation' => \MelisInstaller\Controller\TranslationController::class,
         ],
     ],
     'form_elements' => [
@@ -136,7 +136,7 @@ return [
     ],
     'validators' => [
         'invokables' => [
-            'MelisPasswordValidator' => 'MelisInstaller\Validator\MelisPasswordValidator',
+            'MelisPasswordValidator' => \MelisInstaller\Validator\MelisPasswordValidator::class,
         ],
     ],
     'view_manager' => [
@@ -154,5 +154,5 @@ return [
         'strategies' => [
             'ViewJsonStrategy'
         ]
-    ],
+    ]
 ];
