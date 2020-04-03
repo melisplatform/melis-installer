@@ -9,15 +9,7 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => array_merge(
-        [
-            'Laminas\I18n', // handle translate view plugin
-            'Laminas\Mvc\I18n', // Translation
-            'Laminas\Router',
-            'Laminas\Form',
-            'Laminas\Validator',
-            'Laminas\Db',
-            'Laminas\InputFilter',
-        ],
+        MelisInstaller\MelisModuleManager::getModuleComponents(),
         MelisInstaller\MelisModuleManager::getModules()
     ),
 
@@ -27,10 +19,10 @@ return [
         // If a string key is provided, the listener will consider that a module
         // namespace, the value of that key the specific path to that module's
         // Module class.
-        'module_paths' => array(
+        'module_paths' => [
             './module',
             './module/MelisSites',
-        ),
+        ],
 
         // use composer autoloader instead of laminas-loader
         'use_laminas_loader' => true,

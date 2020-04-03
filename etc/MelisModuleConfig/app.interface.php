@@ -12,13 +12,13 @@
  * in order to adjust the interface to your needs.
  */
 
-return array(
-    'plugins' => array(
-        'meliscore' => array(
-            'datas' => array(
-                'default' => array(
-                    'diagnostics' => array(
-                        'windows' => array(
+return [
+    'plugins' => [
+        'meliscore' => [
+            'datas' => [
+                'default' => [
+                    'diagnostics' => [
+                        'windows' => [
                             // the setup is done here, so you don't need to do a batch file to register
                             // phpunit globally, instead we just call them directly from their directory to execute it.
                             // Download latest release: https://phar.phpunit.de/phpunit.phar
@@ -27,8 +27,8 @@ return array(
                             'php_cli' => '"path/to/php.exe"',
                             // the path where you save your phpunit
                             'phpunit' => 'path/to/phpunit.phar'
-                        ),
-                        'others' => array(
+                        ],
+                        'others' => [
                             /**
                              * How to install PHPUnit in Linux and Mac
                              * Run in Terminal:
@@ -53,68 +53,67 @@ return array(
                              */
                             'php_cli' => 'php',
                             'phpunit' => 'phpunit',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
 [:environment_configurations]
-            ),
-        ),
-        'melisZS' => array(
-            'conf' => array(
+            ],
+        ],
+        'melisZS' => [
+            'conf' => [
                 'rightsDisplay' => 'none',
-            ),
-            'datas' => array(
-                'zend_server_conf' => array(
-                    'development' => array(
-                        'api' => array(
+            ],
+            'datas' => [
+                'zend_server_conf' => [
+                    'development' => [
+                        'api' => [
                             'serverURI' => 'http://localhost:10081/ZendServer',
                             'username' => 'admin',
                             'apikey' => '23d532ae7b6436839e04ac2e1d04c7ecbb8e8e26e29cddb411441b7947011895',
-                        ),
-                        'web' => array(
+                        ],
+                        'web' => [
                             'user' => 'admin',
                             'password' => 'admin123',
-                        )
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'interface_ordering' => array(
-        'meliscore_header' => array(
+                        ]
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'interface_ordering' => [
+        'meliscore_header' => [
             'melismessenger_tool_header_messages',
-        ),
-        'meliscore_leftmenu' => array(
+        ],
+        'meliscore_leftmenu' => [
             'meliscore_leftmenu_identity',
             'meliscore_leftmenu_dashboard',
             'meliscms_sitetree',
             'meliscore_toolstree',
             'meliscore_footer',
-        ),
-        'meliscore_toolstree' => array(
-            'meliscore_tool_admin_module' => array(
+        ],
+        'meliscore_toolstree' => [
+            'meliscore_tool_admin_module' => [
                 'meliscore_tool_user_module_management'
-            ),
-            'meliscore_tool_admin_section' => array(
+            ],
+            'meliscore_tool_admin_section' => [
                 'meliscore_tool_user',
-            ),
-            'meliscms_tools_section' => array(
+            ],
+            'meliscms_tools_section' => [
                 'meliscms_tool_site',
                 'meliscms_tool_templates',
                 'meliscms_tool_platform_ids'
-            ),
-        ),
-        'meliscore_center_dashboard' => array(
+            ],
+        ],
+        'meliscore_center_dashboard' => [
             'meliscore_dashboard_recent_activity',
             'meliscms_dashboard_pages_indicators',
             'melistoolprospects_dashboard_statistics',
             'meliscore_dashboard_calendar',
-        ),
-        'meliscore_dashboard_recent_activity' => array(
+        ],
+        'meliscore_dashboard_recent_activity' => [
             'melispagehistoric_dashboard_recent_activity_pages',
             'meliscore_dashboard_recent_activity_users',
-        ),
-    ),
-    'interface_disable' => array(
-    )
-);
+        ],
+    ],
+    'interface_disable' => []
+];

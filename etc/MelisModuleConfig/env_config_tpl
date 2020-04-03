@@ -1,12 +1,12 @@
-                '[:sdom_env]' => array(
+                '[:sdom_env]' => [
                     'host' => '[:sdom_domain]',
                     'scheme' => '[:sdom_scheme]',
-                    'emails' => array(
+                    'emails' => [
                         'active' => [:send_email],
-                    ),
-                    'errors' => array(
+                    ],
+                    'errors' => [
                         'error_reporting' => [:error_reporting],
                         'display_errors' => [:display_error],
-                    ),
+                    ],
 
-                ),
+                ],
