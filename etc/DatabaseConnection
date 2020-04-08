@@ -10,7 +10,6 @@
 return [
     'db' => [
         'driver'   => 'Mysqli',
-        'dsn' => 'mysql:dbname=%s;host=%s;charset=utf8',
         'hostname' => '%s',
         'database' => '%s',
         'username' => '%s',

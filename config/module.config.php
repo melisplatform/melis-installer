@@ -7,9 +7,7 @@
  *
  */
 
-use MelisInstaller\Service\Factory\AbstractFactory;
 use MelisInstaller\Service\{InstallHelperService, MelisInstallerConfigService, MelisInstallerModulesService, MelisInstallerTranslationService};
-use MelisInstaller\Model\Tables\TempTable;
 use MelisInstaller\Model\Tables\Factory\TempTableFactory;
 
 return [
@@ -96,13 +94,6 @@ return [
     'service_manager' => [
         'invokables' => [
         ],
-        'factories' => [
-            InstallHelperService::class                     => AbstractFactory::class,
-            MelisInstallerConfigService::class              => AbstractFactory::class,
-            MelisInstallerModulesService::class             => AbstractFactory::class,
-            MelisInstallerTranslationService::class         => AbstractFactory::class,
-            TempTable::class                                => TempTableFactory::class
-        ],
         'aliases' => [
             'translator'                   => 'MvcTranslator',
             'InstallerHelper'              => InstallHelperService::class,
@@ -110,6 +101,13 @@ return [
             'MelisInstallerModulesService' => MelisInstallerModulesService::class,
             'MelisInstallerTranslation'    => MelisInstallerTranslationService::class,
         ],
+        'abstract_factories' => [
+            /**
+             * This Abstract factory will create requested service
+             * that match on the onCreate() condetions
+             */
+            \MelisCore\Factory\MelisAbstractFactory::class
+        ]
     ],
     'controllers' => [
         'invokables' => [

@@ -192,9 +192,9 @@ class InstallHelperService extends AbstractService
     }
 
     /**
-     * Executes a raw SQL query
+     *
      * @param String $query
-     * @return NULL|\Laminas\Db\Adapter\Driver\StatementInterface|\Laminas\Db\ResultSet\Zend\Db\ResultSet
+     * @return NULL|\Laminas\Db\Adapter\Driver\StatementInterface|\Laminas\Db\ResultSet
      */
     public function executeRawQuery($query)
     {

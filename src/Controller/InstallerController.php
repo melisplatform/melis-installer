@@ -18,6 +18,7 @@ use Laminas\Json\Json;
 use Laminas\Session\Container;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
+use MelisCore\Controller\AbstractActionController;
 
 class InstallerController extends AbstractActionController
 {
@@ -1270,7 +1271,7 @@ class InstallerController extends AbstractActionController
                 //add MelisPlatformFrameworks module to activate
                 if(!in_array('MelisPlatformFrameworks', $modules))
                     array_push($modules,'MelisPlatformFrameworks');
-                //remove MelisPlatformFramework+FrameworkName since this is not a zend module
+                //remove MelisPlatformFramework+FrameworkName since this is not a laminas module
                 if (in_array('MelisPlatformFramework' . ucfirst($container['framework_name']), $modules))
                     $modules = array_diff($modules, ['MelisPlatformFramework' . ucfirst($container['framework_name'])]);
             }
@@ -1358,32 +1359,15 @@ class InstallerController extends AbstractActionController
                     // Database connection configuration
                     $dbConnFile = file_get_contents(__DIR__ . '/../../etc/DatabaseConnection');
                     $dbConn = sprintf($dbConnFile,
-                        $database['database'],
-                        $database['hostname'],
                         $database['hostname'],
                         $database['database'],
                         $database['username'],
                         $database['password'],
                         PDO::MYSQL_ATTR_INIT_COMMAND
                     );
-                    /*$configValue = [
-                        'db' => [
-                            'dsn' => sprintf('mysql:dbname=%s;host=%s;charset=utf8', $database['database'], $database['hostname']),
-                            'username' => $database['username'],
-                            'password' => $database['password'],
-                            'driver_options' => [
-                                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                            ],
-                        ],
-                    ];
 
-                    $config = new Config($configValue, true);
-                    $writer = new PhpArray();
-                    $conf = $writer->toString($config);*/
-
-                    if (is_writable('config/autoload/platforms/')) {
+                    if (is_writable('config/autoload/platforms/'))
                         file_put_contents('config/autoload/platforms/' . $fileName, $dbConn);
-                    }
 
                     $deployDiscoveryService = $this->getServiceManager()->get('MelisDbDeployDiscoveryService');
 
@@ -1400,7 +1384,6 @@ class InstallerController extends AbstractActionController
                             $dir = scandir($modulePath . '/install/dbdeploy');
                         }
 
-
                         if ($modulePath && $dir) {
                             $deployDiscoveryService->processing($module);
                         } else {
@@ -1414,7 +1397,6 @@ class InstallerController extends AbstractActionController
                 }
             }
         }
-
 
         $view = new ViewModel();
         $view->setTerminal(true);

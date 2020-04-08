@@ -311,7 +311,7 @@ class MelisInstallerModulesService extends AbstractService
         return false;
     }
     /**
-     * Returns all the modules that has been loaded in zend
+     * Returns all the modules that has been loaded in laminas
      * @param array $exclude
      * @return unknown[]
      */
