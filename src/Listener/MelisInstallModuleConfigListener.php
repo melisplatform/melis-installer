@@ -11,17 +11,15 @@ namespace MelisInstaller\Listener;
 
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
-use MelisInstaller\Listener\MelisInstallerGeneralListener;
+use MelisCore\Listener\MelisGeneralListener;
 use Laminas\Session\Container;
 
-class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener implements ListenerAggregateInterface
+class MelisInstallModuleConfigListener extends MelisGeneralListener implements ListenerAggregateInterface
 {
-
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $sharedEvents      = $events->getSharedManager();
-
-        $callBackHandler = $sharedEvents->attach(
+        $this->attachEventListener(
+            $events,
             'MelisInstaller',
             'melis_installer_last_process_start',
             function($e){
@@ -96,7 +94,6 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                                 $displayError,
                             ], $newEnvironments) . PHP_EOL;
                         }
-
                     }
                 }
 
@@ -111,12 +108,9 @@ class MelisInstallModuleConfigListener extends MelisInstallerGeneralListener imp
                         unlink($melisModuleConfig.'app.interface.php');
                         file_put_contents($melisModuleConfig.'app.interface.php', $appInterface);
                     }
-
                 }
-
             },
-            900);
-
-        $this->listeners[] = $callBackHandler;
+            900
+        );
     }
 }

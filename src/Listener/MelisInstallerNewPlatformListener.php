@@ -8,16 +8,15 @@
 namespace MelisInstaller\Listener;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\ListenerAggregateInterface;
-use MelisInstaller\Listener\MelisInstallerGeneralListener;
+use MelisCore\Listener\MelisGeneralListener;
 use Laminas\Session\Container;
-class MelisInstallerNewPlatformListener extends MelisInstallerGeneralListener implements ListenerAggregateInterface
-{
 
+class MelisInstallerNewPlatformListener extends MelisGeneralListener implements ListenerAggregateInterface
+{
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $sharedEvents      = $events->getSharedManager();
-
-        $callBackHandler = $sharedEvents->attach(
+        $this->attachEventListener(
+            $events,
             'MelisInstaller',
             'melis_install_new_platform_start',
             function($e){
@@ -75,8 +74,7 @@ class MelisInstallerNewPlatformListener extends MelisInstallerGeneralListener im
                 }
 
             },
-            100);
-
-        $this->listeners[] = $callBackHandler;
+            100
+        );
     }
 }
