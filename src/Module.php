@@ -176,6 +176,7 @@ class Module
             $matchedRouteName = $routeMatch->getMatchedRouteName();
             $excludedRoutes = [
                 'melis-backoffice/get-translations',
+                'melis-backoffice/application-MelisInstaller/default'
             ];
 
             if (!in_array($matchedRouteName, $excludedRoutes)) {
