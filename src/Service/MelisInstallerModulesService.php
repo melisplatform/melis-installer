@@ -45,12 +45,8 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
     public function getComposer()
     {
         if (is_null($this->composer)) {
-            // required by composer factory but not used to parse local repositories
-            if (!isset($_ENV['COMPOSER_HOME'])) {
-                putenv("COMPOSER_HOME=/tmp");
-            }
-            $factory = new Factory();
-            $this->setComposer($factory->createComposer(new NullIO()));
+            $composer = new \MelisComposerDeploy\MelisComposer();
+            $this->composer = $composer->getComposer();
         }
         return $this->composer;
     }
@@ -67,17 +63,27 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
      */
     public function getVendorModules()
     {
-        $repos = $this->getComposer()->getRepositoryManager()->getLocalRepository();
-        $packages = array_filter($repos->getPackages(), function($package) {
+        $melisComposer = new \MelisComposerDeploy\MelisComposer();
+        $melisInstalledPackages = $melisComposer->getInstalledPackages();
+
+        $packages = array_filter($melisInstalledPackages, function ($package) {
+
+            $type = $package->type;
+            $extra = $package->extra ?? [];
+
             /** @var CompletePackage $package */
-            return $package->getType()==='melisplatform-module' &&
-                array_key_exists('module-name', $package->getExtra());
+            return $type === 'melisplatform-module' &&
+                array_key_exists('module-name', $extra);
         });
+
         $modules = array_map(function ($package) {
+            $extra = (array) $package->extra;
             /** @var CompletePackage $package */
-            return $package->getExtra()['module-name'];
+            return $extra['module-name'];
         }, $packages);
+
         sort($modules);
+
         return $modules;
     }
     /**
@@ -88,10 +94,11 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
     public function getModulesAndVersions($moduleName = null)
     {
         $tmpModules = array();
-        $repos      = $this->getComposer()->getRepositoryManager()->getLocalRepository();
-        $composerFile = $_SERVER['DOCUMENT_ROOT'] . '/../vendor/composer/installed.json';
-        $composer     = (array) \Zend\Json\Json::decode(file_get_contents($composerFile));
-        foreach($composer as $package) {
+
+        $melisComposer = new \MelisComposerDeploy\MelisComposer();
+        $melisInstalledPackages = $melisComposer->getInstalledPackages();
+
+        foreach ($melisInstalledPackages as $package) {
             $packageModuleName = isset($package->extra) ? (array) $package->extra : null;
             $module            = null;
             if(isset($packageModuleName['module-name'])) {
@@ -190,30 +197,8 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
     }
     public function getComposerModulePath($moduleName, $returnFullPath = true)
     {
-        $repos = $this->getComposer()->getRepositoryManager()->getLocalRepository();
-        $packages =   $repos->getPackages();
-        if (!empty($packages))
-        {
-            foreach ($packages as $repo)
-            {
-                if ($repo->getType() == 'melisplatform-module')
-                {
-                    if (array_key_exists('module-name', $repo->getExtra())
-                        && $moduleName == $repo->getExtra()['module-name'])
-                    {
-                        foreach ($repo->getRequires() as $require)
-                        {
-                            $source = $require->getSource();
-                            if ($returnFullPath)
-                                return $_SERVER['DOCUMENT_ROOT'] . '/../vendor/' . $source;
-                            else
-                                return '/vendor/' . $source;
-                        }
-                    }
-                }
-            }
-        }
-        return '';
+        $melisComposer = new \MelisComposerDeploy\MelisComposer();
+        return $melisComposer->getComposerModulePath($moduleName, $returnFullPath);
     }
     public function getUserModulePath($moduleName, $returnFullPath = true)
     {
