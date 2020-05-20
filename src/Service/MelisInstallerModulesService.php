@@ -70,10 +70,16 @@ class MelisInstallerModulesService implements ServiceLocatorAwareInterface
 
             $type = $package->type;
             $extra = $package->extra ?? [];
+            $isMelisModule = true;
+            if (array_key_exists('melis-module', $extra)) {
+                $key = 'melis-module';
+                if (!$extra->$key)
+                    $isMelisModule = false;
+            }
 
             /** @var CompletePackage $package */
             return $type === 'melisplatform-module' &&
-                array_key_exists('module-name', $extra);
+                array_key_exists('module-name', $extra) && $isMelisModule;
         });
 
         $modules = array_map(function ($package) {
