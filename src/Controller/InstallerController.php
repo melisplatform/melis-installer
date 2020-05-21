@@ -1331,10 +1331,10 @@ class InstallerController extends AbstractActionController
 
                 $installHelper = $this->getServiceLocator()->get('InstallerHelper');
                 $config = $this->getServiceLocator()->get('MelisInstallerConfig');
-                $autoInstallModules = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+                // All melis modules installed
+                $moduleSrv = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+                $modules = $moduleSrv->getVendorModules();
 
-                $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
-                $modules = array_merge(['MelisCore'], $autoInstallModules, $downloadableModules);
                 $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
                 if ($modules && is_array($modules)) {
