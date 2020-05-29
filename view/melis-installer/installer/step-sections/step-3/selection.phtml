@@ -258,7 +258,7 @@ function toModuleName($modules) {
                             echo '<div class="form-group">';
                             if ($val->getLabel()) {
                                 echo $this->formLabel()->openTag($val);
-                                echo $val->getLabel();
+                                echo $this->translate($val->getLabel());
                                 echo $this->formLabel()->closeTag();
                             }
                             if($val->getAttributes()['type'] == 'radio'){
