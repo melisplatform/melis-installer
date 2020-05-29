@@ -1158,14 +1158,6 @@ class InstallerController extends AbstractActionController
             }
 
             $downloadableModules = array_merge($autoInstallModules, $downloadableModules);
-
-            if(array_key_exists('MelisEngine', $downloadableModules)) unset($downloadableModules['MelisEngine']);
-            if(array_key_exists('MelisFront', $downloadableModules)) unset($downloadableModules['MelisFront']);
-            if(array_key_exists('MelisCms', $downloadableModules)) unset($downloadableModules['MelisCms']);
-            if(array_key_exists('MelisCmsNews', $downloadableModules)) unset($downloadableModules['MelisCmsNews']);
-            if(array_key_exists('MelisCmsProspects', $downloadableModules)) unset($downloadableModules['MelisCmsProspects']);
-            if(array_key_exists('MelisCmsSlider', $downloadableModules)) unset($downloadableModules['MelisCmsSlider']);
-
             $downloadableModules = implode(' ', $downloadableModules);
 
             $composerSvc = $this->getServiceManager()->get('MelisComposerService');
@@ -1174,7 +1166,7 @@ class InstallerController extends AbstractActionController
             ini_set('memory_limit', -1);
 
             if (!$this->isUsingCoreOnly()) {
-                $composerSvc->download($downloadableModules, "dev-migrate/laminas", true);
+                $composerSvc->download($downloadableModules, null, true);
             } else {
                 $autoInstallModules = implode(' ', $autoInstallModules);
                 $composerSvc->download($autoInstallModules, null, true);
