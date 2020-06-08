@@ -10,8 +10,6 @@
 
 namespace MelisInstaller;
 
-use MelisComposerDeploy\MelisComposer;
-
 /**
  * ModuleManager
  *
@@ -62,7 +60,7 @@ class MelisModuleManager
      */
     public static function getModules()
     {
-        $composer = new MelisComposer();
+        $assetsModuleSrv = new \MelisAssetManager\Service\MelisModulesService();
 
         if (file_exists($_SERVER['DOCUMENT_ROOT']. '/../config/development.config.php')){
             // Development mode will show all errors
@@ -96,7 +94,7 @@ class MelisModuleManager
                 // This won't be loaded except if asked from MelisFront
                 if (!empty($melisSite)) {
                     if (file_exists($siteModuleLoad = $rootMelisSites . '/' . $melisSite . '/config/module.load.php') ||
-                        file_exists($siteModuleLoad = $composer->getComposerModulePath($melisSite) . '/config/module.load.php')
+                        file_exists($siteModuleLoad = $assetsModuleSrv->getComposerModulePath($melisSite) . '/config/module.load.php')
                     ) {
                         $modules = array_merge($modulesMelisBackOffice, include $siteModuleLoad);
                     }
@@ -114,7 +112,7 @@ class MelisModuleManager
                     $siteModuleLoad = $modulePath . '/config/module.load.php';
 
                     if (file_exists($siteModuleLoad) ||
-                        file_exists($siteModuleLoad = $composer->getComposerModulePath($melisModuleName) . '/config/module.load.php') &&
+                        file_exists($siteModuleLoad = $assetsModuleSrv->getComposerModulePath($melisModuleName) . '/config/module.load.php') &&
                         file_exists($platformFile)
                     ) {
                         $modules = include $siteModuleLoad;

@@ -1343,13 +1343,13 @@ class InstallerController extends AbstractActionController
 
             if ($database) {
 
-                $installHelper = $this->getServiceManager()->get('InstallerHelper');
-                $config = $this->getServiceManager()->get('MelisInstallerConfig');
-                $autoInstallModules = array_keys($config->getItem('melis_installer/datas/module_auto_install'));
+                $installHelper = $this->getServiceLocator()->get('InstallerHelper');
+                $config = $this->getServiceLocator()->get('MelisInstallerConfig');
+                // All melis modules installed
+                $moduleSrv = $this->getServiceLocator()->get('MelisAssetManagerModulesService');
+                $modules = $moduleSrv->getVendorModules();
 
-                $downloadableModules = isset($container['download_modules']) ? array_keys($container['download_modules']) : [];
-                $modules = array_merge(['MelisCore'], $autoInstallModules, $downloadableModules);
-                $moduleSvc = $this->getServiceManager()->get('MelisInstallerModulesService');
+                $moduleSvc = $this->getServiceLocator()->get('MelisInstallerModulesService');
 
                 if ($modules && is_array($modules)) {
 
@@ -1953,6 +1953,8 @@ class InstallerController extends AbstractActionController
             }
 
             unlink($docPath . 'config/melis.modules.path.php');
+
+            unlink($docPath . 'cache/composer_packages/melis_packages.dat');
 
             $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
 
