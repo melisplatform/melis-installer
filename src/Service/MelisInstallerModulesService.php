@@ -90,18 +90,11 @@ class MelisInstallerModulesService extends AbstractService
     public function getModulesAndVersions($moduleName = null)
     {
         $tmpModules = array();
-<<<<<<< HEAD
-        $repos      = $this->getComposer()->getRepositoryManager()->getLocalRepository();
-        $composerFile = $_SERVER['DOCUMENT_ROOT'] . '/../vendor/composer/installed.json';
-        $composer     = (array) \Laminas\Json\Json::decode(file_get_contents($composerFile));
-        foreach($composer as $package) {
-=======
 
         $melisComposer = new \MelisComposerDeploy\MelisComposer();
         $melisInstalledPackages = $melisComposer->getInstalledPackages();
 
         foreach ($melisInstalledPackages as $package) {
->>>>>>> develop
             $packageModuleName = isset($package->extra) ? (array) $package->extra : null;
             $module            = null;
             if(isset($packageModuleName['module-name'])) {
