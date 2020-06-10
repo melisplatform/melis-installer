@@ -10,6 +10,8 @@
 
 namespace MelisInstaller;
 
+use MelisComposerDeploy\MelisComposer;
+
 /**
  * ModuleManager
  *
