@@ -1954,8 +1954,6 @@ class InstallerController extends AbstractActionController
 
             unlink($docPath . 'config/melis.modules.path.php');
 
-            unlink($docPath . 'cache/composer_packages/melis_packages.dat');
-
             $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
 
             // replace the application.config
