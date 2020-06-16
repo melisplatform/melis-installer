@@ -18,9 +18,9 @@ use Laminas\Json\Json;
 use Laminas\Session\Container;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
-use MelisCore\Controller\AbstractActionController;
+use MelisCore\Controller\MelisAbstractActionController;
 
-class InstallerController extends AbstractActionController
+class InstallerController extends MelisAbstractActionController
 {
 
     protected $steps = ['sysconfig', 'vhost', 'fsrights', 'environments', 'dbconn', 'selmod', 'pf_init'];
@@ -29,16 +29,6 @@ class InstallerController extends AbstractActionController
 
     public function indexAction()
     {
-
-//        var_dump(getenv('MELIS_PLATFORM'));
-//        exit;
-//        $test = $this->getServiceManager()->get('MelisCoreTableUser');
-////
-//        print_r($test->fetchAll());
-////
-//////        $this->getServiceManager()->get(\Laminas\Db\Adapter\Adapter::class);
-////
-//        die;
 
         $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
