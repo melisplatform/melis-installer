@@ -1946,17 +1946,6 @@ class InstallerController extends MelisAbstractActionController
 
             $this->getEventManager()->trigger('melis_installer_last_process_start', $this, $container->getArrayCopy());
 
-            // replace the application.config
-            $moduleSvc = $this->getServiceManager()->get('MelisAssetManagerModulesService');
-            $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
-            $appLoader = $melisInstallPath . '/etc/application.config.php';
-
-            if (file_exists($appLoader)) {
-                unlink($docPath . '/config/application.config.php');
-                copy($appLoader, $docPath . '/config/application.config.php');
-                $logs[] = 'Replaced application.config.php';
-            }
-
             $success = 1;
             $this->marketplace()->unplugModule('MelisInstaller');
             $this->unplugSite();
@@ -1967,7 +1956,7 @@ class InstallerController extends MelisAbstractActionController
             }
 
             // clear melis installer session
-//            $container->getManager()->destroy();
+            // $container->getManager()->destroy();
         }
 
         return new JsonModel([
@@ -1979,7 +1968,6 @@ class InstallerController extends MelisAbstractActionController
 
     public function getDatabaseInstallStatusAction()
     {
-
         $installHelper = $this->getServiceManager()->get('InstallerHelper');
         $tables = $installHelper->getImportedTables();
         $status = [];
