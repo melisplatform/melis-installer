@@ -2,6 +2,8 @@ $(window).load(function () {
     $("#content").css("visibility", "visible");
 });
 (function ($) {
+    var main_dependencies = '';
+
     // To avoid tab key on the last input on the form that cause a bus on owl carousel in setup
     $(document).keydown(function (objEvent) {
         if (objEvent.keyCode == 9) {  //tab pressed
@@ -68,13 +70,18 @@ $(window).load(function () {
 
     // Module checkboxes
     // Toggle single checkbox
-    $body.on("click", ".cb-cont input[type=checkbox]", function () {
-        if ($(this).is(':checked')) {
-            $(this).prop("checked", true);
-            $(this).prev("span").find(".cbmask-inner").addClass('cb-active');
-        } else {
-            $(this).not(".requried-module").prop("checked", false);
-            $(this).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+    $body.on("click", ".cb-cont input[type=checkbox]", function (e) {
+        // prevent uncheck on main dependencies based on setup
+        var dependencies = main_dependencies.split('|');
+
+        if (!dependencies.includes($(this).val())) {
+            if ($(this).is(':checked')) {
+                $(this).prop("checked", true);
+                $(this).prev("span").find(".cbmask-inner").addClass('cb-active');
+            } else {
+                $(this).not(".requried-module").prop("checked", false);
+                $(this).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
+            }
         }
     });
 
@@ -119,6 +126,9 @@ $(window).load(function () {
         $(checkBox).not(".requried-module").prev("span").find(".cbmask-inner").removeClass('cb-active');
 
         var value = $("input[name='weboption']:checked").val();
+        // list of main dependencies based on selected setup
+        main_dependencies = $(this).data().dependency;
+
         if (value == 'MelisCoreOnly') {
             $('#module-selection').slideUp();
         } else {
@@ -137,21 +147,24 @@ $(window).load(function () {
 
     // Toogle Select All
     $('.cb-cont input[type=checkbox]').change(function () {
-        //uncheck "select all", if one of the listed checkbox item is unchecked
-        if (false == $(this).prop("checked")) {
-            //change "select all" checked status to false
-            $("#chkSelectAllModules").prop('checked', false)
-                .closest('.cb-cont').find(".cbmask-inner").removeClass('cb-active');
+        var dependencies = main_dependencies.split('|');
+
+        if (!dependencies.includes($(this).val())) {
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if (false == $(this).prop("checked")) {
+                //change "select all" checked status to false
+                $("#chkSelectAllModules").prop('checked', false)
+                    .closest('.cb-cont').find(".cbmask-inner").removeClass('cb-active');
+            }
+
+
+            //check "select all" if all checkbox items are checked
+            if ($('.cb-cont input[type=checkbox]:checked').length == $('.cb-cont input[type=checkbox]').length - 1) {
+                $("#chkSelectAllModules").prop('checked', true)
+                    .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
+            }
+            dependencyChecker($("input[name='weboption']:checked"));
         }
-
-
-        //check "select all" if all checkbox items are checked
-        if ($('.cb-cont input[type=checkbox]:checked').length == $('.cb-cont input[type=checkbox]').length - 1) {
-            $("#chkSelectAllModules").prop('checked', true)
-                .closest('.cb-cont').find(".cbmask-inner").addClass('cb-active');
-        }
-        dependencyChecker($("input[name='weboption']:checked"));
-
     });
 
     /*
@@ -199,7 +212,11 @@ $(window).load(function () {
     }
 
     $('.cb-cont input[type=checkbox]:not(#chkSelectAllModules)').click(function () {
-        dependencyChecker($(this));
+        var dependencies = main_dependencies.split('|');
+
+        if (!dependencies.includes($(this).val())) {
+            dependencyChecker($(this));
+        }
     });
 
     // ---=[ SIDEBAR ]=---
