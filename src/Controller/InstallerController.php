@@ -714,7 +714,7 @@ class InstallerController extends MelisAbstractActionController
         $errors = [];
         $translator = $this->getServiceManager()->get('translator');
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
 
