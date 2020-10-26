@@ -638,7 +638,7 @@ class InstallerController extends MelisAbstractActionController
         $request = [];
         // add listeners here for MelisCms and MelisCore to listen
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $currentPlatformDomain = $data['domain'];
             $domainEnv = [];
 
@@ -693,7 +693,7 @@ class InstallerController extends MelisAbstractActionController
     {
         $success = 0;
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $response = $this->getEventManager()->trigger('melis_install_delete_environment_start', $this, $data);
 
             if (!empty($response)) {
