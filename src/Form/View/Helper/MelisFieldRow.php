@@ -10,7 +10,7 @@ class MelisFieldRow extends FormRow
     const MELIS_SELECT_FACTORY        = 'select';
     const MELIS_MULTI_VAL_INPUT       = 'melis-multi-val-input';
  
-	public function render(ElementInterface $element, $labelPosition = null)
+	public function render(ElementInterface $element, ?string $labelPosition = null): string
 	{
 	    $formElement = '';
 	    

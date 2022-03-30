@@ -29,7 +29,7 @@ return array(
     'tr_melis_installer_layout_introduction_welcome_php_version_error' => 'Unable to proceed on installation, minimum PHP version required is <strong>%s</strong>, current version installed <strong>%s</strong>',
     'tr_melis_installer_layout_sys_req' => 'Step 1: System requirements',
     'tr_melis_installer_layout_sys_req_subtext' => 'Let\'s check your PHP installed variables and properties.',
-    'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommended PHP 7.1',
+    'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommended PHP 7.3',
     'tr_melis_installer_layout_sys_req_check_php_ext' => 'Checking required PHP extensions',
     'tr_melis_installer_layout_sys_req_check_php_env' => 'Checking PHP environment variables',
 
