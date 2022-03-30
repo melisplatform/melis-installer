@@ -59,7 +59,7 @@ class MelisInstallerModulesService extends AbstractService
         $packages = array_filter($melisInstalledPackages, function ($package) {
 
             $type = $package->type;
-            $extra = $package->extra ?? [];
+            $extra = $package->extra ?? (object) [];
             $isMelisModule = true;
             if (property_exists($extra, 'melis-module')) {
                 $key = 'melis-module';
