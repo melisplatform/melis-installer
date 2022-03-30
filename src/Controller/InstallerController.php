@@ -638,7 +638,7 @@ class InstallerController extends MelisAbstractActionController
         $request = [];
         // add listeners here for MelisCms and MelisCore to listen
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $currentPlatformDomain = $data['domain'];
             $domainEnv = [];
 
@@ -693,7 +693,7 @@ class InstallerController extends MelisAbstractActionController
     {
         $success = 0;
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $response = $this->getEventManager()->trigger('melis_install_delete_environment_start', $this, $data);
 
             if (!empty($response)) {
@@ -714,7 +714,7 @@ class InstallerController extends MelisAbstractActionController
         $errors = [];
         $translator = $this->getServiceManager()->get('translator');
         if ($this->getRequest()->isPost()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
             $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
 
@@ -783,7 +783,7 @@ class InstallerController extends MelisAbstractActionController
         $container['steps'][$this->steps[6]] = ['page' => 6, 'success' => 1];
         $container['install_modules'] = [];
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $data = get_object_vars($this->getRequest()->getPost());
+            $data = $this->getRequest()->getPost()->toArray();
 
             // remove pre-set data
             unset($data['_default']);
@@ -1875,7 +1875,7 @@ class InstallerController extends MelisAbstractActionController
         if ($this->getRequest()->isPost()) {
 
             $createUserForm = $this->getForm('melis_installer/forms/melis_installer_user_data');
-            $postValues = get_object_vars($this->getRequest()->getPost());
+            $postValues = $this->getRequest()->getPost()->toArray();
             $createUserForm->setData($postValues);
 
             if ($createUserForm->isValid()) {
