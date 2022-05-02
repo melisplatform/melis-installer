@@ -721,7 +721,7 @@ class InstallerController extends MelisAbstractActionController
             if (!empty($data['hostname'])) {
                 if (!empty($data['database'])) {
                     if (!empty($data['username'])) {
-                        $response = $installHelper->checkMysqlConnection(trim($data['hostname']), trim($data['database']), trim($data['username']), trim($data['password']));
+                        $response = $installHelper->checkMysqlConnection($data['hostname'], $data['database'], $data['username'], $data['password']);
 
                         if ($response['isConnected']) {
                             if ($response['isMysqlPasswordCorrect']) {
