@@ -10,7 +10,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Laminas\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Hydrator\\ArraySerializableHydrator',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -324,7 +324,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Laminas\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Hydrator\\ArraySerializableHydrator',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -347,7 +347,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Laminas\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Hydrator\\ArraySerializableHydrator',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -384,7 +384,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Laminas\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Hydrator\\ArraySerializableHydrator',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -482,7 +482,7 @@ return array(
                         'method' => 'POST',
                         'action' => '',
                     ),
-                    'hydrator'  => 'Laminas\Hydrator\ArraySerializable',
+                    'hydrator'  => 'Laminas\Hydrator\ArraySerializableHydrator',
                     'elements'  => array(
                         array(
                             'spec' => array(
@@ -519,10 +519,6 @@ return array(
                                             'value' => 'lumen',
                                             'label' => '<label for="id_framework_name_lumen"><span>Lumen</span></label>',
                                         ),
-                                       array(
-                                           'value' => 'silex',
-                                           'label' => '<label for="id_framework_name_silex"><span>Silex</span></label>',
-                                       ),
                                     ),
                                 ),
                                 'attributes' => array(

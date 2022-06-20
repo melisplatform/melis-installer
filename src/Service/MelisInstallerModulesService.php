@@ -59,9 +59,9 @@ class MelisInstallerModulesService extends AbstractService
         $packages = array_filter($melisInstalledPackages, function ($package) {
 
             $type = $package->type;
-            $extra = $package->extra ?? [];
+            $extra = $package->extra ?? (object) [];
             $isMelisModule = true;
-            if (array_key_exists('melis-module', $extra)) {
+            if (property_exists($extra, 'melis-module')) {
                 $key = 'melis-module';
                 if (!$extra->$key)
                     $isMelisModule = false;
@@ -69,7 +69,7 @@ class MelisInstallerModulesService extends AbstractService
 
             /** @var CompletePackage $package */
             return $type === 'melisplatform-module' &&
-                array_key_exists('module-name', $extra) && $isMelisModule;
+                property_exists($extra, 'module-name') && $isMelisModule;
         });
 
         $modules = array_map(function ($package) {
