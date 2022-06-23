@@ -93,7 +93,12 @@ class Module
                 $melisInstallPath = $moduleSvc->getModulePath('MelisInstaller');
 
                 unlink($melisInstallCheckPath);
+                $site = getenv('MELIS_MODULE');   
+                if ($site && !in_array($site, ['NewSite', 'None'])) {                   
+                    $moduleSvc->unloadModule(['MelisInstaller', $site]);
+                } else {
                 $moduleSvc->unloadModule('MelisInstaller');
+                }
                 header("location: /melis/login");
                 die;
             }
