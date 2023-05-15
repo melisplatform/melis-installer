@@ -77,7 +77,7 @@ return array(
     'tr_melis_installer_layout_dbcon_promp_title' => 'Database connection test result',
     'tr_melis_installer_layout_dbcon_promp_content' => 'Failed to test your database connection, please details below:',
     'tr_melis_installer_layout_dbcon_collation_name' => 'Collation name',
-    'tr_melis_installer_layout_dbcon_collation_name_invalid' => 'Please make sure your database collation is "utf8_general_ci"',
+    'tr_melis_installer_layout_dbcon_collation_name_invalid' => 'Please make sure your database collation is "utf8mb4_general_ci"',
     'tr_melis_installer_dbcon_form_host_fail' => 'Unable to connect to host',
     'tr_melis_installer_dbcon_form_db_empty' => 'Please enter the database name where you want to install melis',
     'tr_melis_installer_dbcon_form_db_fail' => 'Database connection test failed: the system was unable to reach the database you entered',

@@ -142,7 +142,7 @@ class InstallHelperService extends AbstractService
 
                     $isDatabaseExists = 1;
 
-                    if (!empty($schema['DEFAULT_COLLATION_NAME']) && $schema['DEFAULT_COLLATION_NAME'] === 'utf8_general_ci') {
+                    if (!empty($schema['DEFAULT_COLLATION_NAME']) && $schema['DEFAULT_COLLATION_NAME'] === 'utf8mb4_general_ci') {
                         $isDatabaseCollationNameValid = 1;
                     }
                 }
