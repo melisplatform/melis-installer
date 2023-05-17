@@ -125,7 +125,7 @@ class InstallHelperService extends AbstractService
                     'username' => $user,
                     'password' => $pass,
                     'driver_options' => array(
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8MB4'"
                     ),
                 ));
 
@@ -172,7 +172,7 @@ class InstallHelperService extends AbstractService
             $this->odbAdapter = new DbAdapter(array_merge(array(
                 'driver' => 'Pdo_Mysql',
                 'driver_options' => array(
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8MB4'"
                 )
             ), $config));
 
