@@ -77,7 +77,7 @@ return array(
     'tr_melis_installer_layout_dbcon_promp_title' => 'Résultat du test de la connection à la base de données',
     'tr_melis_installer_layout_dbcon_promp_content' => 'Echec du test de la connection à votre base de données', // need to see with Mickael
     'tr_melis_installer_layout_dbcon_collation_name' => 'Nom de la collation',
-    'tr_melis_installer_layout_dbcon_collation_name_invalid' => 'Veuillez vous assurer que la collation de votre base de donnée est "utf8_general_ci"',
+    'tr_melis_installer_layout_dbcon_collation_name_invalid' => 'Veuillez vous assurer que la collation de votre base de donnée est "utf8mb4_general_ci"',
     'tr_melis_installer_dbcon_form_host_fail' => 'Impossible de se connecter à l\'hôte',
     'tr_melis_installer_dbcon_form_db_empty' => 'Veuillez saisir le nom de la base de données où vous souhaitez installer Melis',
     'tr_melis_installer_dbcon_form_db_fail' => 'Erreur de connexion à la base de données : le système n\'a pas pu joindre la base que vous avez renseigné',

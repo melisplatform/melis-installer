@@ -15,9 +15,9 @@ return [
         'username' => '%s',
         'password' => '%s',
         'port' => '3306',
-        'charset' => 'utf8',
+        'charset' => 'utf8mb4',
         'driver_options' => [
-            %d => 'SET NAMES \'UTF8\'',
+            %d => 'SET NAMES \'UTF8MB4\'',
         ],
         'options' => [
             'buffer_results' => true
