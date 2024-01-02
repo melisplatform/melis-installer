@@ -966,7 +966,7 @@ class InstallerController extends MelisAbstractActionController
 
                 $ctr = 0;
                 foreach ($modules as $module) {
-                    $downloadModules[$module] = $packages[$ctr];
+                    $downloadModules[$module] = $packages[$ctr].":dev-update/php83";
                     $ctr++;
                 }
 

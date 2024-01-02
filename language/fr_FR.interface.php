@@ -30,7 +30,7 @@ return array(
 
     'tr_melis_installer_layout_sys_req' => 'Etape 1 : Configuration requise',
     'tr_melis_installer_layout_sys_req_subtext' => 'Regardons vos propriétés et variables PHP installées',
-    'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommandé PHP 7.3',
+    'tr_melis_installer_layout_sys_req_php_version_recommended' => 'Recommandé PHP 8.1',
     'tr_melis_installer_layout_sys_req_check_php_ext' => 'Vérification des extensions PHP requises',
     'tr_melis_installer_layout_sys_req_check_php_env' => 'Verification des variables de l\'Environnement PHP',
 
