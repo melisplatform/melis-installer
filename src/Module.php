@@ -23,6 +23,8 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
+        $this->initShowErrorsByconfig($e);
+
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
@@ -103,6 +105,22 @@ class Module
                 die;
             }
         }, 10000);
+    }
+
+    /**
+     * @param MvcEvent $e
+     */
+    public function initShowErrorsByconfig(MvcEvent $e)
+    {
+        $sm = $e->getApplication()->getServiceManager();
+        $melisAppConfig = $sm->get('config');
+        $config = $melisAppConfig['plugins']['melis_installer']['datas']['default'];
+        if (!empty($config['errors']) &&
+            isset($config['errors']['error_reporting']) &&
+            isset($config['errors']['display_errors'])) {
+            error_reporting($config['errors']['error_reporting']);
+            ini_set('display_errors', $config['errors']['display_errors']);
+        }
     }
 
     public function createTranslations($e)

@@ -103,6 +103,12 @@ return [
                     'MelisCore',
                     'MelisMarketPlace',
                 ],
+                'default' => [
+                    'errors' => array(
+                        'error_reporting' => E_ALL & ~E_USER_DEPRECATED,
+                        'display_errors' => 1,
+                    ),
+                ],
             ],
             'ressources' => [
 
