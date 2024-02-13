@@ -966,7 +966,7 @@ class InstallerController extends MelisAbstractActionController
 
                 $ctr = 0;
                 foreach ($modules as $module) {
-                    $downloadModules[$module] = $packages[$ctr].":dev-update/php83";
+                    $downloadModules[$module] = $packages[$ctr];
                     $ctr++;
                 }
 
@@ -1030,14 +1030,14 @@ class InstallerController extends MelisAbstractActionController
                     $ucFirstFrameworkName = ucfirst($frameworkName);
 
                     //Include MelisPlatformFrameworks module
-                    $mpFwModule = ['MelisPlatformFramework'.$ucFirstFrameworkName => 'melisplatform/melis-platform-framework-'.$frameworkName.':dev-update/php83'];
+                    $mpFwModule = ['MelisPlatformFramework'.$ucFirstFrameworkName => 'melisplatform/melis-platform-framework-'.$frameworkName];
 //                    array_push($container['install_modules'], 'MelisPlatformFrameworks');
                     $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
                     $container['install_platform_framework'] = $mpFwModule;
 
                     //prepare demo tool module path and name
                     $demoModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoTool';
-                    $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool:dev-update/php83';
+                    $demoModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-tool';
                     //prepare demo site module path and name
 //                    $siteModuleName = 'MelisPlatformFramework' . $ucFirstFrameworkName . 'DemoSite';
 //                    $siteModulePath = 'melisplatform/melis-platform-framework-' . $frameworkName . '-demo-site';
