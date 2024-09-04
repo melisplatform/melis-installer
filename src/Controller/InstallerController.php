@@ -213,7 +213,7 @@ class InstallerController extends MelisAbstractActionController
         $checkDataExt = 0;
         $success = 0;
 
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
         $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
         $installHelper->setRequiredExtensions([
@@ -285,7 +285,7 @@ class InstallerController extends MelisAbstractActionController
      */
     protected function vHostSetupChecker()
     {
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
 
         $success = 0;
         $error = [];
@@ -331,7 +331,7 @@ class InstallerController extends MelisAbstractActionController
         $success = 0;
         $errors = [];
         $results = [];
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
         $requiredModules = array('mod_headers','mod_alias','mod_deflate');
 
         if (function_exists('apache_get_modules')) {
@@ -369,7 +369,7 @@ class InstallerController extends MelisAbstractActionController
      */
     protected function checkDirectoryRights()
     {
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
         $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
         $configDir = $installHelper->getDir('config');
@@ -548,7 +548,7 @@ class InstallerController extends MelisAbstractActionController
         $success = 0;
         $errors = [];
         $results = [];
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
         if ($this->getRequest()->isXmlHttpRequest()) {
             $requiredModules = array('mod_headers','mod_alias','mod_deflate');
 
@@ -805,7 +805,7 @@ class InstallerController extends MelisAbstractActionController
         $appConfigForm = [];
         $requiredModules = [];
 
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
         $melisMelisInstallerConfig = $this->getServiceManager()->get('MelisInstallerConfig');
         $installHelper = $this->getServiceManager()->get('InstallerHelper');
 
@@ -1500,7 +1500,7 @@ class InstallerController extends MelisAbstractActionController
 
     public function installSiteModuleAction()
     {
-        $translator = new Translator();
+        $translator = $this->getServiceManager()->get('translator');
         $success = 0;
         $message = $translator->translate('tr_melis_installer_no_site_install');
         $request = $this->getRequest();
