@@ -392,6 +392,7 @@ class InstallerController extends MelisAbstractActionController
         array_push($configDir, 'module/MelisModuleConfig/languages');
         array_push($configDir, 'module/MelisModuleConfig/config');
         array_push($configDir, 'module/MelisSites/');
+        array_push($configDir, 'data/');
         array_push($configDir, 'dbdeploy/');
         array_push($configDir, 'dbdeploy/data');
         array_push($configDir, 'public/');
