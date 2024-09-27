@@ -479,7 +479,7 @@ var melisHelper = (function(){
             data        : datastring,
             encode		: true,
             dataType	: "json"
-        }).success(function(data, status, xhr){
+        }).done(function(data, status, xhr){
 
             // hide the loader
             $('.loader-icon').removeClass('spinning-cog').addClass('shrinking-cog');
@@ -531,7 +531,7 @@ var melisHelper = (function(){
                     }
                 }
             }, 300);
-        }).error(function(xhr, textStatus, errorThrown){
+        }).fail(function(xhr, textStatus, errorThrown){
 
             alert( translators.tr_meliscore_error_message );
 
@@ -573,7 +573,7 @@ var melisHelper = (function(){
                 url         : modalUrl,
                 data        : datastring,
                 encode		: true
-            }).success(function(data){
+            }).done(function(data){
                 // Requesting flag set to false so this function will set state to ready
                 createModalRequestingFlag = false;
 
@@ -591,7 +591,7 @@ var melisHelper = (function(){
                     callback();
                 }
 
-            }).error(function(xhr, textStatus, errorThrown){
+            }).fail(function(xhr, textStatus, errorThrown){
                 alert("ERROR !! Status = "+ textStatus + "\n Error = "+ errorThrown + "\n xhr = "+ xhr.statusText);
                 // Requesting flag set to false so this function will set state to ready
                 createModalRequestingFlag = true;

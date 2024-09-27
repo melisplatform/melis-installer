@@ -48,9 +48,9 @@ function isConnected()
                     }
 					if($this->currentLocale == $locale)
 
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($currentLang).'</b></a></li>';
+						echo '<li class="active"><a class="dropdown-item" href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($currentLang).'</b></a></li>';
 					else
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($currentLang).'</a></li>';
+						echo '<li class="active"><a class="dropdown-item" href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($currentLang).'</a></li>';
 				}
 				?>
 			</ul>
@@ -164,18 +164,18 @@ function isConnected()
 						<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_subtext'); ?></p>
 					</div>
 					<div class="setup-content setup-p0">
-						<div class="row">
-							<div class="steps">
+						<div class="steps">
+							<div class="row">
 								<span class="line"></span>
-								<div class="col-xs-12 col-md-4">
+								<div class="col-12 col-md-4">
 									<span class="circle-number">1</span>
 									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_sysconfig'); ?></p>
 								</div>
-								<div class="col-xs-12 col-md-4">
+								<div class="col-12 col-md-4">
 									<span class="circle-number">2</span>
 									<p><?= $this->translate('tr_melis_installer_layout_introduction_welcome_dbcon'); ?></p>
 								</div>
-								<div class="col-xs-12 col-md-4">
+								<div class="col-12 col-md-4">
 									<span class="circle-number">3</span>
 									<p><?= $this->translate('tr_melis_installer_navigation_modules'); ?></p>
 								</div>

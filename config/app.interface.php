@@ -7,6 +7,7 @@ return [
                     '/MelisInstaller/setup/css/OpenSans.css',
                     '/MelisInstaller/setup/css/Roboto.css',
                     '/MelisInstaller/setup/css/Monseratt.css',
+                    '/MelisInstaller/assets/jquery-ui/css/jquery-ui.min.css',
                     '/MelisInstaller/setup/css/fontawesome/f-assets/f-css/font-awesome.min.css',
                     '/MelisInstaller/setup/css/module.admin.page.index.min.css',
                     '/MelisInstaller/setup/css/bootstrap.min.css',
@@ -19,6 +20,7 @@ return [
                 'js' => [
                     '/melis/MelisInstaller/Translation/getTranslation',
                     '/MelisInstaller/setup/js/jquery.min.js',
+                    '/MelisInstaller/setup/js/jquery-migrate.min.js',
                     '/MelisInstaller/setup/js/jquery.validate.js',
                     '/MelisInstaller/setup/js/bootstrap.min.js',
                     '/MelisInstaller/setup/js/owl.carousel.min.js',

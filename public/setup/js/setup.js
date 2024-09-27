@@ -1,12 +1,12 @@
-$(window).load(function () {
+$(window).on("load", function () {
 	$("#content").css("visibility", "visible");
 });
 (function ($) {
 	var main_dependencies = "";
 
 	// To avoid tab key on the last input on the form that cause a bus on owl carousel in setup
-	$(document).keydown(function (objEvent) {
-		if (objEvent.keyCode == 9) {
+	$(document).on("keydown", function (objEvent) {
+		if (objEvent.key == 'Tab') {
 			//tab pressed
 			// Avoiding tab key
 			if ($("form").find("input:last").is(":focus")) {
@@ -134,12 +134,12 @@ $(window).load(function () {
 		}
 	});
 
-	$("input.site-selection-radio").change(function () {
+	$("input.site-selection-radio").on("change", function () {
 		dependencyChecker($(this));
 	});
 
 	// Site to install radio button
-	$("body").on("click", "input[name='weboption']", function () {
+	$body.on("click", "input[name='weboption']", function () {
 		// reset checkbox
 		$("#chkSelectAllModules").prop("checked", false);
 		$("#frmSelector").find(".cbmask-inner").removeClass("cb-active");
@@ -171,7 +171,7 @@ $(window).load(function () {
 	});
 
 	// Toogle Select All
-	$(".cb-cont input[type=checkbox]").change(function () {
+	$(".cb-cont input[type=checkbox]").on("change", function () {
 		var dependencies = main_dependencies.split("|");
 
 		if (!dependencies.includes($(this).val())) {
@@ -246,7 +246,7 @@ $(window).load(function () {
 		}
 	}
 
-	$(".cb-cont input[type=checkbox]:not(#chkSelectAllModules)").click(
+	$(".cb-cont input[type=checkbox]:not(#chkSelectAllModules)").on("click",
 		function () {
 			var dependencies = main_dependencies.split("|");
 
@@ -410,10 +410,9 @@ $(window).load(function () {
 					dataType: "html",
 					url:
 						"/melis/MelisInstaller/Installer/new-environment-form?count=" +
-						counter,
-					success: function (data) {
-						tmp = data;
-					},
+						counter
+				}).done(function (data) {
+					tmp = data;
 				});
 				return tmp;
 			})();
@@ -506,61 +505,61 @@ $(window).load(function () {
 			type: "POST",
 			encode: true,
 		})
-			.success(function (data) {
-				$(".setup-modal-overlay, .setup-final-modal").fadeOut(300);
+		.done(function (data) {
+			$(".setup-modal-overlay, .setup-final-modal").fadeOut(300);
 
-				// Success DB connection
-				if (data.success === 1) {
-					obj
-						.parents(".setup-p2")
-						.find("#dbNext")
-						.removeClass("btn-default")
-						.addClass("btn-success setup-pass-page");
-					isDbTested = true;
-				}
-				// Error DB connection
-				else {
-					obj
-						.parents(".setup-p2")
-						.find("#dbNext")
-						.removeClass("btn-success setup-pass-page")
-						.addClass("btn-default");
-					melisHelper.melisKoNotification(
-						translators.tr_melis_installer_layout_dbcon_promp_title,
-						translators.tr_melis_installer_layout_dbcon_promp_content,
-						data.errors,
-						"closeByButtonOnly"
-					);
-
-					if ("Host" in data.errors) {
-						// HOST ERROR - color red the input fields
-						obj
-							.parents(".setup-p2")
-							.find("#database-connection-form")
-							.find("input[name='host']")
-							.prev("label")
-							.css("color", "red");
-					} else if (data.errors.Collation == undefined) {
-						// DB-USER-PASSWORD ERROR - color red the input fields
-						obj
-							.parents(".setup-p2")
-							.find("#database-connection-form")
-							.find(
-								"input[name='database'], input[name='user'], input[name='password']"
-							)
-							.prev("label")
-							.css("color", "red");
-					}
-				}
-			})
-			.error(function (xhr, textStatus, errorThrown) {
+			// Success DB connection
+			if (data.success === 1) {
+				obj
+					.parents(".setup-p2")
+					.find("#dbNext")
+					.removeClass("btn-default")
+					.addClass("btn-success setup-pass-page");
+				isDbTested = true;
+			}
+			// Error DB connection
+			else {
+				obj
+					.parents(".setup-p2")
+					.find("#dbNext")
+					.removeClass("btn-success setup-pass-page")
+					.addClass("btn-default");
 				melisHelper.melisKoNotification(
 					translators.tr_melis_installer_layout_dbcon_promp_title,
 					translators.tr_melis_installer_layout_dbcon_promp_content,
-					textStatus,
+					data.errors,
 					"closeByButtonOnly"
 				);
-			});
+
+				if ("Host" in data.errors) {
+					// HOST ERROR - color red the input fields
+					obj
+						.parents(".setup-p2")
+						.find("#database-connection-form")
+						.find("input[name='host']")
+						.prev("label")
+						.css("color", "red");
+				} else if (data.errors.Collation == undefined) {
+					// DB-USER-PASSWORD ERROR - color red the input fields
+					obj
+						.parents(".setup-p2")
+						.find("#database-connection-form")
+						.find(
+							"input[name='database'], input[name='user'], input[name='password']"
+						)
+						.prev("label")
+						.css("color", "red");
+				}
+			}
+		})
+		.fail(function (xhr, textStatus, errorThrown) {
+			melisHelper.melisKoNotification(
+				translators.tr_melis_installer_layout_dbcon_promp_title,
+				translators.tr_melis_installer_layout_dbcon_promp_content,
+				textStatus,
+				"closeByButtonOnly"
+			);
+		});
 	});
 
 	/* JS for Installing Other Framework */
@@ -585,7 +584,7 @@ $(window).load(function () {
 	// test database connection
 	$body.on("click", ".setup-creation .setup-pass-page.finish", function () {
 		var myform = $("form");
-		myform.find(":input:disabled").removeAttr("disabled");
+		myform.find(":input:disabled").prop("disabled", false);
 
 		var serialized = myform.serialize();
 
@@ -612,10 +611,9 @@ $(window).load(function () {
 			url: url,
 			data: dataString,
 			dataType: "json",
-			encode: true,
-			success: function (data) {
-				callBack(data);
-			},
+			encode: true
+		}).done(function (data) {
+			callBack(data);
 		});
 	}
 
@@ -624,12 +622,11 @@ $(window).load(function () {
 			type: "GET",
 			url: url,
 			dataType: type,
-			encode: true,
-			success: function (data) {
-				callBack(data);
-			},
-			error: function (request, status, error) {
-				var logError = logError || false;
+			encode: true
+		}).done(function (data) {
+			callBack(data);
+		}).fail(function (request, status, error) {
+			var logError = logError || false;
 				if (logError === true) {
 					updateCmdText(
 						'<i class="fa fa-warning"></i> ' +
@@ -638,7 +635,6 @@ $(window).load(function () {
 				}
 
 				errorCallBack();
-			},
 		});
 	}
 
@@ -799,142 +795,140 @@ $(window).load(function () {
 										);
 									}
 								},
-							},
-							success: function (data) {
-								// add downloader spinner
-								$("#preloading-cont").remove();
-								updateCmdText(
-									'<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' +
-										translators.melis_installer_common_downloading +
-										"</span>"
-								);
+							}
+						}).done(function (data) {
+							// add downloader spinner
+							$("#preloading-cont").remove();
+							updateCmdText(
+								'<span id="preloading-cont"><i class="fa fa-spinner fa-spin"></i> ' +
+									translators.melis_installer_common_downloading +
+									"</span>"
+							);
 
-								getRequest(
-									"/melis/MelisInstaller/Installer/downloadModules",
-									"html",
-									function (response) {
-										$("#preloading-cont").remove();
-										vConsoleText = "" + vConsole.html() + "<br/>" + response;
-										vConsole.html(
-											vConsoleText +
-												'<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' +
-												translators.melis_installer_module_import_tables +
-												"<br/>"
-										);
-										vConsole.animate(
-											{
-												scrollTop: vConsole.prop("scrollHeight"),
-											},
-											1115
-										);
+							getRequest(
+								"/melis/MelisInstaller/Installer/downloadModules",
+								"html",
+								function (response) {
+									$("#preloading-cont").remove();
+									vConsoleText = "" + vConsole.html() + "<br/>" + response;
+									vConsole.html(
+										vConsoleText +
+											'<span id="cmd-imp-tbl"><i class="fa fa-spinner fa-spin"></i></span> ' +
+											translators.melis_installer_module_import_tables +
+											"<br/>"
+									);
+									vConsole.animate(
+										{
+											scrollTop: vConsole.prop("scrollHeight"),
+										},
+										1115
+									);
 
-										// dbdeploy
-										getRequest(
-											"/melis/MelisInstaller/Installer/execDbDeploy",
-											"html",
-											function (response) {
-												$("#cmd-imp-tbl").html(
-													'<i class="fa fa-info-circle"></i>'
-												);
-												updateCmdText("<br/>" + response);
+									// dbdeploy
+									getRequest(
+										"/melis/MelisInstaller/Installer/execDbDeploy",
+										"html",
+										function (response) {
+											$("#cmd-imp-tbl").html(
+												'<i class="fa fa-info-circle"></i>'
+											);
+											updateCmdText("<br/>" + response);
 
-												// check for site installation
-												getRequest(
-													"/melis/MelisInstaller/Installer/checkSiteModule",
-													"json",
-													function (response) {
-														//check if multi framework
-														isMultiFramework = response.isMultiFramework;
+											// check for site installation
+											getRequest(
+												"/melis/MelisInstaller/Installer/checkSiteModule",
+												"json",
+												function (response) {
+													//check if multi framework
+													isMultiFramework = response.isMultiFramework;
 
-														if (response.hasSite) {
-															updateCmdText(
-																'<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' +
-																	translators.melis_installer_site_installing +
-																	"<br/>"
-															);
-															// install site
-															getRequest(
-																"/melis/MelisInstaller/Installer/installSiteModule",
-																"json",
-																function (response) {
-																	$("#cmd-site-install").html(
-																		'<i class="fa fa-info-circle"></i>'
-																	);
-																	updateCmdText(response.message + "<br/>");
+													if (response.hasSite) {
+														updateCmdText(
+															'<span id="cmd-site-install"><i class="fa fa-spinner fa-spin"></i></span> ' +
+																translators.melis_installer_site_installing +
+																"<br/>"
+														);
+														// install site
+														getRequest(
+															"/melis/MelisInstaller/Installer/installSiteModule",
+															"json",
+															function (response) {
+																$("#cmd-site-install").html(
+																	'<i class="fa fa-info-circle"></i>'
+																);
+																updateCmdText(response.message + "<br/>");
 
-																	// activate module
-																	updateCmdText(
-																		'<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' +
-																			translators.melis_installer_activate_modules_notice +
-																			"<br/>"
-																	);
+																// activate module
+																updateCmdText(
+																	'<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' +
+																		translators.melis_installer_activate_modules_notice +
+																		"<br/>"
+																);
+																getRequest(
+																	"/melis/MelisInstaller/Installer/rebuildAutoloader",
+																	"html",
+																	function (rebuildAutoloaderResp) {
+																		setTimeout(function () {
+																			getRequest(
+																				"/melis/MelisInstaller/Installer/activateModules",
+																				"html",
+																				function (response) {
+																					$("#cmd-act-mod").html(
+																						'<i class="fa fa-info-circle"></i>'
+																					);
+
+																					executeOtherProcess(
+																						isMultiFramework,
+																						response
+																					);
+																				}
+																			);
+																		}, 800);
+																	}
+																);
+															}
+														);
+													} else {
+														// activate module
+														updateCmdText(
+															'<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' +
+																translators.melis_installer_activate_modules_notice +
+																"<br/>"
+														);
+														getRequest(
+															"/melis/MelisInstaller/Installer/rebuildAutoloader",
+															"html",
+															function (rebuildAutoloaderResp) {
+																setTimeout(function () {
 																	getRequest(
-																		"/melis/MelisInstaller/Installer/rebuildAutoloader",
+																		"/melis/MelisInstaller/Installer/activateModules",
 																		"html",
-																		function (rebuildAutoloaderResp) {
-																			setTimeout(function () {
-																				getRequest(
-																					"/melis/MelisInstaller/Installer/activateModules",
-																					"html",
-																					function (response) {
-																						$("#cmd-act-mod").html(
-																							'<i class="fa fa-info-circle"></i>'
-																						);
+																		function (response) {
+																			$("#cmd-act-mod").html(
+																				'<i class="fa fa-info-circle"></i>'
+																			);
 
-																						executeOtherProcess(
-																							isMultiFramework,
-																							response
-																						);
-																					}
-																				);
-																			}, 800);
+																			executeOtherProcess(
+																				isMultiFramework,
+																				response
+																			);
 																		}
 																	);
-																}
-															);
-														} else {
-															// activate module
-															updateCmdText(
-																'<br/><span id="cmd-act-mod"><i class="fa fa-spinner fa-spin"></i></span> ' +
-																	translators.melis_installer_activate_modules_notice +
-																	"<br/>"
-															);
-															getRequest(
-																"/melis/MelisInstaller/Installer/rebuildAutoloader",
-																"html",
-																function (rebuildAutoloaderResp) {
-																	setTimeout(function () {
-																		getRequest(
-																			"/melis/MelisInstaller/Installer/activateModules",
-																			"html",
-																			function (response) {
-																				$("#cmd-act-mod").html(
-																					'<i class="fa fa-info-circle"></i>'
-																				);
-
-																				executeOtherProcess(
-																					isMultiFramework,
-																					response
-																				);
-																			}
-																		);
-																	}, 800);
-																}
-															);
-														}
+																}, 800);
+															}
+														);
 													}
-												);
-											}
-										);
-									}
-								);
-							},
-							error: function (request, status, error) {
-								updateCmdText(
-									'<i class="fa fa-warning"></i> ' +
-										translators.tr_melis_installer_download_ko
-								);
-							},
+												}
+											);
+										}
+									);
+								}
+							);
+						}).fail(function (request, status, error) {
+							updateCmdText(
+								'<i class="fa fa-warning"></i> ' +
+									translators.tr_melis_installer_download_ko
+							);
 						});
 					}, 800);
 				}
@@ -1097,7 +1091,7 @@ $(window).load(function () {
 	}
 
 	function enableNextButton(retainText) {
-		$(".setup-pass-page").removeAttr("disabled");
+		$(".setup-pass-page").prop("disabled", false);
 		$(".setup-pass-page").removeClass("btn-default disabled");
 		$(".setup-pass-page").addClass("btn-success");
 
@@ -1111,13 +1105,13 @@ $(window).load(function () {
 	}
 
 	function disableNextButton() {
-		$(".setup-pass-page").attr("disabled", "disabled");
+		$(".setup-pass-page").prop("disabled", true);
 		$(".setup-pass-page").removeClass("btn-success");
 		$(".setup-pass-page").addClass("btn-default");
 	}
 
 	function lazyNextButton() {
-		$(".setup-pass-page").attr("disabled", "disabled");
+		$(".setup-pass-page").prop("disabled", true);
 		$(".setup-pass-page").removeClass("btn-success");
 		$(".setup-pass-page").addClass("btn-default");
 		$(".setup-pass-page").html(
@@ -1202,7 +1196,7 @@ $(window).load(function () {
 	}
 
 	// show modal spinner after you click the finish button
-	$("body").on("click", ".setup-finish", function () {
+	$body.on("click", ".setup-finish", function () {
 		if (isDbTested) {
 			disableNextButton();
 
@@ -1257,8 +1251,8 @@ function changeSetupLanguage(locale) {
 		url: "/melis/MelisInstaller/Installer/changeLang",
 		data: datastring,
 		dataType: "json",
-		encode: true,
-	}).success(function (data) {
+		encode: true
+	}).done(function (data) {
 		if (data.success) {
 			location.reload();
 		}
