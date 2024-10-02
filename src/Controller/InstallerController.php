@@ -1675,7 +1675,8 @@ class InstallerController extends MelisAbstractActionController
         $content .= '    </div>';
         $content .= '<div class="setup-button-cont"><a class="btn btn-success setup-pass-page">' . $translator->translate('tr_melis_installer_common_next') . '</a></div>';
 
-        die($content);
+        dd($content);
+        // die($content);
 
     }
 
