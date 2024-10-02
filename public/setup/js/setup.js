@@ -356,11 +356,13 @@ $(window).on("load", function () {
 			getRequest(
 				"/melis/MelisInstaller/Installer/reprocessDbDeploy",
 				"json",
-				function (reprocessDbDeployResp) {
+				function(reprocessDbDeployResp) {
+					console.log(`done callback reprocessDbDeploy reprocessDbDeployResp: `, reprocessDbDeployResp);
 					getModuleConfiguration(currentPage);
 				},
 				false,
-				function () {
+				function() {
+					console.log(`fail callback reprocessDbDeploy currentPage: `, currentPage);
 					getModuleConfiguration(currentPage);
 				}
 			);
@@ -624,6 +626,7 @@ $(window).on("load", function () {
 			dataType: type,
 			encode: true
 		}).done(function (data) {
+			console.log(`getRequest() data: `, data);
 			callBack(data);
 		}).fail(function (request, status, error) {
 			var logError = logError || false;
@@ -1155,7 +1158,7 @@ $(window).on("load", function () {
 			"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
 			"html",
 			function (data) {
-				console.log(`getModuleCOnfiguration() getRequest() data: `, data);
+				console.log(`getModuleConfiguration() getRequest() data: `, data);
 				$("#melis-installer-configuration-forms").html(data);
 				//$("i[data-bs-toggle='tooltip']").tooltip();
 				$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
