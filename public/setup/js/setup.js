@@ -456,7 +456,7 @@ $(window).on("load", function () {
 
 	// ---=[ SETUP PAGE 2 ]=---
 	// test database connection
-	$body.on("click", "#test-db-connection", function () {
+	$body.on("click", "#test-db-connection", function(e) {
 		var obj = $(this);
 		var host = $(this)
 			.parents(".setup-content")
@@ -560,6 +560,8 @@ $(window).on("load", function () {
 				"closeByButtonOnly"
 			);
 		});
+
+		e.preventDefault();
 	});
 
 	/* JS for Installing Other Framework */
@@ -624,6 +626,7 @@ $(window).on("load", function () {
 			dataType: type,
 			encode: true
 		}).done(function (data) {
+			console.log(`getRequest() url: `, url);
 			console.log(`getRequest() data: `, data);
 			callBack(data);
 		}).fail(function (xhr, textStatus, errorThrown) {

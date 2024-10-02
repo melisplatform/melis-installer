@@ -800,3 +800,7 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 .checkbox .tooltip .tooltip-arrow::before {
     border-left-color: #e61c23 !important;
 }
+.nav-block .nav-item,
+.nav-block {
+    display: block;
+}
