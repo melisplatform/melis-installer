@@ -1094,11 +1094,8 @@ $(window).on("load", function () {
 	}
 
 	function enableNextButton(retainText) {
-		console.log(`$(".setup-pass-page").prop("disabled"): `, $(".setup-pass-page").prop("disabled"));
-		if ( $(".setup-pass-page").prop("disabled") ) {
-			console.log(`.setup-pass-page disabled removed!!!`);
-			$(".setup-pass-page").prop("disabled", false);
-		}
+		// $(".setup-pass-page").prop("disabled", false);
+		document.querySelector(".owl-item.active .setup-pass-page").removeAttribute("disabled");
 		$(".setup-pass-page").removeClass("btn-default disabled");
 		$(".setup-pass-page").addClass("btn-success");
 
@@ -1154,17 +1151,19 @@ $(window).on("load", function () {
 	}
 
 	function getModuleConfiguration(currentPage) {
-		getRequest(
-			"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
-			"html",
-			function (data) {
-				console.log(`getModuleConfiguration() getRequest() data: `, data);
-				$("#melis-installer-configuration-forms").html(data);
-				//$("i[data-bs-toggle='tooltip']").tooltip();
-				$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
-				$owl.trigger("to.owl.carousel", [currentPage, 500]);
-			}
-		);
+		setTimeout(function() {
+			getRequest(
+				"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
+				"html",
+				function(data) {
+					console.log(`getModuleConfiguration() getRequest() data: `, data);
+					$("#melis-installer-configuration-forms").html(data);
+					//$("i[data-bs-toggle='tooltip']").tooltip();
+					$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
+					$owl.trigger("to.owl.carousel", [currentPage, 500]);
+				}
+			);
+		}, 1000);
 	}
 
 	function submitModuleConfiguration(currentPage) {
