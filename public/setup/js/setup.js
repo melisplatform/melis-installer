@@ -1094,8 +1094,8 @@ $(window).on("load", function () {
 	}
 
 	function enableNextButton(retainText) {
-		// $(".setup-pass-page").prop("disabled", false);
-		document.querySelector(".owl-item.active .setup-pass-page").removeAttribute("disabled");
+		$(".setup-pass-page").prop("disabled", false);
+		// document.querySelector(".owl-item.active .setup-pass-page").removeAttribute("disabled");
 		$(".setup-pass-page").removeClass("btn-default disabled");
 		$(".setup-pass-page").addClass("btn-success");
 
