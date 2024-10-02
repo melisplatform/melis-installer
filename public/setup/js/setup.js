@@ -1152,6 +1152,7 @@ $(window).on("load", function () {
 			"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
 			"html",
 			function (data) {
+				console.log(`getModuleCOnfiguration() getRequest() data: `, data);
 				$("#melis-installer-configuration-forms").html(data);
 				//$("i[data-bs-toggle='tooltip']").tooltip();
 				$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
