@@ -628,7 +628,8 @@ $(window).on("load", function () {
 		}).done(function (data) {
 			console.log(`getRequest() data: `, data);
 			callBack(data);
-		}).fail(function (request, status, error) {
+		}).fail(function (xhr, textStatus, errorThrown) {
+			console.log("ERROR !! Status = " + textStatus + "\n Error = " + errorThrown);
 			var logError = logError || false;
 				if (logError === true) {
 					updateCmdText(
