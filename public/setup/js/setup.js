@@ -627,7 +627,8 @@ $(window).on("load", function () {
 			console.log(`getRequest() data: `, data);
 			callBack(data);
 		}).fail(function (xhr, textStatus, errorThrown) {
-			console.log("ERROR !! Status = " + textStatus + "\n Error = " + errorThrown);
+			console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
+
 			var logError = logError || false;
 				if (logError === true) {
 					updateCmdText(
@@ -1152,19 +1153,17 @@ $(window).on("load", function () {
 	}
 
 	function getModuleConfiguration(currentPage) {
-		setTimeout(function() {
-			getRequest(
-				"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
-				"html",
-				function(data) {
-					console.log(`getModuleConfiguration() getRequest() data: `, data);
-					$("#melis-installer-configuration-forms").html(data);
-					//$("i[data-bs-toggle='tooltip']").tooltip();
-					$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
-					$owl.trigger("to.owl.carousel", [currentPage, 500]);
-				}
-			);
-		}, 1000);
+		getRequest(
+			"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
+			"html",
+			function(data) {
+				console.log(`getModuleConfiguration() getRequest() data: `, data);
+				$("#melis-installer-configuration-forms").html(data);
+				//$("i[data-bs-toggle='tooltip']").tooltip();
+				$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
+				$owl.trigger("to.owl.carousel", [currentPage, 500]);
+			}
+		);
 	}
 
 	function submitModuleConfiguration(currentPage) {
