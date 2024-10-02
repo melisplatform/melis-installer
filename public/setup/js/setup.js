@@ -1091,7 +1091,7 @@ $(window).on("load", function () {
 	}
 
 	function enableNextButton(retainText) {
-		console.log(`enableNextButton() retainText: `, retainText);
+		console.log(`$(".setup-pass-page").prop("disabled"): `, $(".setup-pass-page").prop("disabled"));
 		$(".setup-pass-page").prop("disabled", false);
 		$(".setup-pass-page").removeClass("btn-default disabled");
 		$(".setup-pass-page").addClass("btn-success");
