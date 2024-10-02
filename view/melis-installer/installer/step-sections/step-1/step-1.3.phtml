@@ -18,13 +18,13 @@
 								<input type="text" class="form-control"  placeholder="<?= $this->translate('tr_melis_installer_Layout_env_env_name'); ?>"  name="environment_name" value="<?= $this->setup1_3_env_name; ?>" disabled>
 							</div>
 							
-							<div class="form-group hidden">
+							<div class="form-group d-none">
 								<label><?= $this->translate('tr_melis_installer_layout_env_back_office_domain'); ?></label>
 								<input type="url" class="form-control"  placeholder="<?= $this->translate('tr_melis_installer_Layout_env_env_name'); ?>" name="domain" value="<?= $this->setup1_3_env_domain; ?>" required>
 							</div>
 							
 							<div class="form-group">
-                                <label><?= $this->translate('tr_melis_installer_layout_env_advance_parameters'); ?> <i class="fa fa-plus pull-right melis-install-adv-prop-trigger" aria-hidden="true" title="Tooltip on left"></i></label>
+                                <label><?= $this->translate('tr_melis_installer_layout_env_advance_parameters'); ?> <i class="fa fa-plus pull-right melis-install-adv-prop-trigger" aria-hidden="true"></i></label>
                             </div>
                             <div class="melis-install-adv-prop-content">
                                 <div class="form-group">
@@ -37,13 +37,13 @@
                                             }
                                         }
                                     ?>
-                                    <label><?= $this->translate('tr_melis_installer_layout_env_send_email'); ?><i class="fa fa-info-circle pull-right" data-toggle="tooltip" aria-hidden="true" title="<?= $this->translate('tr_melis_installer_layout_env_send_email_info')?>"></i></label>
+                                    <label><?= $this->translate('tr_melis_installer_layout_env_send_email'); ?><i class="fa fa-info-circle pull-right" data-bs-toggle="tooltip" aria-hidden="true" data-bs-original-title="<?= $this->translate('tr_melis_installer_layout_env_send_email_info')?>"></i></label>
                                     <div  class="make-switch module-switch" data-on-label="<?= $this->translate('tr_melis_installer_layout_env_send_email_enabled'); ?>" data-off-label="<?= $this->translate('tr_melis_installer_layout_env_send_email_disabled'); ?>" data-text-label="<?= $this->translate('tr_melis_installer_common_status'); ?>">
                                         <input name="send_email" type="checkbox" <?= $emailEnabled ?>/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label><?= $this->translate('tr_melis_installer_layout_env_error_reporting'); ?><i class="fa fa-info-circle pull-right" data-toggle="tooltip" aria-hidden="true" title="<?= $this->translate('tr_melis_installer_layout_env_error_reporting_info')?>"></i></label>
+                                    <label><?= $this->translate('tr_melis_installer_layout_env_error_reporting'); ?><i class="fa fa-info-circle pull-right" data-bs-toggle="tooltip" aria-hidden="true" data-bs-original-title="<?= $this->translate('tr_melis_installer_layout_env_error_reporting_info')?>"></i></label>
                                     <select name="error_reporting" class="form-control">
                                         <option value="E_ALL & ~E_USER_DEPRECATED" <?= (!empty($this->setup1_3_current) && $this->setup1_3_current['app_interface_conf']['error_reporting'] == 'E_ALL & ~E_USER_DEPRECATED') ? 'selected' : ''?>><?= $this->translate('tr_melis_installer_layout_env_error_reporting_all'); ?></option>
                                         <option value="0" <?= (!empty($this->setup1_3_current) && $this->setup1_3_current['app_interface_conf']['error_reporting'] == '0') ? 'selected' : ''?>><?= $this->translate('tr_melis_installer_layout_env_error_reporting_off'); ?></option>

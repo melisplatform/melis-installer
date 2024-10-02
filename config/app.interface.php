@@ -7,7 +7,6 @@ return [
                     '/MelisInstaller/setup/css/OpenSans.css',
                     '/MelisInstaller/setup/css/Roboto.css',
                     '/MelisInstaller/setup/css/Monseratt.css',
-                    '/MelisInstaller/assets/jquery-ui/css/jquery-ui.min.css',
                     '/MelisInstaller/setup/css/fontawesome/f-assets/f-css/font-awesome.min.css',
                     '/MelisInstaller/setup/css/module.admin.page.index.min.css',
                     '/MelisInstaller/setup/css/bootstrap.min.css',
@@ -22,6 +21,7 @@ return [
                     '/MelisInstaller/setup/js/jquery.min.js',
                     '/MelisInstaller/setup/js/jquery-migrate.min.js',
                     '/MelisInstaller/setup/js/jquery.validate.js',
+                    '/MelisInstaller/setup/js/popper.min.js',
                     '/MelisInstaller/setup/js/bootstrap.min.js',
                     '/MelisInstaller/setup/js/owl.carousel.min.js',
                     '/MelisInstaller/setup/js/bootstrap-switch.js',
@@ -36,7 +36,7 @@ return [
                  */
                 'build' => [
                     // set to "true" if you want to use the build assets
-                    'use_build_assets' => true,
+                    'use_build_assets' => false,
 
                     // path to where the build CSS and JS are located
                     'css_build_path' => 'public/assets/css/',

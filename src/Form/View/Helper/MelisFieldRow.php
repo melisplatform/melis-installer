@@ -17,7 +17,7 @@ class MelisFieldRow extends FormRow
 	    if(!empty($element->getOption('tooltip')))
 	    {
 	        $element->setLabelOptions(array('disable_html_escape' => true));
-	        $label = $element->getLabel().'<i class="fa fa-info-circle fa-lg pull-right" data-toggle="tooltip" data-placement="left" title="" data-original-title="'.$element->getOption('tooltip').'"></i>';
+	        $label = $element->getLabel().'<i class="fa fa-info-circle fa-lg pull-right" data-bs-toggle="tooltip" data-bs-placement="left" title="" data-bs-original-title="'.$element->getOption('tooltip').'"></i>';
 	        $element->setLabel($label);
 	    }
 	    

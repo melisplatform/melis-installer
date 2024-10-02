@@ -176,7 +176,7 @@ function toModuleName($modules) {
                                                     <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $module['packageModuleName']; ?>" value="<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" data-dependency="<?= toModuleName($dependencies) ?>" checked>
                                                 </label>
                                                 <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] .')'; ?></span>
-                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
+                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-original-title="<?= $module['packageSubtitle'] ?>"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@ function toModuleName($modules) {
                                                     <input type="checkbox" value="<?= $module['packageModuleName']; ?>" name="chk<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" data-dependency="<?= toModuleName($dependencies) ?>">
                                                 </label>
                                                 <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] . ')'; ?></span>
-                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-toggle="tooltip" title="<?= $module['packageSubtitle'] ?>"></i>
+                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-original-title="<?= $module['packageSubtitle'] ?>"></i>
 
                                             </div>
                                         </div>
@@ -231,8 +231,8 @@ function toModuleName($modules) {
                     <p><?= $this->translate('tr_melis_installer_download_thirdparty_fw_form_subtitle'); ?></p>
                     <div>
                         <label><?= $this->translate('tr_melis_installer_download_thirdparty_fw_enable_multi_coding'); ?></label>
-                        <div class="row">
-                            <div class="enable_fw_container">
+                        <div class="enable_fw_container">
+                            <div class="row">
                                 <div class="col-md-2">
                                     <div class="enable_multi_fw_yes">
                                         <input id="id_enable_multi_fw_yes" type="radio" class="font-awesome-radio" name="enable_multi_fw" value="true" />

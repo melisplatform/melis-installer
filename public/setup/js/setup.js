@@ -30,9 +30,9 @@ $(window).on("load", function () {
 		// startPosition:7,
 	});
 
-	$body.find('[data-toggle="tooltip"]').tooltip({
+	/* $body.find('[data-bs-toggle="tooltip"]').tooltip({
 		placement: "left",
-	});
+	}); */
 
 	// FIRE EVENT AFTER SLIDER HAS FINISHED SLIDING
 	$owl.on("changed.owl.carousel", function (event) {
@@ -1091,6 +1091,7 @@ $(window).on("load", function () {
 	}
 
 	function enableNextButton(retainText) {
+		console.log(`enableNextButton() retainText: `, retainText);
 		$(".setup-pass-page").prop("disabled", false);
 		$(".setup-pass-page").removeClass("btn-default disabled");
 		$(".setup-pass-page").addClass("btn-success");
@@ -1152,7 +1153,8 @@ $(window).on("load", function () {
 			"html",
 			function (data) {
 				$("#melis-installer-configuration-forms").html(data);
-				$("i[data-toggle='tooltip']").tooltip();
+				//$("i[data-bs-toggle='tooltip']").tooltip();
+				$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
 				$owl.trigger("to.owl.carousel", [currentPage, 500]);
 			}
 		);
@@ -1242,6 +1244,17 @@ $(window).on("load", function () {
 
 	showModuleSelect();
 })(jQuery);
+
+document.addEventListener("DOMContentLoaded", function (event) {
+	(function() {
+		var $body = $("body");
+			
+			$body.tooltip({ 
+				selector: '[data-bs-toggle=tooltip]',
+				placement: 'left'
+			});
+	})();
+});
 
 function changeSetupLanguage(locale) {
 	var datastring = { langLocale: locale };

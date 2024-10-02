@@ -774,11 +774,6 @@ input::-ms-input-placeholder { /* Microsoft Edge */
     color: #9c9c9c  !important;
 }
 /* jquery 3.7.1 */
-/* 
-- note on tooltip need the data-bs-toggle="tooltip" 
-- remove jquery-migrate.min.js after fix is complete
-- not yet bundled
-*/
 .btn {
     border: 0;
 }
@@ -792,9 +787,16 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 .navbar-nav.navbar-right {
     margin-top: -8px;
 }
-.navbar.navbar-fixed-top {
-    margin-top: -16px;
+.navbar-header.pull-left {
+    margin-top: -11px;
 }
 .language-dropdown .dropdown-toggle::after {
     display: none;
+}
+.language-dropdown .dropdown-toggle.dropdown-hover {
+    background-color: transparent !important;
+}
+.tooltip .tooltip-arrow::before, 
+.checkbox .tooltip .tooltip-arrow::before {
+    border-left-color: #e61c23 !important;
 }

@@ -1650,7 +1650,7 @@ class InstallerController extends MelisAbstractActionController
                         $active = 'active';
                     }
 
-                    $tabs .= '<li class="' . $active . '"><a href="#' . $id . '" data-toggle="tab">' . $module . '</a></li>';
+                    $tabs .= '<li class="' . $active . '"><a href="#' . $id . '" data-bs-toggle="tab">' . $module . '</a></li>';
 
                     $tabContent .= '<div class="tab-pane ' . $active . '" id="' . $id . '">' . PHP_EOL;
                     $tabContent .= $moduleFormContent;
