@@ -357,12 +357,10 @@ $(window).on("load", function () {
 				"/melis/MelisInstaller/Installer/reprocessDbDeploy",
 				"json",
 				function(reprocessDbDeployResp) {
-					console.log(`done callback reprocessDbDeploy reprocessDbDeployResp: `, reprocessDbDeployResp);
 					getModuleConfiguration(currentPage);
 				},
 				false,
 				function() {
-					console.log(`fail callback reprocessDbDeploy currentPage: `, currentPage);
 					getModuleConfiguration(currentPage);
 				}
 			);
@@ -1002,6 +1000,8 @@ $(window).on("load", function () {
 						'<i class="fa fa-info-circle"></i> ' +
 							translators.melis_installer_common_done
 					);
+					document.querySelector(".setup-p3 .setup-pass-page").removeAttribute("disabled");
+					console.log(`executeOtherProcess() reprocessDbDeploy() removeAttribute("disabled")!!!`);
 					enableNextButton();
 				},
 				false,
