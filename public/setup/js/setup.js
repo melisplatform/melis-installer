@@ -630,8 +630,6 @@ $(window).on("load", function () {
 			console.log(`getRequest() data: `, data);
 			callBack(data);
 		}).fail(function (xhr, textStatus, errorThrown) {
-			console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
-
 			var logError = logError || false;
 				if (logError === true) {
 					updateCmdText(
@@ -641,6 +639,8 @@ $(window).on("load", function () {
 				}
 
 				errorCallBack();
+
+				console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
 		});
 	}
 
