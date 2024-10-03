@@ -637,8 +637,12 @@ $(window).on("load", function () {
 							translators.tr_melis_installer_cmd_ko
 					);
 				}
-
-				errorCallBack();
+				
+				if ( errorCallBack !== undefined || errorCallBack !== null) {
+					if (errorCallBack) {
+						errorCallBack();
+					}
+				}
 
 				console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
 		});
