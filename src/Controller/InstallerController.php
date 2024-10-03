@@ -1623,7 +1623,7 @@ class InstallerController extends MelisAbstractActionController
     {
         set_time_limit(0);
         ini_set('memory_limit', -1);
-        die('test');
+        
         $moduleService = $this->getServiceManager()->get('MelisInstallerModulesService');
         $modules = $moduleService->getAllModules();
         $modules = array_diff($modules, $this->getInstallerModules());
