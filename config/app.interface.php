@@ -36,7 +36,7 @@ return [
                  */
                 'build' => [
                     // set to "true" if you want to use the build assets
-                    'use_build_assets' => false,
+                    'use_build_assets' => true,
 
                     // path to where the build CSS and JS are located
                     'css_build_path' => 'public/assets/css/',
