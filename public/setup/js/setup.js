@@ -1182,13 +1182,15 @@ $(window).on("load", function () {
 				forms,
 			"json",
 			function (response) {
-				if (response.success == "1") {
+				// response.success == "1"
+				if (response.success) {
 					getRequest(
 						"/melis/MelisInstaller/Installer/submitModuleConfigurationForm?" +
 							forms,
 						"json",
 						function (resp) {
-							if (resp.success == "1") {
+							// resp.success == "1"
+							if (resp.success) {
 								enableNextButton(translators.tr_melis_installer_common_finish);
 								$owl.trigger("to.owl.carousel", [currentPage, 500]);
 							} else {

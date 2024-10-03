@@ -804,3 +804,6 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 .nav-block {
     display: block;
 }
+.melis-modal-cont .modal-content {
+    background-color: #fff;
+}
