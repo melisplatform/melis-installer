@@ -1193,6 +1193,7 @@ $(window).on("load", function () {
 							forms,
 						"json",
 						function (resp) {
+							console.log(`submitModuleConfigurationForm resp: `, resp);
 							// resp.success == "1"
 							if (resp.success) {
 								enableNextButton(translators.tr_melis_installer_common_finish);
