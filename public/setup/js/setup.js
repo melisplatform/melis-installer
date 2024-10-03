@@ -644,7 +644,7 @@ $(window).on("load", function () {
 					}
 				}
 
-				// console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
+				console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
 		});
 	}
 
@@ -1186,6 +1186,7 @@ $(window).on("load", function () {
 				forms,
 			"json",
 			function (response) {
+				console.log(`validateModuleConfigurationForm response: `, response);
 				// response.success == "1"
 				if (response.success) {
 					getRequest(
