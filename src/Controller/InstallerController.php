@@ -1845,6 +1845,10 @@ class InstallerController extends MelisAbstractActionController
 
 
         header('Content-Type: application/json');
+        
+        var_dump(Json::encode($data));
+        die;
+
         die(Json::encode($data));
 
     }
