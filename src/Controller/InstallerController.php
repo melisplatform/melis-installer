@@ -1623,7 +1623,7 @@ class InstallerController extends MelisAbstractActionController
     {
         set_time_limit(0);
         ini_set('memory_limit', -1);
-
+        die('test');
         $moduleService = $this->getServiceManager()->get('MelisInstallerModulesService');
         $modules = $moduleService->getAllModules();
         $modules = array_diff($modules, $this->getInstallerModules());
@@ -1675,8 +1675,8 @@ class InstallerController extends MelisAbstractActionController
         $content .= '    </div>';
         $content .= '<div class="setup-button-cont"><a class="btn btn-success setup-pass-page">' . $translator->translate('tr_melis_installer_common_next') . '</a></div>';
 
-        dd($content);
-        // die($content);
+        // dd($content);
+        die($content);
 
     }
 
