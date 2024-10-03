@@ -626,8 +626,6 @@ $(window).on("load", function () {
 			dataType: type,
 			encode: true
 		}).done(function (data) {
-			console.log(`getRequest() url: `, url);
-			console.log(`getRequest() data: `, data);
 			callBack(data);
 		}).fail(function (xhr, textStatus, errorThrown) {
 			var logError = logError || false;
@@ -644,7 +642,7 @@ $(window).on("load", function () {
 					}
 				}
 
-				console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
+				// console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
 		});
 	}
 
@@ -1009,7 +1007,6 @@ $(window).on("load", function () {
 							translators.melis_installer_common_done
 					);
 					document.querySelector(".setup-p3 .setup-pass-page").removeAttribute("disabled");
-					console.log(`executeOtherProcess() reprocessDbDeploy() removeAttribute("disabled")!!!`);
 					enableNextButton();
 				},
 				false,
@@ -1164,7 +1161,6 @@ $(window).on("load", function () {
 			"/melis/MelisInstaller/Installer/getModuleConfigurationForms",
 			"html",
 			function(data) {
-				console.log(`getModuleConfiguration() getRequest() data: `, data);
 				$("#melis-installer-configuration-forms").html(data);
 				//$("i[data-bs-toggle='tooltip']").tooltip();
 				$("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
@@ -1186,7 +1182,6 @@ $(window).on("load", function () {
 				forms,
 			"json",
 			function (response) {
-				console.log(`validateModuleConfigurationForm response: `, response);
 				// response.success == "1"
 				if (response.success) {
 					getRequest(
@@ -1194,7 +1189,6 @@ $(window).on("load", function () {
 							forms,
 						"json",
 						function (resp) {
-							console.log(`submitModuleConfigurationForm resp: `, resp);
 							// resp.success == "1"
 							if (resp.success) {
 								enableNextButton(translators.tr_melis_installer_common_finish);
