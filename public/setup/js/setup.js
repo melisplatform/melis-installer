@@ -642,7 +642,7 @@ $(window).on("load", function () {
 					}
 				}
 
-				// console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
+				console.log("ERROR !! Status = " + textStatus + "\nError = " + errorThrown + "\nxhr = " + xhr + "\nxhr.statusText = " + xhr.statusText);
 		});
 	}
 
