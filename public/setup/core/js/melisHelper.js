@@ -179,7 +179,7 @@ var melisHelper = (function(){
             }
             var attribTooltip = '';
             if(typeof targetInput.data("tooltip") != 'undefined'){
-                attribTooltip = '<i class="fa fa-info-circle fa-lg" data-bs-toggle="tooltip" data-bs-placement="left" title="" data-bs-original-title="' + targetInput.data("tooltip") +'"></i>';
+                attribTooltip = '<i class="fa fa-info-circle fa-lg" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="' + targetInput.data("tooltip") +'"></i>';
             }
             var switchBtn = '<label for="'+targetInput.attr("name")+'">'+targetInput.data("label") + attribRequired + attribTooltip+'</label>'
                 +'<div class="make-switch user-admin-switch" data-label-icon="glyphicon glyphicon-resize-horizontal" data-on-label="'+translators.tr_meliscore_common_yes+'" data-off-label="'+translators.tr_meliscore_common_no+'" style="display: block;">'
