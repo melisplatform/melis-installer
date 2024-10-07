@@ -1258,12 +1258,16 @@ $(window).on("load", function () {
 
 document.addEventListener("DOMContentLoaded", function (event) {
 	(function() {
-		var $body = $("body");
+		/* var $body = $("body");
 			
 			$body.tooltip({ 
 				selector: '[data-bs-toggle=tooltip]',
 				placement: 'left'
-			});
+			}); */
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
 	})();
 });
 

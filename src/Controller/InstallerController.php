@@ -1652,7 +1652,7 @@ class InstallerController extends MelisAbstractActionController
 
                     $tabs .= '<li class="nav-item ' . $active . '"><a class="nav-link" href="#' . $id . '" data-bs-toggle="tab">' . $module . '</a></li>';
 
-                    $tabContent .= '<div class="tab-pane ' . $active . '" id="' . $id . '">' . PHP_EOL;
+                    $tabContent .= '<div class="tab-pane fade show ' . $active . '" id="' . $id . '">' . PHP_EOL;
                     $tabContent .= $moduleFormContent;
                     $tabContent .= '</div>' . PHP_EOL;
 
