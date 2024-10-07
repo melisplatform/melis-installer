@@ -827,3 +827,9 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 .setup-content .nav-block.nav-tabs li a {
     box-shadow: none;
 }
+.setup-content .nav-tabs .nav-item.show .nav-link, 
+.setup-content .nav-tabs .nav-link.active {
+    background-color: #e61c23 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+}
