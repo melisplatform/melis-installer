@@ -796,10 +796,7 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 .language-dropdown .dropdown-toggle.dropdown-hover {
     background-color: transparent !important;
 }
-.tooltip .tooltip-arrow::before, 
-.checkbox .tooltip .tooltip-arrow::before {
-    border-left-color: #e61c23 !important;
-}
+
 .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before, 
 .bs-tooltip-top .tooltip-arrow::before {
     border-top-color:  #e61c23 !important;
