@@ -31,7 +31,7 @@ function isConnected()
 	<ul class="nav navbar-nav navbar-right">
 		<li class="language-dropdown dropdown" data-title="Language">
 			<!-- dropdown-hover -->
-			<a href="#" class="dropdown-toggle">
+			<a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
 				<span class="langimg-cont"><img src="/MelisInstaller/setup/images/lang/<?= $localeImg; ?>.png"></span>
 			</a>
 			<ul class="dropdown-menu">
@@ -50,9 +50,9 @@ function isConnected()
                     }
 					if($this->currentLocale == $locale)
 
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($currentLang).'</b></a></li>';
+						echo '<li class="active"><a class="drop-item" href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.$localeImg.'.png"> <b>'.$this->translate($currentLang).'</b></a></li>';
 					else
-						echo '<li class="active"><a href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($currentLang).'</a></li>';
+						echo '<li class="active"><a class="drop-item" href="" onclick="changeSetupLanguage(\''. $locale . '\'); return false;"><img src="/MelisInstaller/assets/images/lang/'.substr($locale, 0, 2).'.png"> '.$this->translate($currentLang).'</a></li>';
 				}
 				?>
 			</ul>
