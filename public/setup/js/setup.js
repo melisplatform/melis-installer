@@ -1235,6 +1235,16 @@ $(window).on("load", function () {
 		}
 	});
 
+	$body.on("mouseover", ".dropdown-hover", function() {
+		$(this).addClass("show");
+		$(this).closest(".dropdown").find(".dropdown-menu").addClass("show");
+	});
+
+	$body.on("mouseleave", ".dropdown-hover", function() {
+		$(this).removeClass("show");
+		$(this).closest(".dropdown").find(".dropdown-menu").removeClass("show");
+	});
+
 	//if demo cms option is checked
 	function showModuleSelect() {
 		var webOpt = $("#web-option-selected").val();
@@ -1274,7 +1284,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 function changeSetupLanguage(locale) {
 	var datastring = { langLocale: locale };
-	console.log(locale);
+	// console.log(locale);
 	$.ajax({
 		type: "POST",
 		url: "/melis/MelisInstaller/Installer/changeLang",
@@ -1285,6 +1295,6 @@ function changeSetupLanguage(locale) {
 		if (data.success) {
 			location.reload();
 		}
-		console.log(data);
+		// console.log(data);
 	});
 }

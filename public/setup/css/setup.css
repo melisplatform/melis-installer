@@ -833,3 +833,26 @@ input::-ms-input-placeholder { /* Microsoft Edge */
     border-color: transparent !important;
     color: #fff !important;
 }
+.navbar.main.navbar-primary .navbar-nav .dropdown .dropdown-menu .dropdown-item:hover,
+.navbar.main.navbar-primary .navbar-nav .dropdown .dropdown-hover:hover {
+    background-color: #fff !important;
+}
+.navbar.main.navbar-primary .navbar-nav .dropdown .dropdown-menu .dropdown-item:hover {
+    color: #e61c23 !important;
+}
+.navbar.main .navbar-right .dropdown-menu>li>a {
+    color: #fff !important;
+    font-size: 0.875rem;
+}
+.navbar.main .dropdown .dropdown-toggle {
+    display: block;
+    height: inherit
+}
+.navbar.main .nav > li .dropdown-menu,
+.navbar.main .nav > li .dropdown-menu.show {
+    position: absolute;
+    right: 0 !important;
+    z-index: 1;
+    left: auto !important;
+    margin-top: 0 !important;
+}
