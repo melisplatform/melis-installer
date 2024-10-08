@@ -176,7 +176,7 @@ function toModuleName($modules) {
                                                     <input type="checkbox" class="<?= $requredModule?>" name="chk<?= $module['packageModuleName']; ?>" value="<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" data-dependency="<?= toModuleName($dependencies) ?>" checked>
                                                 </label>
                                                 <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] .')'; ?></span>
-                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="<?= $module['packageSubtitle'] ?>"></i>
+                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="<?= $module['packageSubtitle'] ?>"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@ function toModuleName($modules) {
                                                     <input type="checkbox" value="<?= $module['packageModuleName']; ?>" name="chk<?= $module['packageModuleName']; ?>" data-package="<?= $module['packageName'] ?>" data-foldername="<?= $fileName ?>" data-dependency="<?= toModuleName($dependencies) ?>">
                                                 </label>
                                                 <span class="module-name"><?= $module['packageTitle'] . ' (' . $module['packageVersion'] . ')'; ?></span>
-                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="<?= $module['packageSubtitle'] ?>"></i>
+                                                <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="<?= $module['packageSubtitle'] ?>"></i>
 
                                             </div>
                                         </div>

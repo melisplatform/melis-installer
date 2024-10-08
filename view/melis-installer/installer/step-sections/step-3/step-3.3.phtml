@@ -22,7 +22,7 @@
                                             <input type="checkbox" class="<?= $requiredModules ?>" name="chk<?= $modules; ?>" value="<?= $modules; ?>" checked>
                                         </label>
                                         <span class="module-name"><?= $modules; ?></span>
-                                        <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="<?= $this->translate('tr_melis_installer_melis_modules_' . $modules) ?>"></i>
+                                        <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="<?= $this->translate('tr_melis_installer_melis_modules_' . $modules) ?>"></i>
                                     </div>
                                 </div>
                             <?php else: ?>
@@ -35,7 +35,7 @@
                                             <input type="checkbox" value="<?= $modules; ?>" name="chk<?= $modules; ?>">
                                         </label>
                                         <span class="module-name"><?= $modules; ?></span>
-                                        <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="<?= $this->translate('tr_melis_installer_melis_modules_' . $modules) ?>"></i>
+                                        <i class="fa fa-info-circle pull-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="<?= $this->translate('tr_melis_installer_melis_modules_' . $modules) ?>"></i>
                                     </div>
                                 </div>
                             <?php endif; ?>

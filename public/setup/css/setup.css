@@ -856,3 +856,9 @@ input::-ms-input-placeholder { /* Microsoft Edge */
     left: auto !important;
     margin-top: 0 !important;
 }
+.has-switch {
+    border: 0;
+}
+#melis-installer-event-do-response {
+    padding: 10px;
+}
