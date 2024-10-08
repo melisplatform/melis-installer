@@ -862,3 +862,7 @@ input::-ms-input-placeholder { /* Microsoft Edge */
 #melis-installer-event-do-response {
     padding: 10px;
 }
+.setup-content .nav-tabs .nav-link.active,
+.nav.nav-block.nav-tabs>li>a {
+    border-radius: 0;
+}
