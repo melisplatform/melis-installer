@@ -1239,7 +1239,7 @@ $(window).on("load", function () {
 	function showModuleSelect() {
 		var webOpt = $("#web-option-selected").val();
 
-		$("#site-install-container").addClass("hidden");
+		$("#site-install-container").addClass("d-none");
 		if (webOpt != "MelisCoreOnly") {
 			if (webOpt == "None") {
 				$("#weboption-none").trigger("click");
@@ -1248,7 +1248,7 @@ $(window).on("load", function () {
 				$(".setup3-webform").show();
 			} else if (webOpt == "MelisDemoCms") {
 				$("#weboption-democms").trigger("click");
-				$("#site-install-container").removeClass("hidden");
+				$("#site-install-container").removeClass("d-none");
 			}
 		}
 	}
