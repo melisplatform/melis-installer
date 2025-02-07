@@ -396,7 +396,7 @@ class InstallerController extends MelisAbstractActionController
         array_push($configDir, 'dbdeploy/');
         array_push($configDir, 'dbdeploy/data');
         array_push($configDir, 'public/');
-        array_push($configDir, 'public/'.ModulesController::BUNDLE_FOLDER_NAME.'/');
+        array_push($configDir, 'etc/'.ModulesController::BUNDLE_FOLDER_NAME.'/');
         array_push($configDir, 'cache/');
         array_push($configDir, 'test/');
         array_push($configDir, 'thirdparty/');

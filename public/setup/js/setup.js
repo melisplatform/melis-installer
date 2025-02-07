@@ -595,7 +595,7 @@ $(window).on("load", function () {
 
 	// Website Option action event
 	$body.on("change", ".weboption-radio", function () {
-		$("#site-install-container").addClass("hidden");
+		$("#site-install-container").addClass("d-none");
 		$(".setup3-webform").slideUp();
 
 		if ($(this).val() == "NewSite") {
@@ -603,7 +603,7 @@ $(window).on("load", function () {
 		}
 
 		if ($(this).val() == "MelisDemoCms") {
-			$("#site-install-container").removeClass("hidden");
+			$("#site-install-container").removeClass("d-none");
 		}
 	});
 
