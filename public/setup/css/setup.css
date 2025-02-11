@@ -572,7 +572,8 @@ input[type="text"] {
 }
 .radio-content{
     position: absolute;
-    left:12px;
+    left: 12px;
+    top: 32px;
 }
 .font-awesome-radio-container{
     padding-left: 10px;
