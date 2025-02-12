@@ -578,14 +578,18 @@ var melisHelper = (function(){
                 createModalRequestingFlag = false;
 
                 $("#melis-modals-container").append(data);
+
                 var modalID = $(data).find(".modal").attr("id");
+
                 melisHelper.zoneReload(zoneId, melisKey, parameters);
 
-                $("#" + modalID).modal({
-                    show: true,
-                    keyboard : false,
-                    backdrop : modalBackDrop
-                });
+                const $modal = new bootstrap.Modal('#' + modalID, {
+					show: true,
+					keyboard: false,
+					backdrop: modalBackDrop
+				});
+                
+                $modal.show();
 
                 if(typeof callback !== "undefined" && typeof callback === "function") {
                     callback();
