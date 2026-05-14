@@ -231,7 +231,6 @@ class InstallerController extends MelisAbstractActionController
             } else {
                 $dataExt[$ext] = sprintf($translator->translate('tr_melis_installer_step_1_0_extension_not_loaded'), $ext);
             }
-
         }
 
         $dataVar = $installHelper->checkEnvironmentVariables();
@@ -332,23 +331,22 @@ class InstallerController extends MelisAbstractActionController
         $errors = [];
         $results = [];
         $translator = $this->getServiceManager()->get('translator');
-        $requiredModules = array('mod_headers','mod_alias','mod_deflate');
+        $requiredModules = array('mod_headers', 'mod_alias', 'mod_deflate');
 
         if (function_exists('apache_get_modules')) {
             $modules = apache_get_modules();
-            foreach($requiredModules as $requiredModule){
-                $results[$requiredModule] = in_array($requiredModule, $modules) ? true : false ;
+            foreach ($requiredModules as $requiredModule) {
+                $results[$requiredModule] = in_array($requiredModule, $modules) ? true : false;
             }
-
         } else {
-            foreach($requiredModules as $requiredModule){
-                $results[$requiredModule] = getenv($requiredModule)=='On' ? true : false ;
+            foreach ($requiredModules as $requiredModule) {
+                $results[$requiredModule] = getenv($requiredModule) == 'On' ? true : false;
             }
         }
 
-        foreach($results as $key => $result){
-            if($result === false){
-                $errors[$key] =  sprintf($translator->translate('tr_melis_installer_apache_module_disabled'),$key);
+        foreach ($results as $key => $result) {
+            if ($result === false) {
+                $errors[$key] =  sprintf($translator->translate('tr_melis_installer_apache_module_disabled'), $key);
             }
         }
 
@@ -396,7 +394,7 @@ class InstallerController extends MelisAbstractActionController
         array_push($configDir, 'dbdeploy/');
         array_push($configDir, 'dbdeploy/data');
         array_push($configDir, 'public/');
-        array_push($configDir, 'etc/'.ModulesController::BUNDLE_FOLDER_NAME.'/');
+        array_push($configDir, 'etc/' . ModulesController::BUNDLE_FOLDER_NAME . '/');
         array_push($configDir, 'cache/');
         array_push($configDir, 'test/');
         array_push($configDir, 'thirdparty/');
@@ -551,23 +549,22 @@ class InstallerController extends MelisAbstractActionController
         $results = [];
         $translator = $this->getServiceManager()->get('translator');
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $requiredModules = array('mod_headers','mod_alias','mod_deflate');
+            $requiredModules = array('mod_headers', 'mod_alias', 'mod_deflate');
 
             if (function_exists('apache_get_modules')) {
                 $modules = apache_get_modules();
-                foreach($requiredModules as $requiredModule){
-                    $results[$requiredModule] = in_array($requiredModule, $modules) ? true : false ;
+                foreach ($requiredModules as $requiredModule) {
+                    $results[$requiredModule] = in_array($requiredModule, $modules) ? true : false;
                 }
-
             } else {
-                foreach($requiredModules as $requiredModule){
-                    $results[$requiredModule] = getenv($requiredModule)=='On' ? true : false ;
+                foreach ($requiredModules as $requiredModule) {
+                    $results[$requiredModule] = getenv($requiredModule) == 'On' ? true : false;
                 }
             }
 
-            foreach($results as $key => $result){
-                if($result === false){
-                    $errors[$key] =  sprintf($translator->translate('tr_melis_installer_apache_module_disabled'),$key);
+            foreach ($results as $key => $result) {
+                if ($result === false) {
+                    $errors[$key] =  sprintf($translator->translate('tr_melis_installer_apache_module_disabled'), $key);
                 }
             }
 
@@ -652,8 +649,10 @@ class InstallerController extends MelisAbstractActionController
                 $domainName = 'domain_' . ($x + 1);
                 $sendEmail = 'send_email_' . ($x + 1);
                 $errorReporting = 'error_reporting_' . ($x + 1);
-                if (isset($data[$environmentName]) && isset($data[$domainName]) &&
-                    $data[$environmentName] != '' && $data[$domainName] != '') {
+                if (
+                    isset($data[$environmentName]) && isset($data[$domainName]) &&
+                    $data[$environmentName] != '' && $data[$domainName] != ''
+                ) {
                     $domainEnv[] = [
                         'environment' => $data[$environmentName],
                         'domain' => $data[$domainName],
@@ -661,7 +660,6 @@ class InstallerController extends MelisAbstractActionController
                         'error_reporting' => isset($data[$errorReporting]) ? $data[$errorReporting] : 0,
                     ];
                 }
-
             }
 
             $request = [
@@ -682,7 +680,6 @@ class InstallerController extends MelisAbstractActionController
             // add status to session
             $container = new Container('melisinstaller');
             $container['steps'][$this->steps[3]] = ['page' => 4, 'success' => $success];;
-
         }
 
         return new JsonModel([
@@ -702,8 +699,6 @@ class InstallerController extends MelisAbstractActionController
             if (!empty($response)) {
                 $success = $response[0]['success'];
             }
-
-
         }
 
         return new JsonModel([
@@ -739,7 +734,6 @@ class InstallerController extends MelisAbstractActionController
                                         $container['database'] = $data;
 
                                         $_SESSION['database'] = $data;
-
                                     } else {
                                         $errors = [
                                             'Collation' => ['invalidCollation' => $translator->translate('tr_melis_installer_layout_dbcon_collation_name_invalid'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_collation_name')],
@@ -763,15 +757,12 @@ class InstallerController extends MelisAbstractActionController
                     } else {
                         $errors = ['username' => ['emptyUsername' => $translator->translate('tr_melis_installer_dbcon_form_user_empty'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_form_user')]];
                     }
-
                 } else {
                     $errors = ['database' => ['emptyDatabase' => $translator->translate('tr_melis_installer_dbcon_form_db_empty'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_form_db')]];
                 }
-
             } else {
                 $errors = ['Host' => ['unreachableHost' => $translator->translate('tr_melis_installer_dbcon_form_host_fail'), 'label' => $translator->translate('tr_melis_installer_layout_dbcon_form_host')]];
             }
-
         }
 
         return new JsonModel([
@@ -987,14 +978,13 @@ class InstallerController extends MelisAbstractActionController
              * Checking installation for other framework
              */
             $fwStatus = $this->installOtherFramework($otherFWData);
-            if(!$fwStatus['success']){
+            if (!$fwStatus['success']) {
                 $status = false;
                 $message = $fwStatus['message'];
             }
         }
 
         return new JsonModel(['success' => $status, 'packages' => $packages, 'message' => $message]);
-
     }
 
     /**
@@ -1010,14 +1000,14 @@ class InstallerController extends MelisAbstractActionController
             'message' => ''
         ];
 
-        if(!empty($otherFWData)){
+        if (!empty($otherFWData)) {
             $container = new Container('melisinstaller');
 
             parse_str($otherFWData, $otherFWData);
 
             $isEnableMultiFw = (!empty($otherFWData['enable_multi_fw']) && $otherFWData['enable_multi_fw'] == 'true') ? true : false;
             $includeDemoTool = (!empty($otherFWData['include_demo_tool']) && $otherFWData['include_demo_tool'] == 'yes') ? true : false;
-//            $includeDemoSite = (!empty($otherFWData['include_demo_site']) && $otherFWData['include_demo_site'] == 'true') ? true : false;
+            //            $includeDemoSite = (!empty($otherFWData['include_demo_site']) && $otherFWData['include_demo_site'] == 'true') ? true : false;
             $frameworkName = (!empty($otherFWData['framework_name'])) ? $otherFWData['framework_name'] : '';
 
             $container['is_multi_fw'] = $isEnableMultiFw;
@@ -1025,16 +1015,16 @@ class InstallerController extends MelisAbstractActionController
             /**
              * Check if multi framework coding is enabled
              */
-            if($isEnableMultiFw){
+            if ($isEnableMultiFw) {
                 //check if framework name is not empty
-                if(!empty($frameworkName)) {
+                if (!empty($frameworkName)) {
                     //add framework name to container
                     $container['framework_name'] = $frameworkName;
                     $ucFirstFrameworkName = ucfirst($frameworkName);
 
                     //Include MelisPlatformFrameworks module
-                    $mpFwModule = ['MelisPlatformFramework'.$ucFirstFrameworkName => 'melisplatform/melis-platform-framework-'.$frameworkName];
-//                    array_push($container['install_modules'], 'MelisPlatformFrameworks');
+                    $mpFwModule = ['MelisPlatformFramework' . $ucFirstFrameworkName => 'melisplatform/melis-platform-framework-' . $frameworkName];
+                    //                    array_push($container['install_modules'], 'MelisPlatformFrameworks');
                     $container['download_modules'] = array_merge($container['download_modules'], $mpFwModule);
                     $container['install_platform_framework'] = $mpFwModule;
 
@@ -1053,7 +1043,7 @@ class InstallerController extends MelisAbstractActionController
                     //store demo tool to container
                     $container['install_fw_demo_tool'] = [];
                     //store demo site on container
-//                    $container['install_fw_demo_site'] = [];
+                    //                    $container['install_fw_demo_site'] = [];
 
                     if ($includeDemoTool) {
                         /**
@@ -1066,10 +1056,10 @@ class InstallerController extends MelisAbstractActionController
                         $container['install_fw_demo_tool'] = [$demoModuleName => $demoModulePath];
                     }
                     //check if we include demo site
-//                    if ($includeDemoSite) {
-//
-//                    }
-                }else{
+                    //                    if ($includeDemoSite) {
+                    //
+                    //                    }
+                } else {
                     $result['success'] = false;
                     $result['message'] = 'Please choose a framework to install.';
                 }
@@ -1106,7 +1096,7 @@ class InstallerController extends MelisAbstractActionController
     protected function isMultiFramework()
     {
         $container = new Container('melisinstaller');
-        if(isset($container['is_multi_fw']))
+        if (isset($container['is_multi_fw']))
             return $container['is_multi_fw'];
 
         return false;
@@ -1135,18 +1125,18 @@ class InstallerController extends MelisAbstractActionController
              * Install needed modules for
              * thirdparty framework
              */
-            if($this->isMultiFramework()) {
-                if($this->isUsingCoreOnly()) {
+            if ($this->isMultiFramework()) {
+                if ($this->isUsingCoreOnly()) {
 
-                    if(!empty($container['install_platform_framework']))
+                    if (!empty($container['install_platform_framework']))
                         $autoInstallModules = array_merge($autoInstallModules, $container['install_platform_framework']);
 
                     if (!empty($container['install_fw_demo_tool'])) {
                         $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_tool']);
                     }
-//                    if (!empty($container['install_fw_demo_site'])) {
-//                        $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_site']);
-//                    }
+                    //                    if (!empty($container['install_fw_demo_site'])) {
+                    //                        $autoInstallModules = array_merge($autoInstallModules, $container['install_fw_demo_site']);
+                    //                    }
                 }
             }
 
@@ -1170,7 +1160,6 @@ class InstallerController extends MelisAbstractActionController
         $view->setTerminal(true);
 
         return $view;
-
     }
 
     public function downloadModulesAction()
@@ -1184,7 +1173,6 @@ class InstallerController extends MelisAbstractActionController
 
             $composerSvc = $this->getServiceManager()->get('MelisComposerService');
             $composerSvc->update();
-
         }
 
         $view = new ViewModel();
@@ -1210,7 +1198,6 @@ class InstallerController extends MelisAbstractActionController
         }
 
         return new JsonModel(['success' => $success]);
-
     }
 
     public function activateModulesAction()
@@ -1243,6 +1230,13 @@ class InstallerController extends MelisAbstractActionController
                 $ctr++;
             }
 
+            // drop melis-site packages (extra.melis-site = true) - they belong in
+            // module/MelisSites and must never be written to the back-office module loader
+            $loadableModules = $moduleSvc->getAllModules(); // getVendorModules() already excludes melis-site packages
+            $modules = array_values(array_filter($modules, function ($module) use ($loadableModules, $autoInstallModules) {
+                return in_array($module, $loadableModules) || in_array($module, $autoInstallModules);
+            }));
+
             // load site module in installer
             if (!$this->isUsingCoreOnly()) {
                 $siteConfiguration = isset($container['site_module']) ? $container['site_module'] : null;
@@ -1250,20 +1244,20 @@ class InstallerController extends MelisAbstractActionController
                 if (!in_array('MelisEngine', $modules))
                     array_push($modules, 'MelisEngine');
                 if (!in_array('MelisFront', $modules))
-                    array_push($modules,'MelisFront');
+                    array_push($modules, 'MelisFront');
 
-//                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
-//                    array_push($modules, getenv('MELIS_MODULE'));
-//                }
+                //                if (in_array($siteConfiguration['site'], ['NewSite', 'None'])) {
+                //                    array_push($modules, getenv('MELIS_MODULE'));
+                //                }
             }
 
             /**
              * check if multi framework
              */
-            if($this->isMultiFramework()) {
+            if ($this->isMultiFramework()) {
                 //add MelisPlatformFrameworks module to activate
-                if(!in_array('MelisPlatformFrameworks', $modules))
-                    array_push($modules,'MelisPlatformFrameworks');
+                if (!in_array('MelisPlatformFrameworks', $modules))
+                    array_push($modules, 'MelisPlatformFrameworks');
                 //remove MelisPlatformFramework+FrameworkName since this is not a laminas module
                 if (in_array('MelisPlatformFramework' . ucfirst($container['framework_name']), $modules))
                     $modules = array_diff($modules, ['MelisPlatformFramework' . ucfirst($container['framework_name'])]);
@@ -1291,18 +1285,18 @@ class InstallerController extends MelisAbstractActionController
         $fwName = $container['framework_name'];
         //download framework skeleton
         try {
-//            $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
-//            $result = $result->first();
+            //            $result = $this->getEventManager()->trigger('melis_platform_frameworks_download_framework_skeleton', $this, ['framework_name' => $fwName]);
+            //            $result = $result->first();
 
             $success = false;
             $message = '';
 
             \MelisCore\ModuleComposerScript::setNoPrint();
             $result = \MelisCore\ModuleComposerScript::executeScripts();
-            if(!empty($result)){
-                foreach($result as $key => $val){
-                    if($key == 'MelisPlatformFramework'.ucfirst($fwName)){
-                        foreach($val as $res){
+            if (!empty($result)) {
+                foreach ($result as $key => $val) {
+                    if ($key == 'MelisPlatformFramework' . ucfirst($fwName)) {
+                        foreach ($val as $res) {
                             $message = $res['message'];
                             $success = $res['success'];
                             break;
@@ -1311,7 +1305,7 @@ class InstallerController extends MelisAbstractActionController
                 }
             }
             $color = ($success) ? '#02de02' : '#ff190d';
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
             $message = $ex->getMessage();
             $color = '#ff190d';
         }
@@ -1351,7 +1345,8 @@ class InstallerController extends MelisAbstractActionController
 
                     // Database connection configuration
                     $dbConnFile = file_get_contents(__DIR__ . '/../../etc/DatabaseConnection');
-                    $dbConn = sprintf($dbConnFile,
+                    $dbConn = sprintf(
+                        $dbConnFile,
                         $database['hostname'],
                         $database['database'],
                         $database['username'],
@@ -1430,7 +1425,6 @@ class InstallerController extends MelisAbstractActionController
         $files = glob($dbDeployPath . '*.sql');
 
         return count($files);
-
     }
 
     public function reprocessDbDeployAction()
@@ -1445,7 +1439,6 @@ class InstallerController extends MelisAbstractActionController
         } else {
             die(Json::encode(['success' => 0, 'message' => 'Unable to process dbDeploy, please refresh the page and try again.']));
         }
-
     }
 
     /**
@@ -1491,7 +1484,6 @@ class InstallerController extends MelisAbstractActionController
         ];
 
         return new JsonModel($response);
-
     }
 
     protected function getNoneDemoSiteSelection()
@@ -1530,7 +1522,6 @@ class InstallerController extends MelisAbstractActionController
         ];
 
         return new JsonModel($response);
-
     }
 
     private function installDemoSite()
@@ -1561,14 +1552,13 @@ class InstallerController extends MelisAbstractActionController
 
             $this->mapDirectoryDemo($melisSitePathModule, 'MelisDemoCms', getenv('MELIS_MODULE'));
         }
-
     }
 
     protected function isUsingDemoCms()
     {
-//        if (!in_array($this->getSelectedSiteOption(), $this->getNoneDemoSiteSelection())) {
-//            return true;
-//        }
+        //        if (!in_array($this->getSelectedSiteOption(), $this->getNoneDemoSiteSelection())) {
+        //            return true;
+        //        }
 
         return false;
     }
@@ -1623,7 +1613,7 @@ class InstallerController extends MelisAbstractActionController
     {
         set_time_limit(0);
         ini_set('memory_limit', -1);
-        
+
         $moduleService = $this->getServiceManager()->get('MelisInstallerModulesService');
         $modules = $moduleService->getAllModules();
         $modules = array_diff($modules, $this->getInstallerModules());
@@ -1677,7 +1667,6 @@ class InstallerController extends MelisAbstractActionController
 
         // dd($content);
         die($content);
-
     }
 
     protected function getInstallerModules()
@@ -1710,9 +1699,7 @@ class InstallerController extends MelisAbstractActionController
                 $html = new \Laminas\Mime\Part($renderer->render($viewModel));
 
                 $content = (string) $html->getContent();
-
             }
-
         } catch (\Exception $e) {
             $content = $e->getMessage();
         }
@@ -1847,7 +1834,6 @@ class InstallerController extends MelisAbstractActionController
         header('Content-Type: application/json');
 
         die(Json::encode($data));
-
     }
 
     public function submitModuleConfigurationForm($module, $params)
@@ -1869,7 +1855,6 @@ class InstallerController extends MelisAbstractActionController
         } else {
             return null;
         }
-
     }
 
     function createNewUserAction()
@@ -1898,13 +1883,14 @@ class InstallerController extends MelisAbstractActionController
 
             foreach ($errors as $keyError => $valueError) {
                 foreach ($appConfigForm as $keyForm => $valueForm) {
-                    if ($valueForm['spec']['name'] == $keyError &&
-                        !empty($valueForm['spec']['options']['label'])) {
+                    if (
+                        $valueForm['spec']['name'] == $keyError &&
+                        !empty($valueForm['spec']['options']['label'])
+                    ) {
                         $errors[$keyError]['label'] = $valueForm['spec']['options']['label'];
                     }
                 }
             }
-
         }
 
         return new JsonModel([
@@ -1944,7 +1930,6 @@ class InstallerController extends MelisAbstractActionController
 
                 file_put_contents($moduleLoadFile, $content);
                 $logs[] = 'Module Load Rebuild';
-
             }
 
             unlink($docPath . 'config/melis.modules.path.php');
@@ -2062,7 +2047,6 @@ class InstallerController extends MelisAbstractActionController
             $response = $this->systemConfigurationChecker();
             $success = $response['success'];
             $errors = $response['errors'];
-
         }
 
         return new JsonModel([
@@ -2187,7 +2171,8 @@ class InstallerController extends MelisAbstractActionController
      * Parses the modules list.
      * @param $modules
      */
-    public function parseModulesList(&$modules) {
+    public function parseModulesList(&$modules)
+    {
         if (!empty($modules['packages'])) {
             foreach ($modules['packages'] as $key => $module) {
                 $this->removeInactiveModules($modules, $module, $key);
