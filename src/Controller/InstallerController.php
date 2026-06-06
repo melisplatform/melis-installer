@@ -483,7 +483,46 @@ class InstallerController extends MelisAbstractActionController
             $data = $container['database'];
         }
 
+        // Nothing entered yet: pre-fill from environment variables when available.
+        // This lets containerized setups (e.g. Docker, which already define MYSQL_*)
+        // show the connection details in the form. The fields stay fully editable,
+        // and this is a no-op when those variables are not set.
+        if (empty($data)) {
+            $data = $this->loadDatabaseCredentialFromEnv();
+        }
+
         return $data;
+    }
+
+    /**
+     * Builds database credentials from MYSQL_* environment variables, if any.
+     * Returns an empty array when no relevant variable is defined.
+     * @return Array
+     */
+    protected function loadDatabaseCredentialFromEnv()
+    {
+        $host = getenv('MYSQL_HOST');
+        if ($host === false || $host === '') {
+            $host = getenv('MYSQL_HOSTNAME');
+        }
+        // Drop any ":port" — Melis expects a bare hostname for the DB connection.
+        if (is_string($host) && strpos($host, ':') !== false) {
+            $host = strstr($host, ':', true);
+        }
+
+        $env = [
+            'hostname' => ($host !== false) ? $host : '',
+            'database' => (getenv('MYSQL_DATABASE') !== false) ? getenv('MYSQL_DATABASE') : '',
+            'username' => (getenv('MYSQL_USER') !== false) ? getenv('MYSQL_USER') : '',
+            'password' => (getenv('MYSQL_PASSWORD') !== false) ? getenv('MYSQL_PASSWORD') : '',
+        ];
+
+        // Only pre-fill if at least one connection field is actually provided.
+        if ($env['hostname'] === '' && $env['database'] === '' && $env['username'] === '') {
+            return [];
+        }
+
+        return $env;
     }
 
     public function newEnvironmentFormAction()
