@@ -119,13 +119,16 @@ class InstallHelperService extends AbstractService
             $isConnected = 1;
 
             try {
+                // PDO::MYSQL_ATTR_INIT_COMMAND is deprecated on PHP 8.5+; the namespaced
+                // Pdo\Mysql::ATTR_INIT_COMMAND only exists on 8.4+. Same value either way.
+                $initCommand = \PHP_VERSION_ID >= 80400 ? \Pdo\Mysql::ATTR_INIT_COMMAND : \PDO::MYSQL_ATTR_INIT_COMMAND;
                 $dbAdapter = new DbAdapter(array(
                     'driver' =>  'Pdo',
                     'dsn'   =>   'mysql:dbname=INFORMATION_SCHEMA;host='.$host,
                     'username' => $user,
                     'password' => $pass,
                     'driver_options' => array(
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8MB4'"
+                        $initCommand => "SET NAMES 'UTF8MB4'"
                     ),
                 ));
 
@@ -169,10 +172,13 @@ class InstallHelperService extends AbstractService
     public function setDbAdapter($config)
     {
         if(is_array($config)) {
+            // PDO::MYSQL_ATTR_INIT_COMMAND is deprecated on PHP 8.5+; Pdo\Mysql::ATTR_INIT_COMMAND
+            // only exists on 8.4+. Same value either way.
+            $initCommand = \PHP_VERSION_ID >= 80400 ? \Pdo\Mysql::ATTR_INIT_COMMAND : \PDO::MYSQL_ATTR_INIT_COMMAND;
             $this->odbAdapter = new DbAdapter(array_merge(array(
                 'driver' => 'Pdo_Mysql',
                 'driver_options' => array(
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8MB4'"
+                    $initCommand => "SET NAMES 'UTF8MB4'"
                 )
             ), $config));
 
