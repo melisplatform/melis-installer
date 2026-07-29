@@ -65,10 +65,22 @@ class Module
                     'melis-backoffice/application-MelisInstaller/default',
                     'melis-backoffice/setup',
                     'melis-backoffice/translations',
-                    'melis-backoffice/application-MelisEngine/default'
+                    'melis-backoffice/application-MelisEngine/default',
+                    'melis-backoffice/islogin',
+                    'meliscore-melis-react-spa'
                 ];
 
-                if ($matchedRouteName && !in_array($matchedRouteName, $excludedRoutes)) {
+                // Ne force PAS la redirection des requêtes AJAX/XHR (ex: polling Messenger,
+                // preload TinyMCE, i18n DataTable) : le bundle.js legacy tourne en tâche de fond
+                // même sur la page setup elle-même et déclenche ces appels indépendamment de
+                // l'installation en cours. Les rediriger en boucle vers /melis/setup ne fait que
+                // spammer le Network tab (302 répétés, ex. le polling Messenger toutes les ~20s)
+                // sans aucun bénéfice — laisser ces requêtes suivre leur dispatch normal (elles
+                // échoueront proprement côté JS si la route/table cible n'existe pas encore).
+                $xhrHeader = $e->getRequest()->getHeaders()->get('X-Requested-With');
+                $isAjax = $xhrHeader && strtolower($xhrHeader->getFieldValue()) === 'xmlhttprequest';
+
+                if ($matchedRouteName && !$isAjax && !in_array($matchedRouteName, $excludedRoutes)) {
                     header("location: $setupRoute");
                     die;
                 } else {
@@ -190,7 +202,8 @@ class Module
 
             $excludedRoutes = [
                 'melis-backoffice/get-translations',
-                'melis-backoffice/application-MelisInstaller/default'
+                'melis-backoffice/application-MelisInstaller/default',
+                'melis-backoffice/islogin'
             ];
 
             if (!in_array($matchedRouteName, $excludedRoutes)) {

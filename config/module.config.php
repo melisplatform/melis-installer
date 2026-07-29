@@ -111,8 +111,9 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'MelisInstaller\Controller\Installer'   => \MelisInstaller\Controller\InstallerController::class,
-            'MelisInstaller\Controller\Translation' => \MelisInstaller\Controller\TranslationController::class,
+            'MelisInstaller\Controller\Installer'     => \MelisInstaller\Controller\InstallerController::class,
+            'MelisInstaller\Controller\Translation'   => \MelisInstaller\Controller\TranslationController::class,
+            'MelisInstaller\Controller\SetupReactApi' => \MelisInstaller\Controller\SetupReactApiController::class,
         ],
     ],
     'form_elements' => [

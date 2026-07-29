@@ -369,14 +369,13 @@ class InstallerController extends MelisAbstractActionController
     {
         $translator = $this->getServiceManager()->get('translator');
         $installHelper = $this->getServiceManager()->get('InstallerHelper');
-
-        $configDir = $installHelper->getDir('config');
         $module = $this->getModuleSvc()->getAllModules();
 
         $success = 0;
         $errors = [];
         $data = [];
 
+        $configDir = $installHelper->getDir('config');
         for ($x = 0; $x < count($configDir); $x++) {
             $configDir[$x] = 'config/' . $configDir[$x];
         }
@@ -1383,9 +1382,6 @@ class InstallerController extends MelisAbstractActionController
                     $fileName = $installHelper->getMelisPlatform() . '.php';
 
                     // Database connection configuration
-                    // PDO::MYSQL_ATTR_INIT_COMMAND is deprecated on PHP 8.5+; Pdo\Mysql::ATTR_INIT_COMMAND
-                    // only exists on 8.4+. Same integer value either way (written into the template).
-                    $initCommand = \PHP_VERSION_ID >= 80400 ? \Pdo\Mysql::ATTR_INIT_COMMAND : \PDO::MYSQL_ATTR_INIT_COMMAND;
                     $dbConnFile = file_get_contents(__DIR__ . '/../../etc/DatabaseConnection');
                     $dbConn = sprintf(
                         $dbConnFile,
@@ -1393,7 +1389,7 @@ class InstallerController extends MelisAbstractActionController
                         $database['database'],
                         $database['username'],
                         $database['password'],
-                        $initCommand
+                        PDO::MYSQL_ATTR_INIT_COMMAND
                     );
 
                     if (is_writable('config/autoload/platforms/'))
