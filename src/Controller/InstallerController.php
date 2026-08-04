@@ -863,7 +863,7 @@ class InstallerController extends MelisAbstractActionController
 
                         $melisSite = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites';
                         if (!file_exists($melisSite)) {
-                            mkdir($melisSite, 0777);
+                            mkdir($melisSite, 0755);
                             $installHelper->filePermission($melisSite);
                         }
 
@@ -892,7 +892,7 @@ class InstallerController extends MelisAbstractActionController
                             $melisSite = $_SERVER['DOCUMENT_ROOT'] . '/../module/MelisSites';
 
                             if (!file_exists($melisSite)) {
-                                mkdir($melisSite, 0777);
+                                mkdir($melisSite, 0755);
                                 $installHelper->filePermission($melisSite);
                             }
 
