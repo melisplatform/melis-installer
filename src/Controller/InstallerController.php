@@ -1853,7 +1853,7 @@ class InstallerController extends MelisAbstractActionController
 
         if ($success) {
             // Install the site
-            if (!$this->isSiteIsInDefaultSelection()) {
+            if (!$this->isSiteIsInDefaultSelection() && !$this->isSiteAlreadyInstalled($this->selectedSite())) {
                 set_time_limit(0);
                 ini_set('memory_limit', '-1');
                 $requests = $this->getRequest()->getQuery()->toArray();
@@ -1872,6 +1872,40 @@ class InstallerController extends MelisAbstractActionController
         header('Content-Type: application/json');
 
         die(Json::encode($data));
+    }
+
+    /**
+     * Is a site of that module name already registered in the CMS?
+     *
+     * `invokeSetup()` inserts a new site + page tree every time it runs, with no check of its own.
+     * Nothing else guards this endpoint either, so completing the wizard a SECOND time on a
+     * platform that is already installed (easy while developing, and the two wizards — legacy
+     * carousel and React — share this action) silently produced a duplicate site: two
+     * `melis_cms_site` rows with the same `site_name`, two page trees, two 404 mappings.
+     * Observed 2026-08-11 (sites 1 and 2, both `MelisDemoCms`).
+     *
+     * Returns false when the site table can't be reached (MelisCms/MelisEngine not installed yet,
+     * which is the normal first-install case) so the install proceeds exactly as before.
+     *
+     * @param string $siteModule
+     * @return bool
+     */
+    protected function isSiteAlreadyInstalled($siteModule)
+    {
+        if (empty($siteModule)) {
+            return false;
+        }
+
+        $sm = $this->getServiceManager();
+        if (!$sm->has('MelisEngineTableSite')) {
+            return false;
+        }
+
+        try {
+            return (bool) $sm->get('MelisEngineTableSite')->getEntryByField('site_name', $siteModule)->current();
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     public function submitModuleConfigurationForm($module, $params)
