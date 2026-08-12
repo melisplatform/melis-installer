@@ -73,6 +73,31 @@ class SetupReactApiController extends MelisAbstractActionController
     }
 
     /**
+     * Step 1.3 — environnement par défaut (non modifiable), mêmes valeurs que le bloc
+     * "Default environment" du carousel legacy (`step-1.3.phtml`) : nom = MELIS_PLATFORM,
+     * domaine = SERVER_NAME. `sendEmail`/`errorReporting` reprennent la configuration déjà
+     * enregistrée en session le cas échéant (retour arrière dans le wizard), sinon les mêmes
+     * valeurs par défaut que le legacy (email activé, E_ALL & ~E_USER_DEPRECATED).
+     */
+    public function defaultEnvironmentAction(): HttpResponse
+    {
+        $installHelper = $this->getServiceManager()->get('InstallerHelper');
+
+        $container = new \Laminas\Session\Container('melisinstaller');
+        $current = $container['environments']['default_environment'] ?? [];
+        $conf = $current['app_interface_conf'] ?? [];
+
+        return $this->jsonResponse(['success' => true, 'data' => [
+            'name' => $installHelper->getMelisPlatform() ?: null,
+            'domain' => $this->getRequest()->getServer()->get('SERVER_NAME'),
+            'sendEmail' => isset($conf['send_email']) ? (bool) $conf['send_email'] : true,
+            'errorReporting' => array_key_exists('error_reporting', $conf)
+                ? ($conf['error_reporting'] !== '0' && $conf['error_reporting'] !== 0)
+                : true,
+        ]]);
+    }
+
+    /**
      * Step 1.3 — enregistre l'environnement courant + les sites/domaines déclarés. Réutilise
      * l'event `melis_install_new_platform_start` (MelisInstallerNewPlatformListener) tel quel —
      * seule la forme de la requête change (JSON au lieu de champs de formulaire indexés
@@ -173,24 +198,46 @@ class SetupReactApiController extends MelisAbstractActionController
      */
     public function listModulesAction(): HttpResponse
     {
-        $modules = $this->getSetupWizardService()->listAvailableModules();
+        $service = $this->getSetupWizardService();
+        $container = new \Laminas\Session\Container('melisinstaller');
+        $siteModule = $container['site_module'] ?? [];
+        $vhostModule = getenv('MELIS_MODULE') ?: '';
 
-        return $this->jsonResponse(['success' => true, 'data' => ['modules' => $modules]]);
+        return $this->jsonResponse(['success' => true, 'data' => [
+            'modules' => $service->listAvailableModules(),
+            'sites' => $service->listAvailableSites(),
+            'languages' => $service->listSiteLanguages(),
+            // Valeur par défaut du module du site : MELIS_MODULE (le vhost), comme le champ
+            // pré-rempli du legacy. Côté React il reste éditable.
+            'websiteModule' => $vhostModule,
+            // Sélection déjà enregistrée en session (retour arrière dans le wizard).
+            'selection' => [
+                'site' => $siteModule['site'] ?? null,
+                'websiteName' => $siteModule['website_name'] ?? $vhostModule,
+                'websiteModule' => $siteModule['website_module'] ?? $vhostModule,
+                'language' => $siteModule['language'] ?? null,
+                'modules' => $container['install_modules'] ?? [],
+            ],
+        ]]);
     }
 
     /**
-     * Step 3.1 — enregistre la sélection de modules à installer/télécharger. Même stockage
-     * session (`install_modules` / `download_modules`) que `setDownloadableModulesAction`
-     * legacy, pour que les étapes suivantes (téléchargement composer, activation) — qui
-     * restent partagées avec le carousel — retrouvent la sélection quel que soit le chemin
-     * emprunté. Le flux multi-framework/demo-tool du legacy (`otherFWData`) n'est pas encore
-     * porté ici — cas marginal, hors scope de cette itération.
+     * Step 3.1 — enregistre l'option de plateforme choisie, le site à installer et la sélection
+     * de modules. Écrit exactement les mêmes clés de session que `setDownloadableModulesAction`
+     * legacy (`install_modules`, `download_modules`, `site_module`), pour que les étapes
+     * suivantes (téléchargement composer, activation, installation du site) — partagées avec le
+     * carousel — retrouvent la sélection quel que soit le chemin emprunté. Le flux
+     * multi-framework/demo-tool du legacy (`otherFWData`) n'est volontairement pas porté :
+     * c'est le seul champ retiré de cette étape côté React.
      *
-     * Body attendu : { modules: [{ name, package }] }
+     * Body attendu : { webOption, site: {module, package}|null, modules: [{name, package}],
+     *                  language, websiteName, websiteModule }
      */
     public function saveModuleSelectionAction(): HttpResponse
     {
         $body = json_decode($this->getRequest()->getContent(), true) ?? [];
+        $webOption = $body['webOption'] ?? 'MelisCoreOnly';
+        $site = $body['site'] ?? null;
         $selected = $body['modules'] ?? [];
 
         $installModules = [];
@@ -203,11 +250,38 @@ class SetupReactApiController extends MelisAbstractActionController
             $downloadModules[$module['name']] = $module['package'];
         }
 
+        // Le site démo choisi s'ajoute à la liste des modules à télécharger, comme le legacy
+        // qui pousse le package du radio `site` dans packages[]/modules[].
+        if ($webOption === 'MelisDemoCms' && !empty($site['module']) && !empty($site['package'])) {
+            $installModules[] = $site['module'];
+            $downloadModules[$site['module']] = $site['package'];
+        }
+
+        // `site` en session = le module du site démo choisi, sinon l'option elle-même
+        // (MelisCoreOnly / None / NewSite) — cf. `selectedSite` du legacy.
+        $selectedSite = $webOption === 'MelisDemoCms' ? ($site['module'] ?? $webOption) : $webOption;
+
         $container = new \Laminas\Session\Container('melisinstaller');
         $container['install_modules'] = $installModules;
         $container['download_modules'] = $downloadModules;
+        $container['site_module'] = [
+            'site' => $selectedSite,
+            'language' => $body['language'] ?? null,
+            'website_name' => $body['websiteName'] ?? '',
+            'website_module' => $body['websiteModule'] ?? (getenv('MELIS_MODULE') ?: ''),
+        ];
 
-        return $this->jsonResponse(['success' => true, 'data' => ['count' => count($installModules)]]);
+        // Core seul : aucun module à télécharger ni à activer (même court-circuit que
+        // `isUsingCoreOnly()` côté legacy).
+        if ($webOption === 'MelisCoreOnly') {
+            $container['install_modules'] = [];
+            $container['download_modules'] = [];
+        }
+
+        return $this->jsonResponse(['success' => true, 'data' => [
+            'count' => count($container['install_modules']),
+            'site' => $selectedSite,
+        ]]);
     }
 
     /**
@@ -249,6 +323,81 @@ class SetupReactApiController extends MelisAbstractActionController
         }
 
         return $this->jsonResponse(['success' => true, 'data' => ['modules' => $merged]]);
+    }
+
+    /**
+     * Étape finale — demande au conteneur d'adopter le module de site choisi dans le wizard
+     * comme `MELIS_MODULE` (variable de vhost + `.env` de la stack), pour que le site front
+     * réponde sans repasser par une édition manuelle et un redémarrage.
+     *
+     * Appelée AVANT `finalizeSetup` : cette dernière débranche MelisInstaller, donc cette route
+     * n'existe plus après. Le nom est celui du module de site RÉELLEMENT installé (cf.
+     * `resolveSiteModule()`) ; le body peut le surcharger.
+     *
+     * Body accepté : { module?: string }
+     */
+    public function applyModuleAction(): HttpResponse
+    {
+        $body = json_decode($this->getRequest()->getContent(), true) ?? [];
+        $container = new \Laminas\Session\Container('melisinstaller');
+
+        $module = (string) ($body['module'] ?? $this->resolveSiteModule($container));
+        if ($module === '') {
+            // Installation sans site (core seul / plateforme nue) : il n'y a pas de module de
+            // site à servir, MELIS_MODULE garde sa valeur. Ce n'est pas une erreur.
+            return $this->jsonResponse(['success' => true, 'data' => [
+                'state' => 'skipped',
+                'module' => '',
+                'current' => getenv('MELIS_MODULE') ?: '',
+            ]]);
+        }
+
+        $result = $this->getSetupWizardService()->requestModuleChange($module);
+        if (!$result['success']) {
+            return $this->jsonResponse(['success' => false, 'error' => $result['error'] ?? 'Invalid module name'], 400);
+        }
+
+        return $this->jsonResponse(['success' => true, 'data' => [
+            'state' => $result['state'],
+            'module' => $result['module'],
+            'current' => $result['current'],
+        ]]);
+    }
+
+    /**
+     * Module de site que le vhost doit servir, d'après la sélection de l'étape des modules.
+     * `site_module.site` vaut soit l'option de plateforme elle-même, soit — pour un site démo —
+     * le module de ce site (cf. `saveModuleSelectionAction`) :
+     *
+     *  - site démo   → le module installé par Composer (`MelisDemoCms`…) ;
+     *  - `NewSite`   → le module créé sous `module/MelisSites/`, saisi dans le formulaire ;
+     *  - core seul / plateforme nue → aucun site installé, donc rien à adopter.
+     *
+     * Se rabattre sur `website_module` dans tous les cas (ce que faisait cette méthode) revenait
+     * à réappliquer le champ « Module name » — pré-rempli avec le MELIS_MODULE courant et
+     * masqué hors option « nouveau site ». Une installation de site démo redemandait donc la
+     * valeur déjà en place : l'applier n'avait rien à faire et le `.env` gardait l'ancien nom.
+     */
+    private function resolveSiteModule(\Laminas\Session\Container $container): string
+    {
+        $selection = $container['site_module'] ?? [];
+        $site = (string) ($selection['site'] ?? '');
+
+        if ($site === '' || in_array($site, ['MelisCoreOnly', 'None'], true)) {
+            return '';
+        }
+
+        if ($site === 'NewSite') {
+            return trim((string) ($selection['website_module'] ?? ''));
+        }
+
+        return trim($site);
+    }
+
+    /** Étape finale — avancement de la demande ci-dessus (applied / failed / pending / idle). */
+    public function moduleStateAction(): HttpResponse
+    {
+        return $this->jsonResponse(['success' => true, 'data' => $this->getSetupWizardService()->getModuleApplyState()]);
     }
 
     private function getSetupWizardService(): SetupWizardService
