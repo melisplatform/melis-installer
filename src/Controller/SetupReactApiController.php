@@ -331,8 +331,8 @@ class SetupReactApiController extends MelisAbstractActionController
      * réponde sans repasser par une édition manuelle et un redémarrage.
      *
      * Appelée AVANT `finalizeSetup` : cette dernière débranche MelisInstaller, donc cette route
-     * n'existe plus après. Le nom vient de la session (`site_module.website_module`, saisi à
-     * l'étape des modules) ; le body peut le surcharger.
+     * n'existe plus après. Le nom est celui du module de site RÉELLEMENT installé (cf.
+     * `resolveSiteModule()`) ; le body peut le surcharger.
      *
      * Body accepté : { module?: string }
      */
@@ -341,9 +341,15 @@ class SetupReactApiController extends MelisAbstractActionController
         $body = json_decode($this->getRequest()->getContent(), true) ?? [];
         $container = new \Laminas\Session\Container('melisinstaller');
 
-        $module = (string) ($body['module'] ?? $container['site_module']['website_module'] ?? '');
+        $module = (string) ($body['module'] ?? $this->resolveSiteModule($container));
         if ($module === '') {
-            return $this->jsonResponse(['success' => false, 'error' => 'No module name to apply'], 400);
+            // Installation sans site (core seul / plateforme nue) : il n'y a pas de module de
+            // site à servir, MELIS_MODULE garde sa valeur. Ce n'est pas une erreur.
+            return $this->jsonResponse(['success' => true, 'data' => [
+                'state' => 'skipped',
+                'module' => '',
+                'current' => getenv('MELIS_MODULE') ?: '',
+            ]]);
         }
 
         $result = $this->getSetupWizardService()->requestModuleChange($module);
@@ -356,6 +362,36 @@ class SetupReactApiController extends MelisAbstractActionController
             'module' => $result['module'],
             'current' => $result['current'],
         ]]);
+    }
+
+    /**
+     * Module de site que le vhost doit servir, d'après la sélection de l'étape des modules.
+     * `site_module.site` vaut soit l'option de plateforme elle-même, soit — pour un site démo —
+     * le module de ce site (cf. `saveModuleSelectionAction`) :
+     *
+     *  - site démo   → le module installé par Composer (`MelisDemoCms`…) ;
+     *  - `NewSite`   → le module créé sous `module/MelisSites/`, saisi dans le formulaire ;
+     *  - core seul / plateforme nue → aucun site installé, donc rien à adopter.
+     *
+     * Se rabattre sur `website_module` dans tous les cas (ce que faisait cette méthode) revenait
+     * à réappliquer le champ « Module name » — pré-rempli avec le MELIS_MODULE courant et
+     * masqué hors option « nouveau site ». Une installation de site démo redemandait donc la
+     * valeur déjà en place : l'applier n'avait rien à faire et le `.env` gardait l'ancien nom.
+     */
+    private function resolveSiteModule(\Laminas\Session\Container $container): string
+    {
+        $selection = $container['site_module'] ?? [];
+        $site = (string) ($selection['site'] ?? '');
+
+        if ($site === '' || in_array($site, ['MelisCoreOnly', 'None'], true)) {
+            return '';
+        }
+
+        if ($site === 'NewSite') {
+            return trim((string) ($selection['website_module'] ?? ''));
+        }
+
+        return trim($site);
     }
 
     /** Étape finale — avancement de la demande ci-dessus (applied / failed / pending / idle). */
