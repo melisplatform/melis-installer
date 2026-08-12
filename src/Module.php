@@ -21,6 +21,23 @@ use Laminas\Stdlib\ArrayUtils;
 
 class Module
 {
+    /**
+     * Where an un-installed platform sends every non-whitelisted request.
+     *
+     * The React wizard (MelisReactOverride's `meliscore-melis-react-spa` route,
+     * already whitelisted in $excludedRoutes below) replaces the legacy
+     * /melis/setup screens. Set MELIS_SETUP_ROUTE to override — e.g.
+     * MELIS_SETUP_ROUTE=/melis/setup to go back to the legacy wizard.
+     */
+    public const SETUP_ROUTE_DEFAULT = '/melis-react/setup';
+
+    public static function setupRoute(): string
+    {
+        $route = getenv('MELIS_SETUP_ROUTE');
+
+        return is_string($route) && $route !== '' ? $route : self::SETUP_ROUTE_DEFAULT;
+    }
+
     public function onBootstrap(MvcEvent $e)
     {
         $this->initShowErrorsByconfig($e);
@@ -44,7 +61,7 @@ class Module
             // check if the platform configuration file is available
             $env = getenv('MELIS_PLATFORM');
             $docRoot = $_SERVER['DOCUMENT_ROOT'] . '/../';
-            $setupRoute = '/melis/setup';
+            $setupRoute = self::setupRoute();
             $platformFile = $docRoot . 'config/autoload/platforms/' . $env . '.php';
 
             /** @var \MelisAssetManager\Service\MelisModulesService $moduleSvc */
@@ -207,7 +224,7 @@ class Module
             ];
 
             if (!in_array($matchedRouteName, $excludedRoutes)) {
-                $controller->plugin('redirect')->toUrl('/melis/setup');
+                $controller->plugin('redirect')->toUrl(self::setupRoute());
             }
 
         }, 100);

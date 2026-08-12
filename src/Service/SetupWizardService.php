@@ -161,7 +161,12 @@ class SetupWizardService
      * `InstallerController::parseModulesList()` (modules inactifs/privés retirés, sauf
      * MelisEngine/MelisFront toujours conservés).
      *
-     * @return array<int,array{name:string,package:string,active:bool}>
+     * Chaque entrée porte les mêmes informations que la case à cocher legacy : titre + version
+     * affichés, sous-titre en infobulle, et dépendances converties en noms de modules
+     * (`toModuleName()` de `selection.phtml`) pour rejouer côté React la logique de
+     * `dependencyChecker()`.
+     *
+     * @return array<int,array{name:string,package:string,active:bool,title:string,version:string,subtitle:string,dependencies:string[]}>
      */
     public function listAvailableModules(): array
     {
@@ -188,10 +193,182 @@ class SetupWizardService
                 'name' => $name,
                 'package' => $package['packageName'] ?? '',
                 'active' => $isActive,
+                'title' => $package['packageTitle'] ?? $name,
+                'version' => $package['packageVersion'] ?? '',
+                'subtitle' => $package['packageSubtitle'] ?? '',
+                'dependencies' => array_values(array_filter(array_map(
+                    [self::class, 'toModuleName'],
+                    (array) ($package['packageDependency'] ?? [])
+                ))),
             ];
         }
 
+        // Le marketplace Melis sert une version figée (souvent en retard d'une branche majeure) :
+        // on affiche la dernière version stable réellement publiée sur Packagist, qui est celle
+        // que composer installera. Retombe sur la valeur du marketplace si Packagist ne répond pas.
+        $latest = $this->fetchLatestPackagistVersions(array_column($modules, 'package'));
+        foreach ($modules as &$module) {
+            if (!empty($latest[$module['package']])) {
+                $module['version'] = $latest[$module['package']];
+            }
+        }
+        unset($module);
+
         return $modules;
+    }
+
+    /**
+     * Dernière version stable de chaque package sur Packagist (métadonnées p2, servies par CDN),
+     * récupérées en parallèle. Toute erreur réseau est silencieuse : l'appelant garde alors la
+     * version renvoyée par le marketplace.
+     *
+     * @param string[] $packages
+     * @return array<string,string> package => version
+     */
+    private function fetchLatestPackagistVersions(array $packages): array
+    {
+        $packages = array_values(array_filter(array_unique($packages)));
+        if (!$packages || !function_exists('curl_multi_init')) {
+            return [];
+        }
+
+        $multi = curl_multi_init();
+        $handles = [];
+        foreach ($packages as $package) {
+            $ch = curl_init('https://repo.packagist.org/p2/' . $package . '.json');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_CONNECTTIMEOUT => 3,
+                CURLOPT_TIMEOUT => 8,
+            ]);
+            curl_multi_add_handle($multi, $ch);
+            $handles[$package] = $ch;
+        }
+
+        do {
+            $status = curl_multi_exec($multi, $running);
+            if ($running) {
+                curl_multi_select($multi, 1.0);
+            }
+        } while ($running && $status === CURLM_OK);
+
+        $versions = [];
+        foreach ($handles as $package => $ch) {
+            $body = curl_multi_getcontent($ch);
+            $version = $this->latestStableVersion($body, $package);
+            if ($version !== null) {
+                $versions[$package] = $version;
+            }
+            curl_multi_remove_handle($multi, $ch);
+            curl_close($ch);
+        }
+        curl_multi_close($multi);
+
+        return $versions;
+    }
+
+    /** Première version stable des métadonnées p2 (triées de la plus récente à la plus ancienne). */
+    private function latestStableVersion(?string $body, string $package): ?string
+    {
+        if (!$body) {
+            return null;
+        }
+
+        $data = json_decode($body, true);
+        $releases = $data['packages'][$package] ?? null;
+        if (!is_array($releases)) {
+            return null;
+        }
+
+        foreach ($releases as $release) {
+            $version = $release['version'] ?? '';
+            // Ni branche de dev, ni pré-version : composer n'installerait pas celles-là par défaut.
+            if ($version === '' || stripos($version, 'dev') !== false) {
+                continue;
+            }
+            if (preg_match('/-(alpha|beta|rc|pl)/i', $version)) {
+                continue;
+            }
+
+            return $version;
+        }
+
+        return null;
+    }
+
+    /**
+     * Step 3.1 — sites démo installables ("Site to Install" du carousel legacy,
+     * `getPackagistMelisSites()` : déjà filtré sur les sites actifs côté InstallHelperService).
+     *
+     * @return array<int,array{module:string,package:string,title:string,description:string}>
+     */
+    public function listAvailableSites(): array
+    {
+        $installHelper = $this->sm->get('InstallerHelper');
+        $result = $installHelper->getPackagistMelisSites();
+
+        $sites = [];
+        foreach ($result['packages'] ?? [] as $package) {
+            if (empty($package['packageModuleName'])) {
+                continue;
+            }
+            $sites[] = [
+                'module' => $package['packageModuleName'],
+                'package' => $package['packageName'] ?? '',
+                'title' => $package['packageTitle'] ?? $package['packageModuleName'],
+                // Le marketplace renvoie la description en HTML (<p>…</p>) ; le carousel legacy
+                // l'injecte telle quelle, ici on la renvoie en texte (paragraphes = sauts de
+                // ligne) pour éviter d'injecter du HTML distant dans le SPA.
+                'description' => $this->htmlToText($package['packageDescription'] ?? ''),
+            ];
+        }
+
+        return $sites;
+    }
+
+    /**
+     * Langues proposées pour un nouveau site — mêmes valeurs que l'élément de formulaire
+     * `MelisInstallerLanguageSelect` du legacy : la valeur stockée est l'index 1..n du
+     * locale dans la liste des traductions disponibles, pas le locale lui-même.
+     *
+     * @return array<int,array{value:string,label:string}>
+     */
+    public function listSiteLanguages(): array
+    {
+        $factory = new \MelisInstaller\Form\Factory\MelisInstallerLanguageSelectFactory();
+        $locales = $factory->getTranslationsLocale($this->sm);
+
+        $languages = [];
+        foreach (array_values($locales) as $i => $locale) {
+            $languages[] = ['value' => (string) ($i + 1), 'label' => $locale];
+        }
+
+        return $languages;
+    }
+
+    /** Description HTML du marketplace → texte, un paragraphe/`<br>` par ligne. */
+    private function htmlToText(string $html): string
+    {
+        $text = preg_replace('#</p>|<br\s*/?>#i', "\n", $html);
+        $text = html_entity_decode(strip_tags((string) $text), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $lines = array_filter(array_map('trim', explode("\n", $text)), 'strlen');
+
+        return implode("\n", $lines);
+    }
+
+    /**
+     * `toModuleName()` de `selection.phtml` : nom de package composer → nom de module
+     * (`melis-cms` → `MelisCms`), pour comparer les dépendances aux cases à cocher.
+     */
+    private static function toModuleName(string $package): string
+    {
+        $package = trim($package);
+        if ($package === '') {
+            return '';
+        }
+
+        return implode('', array_map('ucwords', explode('-', $package)));
     }
 
     /**
@@ -320,5 +497,103 @@ class SetupWizardService
             'errors' => $errors,
             'data' => $results,
         ];
+    }
+    /**
+     * Nom de module valide : ce que le gate legacy accepte (`/[^a-z_\-0-9]/i`, cf.
+     * `InstallerController::setWebConfigAction()`), resserré en liste blanche parce que la
+     * valeur finit dans un fichier de configuration Apache côté applier.
+     */
+    public const MODULE_NAME_PATTERN = '/^[A-Za-z0-9_-]{1,64}$/';
+
+    /** Fichier de requête déposé par PHP, lu par l'applier root du conteneur. */
+    private const MODULE_REQUEST_FILE = 'data/.melis-module-request';
+    /** Marqueur écrit par l'applier une fois la valeur appliquée (ou refusée). */
+    private const MODULE_APPLIED_FILE = 'data/.melis-module-applied';
+
+    /**
+     * Étape finale — demande que `MELIS_MODULE` prenne la valeur du module de site choisi dans
+     * le wizard. PHP (www-data) ne peut ni écrire la configuration Apache (root) ni le `.env`
+     * de la stack (propriété de l'hôte) : il dépose une requête, qu'un applier root démarré par
+     * l'entrypoint du conteneur applique puis acquitte. Sans applier (installation hors Docker,
+     * image plus ancienne), la requête reste simplement en attente — rien n'est cassé, la
+     * valeur du vhost continue de faire foi.
+     *
+     * @return array{success:bool,error?:string,state:string,module:string,current:string}
+     */
+    public function requestModuleChange(string $name): array
+    {
+        $name = trim($name);
+        $current = (string) getenv('MELIS_MODULE');
+
+        if (!preg_match(self::MODULE_NAME_PATTERN, $name)) {
+            return ['success' => false, 'error' => 'Invalid module name', 'state' => 'failed', 'module' => $name, 'current' => $current];
+        }
+
+        // Déjà la valeur courante : rien à appliquer, surtout pas un rechargement d'Apache.
+        if ($name === $current) {
+            return ['success' => true, 'state' => 'applied', 'module' => $name, 'current' => $current];
+        }
+
+        $request = $this->appPath(self::MODULE_REQUEST_FILE);
+        $applied = $this->appPath(self::MODULE_APPLIED_FILE);
+        if (!is_dir(dirname($request)) || !is_writable(dirname($request))) {
+            return ['success' => false, 'error' => 'Cannot write ' . dirname($request), 'state' => 'failed', 'module' => $name, 'current' => $current];
+        }
+
+        // Acquittement précédent effacé d'abord : l'appelant ne doit pas prendre l'ancien
+        // marqueur pour la réponse à cette demande-ci.
+        @unlink($applied);
+
+        // tmp + rename : l'applier ne doit jamais pouvoir lire un fichier à moitié écrit.
+        $tmp = $request . '.' . getmypid() . '.tmp';
+        if (@file_put_contents($tmp, $name . "\n") === false || !@rename($tmp, $request)) {
+            @unlink($tmp);
+            return ['success' => false, 'error' => 'Cannot write ' . $request, 'state' => 'failed', 'module' => $name, 'current' => $current];
+        }
+        @chmod($request, 0664);
+
+        return ['success' => true, 'state' => 'pending', 'module' => $name, 'current' => $current];
+    }
+
+    /**
+     * État de la dernière demande : `applied` (l'applier a acquitté), `failed` (refusée),
+     * `pending` (requête déposée, pas encore traitée) ou `idle`.
+     *
+     * @return array{state:string,module:string,current:string,error:string}
+     */
+    public function getModuleApplyState(): array
+    {
+        $current = (string) getenv('MELIS_MODULE');
+        $applied = $this->appPath(self::MODULE_APPLIED_FILE);
+        $request = $this->appPath(self::MODULE_REQUEST_FILE);
+
+        if (is_file($applied)) {
+            // Format écrit par l'applier : "<état> <module>" (ex. "applied MySiteTest").
+            $parts = preg_split('/\s+/', trim((string) @file_get_contents($applied)), 2);
+            $state = $parts[0] ?? '';
+            $module = $parts[1] ?? '';
+
+            return [
+                'state' => in_array($state, ['applied', 'failed'], true) ? $state : 'failed',
+                'module' => $module,
+                'current' => $current,
+                'error' => $state === 'failed' ? 'The container could not apply the module name' : '',
+            ];
+        }
+
+        return [
+            'state' => is_file($request) ? 'pending' : 'idle',
+            'module' => is_file($request) ? trim((string) @file_get_contents($request)) : $current,
+            'current' => $current,
+            'error' => '',
+        ];
+    }
+
+    /** Chemin absolu dans la racine applicative (celle qui contient config/ et data/). */
+    private function appPath(string $relative): string
+    {
+        $root = rtrim((string) ($_SERVER['DOCUMENT_ROOT'] ?? ''), '/') . '/..';
+
+        return $root . '/' . ltrim($relative, '/');
     }
 }

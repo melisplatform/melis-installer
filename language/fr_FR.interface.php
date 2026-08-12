@@ -157,7 +157,7 @@ return array(
     'tr_melis_installer_new_user_email' => 'Email',
     'tr_melis_installer_new_user_email_info' => 'Adresse email de l&#39;utilisateur',
     'tr_melis_installer_new_user_password' => 'Mot de passe',
-    'tr_melis_installer_new_user_password_info' => 'Mot de passe utilisateur (doit être de 8 caractères minimum et contenir au moins une lettre et un chiffre)',
+    'tr_melis_installer_new_user_password_info' => 'Mot de passe utilisateur (au moins 8 caractères, dont au moins une lettre minuscule et un chiffre)',
     'tr_Melis_installer_new_user_confirm_password' => 'Mot de passe (2)',
     'tr_Melis_installer_new_user_confirm_password_info' => 'Confirmation du mot de passe de l&#39;utilisateur',
     'tr_melis_installer_new_user_first_name' => 'Prénom',
@@ -173,8 +173,8 @@ return array(
 
     'tr_melis_installer_new_user_pass_empty' => 'Veuillez saisir votre mot de passe',
     'tr_melis_installer_new_user_pass_max' => 'Mot de passe trop long',
-    'tr_melis_installer_new_user_pass_short' => 'Mot de passe trop faible, il doit être de plus de 8 caractères',
-    'tr_melis_installer_new_user_pass_invalid' => 'Le mot de passe doit être de 8 caractères minimum et contenir au moins une lettre ET un chiffre',
+    'tr_melis_installer_new_user_pass_short' => 'Le mot de passe doit contenir au moins 8 caractères',
+    'tr_melis_installer_new_user_pass_invalid' => 'Le mot de passe doit contenir au moins 1 lettre minuscule et 1 chiffre',
     'tr_melis_installer_new_user_pass_no_match' => 'Le mot de passe ne correspond pas',
 
     'tr_melis_installer_new_user_first_name_empty' => 'Veuillez saisir votre prénom',

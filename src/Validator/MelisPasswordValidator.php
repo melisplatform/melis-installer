@@ -71,7 +71,9 @@ class MelisPasswordValidator extends AbstractValidator
         
         $isValid = true;
         
-        if (strlen($value) < 8) {
+        // Longueur minimale prise dans les options (8 par défaut) — la valeur était codée en
+        // dur ici, ce qui ignorait silencieusement un `min` différent passé par le formulaire.
+        if (strlen($value) < $this->getMin()) {
             $this->error(self::TOO_SHORT);
             $isValid = false;
         }
