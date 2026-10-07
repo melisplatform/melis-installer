@@ -160,7 +160,7 @@ function toModuleName($modules) {
                             <?php foreach($this->packagistMelisModules as $module):?>
                                 <?php
                                 // Hidden packages: never rendered, so they can't be checked or submitted
-                                if (in_array($module['packageName'], ['melisplatform/melis-design'])) continue;
+                                if (in_array($module['packageName'], ['melisplatform/melis-design', 'melisplatform/melis-cms-twig', 'melisplatform/melis-tipimail'])) continue;
                                 $pathInfo = pathinfo($module['packageName']);
                                 $fileName = isset($pathInfo['filename']) ? $pathInfo['filename'] : null;
                                 $dependencies = implode('|', $module['packageDependency']);
